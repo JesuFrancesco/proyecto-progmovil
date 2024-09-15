@@ -1,0 +1,73 @@
+name: jiron_anime
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_dotenv: ^5.1.0
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.1
+  google_sign_in: ^6.2.1
+  supabase_auth_ui: ^0.5.1
+  supabase_flutter: ^2.6.0
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/image/logo.png
+  color_dark: "#121212"
+  image_dark: assets/image/logo.png
+#  branding: assets/branding-development.png
+#  branding_dark: assets/branding.png
+
+  android_12:
+    image: assets/image/logo.png
+    icon_background_color: "#ffffff"
+#    image_dark: assets/logo.png
+    icon_background_color_dark: "#121212"
+
+  web: false
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+#  ios: true
+  image_path: "assets/image/logo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+#  web:
+#    generate: true
+#    image_path: "path/to/image.png"
+#    background_color: "#hexcode"
+#    theme_color: "#hexcode"
+#  windows:
+#    generate: true
+#    image_path: "path/to/image.png"
+#    icon_size: 48 # min:48, max:256, default: 48
+#  macos:
+#    generate: true
+#    image_path: "path/to/image.png"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/image/
+    - assets/font/
+    - .env
+  fonts:
+    - family: Rubik
+      fonts:
+      - asset: assets/font/Rubik-Regular.ttf
+      - asset: assets/font/Rubik-Italic.ttf
+        style: italic
+      - asset: assets/font/Rubik-Bold.ttf
+        weight: 700
+
