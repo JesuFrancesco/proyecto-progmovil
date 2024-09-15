@@ -1,5 +1,5 @@
 name: jiron_anime
-description: "A new Flutter project."
+description: "Jiron Anime project para el proyecto de PM 2024-2"
 publish_to: 'none'
 version: 0.1.0
 
@@ -14,7 +14,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.4.1
   google_sign_in: ^6.2.1
-  supabase_auth_ui: ^0.5.1
+  http: ^1.2.2
   supabase_flutter: ^2.6.0
 
 flutter_native_splash:

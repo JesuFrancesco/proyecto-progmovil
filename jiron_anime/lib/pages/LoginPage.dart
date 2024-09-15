@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jiron_anime/pages/ProfileDemo.dart';
-import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:http/http.dart' as http;
 import '../main.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,9 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _setupAuthListener() {
-    supabase.auth.onAuthStateChange.listen((data) {
+    supabase.auth.onAuthStateChange.listen((data) async {
       final event = data.event;
       if (event == AuthChangeEvent.signedIn) {
+        await loginSuccessfulCallback(data.session!);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const ProfileScreen(),
@@ -31,6 +34,20 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     });
+  }
+
+  Future<void> loginSuccessfulCallback(Session session) async {
+    var response =
+        await http.post(Uri.parse("${dotenv.get("SERVER_URL")}/accounts"),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode({
+              "email": session.user.email,
+              "name": session.user.userMetadata!["name"],
+              "password": session.accessToken,
+            }));
+    // TODO: handle error codes
   }
 
   Future<AuthResponse> googleSignIn() async {
