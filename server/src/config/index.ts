@@ -14,18 +14,8 @@ const logger = log4js.getLogger("cheese");
 
 const config = {
   env: process.env.NODE_ENV || "dev",
-
-  dbEngine: process.env.DATABASE_ENGINE as string,
-  dbHost: process.env.DATABASE_HOST as string,
-  dbPort: process.env.DATABASE_PORT || 5432,
-  dbName: process.env.DATABASE_NAME as string,
-  dbUser: process.env.DATABASE_USER as string,
-  dbPasswd: process.env.DATABASE_PASSWORD as string,
-
-  smtpEmail: process.env.SMTP_EMAIL as string,
-  smtpPassword: process.env.SMTP_PASSWORD as string,
-
-  jwtSecret: process.env.JWT_SECRET as string,
+  supabaseURL: process.env.SUPABASE_URL || "none",
+  supabaseServiceRole: process.env.SUPABASE_SERVICE_ROLE || "none"
 };
 
 export { config, logger };

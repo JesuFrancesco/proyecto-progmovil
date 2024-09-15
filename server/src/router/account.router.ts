@@ -16,7 +16,7 @@ router.get(
 
       const accountId = parseInt(id);
 
-      const account = await service.findOne(accountId);
+      const account = await service.findOneAccount(accountId);
 
       res.json(account);
     } catch (error) {
@@ -27,7 +27,7 @@ router.get(
 
 router.get("/", async (req, res, next) => {
   try {
-    const accounts = await service.findAll();
+    const accounts = await service.findAllAccounts();
     res.json(accounts);
   } catch (error) {
     next(error);
@@ -40,7 +40,7 @@ router.post(
   async (req, res, next) => {
     try {
       const data = req.body;
-      const account = await service.create(data);
+      const account = await service.createAccount(data);
       res.json(account);
     } catch (error) {
       next(error);

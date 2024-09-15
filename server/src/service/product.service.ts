@@ -1,10 +1,10 @@
-import { PrismaClient, Product } from "@prisma/client";
+import { MarketProduct, PrismaClient, Product } from "@prisma/client";
 import boom from "@hapi/boom";
 
 class ProductService {
   private prisma = new PrismaClient();
 
-  async findOne(userId: number): Promise<Product> {
+  async findOneProduct(userId: number): Promise<Product> {
     const product = await this.prisma.product.findUnique({
       where: {
         id: userId,
@@ -18,12 +18,12 @@ class ProductService {
     return product;
   }
 
-  async findAll(): Promise<Product[]> {
+  async findAllProducts(): Promise<Product[]> {
     const products = await this.prisma.product.findMany();
     return products;
   }
 
-  async findByName(name: string): Promise<Product[]> {
+  async findProductsByName(name: string): Promise<Product[]> {
     const products = await this.prisma.product.findMany({
       where: {
         name: {
@@ -34,12 +34,6 @@ class ProductService {
     return products;
   }
 
-  async create(data: Product): Promise<Product> {
-    const product = await this.prisma.product.create({
-      data: data,
-    });
-    return product;
-  }
 }
 
 export default ProductService;

@@ -15,8 +15,8 @@ model Distrito {
   id          Int       @id @default(autoincrement())
   name        String    @unique
   provinciaId Int
-  Provincia   Provincia @relation(fields: [provinciaId], references: [id])
-  Buyer       Buyer[]
+  provincia   Provincia @relation(fields: [provinciaId], references: [id])
+  buyers      Buyer[]
 
   @@map("distritos")
 }
@@ -25,63 +25,63 @@ model Provincia {
   id            Int         @id @default(autoincrement())
   name          String      @unique
   departmentoId Int
-  Departmento   Departmento @relation(fields: [departmentoId], references: [id])
-  Distrito      Distrito[]
-  Buyer         Buyer[]
+  departmento   Departmento @relation(fields: [departmentoId], references: [id])
+  distritos     Distrito[]
+  buyers        Buyer[]
 
   @@map("provincias")
 }
 
 model Departmento {
-  id        Int         @id @default(autoincrement())
-  name      String      @unique
-  Provincia Provincia[]
-  Buyer     Buyer[]
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  provincias Provincia[]
+  buyers     Buyer[]
 
   @@map("departamentos")
 }
 
 // chat messages
 model Chat {
-  id              Int               @id @default(autoincrement())
-  createdAt       DateTime
-  ChatMessage     ChatMessage[]
-  ChatParticipant ChatParticipant[]
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime
+  chatMessage      ChatMessage[]
+  chatParticipants ChatParticipant[]
 
   @@map("chats")
 }
 
 model Message {
-  id                Int                 @id @default(autoincrement())
-  text              String
-  createdAt         DateTime
-  updatedAt         DateTime
-  status            Int
-  accountId         Int
-  Account           Account             @relation(fields: [accountId], references: [id])
-  MessageAttachment MessageAttachment[]
-  ChatMessage       ChatMessage[]
+  id                 Int                 @id @default(autoincrement())
+  text               String
+  createdAt          DateTime
+  updatedAt          DateTime
+  status             Int
+  accountId          Int
+  account            Account             @relation(fields: [accountId], references: [id])
+  messageAttachments MessageAttachment[]
+  chatMessages       ChatMessage[]
 
   @@map("messages")
 }
 
 model Notification {
-  id               Int                @id @default(autoincrement())
-  title            String
-  description      String
-  createdAt        DateTime
-  updatedAt        DateTime
-  imageUrl         String
-  UserNotification UserNotification[]
+  id                Int                @id @default(autoincrement())
+  title             String
+  description       String
+  createdAt         DateTime
+  updatedAt         DateTime
+  imageUrl          String
+  userNotifications UserNotification[]
 
   @@map("notificactions")
 }
 
 model Country {
-  id          Int           @id @default(autoincrement())
-  name        String
-  code        String
-  BrandSeller BrandSeller[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  code         String
+  brandSellers BrandSeller[]
 
   @@map("countries")
 }
@@ -93,61 +93,62 @@ model Account {
   password String
   phone    String?
   name     String
-  Market   Market[]
-  Buyer    Buyer[]
-  Message  Message[]
+  buyer    Buyer?
+  markets  Market[]
+  messages Message[]
 
   @@map("accounts")
 }
 
 model Market {
-  id            Int             @id @default(autoincrement())
-  name          String
-  contactEmail  String
-  contactPhone  String
-  accountId     Int
-  Account       Account         @relation(fields: [accountId], references: [id])
-  MarketProduct MarketProduct[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  contactEmail   String
+  contactPhone   String
+  accountId      Int
+  account        Account         @relation(fields: [accountId], references: [id])
+  marketProducts MarketProduct[]
 
   @@map("markets")
 }
 
 model Buyer {
-  id               Int                @id @default(autoincrement())
+  id               Int          @id @default(autoincrement())
   referenceAddress String?
-  distritoId       Int
-  provinciaId      Int
-  departamentoId   Int
-  accountId        Int                @unique
-  Distrito         Distrito           @relation(fields: [distritoId], references: [id])
-  Provincia        Provincia          @relation(fields: [provinciaId], references: [id])
-  Departmento      Departmento        @relation(fields: [departamentoId], references: [id])
-  Account          Account            @relation(fields: [accountId], references: [id])
-  ShoppingCart     ShoppingCart[]
-  Wishlist         Wishlist[]
-  Order            Order[]
-  ProductRating    ProductRating[]
-  ProductQuestion  ProductQuestion[]
-  UserNotification UserNotification[]
-  ChatParticipant  ChatParticipant[]
+  distritoId       Int?
+  provinciaId      Int?
+  departamentoId   Int?
+  accountId        Int          @unique
+  distrito         Distrito?    @relation(fields: [distritoId], references: [id])
+  provincia        Provincia?   @relation(fields: [provinciaId], references: [id])
+  departmento      Departmento? @relation(fields: [departamentoId], references: [id])
+  account          Account      @relation(fields: [accountId], references: [id])
+
+  shoppingCarts     ShoppingCart[]
+  wishlists         Wishlist[]
+  orders            Order[]
+  productRatings    ProductRating[]
+  productQuestions  ProductQuestion[]
+  userNotifications UserNotification[]
+  chatParticipants  ChatParticipant[]
 
   @@map("buyers")
 }
 
 model ShoppingCart {
-  id       Int        @id @default(autoincrement())
-  userId   Int
-  Buyer    Buyer      @relation(fields: [userId], references: [id])
-  CartItem CartItem[]
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  buyer     Buyer      @relation(fields: [userId], references: [id])
+  CartItems CartItem[]
 
   @@map("shopping_carts")
 }
 
 model Wishlist {
-  id           Int            @id @default(autoincrement())
-  userId       Int
-  Buyer        Buyer          @relation(fields: [userId], references: [id])
-  WishlistItem WishlistItem[]
+  id            Int            @id @default(autoincrement())
+  userId        Int
+  buyer         Buyer          @relation(fields: [userId], references: [id])
+  wishlistItems WishlistItem[]
 
   @@map("wishlists")
 }
@@ -157,8 +158,8 @@ model Order {
   totalPrice Int
   status     String
   userId     Int
-  Buyer      Buyer       @relation(fields: [userId], references: [id])
-  OrderItem  OrderItem[]
+  buyer      Buyer       @relation(fields: [userId], references: [id])
+  orderItems OrderItem[]
 
   @@map("orders")
 }
@@ -166,8 +167,9 @@ model Order {
 model ChatMessage {
   chatId    Int
   messageId Int
-  Chat      Chat    @relation(fields: [chatId], references: [id])
-  Message   Message @relation(fields: [messageId], references: [id])
+
+  chat    Chat    @relation(fields: [chatId], references: [id])
+  message Message @relation(fields: [messageId], references: [id])
 
   @@id([chatId, messageId])
   @@map("chat_messages")
@@ -179,8 +181,8 @@ model BrandSeller {
   countryOrigin     String
   referenceLocation String
   countryId         Int
-  Country           Country   @relation(fields: [countryId], references: [id])
-  Product           Product[]
+  country           Country   @relation(fields: [countryId], references: [id])
+  products          Product[]
 
   @@map("brand_sellers")
 }
@@ -217,48 +219,48 @@ model ChatParticipant {
 }
 
 model Product {
-  id                Int                 @id @default(autoincrement())
-  name              String
-  stock             Int
-  price             Decimal
-  dimensions        String?
-  warranty          Boolean?
-  discount          Int?
-  peso              Decimal?
-  formato           String?
-  anhoEdicion       Int?
-  numeroPaginas     Int?
-  sellerId          Int
-  BrandSeller       BrandSeller         @relation(fields: [sellerId], references: [id])
-  ProductAttachment ProductAttachment[]
-  ProductTag        ProductTag[]
-  ProductQuestion   ProductQuestion[]
-  CartItem          CartItem[]
-  WishlistItem      WishlistItem[]
-  OrderItem         OrderItem[]
-  MarketProduct     MarketProduct[]
-  ProductRating     ProductRating[]
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  stock              Int
+  price              Decimal
+  dimensions         String?
+  warranty           Boolean?
+  discount           Int?
+  peso               Decimal?
+  formato            String?
+  anhoEdicion        Int?
+  numeroPaginas      Int?
+  sellerId           Int
+  brandSeller        BrandSeller         @relation(fields: [sellerId], references: [id])
+  productAttachments ProductAttachment[]
+  productTags        ProductTag[]
+  productQuestions   ProductQuestion[]
+  cartItems          CartItem[]
+  wishlistItems      WishlistItem[]
+  orderItems         OrderItem[]
+  marketProducts     MarketProduct[]
+  productRatings     ProductRating[]
 
   @@map("products")
 }
 
 model Tag {
-  id         Int          @id @default(autoincrement())
-  name       String       @unique
-  ProductTag ProductTag[]
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  productTags ProductTag[]
 
   @@map("tags")
 }
 
 model ProductQuestion {
-  id            Int             @id @default(autoincrement())
-  text          String
-  createdAt     DateTime
-  productId     Int
-  userId        Int
-  Product       Product         @relation(fields: [productId], references: [id])
-  Buyer         Buyer           @relation(fields: [userId], references: [id])
-  QuestionReply QuestionReply[]
+  id              Int             @id @default(autoincrement())
+  text            String
+  createdAt       DateTime
+  productId       Int
+  userId          Int
+  product         Product         @relation(fields: [productId], references: [id])
+  buyer           Buyer           @relation(fields: [userId], references: [id])
+  questionReplies QuestionReply[]
 
   @@map("product_questions")
 }
@@ -278,8 +280,8 @@ model CartItem {
 model ProductTag {
   categoryId Int
   productId  Int
-  Tag        Tag     @relation(fields: [categoryId], references: [id])
-  Product    Product @relation(fields: [productId], references: [id])
+  tag        Tag     @relation(fields: [categoryId], references: [id])
+  product    Product @relation(fields: [productId], references: [id])
 
   @@id([categoryId, productId])
   @@map("product_tags")
@@ -289,8 +291,9 @@ model WishlistItem {
   addedAt    DateTime
   wishlistId Int
   productId  Int
-  Wishlist   Wishlist @relation(fields: [wishlistId], references: [id])
-  Product    Product  @relation(fields: [productId], references: [id])
+
+  wishlist Wishlist @relation(fields: [wishlistId], references: [id])
+  product  Product  @relation(fields: [productId], references: [id])
 
   @@id([wishlistId, productId])
   @@map("wishlist_items")
@@ -300,8 +303,8 @@ model OrderItem {
   amount    Int
   orderId   Int
   productId Int
-  Order     Order   @relation(fields: [orderId], references: [id])
-  Product   Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
   @@id([orderId, productId])
   @@map("order_items")
@@ -310,7 +313,7 @@ model OrderItem {
 model ProductAttachment {
   imageUrl  String
   productId Int
-  Product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
   @@id([productId])
   @@map("product_attachments")
@@ -319,8 +322,8 @@ model ProductAttachment {
 model MarketProduct {
   marketId  Int
   productId Int
-  Market    Market  @relation(fields: [marketId], references: [id])
-  Product   Product @relation(fields: [productId], references: [id])
+  market    Market  @relation(fields: [marketId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
   @@id([marketId, productId])
   @@map("market_products")
@@ -331,21 +334,21 @@ model QuestionReply {
   text            String
   createdAt       DateTime
   questionId      Int
-  ProductQuestion ProductQuestion @relation(fields: [questionId], references: [id])
+  productQuestion ProductQuestion @relation(fields: [questionId], references: [id])
 
   @@map("question_replies")
 }
 
 model ProductRating {
-  id               Int                @id @default(autoincrement())
-  score            Int
-  text             String
-  createdAt        DateTime
-  userId           Int
-  productId        Int
-  Buyer            Buyer              @relation(fields: [userId], references: [id])
-  Product          Product            @relation(fields: [productId], references: [id])
-  RatingAttachment RatingAttachment[]
+  id                Int                @id @default(autoincrement())
+  score             Int
+  text              String
+  createdAt         DateTime
+  userId            Int
+  productId         Int
+  buyer             Buyer              @relation(fields: [userId], references: [id])
+  product           Product            @relation(fields: [productId], references: [id])
+  ratingAttachments RatingAttachment[]
 
   @@map("product_ratings")
 }
@@ -355,7 +358,7 @@ model RatingAttachment {
   filename      String
   type          String
   ratingId      Int
-  ProductRating ProductRating @relation(fields: [ratingId], references: [id])
+  productRating ProductRating @relation(fields: [ratingId], references: [id])
 
   @@id([ratingId])
   @@map("rating_attachments")

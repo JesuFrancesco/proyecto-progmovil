@@ -3,7 +3,7 @@ import { Express, Router } from "express";
 import accountRouter from "./account.router";
 import productRouter from "./product.router";
 import userRouter from "./user.router";
-// import marketRouter from "./market.router";
+import marketRouter from "./market.router";
 // import categoryRouter from "./category.router";
 // import orderRouter from "./order.router";
 
@@ -15,10 +15,10 @@ function routerAPI(app: Express) {
 
   app.use("/api/v1", router);
 
-  router.use("/account", accountRouter);
-  router.use("/product", productRouter);
-  router.use("/user", userRouter);
-  // router.use("/market", marketRouter);
+  router.use("/accounts", accountRouter);
+  router.use("/products", productRouter);
+  router.use("/users", userRouter);
+  router.use("/markets", marketRouter);
   // router.use("/category", categoryRouter);
   // router.use("/order", orderRouter);
 

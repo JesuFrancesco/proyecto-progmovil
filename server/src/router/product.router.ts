@@ -21,7 +21,7 @@ router.get(
 
       const accountId = parseInt(id);
 
-      const account = await service.findOne(accountId);
+      const account = await service.findOneProduct(accountId);
 
       res.json(account);
     } catch (error) {
@@ -35,27 +35,13 @@ router.get("/", async (req, res, next) => {
     const { search } = req.query;
 
     const accounts = search
-      ? await service.findByName(search as string)
-      : await service.findAll();
+      ? await service.findProductsByName(search as string)
+      : await service.findAllProducts();
       
     res.json(accounts);
   } catch (error) {
     next(error);
   }
 });
-
-router.post(
-  "/",
-  validatorHandler(createProductSchema, "body"),
-  async (req, res, next) => {
-    try {
-      const data = req.body;
-      const account = await service.create(data);
-      res.json(account);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
 
 export default router;
