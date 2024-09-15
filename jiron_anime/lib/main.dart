@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jiron_anime/pages/LoginPage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,7 +21,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: const LoginScreen(),
       theme: ThemeData(fontFamily: "Rubik"),
     );
   }
