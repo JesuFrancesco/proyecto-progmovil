@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/LoginPage.dart';
+import 'package:jiron_anime/pages/ProfileDemo.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,7 +22,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LoginScreen(),
+      home: supabase.auth.currentSession != null
+          ? const ProfileScreen()
+          : const LoginScreen(),
       theme: ThemeData(fontFamily: "Rubik"),
     );
   }

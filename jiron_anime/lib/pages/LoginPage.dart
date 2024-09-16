@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
             },
             body: jsonEncode({
               "email": session.user.email,
-              "name": session.user.userMetadata!["name"],
+              "name": session.user.userMetadata!["full_name"],
               "password": session.accessToken,
             }));
     // TODO: handle error codes
