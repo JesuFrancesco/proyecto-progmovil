@@ -1,24 +1,61 @@
-import { Express, Router } from "express";
-
-import accountRouter from "./account.router";
-import productRouter from "./product.router";
-import userRouter from "./user.router";
-import marketRouter from "./market.router";
-// import categoryRouter from "./category.router";
-// import orderRouter from "./order.router";
+import { Express, NextFunction } from "express";
+import { AccountRouter } from "../../prisma/generated/express/Account";
+import { UserRouter } from "../../prisma/generated/express/User";
+import { ProductRouter } from "../../prisma/generated/express/Product";
+import { MarketRouter } from "../../prisma/generated/express/Market";
+import { PrismaClient } from "@prisma/client";
 
 // import authRouter from "./auth.router";
 // import profileRouter from "./profile.router";
 
 function routerAPI(app: Express) {
-  const router = Router();
+  const prisma = new PrismaClient();
 
-  app.use("/api/v1", router);
+  const addPrisma = (req: any, res: any, next: NextFunction) => {
+    req.prisma = prisma;
+    next();
+  };
 
-  router.use("/accounts", accountRouter);
-  router.use("/products", productRouter);
-  router.use("/users", userRouter);
-  router.use("/markets", marketRouter);
+  app.use(addPrisma);
+  app.use(
+    AccountRouter({
+      addModelPrefix: true,
+      enableAll: true,
+      customUrlPrefix: "/v1",
+    })
+  );
+  app.use(
+    UserRouter({
+      addModelPrefix: true,
+      enableAll: true,
+      customUrlPrefix: "/v1",
+    })
+  );
+  app.use(
+    ProductRouter({
+      addModelPrefix: true,
+      enableAll: true,
+      customUrlPrefix: "/v1",
+    })
+  );
+  app.use(
+    MarketRouter({
+      addModelPrefix: true,
+      enableAll: true,
+      customUrlPrefix: "/v1",
+    })
+  );
+  app.use(
+    AccountRouter({
+      addModelPrefix: true,
+      enableAll: true,
+      customUrlPrefix: "/v1",
+    })
+  );
+
+  // router.use("/products", ProductRouter);
+  // router.use("/users", UserRouter);
+  // router.use("/markets", MarketRouter);
   // router.use("/category", categoryRouter);
   // router.use("/order", orderRouter);
 

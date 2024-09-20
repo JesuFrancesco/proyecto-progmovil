@@ -5,6 +5,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator express {
+  provider = "prisma-generator-express"
+  output   = "./generated/express"
+}
+
+// generator dart {
+//   provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
+//   output   = "../../jiron_anime/lib/models"
+// }
+
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
@@ -16,7 +26,7 @@ model Distrito {
   name        String    @unique
   provinciaId Int
   provincia   Provincia @relation(fields: [provinciaId], references: [id])
-  buyers      Buyer[]
+  users       User[]
 
   @@map("distritos")
 }
@@ -27,7 +37,7 @@ model Provincia {
   departmentoId Int
   departmento   Departmento @relation(fields: [departmentoId], references: [id])
   distritos     Distrito[]
-  buyers        Buyer[]
+  users         User[]
 
   @@map("provincias")
 }
@@ -36,7 +46,7 @@ model Departmento {
   id         Int         @id @default(autoincrement())
   name       String      @unique
   provincias Provincia[]
-  buyers     Buyer[]
+  users      User[]
 
   @@map("departamentos")
 }
@@ -93,7 +103,7 @@ model Account {
   password String
   phone    String?
   name     String
-  buyer    Buyer?
+  user     User?
   markets  Market[]
   messages Message[]
 
@@ -112,7 +122,7 @@ model Market {
   @@map("markets")
 }
 
-model Buyer {
+model User {
   id               Int          @id @default(autoincrement())
   referenceAddress String?
   distritoId       Int?
@@ -132,14 +142,14 @@ model Buyer {
   userNotifications UserNotification[]
   chatParticipants  ChatParticipant[]
 
-  @@map("buyers")
+  @@map("users")
 }
 
 model ShoppingCart {
   id        Int        @id @default(autoincrement())
   userId    Int
-  buyer     Buyer      @relation(fields: [userId], references: [id])
-  CartItems CartItem[]
+  user      User       @relation(fields: [userId], references: [id])
+  cartItems CartItem[]
 
   @@map("shopping_carts")
 }
@@ -147,7 +157,7 @@ model ShoppingCart {
 model Wishlist {
   id            Int            @id @default(autoincrement())
   userId        Int
-  buyer         Buyer          @relation(fields: [userId], references: [id])
+  user          User           @relation(fields: [userId], references: [id])
   wishlistItems WishlistItem[]
 
   @@map("wishlists")
@@ -158,7 +168,7 @@ model Order {
   totalPrice Int
   status     String
   userId     Int
-  buyer      Buyer       @relation(fields: [userId], references: [id])
+  user       User        @relation(fields: [userId], references: [id])
   orderItems OrderItem[]
 
   @@map("orders")
@@ -193,7 +203,7 @@ model MessageAttachment {
   filename  String
   type      String
   messageId Int
-  Message   Message @relation(fields: [messageId], references: [id])
+  message   Message @relation(fields: [messageId], references: [id])
 
   @@map("message_attachments")
 }
@@ -201,8 +211,8 @@ model MessageAttachment {
 model UserNotification {
   userId         Int
   notificationId Int
-  Buyer          Buyer        @relation(fields: [userId], references: [id])
-  Notification   Notification @relation(fields: [notificationId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+  notification   Notification @relation(fields: [notificationId], references: [id])
 
   @@id([userId, notificationId])
   @@map("user_notifications")
@@ -211,8 +221,8 @@ model UserNotification {
 model ChatParticipant {
   chatId Int
   userId Int
-  Chat   Chat  @relation(fields: [chatId], references: [id])
-  Buyer  Buyer @relation(fields: [userId], references: [id])
+  chat   Chat @relation(fields: [chatId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
 
   @@id([chatId, userId])
   @@map("chat_participants")
@@ -259,7 +269,7 @@ model ProductQuestion {
   productId       Int
   userId          Int
   product         Product         @relation(fields: [productId], references: [id])
-  buyer           Buyer           @relation(fields: [userId], references: [id])
+  user            User            @relation(fields: [userId], references: [id])
   questionReplies QuestionReply[]
 
   @@map("product_questions")
@@ -270,8 +280,8 @@ model CartItem {
   addedAt      DateTime
   cartId       Int
   productId    Int
-  ShoppingCart ShoppingCart @relation(fields: [cartId], references: [id])
-  Product      Product      @relation(fields: [productId], references: [id])
+  shoppingCart ShoppingCart @relation(fields: [cartId], references: [id])
+  product      Product      @relation(fields: [productId], references: [id])
 
   @@id([cartId, productId])
   @@map("cart_items")
@@ -346,7 +356,7 @@ model ProductRating {
   createdAt         DateTime
   userId            Int
   productId         Int
-  buyer             Buyer              @relation(fields: [userId], references: [id])
+  user              User               @relation(fields: [userId], references: [id])
   product           Product            @relation(fields: [productId], references: [id])
   ratingAttachments RatingAttachment[]
 
