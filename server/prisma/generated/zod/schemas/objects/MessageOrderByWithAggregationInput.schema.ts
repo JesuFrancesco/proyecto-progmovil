@@ -1,0 +1,29 @@
+import { z } from 'zod';
+import { SortOrderSchema } from '../enums/SortOrder.schema';
+import { MessageCountOrderByAggregateInputObjectSchema } from './MessageCountOrderByAggregateInput.schema';
+import { MessageAvgOrderByAggregateInputObjectSchema } from './MessageAvgOrderByAggregateInput.schema';
+import { MessageMaxOrderByAggregateInputObjectSchema } from './MessageMaxOrderByAggregateInput.schema';
+import { MessageMinOrderByAggregateInputObjectSchema } from './MessageMinOrderByAggregateInput.schema';
+import { MessageSumOrderByAggregateInputObjectSchema } from './MessageSumOrderByAggregateInput.schema';
+
+import type { Prisma } from '@prisma/client';
+
+const Schema: z.ZodType<Prisma.MessageOrderByWithAggregationInput> = z
+  .object({
+    id: z.lazy(() => SortOrderSchema).optional(),
+    text: z.lazy(() => SortOrderSchema).optional(),
+    createdAt: z.lazy(() => SortOrderSchema).optional(),
+    updatedAt: z.lazy(() => SortOrderSchema).optional(),
+    status: z.lazy(() => SortOrderSchema).optional(),
+    accountId: z.lazy(() => SortOrderSchema).optional(),
+    _count: z
+      .lazy(() => MessageCountOrderByAggregateInputObjectSchema)
+      .optional(),
+    _avg: z.lazy(() => MessageAvgOrderByAggregateInputObjectSchema).optional(),
+    _max: z.lazy(() => MessageMaxOrderByAggregateInputObjectSchema).optional(),
+    _min: z.lazy(() => MessageMinOrderByAggregateInputObjectSchema).optional(),
+    _sum: z.lazy(() => MessageSumOrderByAggregateInputObjectSchema).optional(),
+  })
+  .strict();
+
+export const MessageOrderByWithAggregationInputObjectSchema = Schema;

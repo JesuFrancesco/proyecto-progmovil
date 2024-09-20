@@ -3,6 +3,7 @@ import cors from "cors";
 import {
   errorHandler,
   logErrores,
+  prismaClientValidationErrorHandler,
   boomErrorHandler,
 } from "./middleware/error.handler";
 import { routerAPI } from "./router";
@@ -39,6 +40,7 @@ routerAPI(app);
 // custom middleware
 app.use(logErrores);
 app.use(boomErrorHandler);
+app.use(prismaClientValidationErrorHandler);
 app.use(errorHandler);
 
 // entry point

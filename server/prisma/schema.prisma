@@ -5,6 +5,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider = "prisma-zod-generator"
+  output   = "./generated/zod"
+}
+
 generator express {
   provider = "node ./prisma/generator/dist/generator.js"
   output   = "./generated/express"
