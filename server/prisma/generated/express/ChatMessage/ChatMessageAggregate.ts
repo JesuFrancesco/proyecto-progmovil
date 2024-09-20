@@ -13,7 +13,7 @@ interface AggregateRequest extends Request {
   query: Partial<Prisma.ChatMessageAggregateArgs> & ParsedQs;
   outputValidation?: ZodTypeAny;
   locals?: {
-    outputValidator?: ValidatorConfig;
+    outputValidator?: ZodTypeAny;
   };
 }
 

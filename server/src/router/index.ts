@@ -1,14 +1,16 @@
 import { Express, NextFunction } from "express";
+import { PrismaClient } from "@prisma/client";
+
 import { AccountRouter } from "../../prisma/generated/express/Account";
 import { UserRouter } from "../../prisma/generated/express/User";
 import { ProductRouter } from "../../prisma/generated/express/Product";
 import { MarketRouter } from "../../prisma/generated/express/Market";
-import { PrismaClient } from "@prisma/client";
 
 // import authRouter from "./auth.router";
 // import profileRouter from "./profile.router";
 
 function routerAPI(app: Express) {
+  const API_PREFIX = "/api/v1"
   const prisma = new PrismaClient();
 
   const addPrisma = (req: any, res: any, next: NextFunction) => {
@@ -17,50 +19,40 @@ function routerAPI(app: Express) {
   };
 
   app.use(addPrisma);
+
+  // routers
   app.use(
     AccountRouter({
       addModelPrefix: true,
       enableAll: true,
-      customUrlPrefix: "/v1",
+      customUrlPrefix: API_PREFIX,
     })
   );
+
   app.use(
     UserRouter({
       addModelPrefix: true,
       enableAll: true,
-      customUrlPrefix: "/v1",
+      customUrlPrefix: API_PREFIX,
     })
   );
+
   app.use(
     ProductRouter({
       addModelPrefix: true,
       enableAll: true,
-      customUrlPrefix: "/v1",
+      customUrlPrefix: API_PREFIX,
     })
   );
+
   app.use(
     MarketRouter({
       addModelPrefix: true,
       enableAll: true,
-      customUrlPrefix: "/v1",
-    })
-  );
-  app.use(
-    AccountRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: "/v1",
+      customUrlPrefix: API_PREFIX,
     })
   );
 
-  // router.use("/products", ProductRouter);
-  // router.use("/users", UserRouter);
-  // router.use("/markets", MarketRouter);
-  // router.use("/category", categoryRouter);
-  // router.use("/order", orderRouter);
-
-  // router.use("/auth", authRouter);
-  // router.use("/profile", profileRouter);
 }
 
 export { routerAPI };

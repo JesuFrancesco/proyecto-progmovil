@@ -13,7 +13,7 @@ interface AggregateRequest extends Request {
   query: Partial<Prisma.QuestionReplyAggregateArgs> & ParsedQs;
   outputValidation?: ZodTypeAny;
   locals?: {
-    outputValidator?: ValidatorConfig;
+    outputValidator?: ZodTypeAny;
   };
 }
 

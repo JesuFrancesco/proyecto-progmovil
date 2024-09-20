@@ -6,7 +6,7 @@ generator client {
 }
 
 generator express {
-  provider = "prisma-generator-express"
+  provider = "node ./prisma/generator/dist/generator.js"
   output   = "./generated/express"
 }
 

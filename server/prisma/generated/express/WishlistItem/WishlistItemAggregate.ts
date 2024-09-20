@@ -13,7 +13,7 @@ interface AggregateRequest extends Request {
   query: Partial<Prisma.WishlistItemAggregateArgs> & ParsedQs;
   outputValidation?: ZodTypeAny;
   locals?: {
-    outputValidator?: ValidatorConfig;
+    outputValidator?: ZodTypeAny;
   };
 }
 

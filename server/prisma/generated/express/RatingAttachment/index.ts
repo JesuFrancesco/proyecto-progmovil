@@ -91,14 +91,6 @@ export function RatingAttachmentRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  if (config.enableAll || config?.findUnique) {
-    const { before = [], after = [], inputValidator, outputValidator } = config.findUnique || defaultBeforeAfter;
-    setupRoute('/:id', 'get', before, RatingAttachmentFindUnique as any, inputValidator, outputValidator);
-    if (after.length) {
-      router.use(removeTrailingSlash(basePath) + '/:id', ...after);
-    }
-  }
-
   if (config.enableAll || config?.create) {
     const { before = [], after = [], inputValidator, outputValidator } = config.create || defaultBeforeAfter;
     setupRoute('/', 'post', before, RatingAttachmentCreate as RequestHandler, inputValidator, outputValidator);
@@ -178,6 +170,17 @@ export function RatingAttachmentRouter(config: RouteConfig<RequestHandler>) {
       router.use(removeTrailingSlash(basePath) + '/groupby', ...after);
     }
   }
+
+  
+  if (config.enableAll || config?.findUnique) {
+    const { before = [], after = [], inputValidator, outputValidator } = config.findUnique || defaultBeforeAfter;
+    setupRoute('/:id', 'get', before, RatingAttachmentFindUnique as any, inputValidator, outputValidator);
+    if (after.length) {
+      router.use(removeTrailingSlash(basePath) + '/:id', ...after);
+    }
+  }
+
+  // test
 
   return router;
 }
