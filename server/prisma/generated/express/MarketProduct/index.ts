@@ -180,7 +180,5 @@ export function MarketProductRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

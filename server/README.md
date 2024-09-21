@@ -1,6 +1,7 @@
 ## backend (express + prisma)
 
 0. llenar .env
+
 ```bash
 code .env
 # completar con credenciales
@@ -12,10 +13,16 @@ code .env
 npm i
 ```
 
-2. ejecutar migracion de prisma
+2. generar bloat de express
 
 ```bash
-npx prisma generate
+npm run express:generate
+```
+
+3. ejecutar migracion de prisma
+
+```bash
+npm run db:migrate
 ```
 
 3. correr

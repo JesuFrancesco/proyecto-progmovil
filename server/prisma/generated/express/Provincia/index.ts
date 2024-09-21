@@ -180,7 +180,5 @@ export function ProvinciaRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

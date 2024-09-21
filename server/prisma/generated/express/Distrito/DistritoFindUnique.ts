@@ -24,9 +24,15 @@ export type FindUniqueMiddleware = RequestHandler<ParamsDictionary, any, any, Pr
 
 export async function DistritoFindUnique(req: FindUniqueRequest, res: Response, next: NextFunction) {
   try {
+    const { id } = req.params;
     const outputValidator = req.locals?.outputValidator || req.outputValidation;
 
-    const data = await req.prisma.distrito.findUnique(req.query as Prisma.DistritoFindUniqueArgs);
+    const data = await req.prisma.distrito.findUnique({
+        where: {
+          id: parseInt(id)
+        }
+        // req.query as Prisma.DistritoFindUniqueArgs
+      });
     if (req.passToNext) {
       if (req.locals) req.locals.data = data;
       next();

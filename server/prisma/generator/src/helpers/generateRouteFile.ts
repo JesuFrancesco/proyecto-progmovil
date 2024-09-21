@@ -190,8 +190,6 @@ export function ${routerFunctionName}(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }
 `

@@ -180,7 +180,5 @@ export function MessageAttachmentRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

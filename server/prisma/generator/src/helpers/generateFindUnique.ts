@@ -39,9 +39,15 @@ export type FindUniqueMiddleware = RequestHandler<ParamsDictionary, any, any, ${
 
 export async function ${functionName}(req: FindUniqueRequest, res: Response, next: NextFunction) {
   try {
+    const { id } = req.params;
     const outputValidator = req.locals?.outputValidator || req.outputValidation;
 
-    const data = await req.prisma.${toPascalCase(modelName)}.findUnique(req.query as ${queryTypeName});
+    const data = await req.prisma.${toPascalCase(modelName)}.findUnique({
+        where: {
+          id: parseInt(id)
+        }
+        // req.query as ${queryTypeName}
+      });
     if (req.passToNext) {
       if (req.locals) req.locals.data = data;
       next();

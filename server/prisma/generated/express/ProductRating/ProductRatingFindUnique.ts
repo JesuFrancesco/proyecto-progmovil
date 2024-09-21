@@ -24,9 +24,15 @@ export type FindUniqueMiddleware = RequestHandler<ParamsDictionary, any, any, Pr
 
 export async function ProductRatingFindUnique(req: FindUniqueRequest, res: Response, next: NextFunction) {
   try {
+    const { id } = req.params;
     const outputValidator = req.locals?.outputValidator || req.outputValidation;
 
-    const data = await req.prisma.productRating.findUnique(req.query as Prisma.ProductRatingFindUniqueArgs);
+    const data = await req.prisma.productRating.findUnique({
+        where: {
+          id: parseInt(id)
+        }
+        // req.query as Prisma.ProductRatingFindUniqueArgs
+      });
     if (req.passToNext) {
       if (req.locals) req.locals.data = data;
       next();

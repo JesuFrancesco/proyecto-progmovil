@@ -180,7 +180,5 @@ export function CartItemRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

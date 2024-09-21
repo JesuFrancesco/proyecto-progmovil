@@ -180,7 +180,5 @@ export function ProductQuestionRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

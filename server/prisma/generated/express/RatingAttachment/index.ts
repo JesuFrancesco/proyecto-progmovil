@@ -180,7 +180,5 @@ export function RatingAttachmentRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

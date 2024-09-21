@@ -180,7 +180,5 @@ export function WishlistItemRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

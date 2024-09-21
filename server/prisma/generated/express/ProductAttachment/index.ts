@@ -180,7 +180,5 @@ export function ProductAttachmentRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

@@ -24,9 +24,15 @@ export type FindUniqueMiddleware = RequestHandler<ParamsDictionary, any, any, Pr
 
 export async function MessageFindUnique(req: FindUniqueRequest, res: Response, next: NextFunction) {
   try {
+    const { id } = req.params;
     const outputValidator = req.locals?.outputValidator || req.outputValidation;
 
-    const data = await req.prisma.message.findUnique(req.query as Prisma.MessageFindUniqueArgs);
+    const data = await req.prisma.message.findUnique({
+        where: {
+          id: parseInt(id)
+        }
+        // req.query as Prisma.MessageFindUniqueArgs
+      });
     if (req.passToNext) {
       if (req.locals) req.locals.data = data;
       next();

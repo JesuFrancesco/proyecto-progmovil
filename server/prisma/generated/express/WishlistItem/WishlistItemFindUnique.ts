@@ -24,9 +24,15 @@ export type FindUniqueMiddleware = RequestHandler<ParamsDictionary, any, any, Pr
 
 export async function WishlistItemFindUnique(req: FindUniqueRequest, res: Response, next: NextFunction) {
   try {
+    const { id } = req.params;
     const outputValidator = req.locals?.outputValidator || req.outputValidation;
 
-    const data = await req.prisma.wishlistItem.findUnique(req.query as Prisma.WishlistItemFindUniqueArgs);
+    const data = await req.prisma.wishlistItem.findUnique({
+        where: {
+          id: parseInt(id)
+        }
+        // req.query as Prisma.WishlistItemFindUniqueArgs
+      });
     if (req.passToNext) {
       if (req.locals) req.locals.data = data;
       next();

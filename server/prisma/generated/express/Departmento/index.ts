@@ -180,7 +180,5 @@ export function DepartmentoRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

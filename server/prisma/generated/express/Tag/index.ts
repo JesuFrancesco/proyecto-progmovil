@@ -180,7 +180,5 @@ export function TagRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

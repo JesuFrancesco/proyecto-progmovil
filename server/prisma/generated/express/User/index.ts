@@ -180,7 +180,5 @@ export function UserRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

@@ -180,7 +180,5 @@ export function DistritoRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

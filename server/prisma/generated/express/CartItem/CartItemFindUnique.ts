@@ -24,9 +24,15 @@ export type FindUniqueMiddleware = RequestHandler<ParamsDictionary, any, any, Pr
 
 export async function CartItemFindUnique(req: FindUniqueRequest, res: Response, next: NextFunction) {
   try {
+    const { id } = req.params;
     const outputValidator = req.locals?.outputValidator || req.outputValidation;
 
-    const data = await req.prisma.cartItem.findUnique(req.query as Prisma.CartItemFindUniqueArgs);
+    const data = await req.prisma.cartItem.findUnique({
+        where: {
+          id: parseInt(id)
+        }
+        // req.query as Prisma.CartItemFindUniqueArgs
+      });
     if (req.passToNext) {
       if (req.locals) req.locals.data = data;
       next();

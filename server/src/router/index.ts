@@ -3,7 +3,6 @@ import { PrismaClient } from "@prisma/client";
 
 import { AccountRouter } from "../../prisma/generated/express/Account";
 import { UserRouter } from "../../prisma/generated/express/User";
-import { AccountCreateOneSchema } from "../../prisma/generated/zod/schemas/createOneAccount.schema"
 import { ProductRouter } from "../../prisma/generated/express/Product";
 import { MarketRouter } from "../../prisma/generated/express/Market";
 
@@ -24,9 +23,6 @@ function routerAPI(app: Express) {
   // routers
   app.use(
     AccountRouter({
-      // create: {
-      //   inputValidator: 
-      // },
       addModelPrefix: true,
       enableAll: true,
       customUrlPrefix: API_PREFIX,

@@ -180,7 +180,5 @@ export function MessageRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

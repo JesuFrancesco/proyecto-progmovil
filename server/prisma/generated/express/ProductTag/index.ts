@@ -180,7 +180,5 @@ export function ProductTagRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

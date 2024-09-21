@@ -180,7 +180,5 @@ export function CountryRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

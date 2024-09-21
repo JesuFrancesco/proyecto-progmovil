@@ -180,7 +180,5 @@ export function ShoppingCartRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

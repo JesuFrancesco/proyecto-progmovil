@@ -180,7 +180,5 @@ export function ChatRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

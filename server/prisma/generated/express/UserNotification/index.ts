@@ -180,7 +180,5 @@ export function UserNotificationRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

@@ -180,7 +180,5 @@ export function OrderRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

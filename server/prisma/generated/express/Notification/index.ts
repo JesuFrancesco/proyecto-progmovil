@@ -180,7 +180,5 @@ export function NotificationRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

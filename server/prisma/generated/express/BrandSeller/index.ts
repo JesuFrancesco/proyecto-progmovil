@@ -180,7 +180,5 @@ export function BrandSellerRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }

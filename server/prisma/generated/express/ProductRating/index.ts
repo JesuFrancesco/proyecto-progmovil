@@ -180,7 +180,5 @@ export function ProductRatingRouter(config: RouteConfig<RequestHandler>) {
     }
   }
 
-  // test
-
   return router;
 }
