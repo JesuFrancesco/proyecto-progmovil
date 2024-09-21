@@ -18,15 +18,15 @@ const port = 8080;
 // Create a single supabase client for interacting with your database
 const supabase = createClient(config.supabaseURL, config.supabaseServiceRole);
 
-(async () => {
-  const { data } = await supabase.auth.admin.listUsers();
-  console.log(data.users);
-})();
+// (async () => {
+//   const { data } = await supabase.auth.admin.listUsers();
+//   console.log(data.users);
+// })();
 
-// hello world
-// app.get("/", (req, res) => {
-//   res.send("hola desde server express.js");
-// });
+// test
+app.get("/", (req, res) => {
+  res.send("hola desde server express.js");
+});
 
 // express json middleware
 app.use(express.json());
