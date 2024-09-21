@@ -1,8 +1,18 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
+}
+
+generator express {
+  provider = "node ./prisma/generator/dist/generator.js"
+  output   = "./generated/express"
 }
 
 // generator zod {
@@ -10,96 +20,12 @@ generator client {
 //   output   = "./generated/zod"
 // }
 
-generator express {
-  provider = "node ./prisma/generator/dist/generator.js"
-  output   = "./generated/express"
-}
-
 // generator dart {
 //   provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
 //   output   = "../../jiron_anime/lib/models"
 // }
 
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
-
-// location
-model Distrito {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
-  provinciaId Int
-  provincia   Provincia @relation(fields: [provinciaId], references: [id])
-  users       User[]
-
-  @@map("distritos")
-}
-
-model Provincia {
-  id            Int         @id @default(autoincrement())
-  name          String      @unique
-  departmentoId Int
-  departmento   Departmento @relation(fields: [departmentoId], references: [id])
-  distritos     Distrito[]
-  users         User[]
-
-  @@map("provincias")
-}
-
-model Departmento {
-  id         Int         @id @default(autoincrement())
-  name       String      @unique
-  provincias Provincia[]
-  users      User[]
-
-  @@map("departamentos")
-}
-
-// chat messages
-model Chat {
-  id               Int               @id @default(autoincrement())
-  createdAt        DateTime
-  chatMessage      ChatMessage[]
-  chatParticipants ChatParticipant[]
-
-  @@map("chats")
-}
-
-model Message {
-  id                 Int                 @id @default(autoincrement())
-  text               String
-  createdAt          DateTime
-  updatedAt          DateTime
-  status             Int
-  accountId          Int
-  account            Account             @relation(fields: [accountId], references: [id])
-  messageAttachments MessageAttachment[]
-  chatMessages       ChatMessage[]
-
-  @@map("messages")
-}
-
-model Notification {
-  id                Int                @id @default(autoincrement())
-  title             String
-  description       String
-  createdAt         DateTime
-  updatedAt         DateTime
-  imageUrl          String
-  userNotifications UserNotification[]
-
-  @@map("notificactions")
-}
-
-model Country {
-  id           Int           @id @default(autoincrement())
-  name         String
-  code         String
-  brandSellers BrandSeller[]
-
-  @@map("countries")
-}
+// models
 
 model Account {
   id       Int       @id @default(autoincrement())
@@ -115,29 +41,16 @@ model Account {
   @@map("accounts")
 }
 
-model Market {
-  id             Int             @id @default(autoincrement())
-  name           String
-  contactEmail   String
-  contactPhone   String
-  accountId      Int
-  account        Account         @relation(fields: [accountId], references: [id])
-  marketProducts MarketProduct[]
-
-  @@map("markets")
-}
-
 model User {
-  id               Int          @id @default(autoincrement())
+  id               Int           @id @default(autoincrement())
   referenceAddress String?
-  distritoId       Int?
-  provinciaId      Int?
-  departamentoId   Int?
-  accountId        Int          @unique
-  distrito         Distrito?    @relation(fields: [distritoId], references: [id])
-  provincia        Provincia?   @relation(fields: [provinciaId], references: [id])
-  departmento      Departmento? @relation(fields: [departamentoId], references: [id])
-  account          Account      @relation(fields: [accountId], references: [id])
+  distritoId       Int?          @map("distrito_id")
+  provinciaId      Int?          @map("provincia_id")
+  departamentoId   Int?          @map("departamento_id")
+  distrito         Distrito?     @relation(fields: [distritoId], references: [id])
+  provincia        Provincia?    @relation(fields: [provinciaId], references: [id])
+  departmento      Departamento? @relation(fields: [departamentoId], references: [id])
+  account          Account       @relation(fields: [accountId], references: [id])
 
   shoppingCarts     ShoppingCart[]
   wishlists         Wishlist[]
@@ -147,12 +60,85 @@ model User {
   userNotifications UserNotification[]
   chatParticipants  ChatParticipant[]
 
+  accountId Int @unique @map("account_id")
+
   @@map("users")
+}
+
+model Notification {
+  id                Int                @id @default(autoincrement())
+  title             String
+  description       String
+  createdAt         DateTime           @map("created_at")
+  updatedAt         DateTime           @map("updated_at")
+  imageUrl          String
+  userNotifications UserNotification[]
+
+  @@map("notificactions")
+}
+
+model Market {
+  id           Int       @id @default(autoincrement())
+  name         String
+  contactEmail String    @map("contact_email")
+  contactPhone String    @map("contact_phone")
+  accountId    Int       @map("account_id")
+  account      Account   @relation(fields: [accountId], references: [id])
+  products     Product[]
+
+  @@map("markets")
+}
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  name          String
+  stock         Int
+  price         Decimal
+  dimensions    String?
+  warranty      Boolean?
+  discount      Int?
+  peso          Decimal?
+  formato       String?
+  anhoEdicion   Int?     @map("anho_edicion")
+  numeroPaginas Int?     @map("numero_paginas")
+
+  marketId Int    @map("market_id")
+  market   Market @relation(fields: [marketId], references: [id])
+
+  brandSellerId Int?         @map("brand_seller")
+  brandSeller   BrandSeller? @relation(fields: [brandSellerId], references: [id])
+
+  productAttachments ProductAttachment[]
+  productTags        ProductTag[]
+  productQuestions   ProductQuestion[]
+  cartItems          CartItem[]
+  wishlistItems      WishlistItem[]
+  orderItems         OrderItem[]
+  productRatings     ProductRating[]
+
+  @@map("products")
+}
+
+model Tag {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  productTags ProductTag[]
+
+  @@map("tags")
+}
+
+model Country {
+  id           Int           @id @default(autoincrement())
+  name         String
+  code         String
+  brandSellers BrandSeller[]
+
+  @@map("countries")
 }
 
 model ShoppingCart {
   id        Int        @id @default(autoincrement())
-  userId    Int
+  userId    Int        @map("user_id")
   user      User       @relation(fields: [userId], references: [id])
   cartItems CartItem[]
 
@@ -161,7 +147,7 @@ model ShoppingCart {
 
 model Wishlist {
   id            Int            @id @default(autoincrement())
-  userId        Int
+  userId        Int            @map("user_id")
   user          User           @relation(fields: [userId], references: [id])
   wishlistItems WishlistItem[]
 
@@ -170,14 +156,75 @@ model Wishlist {
 
 model Order {
   id         Int         @id @default(autoincrement())
-  totalPrice Int
+  totalPrice Int         @map("total_price")
   status     String
-  userId     Int
+  userId     Int         @map("user_id")
   user       User        @relation(fields: [userId], references: [id])
   orderItems OrderItem[]
 
   @@map("orders")
 }
+
+model Chat {
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @map("created_at")
+  chatMessage      ChatMessage[]
+  chatParticipants ChatParticipant[]
+
+  @@map("chats")
+}
+
+model Message {
+  id                 Int                 @id @default(autoincrement())
+  text               String
+  createdAt          DateTime            @map("created_at")
+  updatedAt          DateTime            @map("updated_at")
+  status             Int
+  accountId          Int                 @map("account_id")
+  account            Account             @relation(fields: [accountId], references: [id])
+  messageAttachments MessageAttachment[]
+  chatMessages       ChatMessage[]
+
+  @@map("messages")
+}
+
+// location
+model Departamento {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  provincias Provincia[]
+  distritos  Distrito[]
+  users      User[]
+
+  @@map("departamentos")
+}
+
+model Provincia {
+  id             Int          @id @default(autoincrement())
+  name           String       @unique
+  departamentoId Int          @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+  distritos      Distrito[]
+  users          User[]
+
+  @@map("provincias")
+}
+
+model Distrito {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  provinciaId Int       @map("provincia_id")
+  provincia   Provincia @relation(fields: [provinciaId], references: [id])
+
+  departamentoId Int          @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+  users          User[]
+
+  @@map("distritos")
+}
+
+// many to many 
 
 model ChatMessage {
   chatId    Int
@@ -231,40 +278,6 @@ model ChatParticipant {
 
   @@id([chatId, userId])
   @@map("chat_participants")
-}
-
-model Product {
-  id                 Int                 @id @default(autoincrement())
-  name               String
-  stock              Int
-  price              Decimal
-  dimensions         String?
-  warranty           Boolean?
-  discount           Int?
-  peso               Decimal?
-  formato            String?
-  anhoEdicion        Int?
-  numeroPaginas      Int?
-  sellerId           Int
-  brandSeller        BrandSeller         @relation(fields: [sellerId], references: [id])
-  productAttachments ProductAttachment[]
-  productTags        ProductTag[]
-  productQuestions   ProductQuestion[]
-  cartItems          CartItem[]
-  wishlistItems      WishlistItem[]
-  orderItems         OrderItem[]
-  marketProducts     MarketProduct[]
-  productRatings     ProductRating[]
-
-  @@map("products")
-}
-
-model Tag {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique
-  productTags ProductTag[]
-
-  @@map("tags")
 }
 
 model ProductQuestion {
@@ -332,16 +345,6 @@ model ProductAttachment {
 
   @@id([productId])
   @@map("product_attachments")
-}
-
-model MarketProduct {
-  marketId  Int
-  productId Int
-  market    Market  @relation(fields: [marketId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
-
-  @@id([marketId, productId])
-  @@map("market_products")
 }
 
 model QuestionReply {

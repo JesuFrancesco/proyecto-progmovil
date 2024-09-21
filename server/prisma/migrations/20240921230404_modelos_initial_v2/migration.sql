@@ -1,40 +1,25 @@
 -- CreateTable
-CREATE TABLE "distritos" (
+CREATE TABLE "accounts" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
-    "provinciaId" INTEGER NOT NULL,
-    CONSTRAINT "distritos_provinciaId_fkey" FOREIGN KEY ("provinciaId") REFERENCES "provincias" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "provincias" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
-    "departmentoId" INTEGER NOT NULL,
-    CONSTRAINT "provincias_departmentoId_fkey" FOREIGN KEY ("departmentoId") REFERENCES "departamentos" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "departamentos" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "email" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'user',
+    "password" TEXT NOT NULL,
+    "phone" TEXT,
     "name" TEXT NOT NULL
 );
 
 -- CreateTable
-CREATE TABLE "chats" (
+CREATE TABLE "users" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "createdAt" DATETIME NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "messages" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "text" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL,
-    "updatedAt" DATETIME NOT NULL,
-    "status" INTEGER NOT NULL,
-    "accountId" INTEGER NOT NULL,
-    CONSTRAINT "messages_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "accounts" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "referenceAddress" TEXT,
+    "distrito_id" INTEGER,
+    "provincia_id" INTEGER,
+    "departamento_id" INTEGER,
+    "account_id" INTEGER NOT NULL,
+    CONSTRAINT "users_distrito_id_fkey" FOREIGN KEY ("distrito_id") REFERENCES "distritos" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "users_provincia_id_fkey" FOREIGN KEY ("provincia_id") REFERENCES "provincias" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "users_departamento_id_fkey" FOREIGN KEY ("departamento_id") REFERENCES "departamentos" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "users_account_id_fkey" FOREIGN KEY ("account_id") REFERENCES "accounts" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -42,9 +27,44 @@ CREATE TABLE "notificactions" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL,
-    "updatedAt" DATETIME NOT NULL,
+    "created_at" DATETIME NOT NULL,
+    "updated_at" DATETIME NOT NULL,
     "imageUrl" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "markets" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "contact_email" TEXT NOT NULL,
+    "contact_phone" TEXT NOT NULL,
+    "account_id" INTEGER NOT NULL,
+    CONSTRAINT "markets_account_id_fkey" FOREIGN KEY ("account_id") REFERENCES "accounts" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "products" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "stock" INTEGER NOT NULL,
+    "price" DECIMAL NOT NULL,
+    "dimensions" TEXT,
+    "warranty" BOOLEAN,
+    "discount" INTEGER,
+    "peso" DECIMAL,
+    "formato" TEXT,
+    "anho_edicion" INTEGER,
+    "numero_paginas" INTEGER,
+    "market_id" INTEGER NOT NULL,
+    "brand_seller" INTEGER,
+    CONSTRAINT "products_market_id_fkey" FOREIGN KEY ("market_id") REFERENCES "markets" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "products_brand_seller_fkey" FOREIGN KEY ("brand_seller") REFERENCES "brand_sellers" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "tags" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -55,60 +75,67 @@ CREATE TABLE "countries" (
 );
 
 -- CreateTable
-CREATE TABLE "accounts" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "email" TEXT NOT NULL,
-    "role" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
-    "phone" TEXT,
-    "name" TEXT NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "markets" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
-    "contactEmail" TEXT NOT NULL,
-    "contactPhone" TEXT NOT NULL,
-    "accountId" INTEGER NOT NULL,
-    CONSTRAINT "markets_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "accounts" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "buyers" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "referenceAddress" TEXT,
-    "distritoId" INTEGER NOT NULL,
-    "provinciaId" INTEGER NOT NULL,
-    "departamentoId" INTEGER NOT NULL,
-    "accountId" INTEGER NOT NULL,
-    CONSTRAINT "buyers_distritoId_fkey" FOREIGN KEY ("distritoId") REFERENCES "distritos" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "buyers_provinciaId_fkey" FOREIGN KEY ("provinciaId") REFERENCES "provincias" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "buyers_departamentoId_fkey" FOREIGN KEY ("departamentoId") REFERENCES "departamentos" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "buyers_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "accounts" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
 CREATE TABLE "shopping_carts" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "userId" INTEGER NOT NULL,
-    CONSTRAINT "shopping_carts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "buyers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "user_id" INTEGER NOT NULL,
+    CONSTRAINT "shopping_carts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "wishlists" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "userId" INTEGER NOT NULL,
-    CONSTRAINT "wishlists_userId_fkey" FOREIGN KEY ("userId") REFERENCES "buyers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "user_id" INTEGER NOT NULL,
+    CONSTRAINT "wishlists_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "orders" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "totalPrice" INTEGER NOT NULL,
+    "total_price" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
-    CONSTRAINT "orders_userId_fkey" FOREIGN KEY ("userId") REFERENCES "buyers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "user_id" INTEGER NOT NULL,
+    CONSTRAINT "orders_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "chats" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "created_at" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "messages" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "text" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL,
+    "updated_at" DATETIME NOT NULL,
+    "status" INTEGER NOT NULL,
+    "account_id" INTEGER NOT NULL,
+    CONSTRAINT "messages_account_id_fkey" FOREIGN KEY ("account_id") REFERENCES "accounts" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "departamentos" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "provincias" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "departamento_id" INTEGER NOT NULL,
+    CONSTRAINT "provincias_departamento_id_fkey" FOREIGN KEY ("departamento_id") REFERENCES "departamentos" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "distritos" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "provincia_id" INTEGER NOT NULL,
+    "departamento_id" INTEGER NOT NULL,
+    CONSTRAINT "distritos_provincia_id_fkey" FOREIGN KEY ("provincia_id") REFERENCES "provincias" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "distritos_departamento_id_fkey" FOREIGN KEY ("departamento_id") REFERENCES "departamentos" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -147,7 +174,7 @@ CREATE TABLE "user_notifications" (
     "notificationId" INTEGER NOT NULL,
 
     PRIMARY KEY ("userId", "notificationId"),
-    CONSTRAINT "user_notifications_userId_fkey" FOREIGN KEY ("userId") REFERENCES "buyers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "user_notifications_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "user_notifications_notificationId_fkey" FOREIGN KEY ("notificationId") REFERENCES "notificactions" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -158,30 +185,7 @@ CREATE TABLE "chat_participants" (
 
     PRIMARY KEY ("chatId", "userId"),
     CONSTRAINT "chat_participants_chatId_fkey" FOREIGN KEY ("chatId") REFERENCES "chats" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "chat_participants_userId_fkey" FOREIGN KEY ("userId") REFERENCES "buyers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "products" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
-    "stock" INTEGER NOT NULL,
-    "price" DECIMAL NOT NULL,
-    "dimensions" TEXT,
-    "warranty" BOOLEAN,
-    "discount" INTEGER,
-    "peso" DECIMAL,
-    "formato" TEXT,
-    "anhoEdicion" INTEGER,
-    "numeroPaginas" INTEGER,
-    "sellerId" INTEGER NOT NULL,
-    CONSTRAINT "products_sellerId_fkey" FOREIGN KEY ("sellerId") REFERENCES "brand_sellers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "tags" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL
+    CONSTRAINT "chat_participants_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -192,7 +196,7 @@ CREATE TABLE "product_questions" (
     "productId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     CONSTRAINT "product_questions_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "product_questions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "buyers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "product_questions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -247,16 +251,6 @@ CREATE TABLE "product_attachments" (
 );
 
 -- CreateTable
-CREATE TABLE "market_products" (
-    "marketId" INTEGER NOT NULL,
-    "productId" INTEGER NOT NULL,
-
-    PRIMARY KEY ("marketId", "productId"),
-    CONSTRAINT "market_products_marketId_fkey" FOREIGN KEY ("marketId") REFERENCES "markets" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "market_products_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
 CREATE TABLE "question_replies" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "text" TEXT NOT NULL,
@@ -273,7 +267,7 @@ CREATE TABLE "product_ratings" (
     "createdAt" DATETIME NOT NULL,
     "userId" INTEGER NOT NULL,
     "productId" INTEGER NOT NULL,
-    CONSTRAINT "product_ratings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "buyers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "product_ratings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "product_ratings_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -287,16 +281,16 @@ CREATE TABLE "rating_attachments" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "distritos_name_key" ON "distritos"("name");
+CREATE UNIQUE INDEX "accounts_email_key" ON "accounts"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "provincias_name_key" ON "provincias"("name");
+CREATE UNIQUE INDEX "users_account_id_key" ON "users"("account_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "tags_name_key" ON "tags"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "departamentos_name_key" ON "departamentos"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "accounts_email_key" ON "accounts"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "tags_name_key" ON "tags"("name");
+CREATE UNIQUE INDEX "provincias_name_key" ON "provincias"("name");
