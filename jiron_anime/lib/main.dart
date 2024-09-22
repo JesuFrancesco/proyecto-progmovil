@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/LoginPage.dart';
-import 'package:jiron_anime/pages/ProfileDemo.dart';
+import 'package:jiron_anime/pages/home/home_page.dart';
+import 'package:jiron_anime/pages/signin/signin_page.dart';
+import 'package:jiron_anime/pages/demo/profile_demo.dart';
+import 'package:jiron_anime/pages/reset/reset_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'middleware/supabase_layer.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
-  await Supabase.initialize(
-      url: dotenv.get("SUPABASE_URL"),
-      anonKey: dotenv.get("SUPABASE_ANON_KEY"));
+  initializeSupabase();
+
   runApp(const MainApp());
 }
 
@@ -22,9 +24,16 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: supabase.auth.currentSession != null
-          ? const ProfileScreen()
-          : const LoginScreen(),
+      initialRoute: supabase.auth.currentSession == null ? "/sign-in" : "/demo",
+      routes: {
+        '/sign-in': (context) => const SignInScreen(),
+        // '/sign-up': (context) => SignUpPage(), // puede q no se necesite
+        '/demo': (context) => const ProfileScreen(),
+
+        // no implementados
+        '/home': (context) => HomePage(),
+        '/reset': (context) => ResetPage(),
+      },
       theme: ThemeData(fontFamily: "Rubik"),
     );
   }

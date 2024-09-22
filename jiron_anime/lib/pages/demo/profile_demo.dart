@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/pages/signin/signin_page.dart';
 
-import '../main.dart';
-import 'LoginPage.dart';
+import '../../main.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -13,14 +13,14 @@ class ProfileScreen extends StatelessWidget {
     final fullName = user?.userMetadata?['full_name'];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Perfil Demo'),
         actions: [
           TextButton(
             onPressed: () async {
               await supabase.auth.signOut();
               if (context.mounted) {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  MaterialPageRoute(builder: (context) => const SignInScreen()),
                 );
               }
             },
