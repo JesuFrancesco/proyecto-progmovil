@@ -1,6 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
+import 'market.dart';
 import 'brand_seller.dart';
 import 'product_attachment.dart';
 import 'product_tag.dart';
@@ -8,7 +9,6 @@ import 'product_question.dart';
 import 'cart_item.dart';
 import 'wishlist_item.dart';
 import 'order_item.dart';
-import 'market_product.dart';
 import 'product_rating.dart';
 
 class Product implements ToJson, Id {
@@ -24,7 +24,9 @@ class Product implements ToJson, Id {
   String? formato;
   int? anhoEdicion;
   int? numeroPaginas;
-  int? sellerId;
+  int? marketId;
+  Market? market;
+  int? brandSellerId;
   BrandSeller? brandSeller;
   List<ProductAttachment>? productAttachments;
   List<ProductTag>? productTags;
@@ -32,7 +34,6 @@ class Product implements ToJson, Id {
   List<CartItem>? cartItems;
   List<WishlistItem>? wishlistItems;
   List<OrderItem>? orderItems;
-  List<MarketProduct>? marketProducts;
   List<ProductRating>? productRatings;
   int? $productAttachmentsCount;
   int? $productTagsCount;
@@ -40,7 +41,6 @@ class Product implements ToJson, Id {
   int? $cartItemsCount;
   int? $wishlistItemsCount;
   int? $orderItemsCount;
-  int? $marketProductsCount;
   int? $productRatingsCount;
 
   Product({
@@ -55,7 +55,9 @@ class Product implements ToJson, Id {
     this.formato,
     this.anhoEdicion,
     this.numeroPaginas,
-    this.sellerId,
+    this.marketId,
+    this.market,
+    this.brandSellerId,
     this.brandSeller,
     this.productAttachments,
     this.productTags,
@@ -63,7 +65,6 @@ class Product implements ToJson, Id {
     this.cartItems,
     this.wishlistItems,
     this.orderItems,
-    this.marketProducts,
     this.productRatings,
     this.$productAttachmentsCount,
     this.$productTagsCount,
@@ -71,7 +72,6 @@ class Product implements ToJson, Id {
     this.$cartItemsCount,
     this.$wishlistItemsCount,
     this.$orderItemsCount,
-    this.$marketProductsCount,
     this.$productRatingsCount,
   });
 
@@ -87,7 +87,11 @@ class Product implements ToJson, Id {
       formato: json['formato'] as String?,
       anhoEdicion: json['anhoEdicion'] as int?,
       numeroPaginas: json['numeroPaginas'] as int?,
-      sellerId: json['sellerId'] as int?,
+      marketId: json['marketId'] as int?,
+      market: json['market'] != null
+          ? Market.fromJson(json['market'] as Map<String, dynamic>)
+          : null,
+      brandSellerId: json['brandSellerId'] as int?,
       brandSeller: json['brandSeller'] != null
           ? BrandSeller.fromJson(json['brandSeller'] as Map<String, dynamic>)
           : null,
@@ -112,10 +116,6 @@ class Product implements ToJson, Id {
       orderItems: json['orderItems'] != null
           ? createModels<OrderItem>(json['orderItems'], OrderItem.fromJson)
           : null,
-      marketProducts: json['marketProducts'] != null
-          ? createModels<MarketProduct>(
-              json['marketProducts'], MarketProduct.fromJson)
-          : null,
       productRatings: json['productRatings'] != null
           ? createModels<ProductRating>(
               json['productRatings'], ProductRating.fromJson)
@@ -126,7 +126,6 @@ class Product implements ToJson, Id {
       $cartItemsCount: json['_count']?['cartItems'] as int?,
       $wishlistItemsCount: json['_count']?['wishlistItems'] as int?,
       $orderItemsCount: json['_count']?['orderItems'] as int?,
-      $marketProductsCount: json['_count']?['marketProducts'] as int?,
       $productRatingsCount: json['_count']?['productRatings'] as int?);
 
   Product copyWith({
@@ -141,7 +140,9 @@ class Product implements ToJson, Id {
     String? formato,
     int? anhoEdicion,
     int? numeroPaginas,
-    int? sellerId,
+    int? marketId,
+    Market? market,
+    int? brandSellerId,
     BrandSeller? brandSeller,
     List<ProductAttachment>? productAttachments,
     List<ProductTag>? productTags,
@@ -149,7 +150,6 @@ class Product implements ToJson, Id {
     List<CartItem>? cartItems,
     List<WishlistItem>? wishlistItems,
     List<OrderItem>? orderItems,
-    List<MarketProduct>? marketProducts,
     List<ProductRating>? productRatings,
     int? $productAttachmentsCount,
     int? $productTagsCount,
@@ -157,7 +157,6 @@ class Product implements ToJson, Id {
     int? $cartItemsCount,
     int? $wishlistItemsCount,
     int? $orderItemsCount,
-    int? $marketProductsCount,
     int? $productRatingsCount,
   }) {
     return Product(
@@ -172,7 +171,9 @@ class Product implements ToJson, Id {
         formato: formato ?? this.formato,
         anhoEdicion: anhoEdicion ?? this.anhoEdicion,
         numeroPaginas: numeroPaginas ?? this.numeroPaginas,
-        sellerId: sellerId ?? this.sellerId,
+        marketId: marketId ?? this.marketId,
+        market: market ?? this.market,
+        brandSellerId: brandSellerId ?? this.brandSellerId,
         brandSeller: brandSeller ?? this.brandSeller,
         productAttachments: productAttachments ?? this.productAttachments,
         productTags: productTags ?? this.productTags,
@@ -180,7 +181,6 @@ class Product implements ToJson, Id {
         cartItems: cartItems ?? this.cartItems,
         wishlistItems: wishlistItems ?? this.wishlistItems,
         orderItems: orderItems ?? this.orderItems,
-        marketProducts: marketProducts ?? this.marketProducts,
         productRatings: productRatings ?? this.productRatings,
         $productAttachmentsCount:
             $productAttachmentsCount ?? this.$productAttachmentsCount,
@@ -190,7 +190,6 @@ class Product implements ToJson, Id {
         $cartItemsCount: $cartItemsCount ?? this.$cartItemsCount,
         $wishlistItemsCount: $wishlistItemsCount ?? this.$wishlistItemsCount,
         $orderItemsCount: $orderItemsCount ?? this.$orderItemsCount,
-        $marketProductsCount: $marketProductsCount ?? this.$marketProductsCount,
         $productRatingsCount:
             $productRatingsCount ?? this.$productRatingsCount);
   }
@@ -208,7 +207,9 @@ class Product implements ToJson, Id {
         formato: product.formato ?? formato,
         anhoEdicion: product.anhoEdicion ?? anhoEdicion,
         numeroPaginas: product.numeroPaginas ?? numeroPaginas,
-        sellerId: product.sellerId ?? sellerId,
+        marketId: product.marketId ?? marketId,
+        market: product.market ?? market,
+        brandSellerId: product.brandSellerId ?? brandSellerId,
         brandSeller: product.brandSeller ?? brandSeller,
         productAttachments: product.productAttachments ?? productAttachments,
         productTags: product.productTags ?? productTags,
@@ -216,7 +217,6 @@ class Product implements ToJson, Id {
         cartItems: product.cartItems ?? cartItems,
         wishlistItems: product.wishlistItems ?? wishlistItems,
         orderItems: product.orderItems ?? orderItems,
-        marketProducts: product.marketProducts ?? marketProducts,
         productRatings: product.productRatings ?? productRatings,
         $productAttachmentsCount:
             product.$productAttachmentsCount ?? $productAttachmentsCount,
@@ -226,8 +226,6 @@ class Product implements ToJson, Id {
         $cartItemsCount: product.$cartItemsCount ?? $cartItemsCount,
         $wishlistItemsCount: product.$wishlistItemsCount ?? $wishlistItemsCount,
         $orderItemsCount: product.$orderItemsCount ?? $orderItemsCount,
-        $marketProductsCount:
-            product.$marketProductsCount ?? $marketProductsCount,
         $productRatingsCount:
             product.$productRatingsCount ?? $productRatingsCount);
   }
@@ -245,7 +243,9 @@ class Product implements ToJson, Id {
         if (formato != null) 'formato': formato,
         if (anhoEdicion != null) 'anhoEdicion': anhoEdicion,
         if (numeroPaginas != null) 'numeroPaginas': numeroPaginas,
-        if (sellerId != null) 'sellerId': sellerId,
+        if (marketId != null) 'marketId': marketId,
+        if (market != null) 'market': market,
+        if (brandSellerId != null) 'brandSellerId': brandSellerId,
         if (brandSeller != null) 'brandSeller': brandSeller,
         if (productAttachments != null)
           'productAttachments':
@@ -261,9 +261,6 @@ class Product implements ToJson, Id {
           'wishlistItems': wishlistItems?.map((item) => item.toJson()).toList(),
         if (orderItems != null)
           'orderItems': orderItems?.map((item) => item.toJson()).toList(),
-        if (marketProducts != null)
-          'marketProducts':
-              marketProducts?.map((item) => item.toJson()).toList(),
         if (productRatings != null)
           'productRatings':
               productRatings?.map((item) => item.toJson()).toList(),
@@ -273,7 +270,6 @@ class Product implements ToJson, Id {
             $cartItemsCount != null ||
             $wishlistItemsCount != null ||
             $orderItemsCount != null ||
-            $marketProductsCount != null ||
             $productRatingsCount != null)
           '_count': {
             if ($productAttachmentsCount != null)
@@ -285,8 +281,6 @@ class Product implements ToJson, Id {
             if ($wishlistItemsCount != null)
               'wishlistItems': $wishlistItemsCount,
             if ($orderItemsCount != null) 'orderItems': $orderItemsCount,
-            if ($marketProductsCount != null)
-              'marketProducts': $marketProductsCount,
             if ($productRatingsCount != null)
               'productRatings': $productRatingsCount,
           },
@@ -308,7 +302,9 @@ class Product implements ToJson, Id {
           formato == other.formato &&
           anhoEdicion == other.anhoEdicion &&
           numeroPaginas == other.numeroPaginas &&
-          sellerId == other.sellerId &&
+          marketId == other.marketId &&
+          market == other.market &&
+          brandSellerId == other.brandSellerId &&
           brandSeller == other.brandSeller &&
           areListsEqual(productAttachments, other.productAttachments) &&
           areListsEqual(productTags, other.productTags) &&
@@ -316,7 +312,6 @@ class Product implements ToJson, Id {
           areListsEqual(cartItems, other.cartItems) &&
           areListsEqual(wishlistItems, other.wishlistItems) &&
           areListsEqual(orderItems, other.orderItems) &&
-          areListsEqual(marketProducts, other.marketProducts) &&
           areListsEqual(productRatings, other.productRatings) &&
           $productAttachmentsCount == other.$productAttachmentsCount &&
           $productTagsCount == other.$productTagsCount &&
@@ -324,7 +319,6 @@ class Product implements ToJson, Id {
           $cartItemsCount == other.$cartItemsCount &&
           $wishlistItemsCount == other.$wishlistItemsCount &&
           $orderItemsCount == other.$orderItemsCount &&
-          $marketProductsCount == other.$marketProductsCount &&
           $productRatingsCount == other.$productRatingsCount;
 
   @override
@@ -340,7 +334,9 @@ class Product implements ToJson, Id {
       formato.hashCode ^
       anhoEdicion.hashCode ^
       numeroPaginas.hashCode ^
-      sellerId.hashCode ^
+      marketId.hashCode ^
+      market.hashCode ^
+      brandSellerId.hashCode ^
       brandSeller.hashCode ^
       productAttachments.hashCode ^
       productTags.hashCode ^
@@ -348,7 +344,6 @@ class Product implements ToJson, Id {
       cartItems.hashCode ^
       wishlistItems.hashCode ^
       orderItems.hashCode ^
-      marketProducts.hashCode ^
       productRatings.hashCode ^
       $productAttachmentsCount.hashCode ^
       $productTagsCount.hashCode ^
@@ -356,6 +351,5 @@ class Product implements ToJson, Id {
       $cartItemsCount.hashCode ^
       $wishlistItemsCount.hashCode ^
       $orderItemsCount.hashCode ^
-      $marketProductsCount.hashCode ^
       $productRatingsCount.hashCode;
 }

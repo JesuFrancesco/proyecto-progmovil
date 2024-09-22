@@ -3,7 +3,7 @@
 import 'model_base.dart';
 import 'distrito.dart';
 import 'provincia.dart';
-import 'departmento.dart';
+import 'departamento.dart';
 import 'account.dart';
 import 'shopping_cart.dart';
 import 'wishlist.dart';
@@ -20,10 +20,9 @@ class User implements ToJson, Id {
   int? distritoId;
   int? provinciaId;
   int? departamentoId;
-  int? accountId;
   Distrito? distrito;
   Provincia? provincia;
-  Departmento? departmento;
+  Departamento? departmento;
   Account? account;
   List<ShoppingCart>? shoppingCarts;
   List<Wishlist>? wishlists;
@@ -32,6 +31,7 @@ class User implements ToJson, Id {
   List<ProductQuestion>? productQuestions;
   List<UserNotification>? userNotifications;
   List<ChatParticipant>? chatParticipants;
+  int? accountId;
   int? $shoppingCartsCount;
   int? $wishlistsCount;
   int? $ordersCount;
@@ -46,7 +46,6 @@ class User implements ToJson, Id {
     this.distritoId,
     this.provinciaId,
     this.departamentoId,
-    this.accountId,
     this.distrito,
     this.provincia,
     this.departmento,
@@ -58,6 +57,7 @@ class User implements ToJson, Id {
     this.productQuestions,
     this.userNotifications,
     this.chatParticipants,
+    this.accountId,
     this.$shoppingCartsCount,
     this.$wishlistsCount,
     this.$ordersCount,
@@ -73,7 +73,6 @@ class User implements ToJson, Id {
       distritoId: json['distritoId'] as int?,
       provinciaId: json['provinciaId'] as int?,
       departamentoId: json['departamentoId'] as int?,
-      accountId: json['accountId'] as int?,
       distrito: json['distrito'] != null
           ? Distrito.fromJson(json['distrito'] as Map<String, dynamic>)
           : null,
@@ -81,7 +80,7 @@ class User implements ToJson, Id {
           ? Provincia.fromJson(json['provincia'] as Map<String, dynamic>)
           : null,
       departmento: json['departmento'] != null
-          ? Departmento.fromJson(json['departmento'] as Map<String, dynamic>)
+          ? Departamento.fromJson(json['departmento'] as Map<String, dynamic>)
           : null,
       account: json['account'] != null
           ? Account.fromJson(json['account'] as Map<String, dynamic>)
@@ -112,6 +111,7 @@ class User implements ToJson, Id {
           ? createModels<ChatParticipant>(
               json['chatParticipants'], ChatParticipant.fromJson)
           : null,
+      accountId: json['accountId'] as int?,
       $shoppingCartsCount: json['_count']?['shoppingCarts'] as int?,
       $wishlistsCount: json['_count']?['wishlists'] as int?,
       $ordersCount: json['_count']?['orders'] as int?,
@@ -126,10 +126,9 @@ class User implements ToJson, Id {
     int? distritoId,
     int? provinciaId,
     int? departamentoId,
-    int? accountId,
     Distrito? distrito,
     Provincia? provincia,
-    Departmento? departmento,
+    Departamento? departmento,
     Account? account,
     List<ShoppingCart>? shoppingCarts,
     List<Wishlist>? wishlists,
@@ -138,6 +137,7 @@ class User implements ToJson, Id {
     List<ProductQuestion>? productQuestions,
     List<UserNotification>? userNotifications,
     List<ChatParticipant>? chatParticipants,
+    int? accountId,
     int? $shoppingCartsCount,
     int? $wishlistsCount,
     int? $ordersCount,
@@ -152,7 +152,6 @@ class User implements ToJson, Id {
         distritoId: distritoId ?? this.distritoId,
         provinciaId: provinciaId ?? this.provinciaId,
         departamentoId: departamentoId ?? this.departamentoId,
-        accountId: accountId ?? this.accountId,
         distrito: distrito ?? this.distrito,
         provincia: provincia ?? this.provincia,
         departmento: departmento ?? this.departmento,
@@ -164,6 +163,7 @@ class User implements ToJson, Id {
         productQuestions: productQuestions ?? this.productQuestions,
         userNotifications: userNotifications ?? this.userNotifications,
         chatParticipants: chatParticipants ?? this.chatParticipants,
+        accountId: accountId ?? this.accountId,
         $shoppingCartsCount: $shoppingCartsCount ?? this.$shoppingCartsCount,
         $wishlistsCount: $wishlistsCount ?? this.$wishlistsCount,
         $ordersCount: $ordersCount ?? this.$ordersCount,
@@ -183,7 +183,6 @@ class User implements ToJson, Id {
         distritoId: user.distritoId ?? distritoId,
         provinciaId: user.provinciaId ?? provinciaId,
         departamentoId: user.departamentoId ?? departamentoId,
-        accountId: user.accountId ?? accountId,
         distrito: user.distrito ?? distrito,
         provincia: user.provincia ?? provincia,
         departmento: user.departmento ?? departmento,
@@ -195,6 +194,7 @@ class User implements ToJson, Id {
         productQuestions: user.productQuestions ?? productQuestions,
         userNotifications: user.userNotifications ?? userNotifications,
         chatParticipants: user.chatParticipants ?? chatParticipants,
+        accountId: user.accountId ?? accountId,
         $shoppingCartsCount: user.$shoppingCartsCount ?? $shoppingCartsCount,
         $wishlistsCount: user.$wishlistsCount ?? $wishlistsCount,
         $ordersCount: user.$ordersCount ?? $ordersCount,
@@ -214,7 +214,6 @@ class User implements ToJson, Id {
         if (distritoId != null) 'distritoId': distritoId,
         if (provinciaId != null) 'provinciaId': provinciaId,
         if (departamentoId != null) 'departamentoId': departamentoId,
-        if (accountId != null) 'accountId': accountId,
         if (distrito != null) 'distrito': distrito,
         if (provincia != null) 'provincia': provincia,
         if (departmento != null) 'departmento': departmento,
@@ -237,6 +236,7 @@ class User implements ToJson, Id {
         if (chatParticipants != null)
           'chatParticipants':
               chatParticipants?.map((item) => item.toJson()).toList(),
+        if (accountId != null) 'accountId': accountId,
         if ($shoppingCartsCount != null ||
             $wishlistsCount != null ||
             $ordersCount != null ||
@@ -270,7 +270,6 @@ class User implements ToJson, Id {
           distritoId == other.distritoId &&
           provinciaId == other.provinciaId &&
           departamentoId == other.departamentoId &&
-          accountId == other.accountId &&
           distrito == other.distrito &&
           provincia == other.provincia &&
           departmento == other.departmento &&
@@ -282,6 +281,7 @@ class User implements ToJson, Id {
           areListsEqual(productQuestions, other.productQuestions) &&
           areListsEqual(userNotifications, other.userNotifications) &&
           areListsEqual(chatParticipants, other.chatParticipants) &&
+          accountId == other.accountId &&
           $shoppingCartsCount == other.$shoppingCartsCount &&
           $wishlistsCount == other.$wishlistsCount &&
           $ordersCount == other.$ordersCount &&
@@ -297,7 +297,6 @@ class User implements ToJson, Id {
       distritoId.hashCode ^
       provinciaId.hashCode ^
       departamentoId.hashCode ^
-      accountId.hashCode ^
       distrito.hashCode ^
       provincia.hashCode ^
       departmento.hashCode ^
@@ -309,6 +308,7 @@ class User implements ToJson, Id {
       productQuestions.hashCode ^
       userNotifications.hashCode ^
       chatParticipants.hashCode ^
+      accountId.hashCode ^
       $shoppingCartsCount.hashCode ^
       $wishlistsCount.hashCode ^
       $ordersCount.hashCode ^

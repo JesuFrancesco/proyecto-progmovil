@@ -2,6 +2,7 @@
 
 import 'model_base.dart';
 import 'provincia.dart';
+import 'departamento.dart';
 import 'user.dart';
 
 class Distrito implements ToJson, Id {
@@ -10,6 +11,8 @@ class Distrito implements ToJson, Id {
   String? name;
   int? provinciaId;
   Provincia? provincia;
+  int? departamentoId;
+  Departamento? departamento;
   List<User>? users;
   int? $usersCount;
 
@@ -18,6 +21,8 @@ class Distrito implements ToJson, Id {
     this.name,
     this.provinciaId,
     this.provincia,
+    this.departamentoId,
+    this.departamento,
     this.users,
     this.$usersCount,
   });
@@ -29,6 +34,10 @@ class Distrito implements ToJson, Id {
       provincia: json['provincia'] != null
           ? Provincia.fromJson(json['provincia'] as Map<String, dynamic>)
           : null,
+      departamentoId: json['departamentoId'] as int?,
+      departamento: json['departamento'] != null
+          ? Departamento.fromJson(json['departamento'] as Map<String, dynamic>)
+          : null,
       users: json['users'] != null
           ? createModels<User>(json['users'], User.fromJson)
           : null,
@@ -39,6 +48,8 @@ class Distrito implements ToJson, Id {
     String? name,
     int? provinciaId,
     Provincia? provincia,
+    int? departamentoId,
+    Departamento? departamento,
     List<User>? users,
     int? $usersCount,
   }) {
@@ -47,6 +58,8 @@ class Distrito implements ToJson, Id {
         name: name ?? this.name,
         provinciaId: provinciaId ?? this.provinciaId,
         provincia: provincia ?? this.provincia,
+        departamentoId: departamentoId ?? this.departamentoId,
+        departamento: departamento ?? this.departamento,
         users: users ?? this.users,
         $usersCount: $usersCount ?? this.$usersCount);
   }
@@ -57,6 +70,8 @@ class Distrito implements ToJson, Id {
         name: distrito.name ?? name,
         provinciaId: distrito.provinciaId ?? provinciaId,
         provincia: distrito.provincia ?? provincia,
+        departamentoId: distrito.departamentoId ?? departamentoId,
+        departamento: distrito.departamento ?? departamento,
         users: distrito.users ?? users,
         $usersCount: distrito.$usersCount ?? $usersCount);
   }
@@ -67,6 +82,8 @@ class Distrito implements ToJson, Id {
         if (name != null) 'name': name,
         if (provinciaId != null) 'provinciaId': provinciaId,
         if (provincia != null) 'provincia': provincia,
+        if (departamentoId != null) 'departamentoId': departamentoId,
+        if (departamento != null) 'departamento': departamento,
         if (users != null)
           'users': users?.map((item) => item.toJson()).toList(),
         if ($usersCount != null)
@@ -84,6 +101,8 @@ class Distrito implements ToJson, Id {
           name == other.name &&
           provinciaId == other.provinciaId &&
           provincia == other.provincia &&
+          departamentoId == other.departamentoId &&
+          departamento == other.departamento &&
           areListsEqual(users, other.users) &&
           $usersCount == other.$usersCount;
 
@@ -93,6 +112,8 @@ class Distrito implements ToJson, Id {
       name.hashCode ^
       provinciaId.hashCode ^
       provincia.hashCode ^
+      departamentoId.hashCode ^
+      departamento.hashCode ^
       users.hashCode ^
       $usersCount.hashCode;
 }

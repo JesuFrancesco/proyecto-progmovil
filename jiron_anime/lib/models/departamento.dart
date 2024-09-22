@@ -1,38 +1,37 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
-import 'departamento.dart';
+import 'provincia.dart';
 import 'distrito.dart';
 import 'user.dart';
 
-class Provincia implements ToJson, Id {
+class Departamento implements ToJson, Id {
   @override
   int? id;
   String? name;
-  int? departamentoId;
-  Departamento? departamento;
+  List<Provincia>? provincias;
   List<Distrito>? distritos;
   List<User>? users;
+  int? $provinciasCount;
   int? $distritosCount;
   int? $usersCount;
 
-  Provincia({
+  Departamento({
     this.id,
     this.name,
-    this.departamentoId,
-    this.departamento,
+    this.provincias,
     this.distritos,
     this.users,
+    this.$provinciasCount,
     this.$distritosCount,
     this.$usersCount,
   });
 
-  factory Provincia.fromJson(Map<String, dynamic> json) => Provincia(
+  factory Departamento.fromJson(Map<String, dynamic> json) => Departamento(
       id: json['id'] as int?,
       name: json['name'] as String?,
-      departamentoId: json['departamentoId'] as int?,
-      departamento: json['departamento'] != null
-          ? Departamento.fromJson(json['departamento'] as Map<String, dynamic>)
+      provincias: json['provincias'] != null
+          ? createModels<Provincia>(json['provincias'], Provincia.fromJson)
           : null,
       distritos: json['distritos'] != null
           ? createModels<Distrito>(json['distritos'], Distrito.fromJson)
@@ -40,54 +39,58 @@ class Provincia implements ToJson, Id {
       users: json['users'] != null
           ? createModels<User>(json['users'], User.fromJson)
           : null,
+      $provinciasCount: json['_count']?['provincias'] as int?,
       $distritosCount: json['_count']?['distritos'] as int?,
       $usersCount: json['_count']?['users'] as int?);
 
-  Provincia copyWith({
+  Departamento copyWith({
     int? id,
     String? name,
-    int? departamentoId,
-    Departamento? departamento,
+    List<Provincia>? provincias,
     List<Distrito>? distritos,
     List<User>? users,
+    int? $provinciasCount,
     int? $distritosCount,
     int? $usersCount,
   }) {
-    return Provincia(
+    return Departamento(
         id: id ?? this.id,
         name: name ?? this.name,
-        departamentoId: departamentoId ?? this.departamentoId,
-        departamento: departamento ?? this.departamento,
+        provincias: provincias ?? this.provincias,
         distritos: distritos ?? this.distritos,
         users: users ?? this.users,
+        $provinciasCount: $provinciasCount ?? this.$provinciasCount,
         $distritosCount: $distritosCount ?? this.$distritosCount,
         $usersCount: $usersCount ?? this.$usersCount);
   }
 
-  Provincia copyWithInstance(Provincia provincia) {
-    return Provincia(
-        id: provincia.id ?? id,
-        name: provincia.name ?? name,
-        departamentoId: provincia.departamentoId ?? departamentoId,
-        departamento: provincia.departamento ?? departamento,
-        distritos: provincia.distritos ?? distritos,
-        users: provincia.users ?? users,
-        $distritosCount: provincia.$distritosCount ?? $distritosCount,
-        $usersCount: provincia.$usersCount ?? $usersCount);
+  Departamento copyWithInstance(Departamento departamento) {
+    return Departamento(
+        id: departamento.id ?? id,
+        name: departamento.name ?? name,
+        provincias: departamento.provincias ?? provincias,
+        distritos: departamento.distritos ?? distritos,
+        users: departamento.users ?? users,
+        $provinciasCount: departamento.$provinciasCount ?? $provinciasCount,
+        $distritosCount: departamento.$distritosCount ?? $distritosCount,
+        $usersCount: departamento.$usersCount ?? $usersCount);
   }
 
   @override
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
         if (name != null) 'name': name,
-        if (departamentoId != null) 'departamentoId': departamentoId,
-        if (departamento != null) 'departamento': departamento,
+        if (provincias != null)
+          'provincias': provincias?.map((item) => item.toJson()).toList(),
         if (distritos != null)
           'distritos': distritos?.map((item) => item.toJson()).toList(),
         if (users != null)
           'users': users?.map((item) => item.toJson()).toList(),
-        if ($distritosCount != null || $usersCount != null)
+        if ($provinciasCount != null ||
+            $distritosCount != null ||
+            $usersCount != null)
           '_count': {
+            if ($provinciasCount != null) 'provincias': $provinciasCount,
             if ($distritosCount != null) 'distritos': $distritosCount,
             if ($usersCount != null) 'users': $usersCount,
           },
@@ -96,14 +99,14 @@ class Provincia implements ToJson, Id {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Provincia &&
+      other is Departamento &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           name == other.name &&
-          departamentoId == other.departamentoId &&
-          departamento == other.departamento &&
+          areListsEqual(provincias, other.provincias) &&
           areListsEqual(distritos, other.distritos) &&
           areListsEqual(users, other.users) &&
+          $provinciasCount == other.$provinciasCount &&
           $distritosCount == other.$distritosCount &&
           $usersCount == other.$usersCount;
 
@@ -111,10 +114,10 @@ class Provincia implements ToJson, Id {
   int get hashCode =>
       id.hashCode ^
       name.hashCode ^
-      departamentoId.hashCode ^
-      departamento.hashCode ^
+      provincias.hashCode ^
       distritos.hashCode ^
       users.hashCode ^
+      $provinciasCount.hashCode ^
       $distritosCount.hashCode ^
       $usersCount.hashCode;
 }

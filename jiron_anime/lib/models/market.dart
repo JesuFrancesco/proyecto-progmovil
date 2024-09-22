@@ -2,7 +2,7 @@
 
 import 'model_base.dart';
 import 'account.dart';
-import 'market_product.dart';
+import 'product.dart';
 
 class Market implements ToJson, Id {
   @override
@@ -12,8 +12,8 @@ class Market implements ToJson, Id {
   String? contactPhone;
   int? accountId;
   Account? account;
-  List<MarketProduct>? marketProducts;
-  int? $marketProductsCount;
+  List<Product>? products;
+  int? $productsCount;
 
   Market({
     this.id,
@@ -22,8 +22,8 @@ class Market implements ToJson, Id {
     this.contactPhone,
     this.accountId,
     this.account,
-    this.marketProducts,
-    this.$marketProductsCount,
+    this.products,
+    this.$productsCount,
   });
 
   factory Market.fromJson(Map<String, dynamic> json) => Market(
@@ -35,11 +35,10 @@ class Market implements ToJson, Id {
       account: json['account'] != null
           ? Account.fromJson(json['account'] as Map<String, dynamic>)
           : null,
-      marketProducts: json['marketProducts'] != null
-          ? createModels<MarketProduct>(
-              json['marketProducts'], MarketProduct.fromJson)
+      products: json['products'] != null
+          ? createModels<Product>(json['products'], Product.fromJson)
           : null,
-      $marketProductsCount: json['_count']?['marketProducts'] as int?);
+      $productsCount: json['_count']?['products'] as int?);
 
   Market copyWith({
     int? id,
@@ -48,8 +47,8 @@ class Market implements ToJson, Id {
     String? contactPhone,
     int? accountId,
     Account? account,
-    List<MarketProduct>? marketProducts,
-    int? $marketProductsCount,
+    List<Product>? products,
+    int? $productsCount,
   }) {
     return Market(
         id: id ?? this.id,
@@ -58,9 +57,8 @@ class Market implements ToJson, Id {
         contactPhone: contactPhone ?? this.contactPhone,
         accountId: accountId ?? this.accountId,
         account: account ?? this.account,
-        marketProducts: marketProducts ?? this.marketProducts,
-        $marketProductsCount:
-            $marketProductsCount ?? this.$marketProductsCount);
+        products: products ?? this.products,
+        $productsCount: $productsCount ?? this.$productsCount);
   }
 
   Market copyWithInstance(Market market) {
@@ -71,9 +69,8 @@ class Market implements ToJson, Id {
         contactPhone: market.contactPhone ?? contactPhone,
         accountId: market.accountId ?? accountId,
         account: market.account ?? account,
-        marketProducts: market.marketProducts ?? marketProducts,
-        $marketProductsCount:
-            market.$marketProductsCount ?? $marketProductsCount);
+        products: market.products ?? products,
+        $productsCount: market.$productsCount ?? $productsCount);
   }
 
   @override
@@ -84,13 +81,11 @@ class Market implements ToJson, Id {
         if (contactPhone != null) 'contactPhone': contactPhone,
         if (accountId != null) 'accountId': accountId,
         if (account != null) 'account': account,
-        if (marketProducts != null)
-          'marketProducts':
-              marketProducts?.map((item) => item.toJson()).toList(),
-        if ($marketProductsCount != null)
+        if (products != null)
+          'products': products?.map((item) => item.toJson()).toList(),
+        if ($productsCount != null)
           '_count': {
-            if ($marketProductsCount != null)
-              'marketProducts': $marketProductsCount,
+            if ($productsCount != null) 'products': $productsCount,
           },
       });
 
@@ -105,8 +100,8 @@ class Market implements ToJson, Id {
           contactPhone == other.contactPhone &&
           accountId == other.accountId &&
           account == other.account &&
-          areListsEqual(marketProducts, other.marketProducts) &&
-          $marketProductsCount == other.$marketProductsCount;
+          areListsEqual(products, other.products) &&
+          $productsCount == other.$productsCount;
 
   @override
   int get hashCode =>
@@ -116,6 +111,6 @@ class Market implements ToJson, Id {
       contactPhone.hashCode ^
       accountId.hashCode ^
       account.hashCode ^
-      marketProducts.hashCode ^
-      $marketProductsCount.hashCode;
+      products.hashCode ^
+      $productsCount.hashCode;
 }
