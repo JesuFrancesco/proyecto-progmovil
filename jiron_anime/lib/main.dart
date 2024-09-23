@@ -31,8 +31,8 @@ class MainApp extends StatelessWidget {
         '/demo': (context) => const ProfileScreen(),
 
         // no implementados
-        '/home': (context) => HomePage(),
-        '/reset': (context) => ResetPage(),
+        '/home': (context) => const HomePage(),
+        '/reset': (context) => const ResetPage(),
       },
       theme: ThemeData(fontFamily: "Rubik"),
     );

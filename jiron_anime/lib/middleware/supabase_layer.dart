@@ -15,7 +15,7 @@ SupabaseClient getSupabaseClient() {
 
 Future<AuthResponse> googleSignIn() async {
   final GoogleSignIn googleSignIn =
-      GoogleSignIn(serverClientId: Config.GOOGLE_SERVER_CLIENT_ID);
+      GoogleSignIn(serverClientId: Config.googleServerClientID);
   final googleUser = await googleSignIn.signIn();
   final googleAuth = await googleUser!.authentication;
   final accessToken = googleAuth.accessToken;

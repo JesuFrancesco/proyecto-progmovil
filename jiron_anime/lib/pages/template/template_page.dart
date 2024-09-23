@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'template_controller.dart';
 
-class TemplatePage extends StatelessWidget {
+class TemplatePage extends StatefulWidget {
+  const TemplatePage({super.key});
+
+  @override
+  State<TemplatePage> createState() => _TemplatePageState();
+}
+
+class _TemplatePageState extends State<TemplatePage> {
   TemplateController control = Get.put(TemplateController());
 
   Widget _buildBody(BuildContext context) {
-    return SafeArea(child: Text('Template Page'));
+    return const SafeArea(child: Text('Template Page'));
   }
 
   @override

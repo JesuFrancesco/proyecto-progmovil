@@ -25,9 +25,11 @@ class _SignInScreenState extends State<SignInScreen> {
   void _setupAuthListener() {
     supabase.auth.onAuthStateChange.listen((data) async {
       final event = data.event;
-      if (event == AuthChangeEvent.signedIn) {
+      if (event == AuthChangeEvent.signedIn && context.mounted) {
         // await loginSuccessfulCallback(data.session!);
-        Navigator.of(context).pushReplacement(
+
+        // XDDD
+        await Navigator.of(context.mounted ? context : context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const ProfileScreen(),
           ),
@@ -47,7 +49,10 @@ class _SignInScreenState extends State<SignInScreen> {
               "name": session.user.userMetadata!["full_name"],
               "password": session.accessToken,
             }));
-    // TODO: handle error codes
+
+    if (response.statusCode != 201 || response.statusCode != 409) {
+      throw Exception("algo salio mal");
+    }
   }
 
   @override

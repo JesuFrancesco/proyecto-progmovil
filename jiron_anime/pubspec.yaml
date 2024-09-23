@@ -1,6 +1,6 @@
 name: jiron_anime
 description: "Jiron Anime project para el proyecto de PM 2024-2"
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -17,9 +17,7 @@ dependencies:
   google_sign_in: ^6.2.1
   http: ^1.2.2
   supabase_flutter: ^2.6.0
-  # pp
   cupertino_icons: ^1.0.6
-  get: ^4.6.5
   chips_choice: ^3.0.0
   json_annotation: ^4.0.1
 
@@ -28,20 +26,20 @@ flutter_native_splash:
   image: assets/image/logo.png
   color_dark: "#121212"
   image_dark: assets/image/logo.png
-#  branding: assets/branding-development.png
-#  branding_dark: assets/branding.png
+  #  branding: assets/branding-development.png
+  #  branding_dark: assets/branding.png
 
   android_12:
     image: assets/image/logo.png
     icon_background_color: "#ffffff"
-#    image_dark: assets/logo.png
+    #    image_dark: assets/logo.png
     icon_background_color_dark: "#121212"
 
   web: false
 
 flutter_launcher_icons:
   android: "launcher_icon"
-#  ios: true
+  #  ios: true
   image_path: "assets/image/logo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
 #  web:
@@ -71,9 +69,8 @@ flutter:
   fonts:
     - family: Rubik
       fonts:
-      - asset: assets/font/Rubik-Regular.ttf
-      - asset: assets/font/Rubik-Italic.ttf
-        style: italic
-      - asset: assets/font/Rubik-Bold.ttf
-        weight: 700
-
+        - asset: assets/font/Rubik-Regular.ttf
+        - asset: assets/font/Rubik-Italic.ttf
+          style: italic
+        - asset: assets/font/Rubik-Bold.ttf
+          weight: 700
