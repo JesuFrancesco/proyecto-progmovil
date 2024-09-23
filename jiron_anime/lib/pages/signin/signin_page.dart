@@ -26,7 +26,7 @@ class _SignInScreenState extends State<SignInScreen> {
     supabase.auth.onAuthStateChange.listen((data) async {
       final event = data.event;
       if (event == AuthChangeEvent.signedIn) {
-        await loginSuccessfulCallback(data.session!);
+        // await loginSuccessfulCallback(data.session!);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const ProfileScreen(),

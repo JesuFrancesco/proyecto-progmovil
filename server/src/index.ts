@@ -3,10 +3,11 @@ import cors from "cors";
 import {
   errorHandler,
   logErrores,
+  prismaClientValidationErrorHandler,
   boomErrorHandler,
 } from "./middleware/error.handler";
 import { routerAPI } from "./router";
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
 import { config } from "./config";
 
 const app = express();
@@ -17,13 +18,12 @@ const port = 8080;
 // Create a single supabase client for interacting with your database
 const supabase = createClient(config.supabaseURL, config.supabaseServiceRole);
 
-(async () => {
-  const { data } = await supabase.auth.admin.listUsers();
-  console.log(data.users);
-})()
+// (async () => {
+//   const { data } = await supabase.auth.admin.listUsers();
+//   console.log(data.users);
+// })();
 
- 
-// hello world
+// test
 app.get("/", (req, res) => {
   res.send("hola desde server express.js");
 });
@@ -40,6 +40,7 @@ routerAPI(app);
 // custom middleware
 app.use(logErrores);
 app.use(boomErrorHandler);
+app.use(prismaClientValidationErrorHandler);
 app.use(errorHandler);
 
 // entry point
