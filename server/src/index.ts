@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import boom from "@hapi/boom";
 import {
   errorHandler,
   logErrores,
@@ -7,43 +8,69 @@ import {
   boomErrorHandler,
 } from "./middleware/error.handler";
 import { routerAPI } from "./router";
-import { createClient } from "@supabase/supabase-js";
-import { config } from "./config";
+import { logger } from "./config";
 
 const app = express();
 const port = 8080;
 
-// supabase auth
-
-// Create a single supabase client for interacting with your database
-const supabase = createClient(config.supabaseURL, config.supabaseServiceRole);
+// == Supabase auth
+// const supabase = createClient(config.supabaseURL, config.supabaseServiceRole);
 
 // (async () => {
 //   const { data } = await supabase.auth.admin.listUsers();
 //   console.log(data.users);
 // })();
 
-// test
-app.get("/", (req, res) => {
-  res.send("hola desde server express.js");
+// == Logger | iniciar peticion
+app.use((req, res, next) => {
+  logger.info(`PETICION INICIADA... | ${req.path}`);
+  next();
 });
 
-// express json middleware
+// == Logger | peticion con exito
+app.use((req: any, res: any, next: any) => {
+  const originalJson = res.json;
+
+  res.json = function (body) {
+    if (res.statusCode < 400) {
+      logger.info(`PETICION FINALIZADA | STATUS CODE ${res.statusCode}`);
+    } else {
+      logger.error(`ALGO SALIO MAL | STATUS CODE ${res.statusCode}`);
+    }
+    originalJson.call(this, body);
+  };
+
+  next();
+});
+
+// == Root Message
+app.get("/", (req, res) => {
+  res.send("Hola desde server Express.js");
+});
+
+// == Express JSON Middleware
 app.use(express.json());
 app.use(cors());
 
-// require("./util/auth");
-
-// main router
+// == Prisma Express Router
 routerAPI(app);
 
-// custom middleware
-app.use(logErrores);
+// Logger: ruta no existe
+app.use(function (req, res, next) {
+  if (!req.route) {
+    logger.error("LA RUTA NO EXISTE | STATUS CODE 404");
+    throw boom.notFound();
+  }
+  next();
+});
+
+// == Custom middleware
 app.use(boomErrorHandler);
 app.use(prismaClientValidationErrorHandler);
+app.use(logErrores);
 app.use(errorHandler);
 
-// entry point
+// == Entry point
 app.listen(port, () => {
   console.log("Servidor iniciado en el puerto:", port);
 });

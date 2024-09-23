@@ -11,18 +11,17 @@ import { PrismaClientValidationError } from "@prisma/client/runtime/library";
  * @param next siguiente handler
  */
 const logErrores: ErrorRequestHandler = (err: Error, req, res, next) => {
-  console.log("log-error");
   logger.error(err);
   next(err);
 };
 
 /**
- * Middleware para atrapar los errores de boom
+ * Middleware para atrapar los errores de boom (manejados por el servidor)
  */
-const prismaClientValidationErrorHandler: ErrorRequestHandler = (err: Error, req, res, next) => {
-  if (err instanceof PrismaClientValidationError) {
-    const { name, message } = err;
-    res.status(400).json({ name, message });
+const boomErrorHandler: ErrorRequestHandler = (err: Boom, req, res, next) => {
+  if (err.isBoom) {
+    const { output } = err;
+    return res.status(output.statusCode).json(output.payload);
   } else {
     next(err);
   }
@@ -31,10 +30,15 @@ const prismaClientValidationErrorHandler: ErrorRequestHandler = (err: Error, req
 /**
  * Middleware para atrapar los errores de boom
  */
-const boomErrorHandler: ErrorRequestHandler = (err: Boom, req, res, next) => {
-  if (err.isBoom) {
-    const { output } = err;
-    res.status(output.statusCode).json(output.payload);
+const prismaClientValidationErrorHandler: ErrorRequestHandler = (
+  err: Error,
+  req,
+  res,
+  next
+) => {
+  if (err instanceof PrismaClientValidationError) {
+    const { name, message } = err;
+    res.status(400).json({ name, message });
   } else {
     next(err);
   }
@@ -50,4 +54,9 @@ const errorHandler: ErrorRequestHandler = (err: Error, req, res, next) => {
   });
 };
 
-export { logErrores, errorHandler, prismaClientValidationErrorHandler, boomErrorHandler };
+export {
+  logErrores,
+  errorHandler,
+  prismaClientValidationErrorHandler,
+  boomErrorHandler,
+};
