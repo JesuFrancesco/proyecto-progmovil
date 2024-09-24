@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/home/home_page.dart';
+import 'package:jiron_anime/pages/store/store_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 import 'package:jiron_anime/pages/demo/profile_demo.dart';
 import 'package:jiron_anime/pages/reset/reset_page.dart';
@@ -24,14 +24,15 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: supabase.auth.currentSession == null ? "/sign-in" : "/demo",
+      // initialRoute: supabase.auth.currentSession == null ? "/sign-in" : "/demo",
+      initialRoute: "/home",
       routes: {
         '/sign-in': (context) => const SignInScreen(),
         // '/sign-up': (context) => SignUpPage(), // puede q no se necesite
         '/demo': (context) => const ProfileScreen(),
 
         // no implementados
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const StorePage(),
         '/reset': (context) => const ResetPage(),
       },
       theme: ThemeData(fontFamily: "Rubik"),
