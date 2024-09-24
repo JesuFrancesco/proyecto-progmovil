@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/models/account.dart';
+import 'package:jiron_anime/service/static_accounts_service.dart';
 import 'package:jiron_anime/theme/colors.dart';
+import 'package:jiron_anime/widgets/account_card.dart';
 import 'store_controller.dart';
 
 class StorePage extends StatefulWidget {
@@ -20,18 +23,32 @@ class _StorePageState extends State<StorePage> {
     });
   }
 
-  final List<Widget> _pages = [
+  Future<Widget> _pestanaUno() async {
+    final List<Account> listaCuentas = await StaticAccountsService().fetchAll();
+    return Scaffold(
+      body: Column(
+        children:
+            listaCuentas.map((cuenta) => AccountCard(account: cuenta)).toList(),
+      ),
+    );
+  }
+
+  final List<Future<Widget>> _pages = [
     "pagina 1",
     "pagina 2",
     "pagina 3",
     "pagina 4",
-  ].map((String content) {
+  ].map((String content) async {
     return Center(
-      child: Text(
-        content,
-        style: const TextStyle(fontSize: 32, fontFamily: "Times"),
-      ),
-    );
+        child: Column(
+      children: [
+        Text(
+          content,
+          style: const TextStyle(fontSize: 32, fontFamily: "Times"),
+        ),
+        await _pestanaUno()
+      ],
+    ));
   }).toList();
 
   Widget _buildBody(BuildContext context) {
