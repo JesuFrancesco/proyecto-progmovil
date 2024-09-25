@@ -14,48 +14,69 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePageState extends State<StorePage> {
+  late Widget _body;
   int _selectedIndex = 0;
   StoreController control = Get.put(StoreController());
+
+  @override
+  void initState() {
+    super.initState();
+    _body = _getBody(_selectedIndex);
+  }
+
+  Widget _getBody(int index) {
+    switch (index) {
+      case 0:
+        return _accountCards();
+      case 1:
+        return Center(child: Text('Página 2'));
+      case 2:
+        return Center(child: Text('Página 3'));
+      default:
+        return Center(child: Text('Página 1'));
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _body = _getBody(index);
     });
   }
 
-  Future<Widget> _pestanaUno() async {
-    final List<Account> listaCuentas = await StaticAccountsService().fetchAll();
-    return Scaffold(
-      body: Column(
-        children:
-            listaCuentas.map((cuenta) => AccountCard(account: cuenta)).toList(),
+  Widget _accountCards() {
+    return SingleChildScrollView(
+        child: Padding(
+      padding: EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Productos',
+              style: TextStyle(
+                fontSize: 22,
+              )),
+          Obx(() {
+            return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: control.cuentas.toList().length,
+                itemBuilder: (context, index) {
+                  Account cuenta = control.cuentas.toList()[index];
+                  return AccountCard(
+                    account: cuenta,
+                  );
+                });
+          }),
+        ],
       ),
-    );
-  }
-
-  final List<Future<Widget>> _pages = [
-    "pagina 1",
-    "pagina 2",
-    "pagina 3",
-    "pagina 4",
-  ].map((String content) async {
-    return Center(
-        child: Column(
-      children: [
-        Text(
-          content,
-          style: const TextStyle(fontSize: 32, fontFamily: "Times"),
-        ),
-        await _pestanaUno()
-      ],
     ));
-  }).toList();
+  }
 
   Widget _buildBody(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Scaffold(
-          body: _pages[_selectedIndex],
+          body: _body,
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -77,6 +98,7 @@ class _StorePageState extends State<StorePage> {
 
   @override
   Widget build(BuildContext context) {
+    control.obtenerCuentas();
     return MaterialApp(
         home: Scaffold(
             resizeToAvoidBottomInset: false,
