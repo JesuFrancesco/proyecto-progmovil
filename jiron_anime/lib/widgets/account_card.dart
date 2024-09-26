@@ -15,9 +15,10 @@ class AccountCard extends StatelessWidget {
       elevation: 4.0,
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               account.name ?? 'No Name',
@@ -33,11 +34,12 @@ class AccountCard extends StatelessWidget {
             (account.markets!.isNotEmpty &&
                     account.markets!.first.products!.isNotEmpty)
                 ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hay products",
+                        "Hay productos",
                         style: TextStyle(
-                            color: Colors.green[200],
+                            color: Colors.green[800],
                             fontWeight: FontWeight.bold),
                       ),
                       ...account.markets!.first.products!
@@ -45,7 +47,7 @@ class AccountCard extends StatelessWidget {
                     ],
                   )
                 : const Text(
-                    "No hay products",
+                    "No hay productos",
                     style: TextStyle(color: Colors.red),
                   ),
           ],

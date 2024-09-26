@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/models/account.dart';
+import 'package:jiron_anime/pages/store/shared/main_productos.dart';
 import 'package:jiron_anime/theme/colors.dart';
+import 'package:jiron_anime/theme/theme.dart';
 import 'package:jiron_anime/widgets/account_card.dart';
 import 'store_controller.dart';
 
@@ -12,85 +14,49 @@ class StorePage extends StatefulWidget {
   State<StorePage> createState() => _StorePageState();
 }
 
+enum StoreWidgetType {
+  tienda,
+  buscar,
+  notificaciones,
+  ajustes,
+}
+
 class _StorePageState extends State<StorePage> {
   late Widget _body;
-  int _selectedIndex = 0;
-  StoreController control = Get.put(StoreController());
+  StoreWidgetType _selectedWidget = StoreWidgetType.tienda;
 
   @override
   void initState() {
     super.initState();
-    _body = _getBody(_selectedIndex);
+    _body = _getBody(_selectedWidget);
   }
 
-  Widget _getBody(int index) {
+  Widget _getBody(StoreWidgetType index) {
     switch (index) {
-      case 0:
-        return _accountCards();
-      case 1:
-        return const Center(child: Text('Página 2'));
-      case 2:
-        return const Center(child: Text('Página 3'));
+      case StoreWidgetType.tienda:
+        return accountCardsDemo(context);
+      case StoreWidgetType.buscar:
+        return const Center(child: Text('Buscar template'));
+      case StoreWidgetType.notificaciones:
+        return const Center(child: Text('Notificaciones template'));
+      case StoreWidgetType.ajustes:
+        return const Center(child: Text('Ajustes template'));
       default:
-        return const Center(child: Text('Página 1'));
+        return const Center(child: Text('NOT A REAL PAGE'));
     }
   }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
-      _body = _getBody(index);
+      _selectedWidget = StoreWidgetType.values[index];
+      _body = _getBody(_selectedWidget);
     });
-  }
-
-  Widget _accountCards() {
-    return SingleChildScrollView(
-        child: Padding(
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Productos',
-              style: TextStyle(
-                fontSize: 22,
-              )),
-          Obx(() {
-            return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: control.cuentas.toList().length,
-                itemBuilder: (context, index) {
-                  Account cuenta = control.cuentas.toList()[index];
-                  return AccountCard(
-                    account: cuenta,
-                  );
-                });
-          }),
-        ],
-      ),
-    ));
   }
 
   Widget _buildBody(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: Scaffold(
-          body: _body,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart), label: "Tienda"),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Buscar"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.notifications), label: "Notificaciones"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "Ajustes")
-          ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-        ),
+      child: Container(
+        child: _body,
       ),
     );
   }
@@ -98,17 +64,33 @@ class _StorePageState extends State<StorePage> {
   @override
   Widget build(BuildContext context) {
     control.obtenerCuentas();
-    return MaterialApp(
-        home: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              title: const Text(
-                "Jiron Anime",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              backgroundColor: AppColors.primaryColor,
-            ),
-            body: _buildBody(context)));
+    return Scaffold(
+      // https://docs.flutter.dev/ui/layout/scrolling/slivers
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+            floating: true,
+            title: Text("Jiron Anime"),
+          ),
+          SliverToBoxAdapter(
+            child: _buildBody(context),
+          )
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        fixedColor: AppColors.primaryColor,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart), label: "Tienda"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Buscar"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications), label: "Notificaciones"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Ajustes")
+        ],
+        currentIndex: _selectedWidget.index,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 }

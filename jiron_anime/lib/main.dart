@@ -3,6 +3,7 @@ import 'package:jiron_anime/pages/store/store_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 import 'package:jiron_anime/pages/demo/profile_demo.dart';
 import 'package:jiron_anime/pages/reset/reset_page.dart';
+import 'package:jiron_anime/theme/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -35,7 +36,8 @@ class MainApp extends StatelessWidget {
         '/home': (context) => const StorePage(),
         '/reset': (context) => const ResetPage(),
       },
-      theme: ThemeData(fontFamily: "Rubik"),
+      theme: appTheme,
+      darkTheme: darkAppTheme,
     );
   }
 }
