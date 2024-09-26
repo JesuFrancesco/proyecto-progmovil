@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/widgets/product_card.dart';
 
 import '../models/account.dart';
 
@@ -28,6 +30,24 @@ class AccountCard extends StatelessWidget {
             const SizedBox(height: 8.0),
             Text('Markets Count: ${account.$marketsCount ?? 0}'),
             Text('Messages Count: ${account.$messagesCount ?? 0}'),
+            (account.markets!.isNotEmpty &&
+                    account.markets!.first.products!.isNotEmpty)
+                ? Column(
+                    children: [
+                      Text(
+                        "Hay products",
+                        style: TextStyle(
+                            color: Colors.green[200],
+                            fontWeight: FontWeight.bold),
+                      ),
+                      ...account.markets!.first.products!
+                          .map((product) => ProductCard(product: product))
+                    ],
+                  )
+                : const Text(
+                    "No hay products",
+                    style: TextStyle(color: Colors.red),
+                  ),
           ],
         ),
       ),

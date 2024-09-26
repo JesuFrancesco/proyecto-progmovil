@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/models/account.dart';
-import 'package:jiron_anime/service/static_accounts_service.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/widgets/account_card.dart';
 import 'store_controller.dart';
@@ -29,11 +28,11 @@ class _StorePageState extends State<StorePage> {
       case 0:
         return _accountCards();
       case 1:
-        return Center(child: Text('Página 2'));
+        return const Center(child: Text('Página 2'));
       case 2:
-        return Center(child: Text('Página 3'));
+        return const Center(child: Text('Página 3'));
       default:
-        return Center(child: Text('Página 1'));
+        return const Center(child: Text('Página 1'));
     }
   }
 
@@ -47,7 +46,7 @@ class _StorePageState extends State<StorePage> {
   Widget _accountCards() {
     return SingleChildScrollView(
         child: Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

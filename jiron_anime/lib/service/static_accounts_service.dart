@@ -8,13 +8,11 @@ class StaticAccountsService {
     final String response =
         await rootBundle.loadString('static/sintetica.json');
 
-    print(response);
     final List<dynamic> data = jsonDecode(response);
     secciones = data
         .map((map) => Account.fromJson(map as Map<String, dynamic>))
         .toList();
 
-    print(secciones);
     return secciones;
   }
 }
