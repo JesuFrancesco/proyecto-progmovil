@@ -1,9 +1,13 @@
-on: push
+on:
+  push:
+    branches:
+      - main
 
 name: Hacer pruebas y lanzar apk
 jobs:
   default:
     runs-on: "jiron_anime"
+
   build:
     name: Proceso de buildeoo
     runs-on: ubuntu-latest
