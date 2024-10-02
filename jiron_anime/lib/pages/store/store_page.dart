@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:jiron_anime/models/account.dart';
 import 'package:jiron_anime/pages/store/shared/main_productos.dart';
+import 'package:jiron_anime/pages/store/shared/main_search.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/theme/theme.dart';
-import 'package:jiron_anime/widgets/account_card.dart';
-import 'store_controller.dart';
 
 class StorePage extends StatefulWidget {
   const StorePage({super.key});
@@ -36,9 +32,9 @@ class _StorePageState extends State<StorePage> {
       case StoreWidgetType.tienda:
         return accountCardsDemo(context);
       case StoreWidgetType.buscar:
-        return const Center(child: Text('Buscar template'));
+        return searchProductsAndMarketsDemo(context);
       case StoreWidgetType.notificaciones:
-        return const Center(child: Text('Notificaciones template'));
+        return const Center(child: Text('Notificaciones template 111'));
       case StoreWidgetType.ajustes:
         return const Center(child: Text('Ajustes template'));
       default:
