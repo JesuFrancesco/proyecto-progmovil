@@ -1,16 +1,19 @@
+name: "Hacer pruebas y lanzar apk"
+run-name: Despliegue de @${{ github.actor }}
 on:
   push:
     branches:
-      - main
+      - "main"
 
-name: Hacer pruebas y lanzar apk
 jobs:
-  default:
-    runs-on: "jiron_anime"
-
   build:
-    name: Proceso de buildeoo
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: "/jiron_anime"
+
+    name: Proceso de buildeoo
 
     steps:
       - uses: actions/checkout@v1
