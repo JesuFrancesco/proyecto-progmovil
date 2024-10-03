@@ -8,7 +8,7 @@ import {
   boomErrorHandler,
 } from "./middleware/error.handler";
 import { routerAPI } from "./router";
-import { logger } from "./config";
+import { config, logger } from "./config";
 
 const app = express();
 const port = 8080;
@@ -50,7 +50,10 @@ app.get("/", (req, res) => {
 
 // == Express JSON Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: config.originAddress,
+  optionsSuccessStatus: 200,
+}));
 
 // == Prisma Express Router
 routerAPI(app);
