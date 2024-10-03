@@ -51,5 +51,5 @@ jobs:
         with:
           artifacts: "jiron_anime/build/app/outputs/apk/debug/*.apk"
           # tag: ${{ env.tag }}
-          tag: ${{ join(github.sha, "-", env.tag) }}
+          tag: ${{ join(github.sha, -, env.tag) }}
           # token: ${{ secrets.TOKEN }}
