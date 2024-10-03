@@ -42,9 +42,13 @@ jobs:
       # - run: flutter test
       - run: flutter build apk --debug --split-per-abi
 
+      - name: Set Tag Name
+        id: set_tag
+        run: echo "tag=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+
       - name: Push APK to Releases
         uses: ncipollo/release-action@v1
         with:
           artifacts: "jiron_anime/build/app/outputs/apk/debug/*.apk"
-          tag: ${{ github.sha }}
+          tag: ${{ env.tag }}
           # token: ${{ secrets.TOKEN }}
