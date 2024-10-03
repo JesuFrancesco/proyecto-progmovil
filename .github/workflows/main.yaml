@@ -13,7 +13,7 @@ jobs:
       run:
         working-directory: "jiron_anime"
 
-    name: Proceso de buildeoo
+    name: buildear apk
 
     steps:
       - uses: actions/checkout@v1
@@ -59,6 +59,8 @@ jobs:
     defaults:
       run:
         working-directory: "server"
+
+    name: "despliegue a azure"
     steps:
     # checkout the repo
     - name: 'Obtener codigo' 
@@ -72,6 +74,7 @@ jobs:
     - name: 'Paquetes npm'
       run: |
         npm install
+        npm --prefix ./prisma/generator install
         npm run build --if-present
 
     - name: 'Despliegue a Azure'
