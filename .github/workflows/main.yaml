@@ -50,6 +50,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "jiron_anime/build/app/outputs/apk/debug/*.apk"
-          # tag: ${{ env.tag }}
-          tag: ${{ join(github.sha, -, env.tag) }}
+          tag: ${{ env.tag }}-${{ github.run_number }}
+          # tag: ${{ env.tag) }}
           # token: ${{ secrets.TOKEN }}
