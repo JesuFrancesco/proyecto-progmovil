@@ -55,6 +55,9 @@ jobs:
           # token: ${{ secrets.TOKEN }}
 
   azure-deploy:
+    defaults:
+      run:
+        working-directory: server
     runs-on: ubuntu-latest
     name: "despliegue a azure"
     steps:
@@ -65,10 +68,6 @@ jobs:
         sparse-checkout: |
           server
 
-    - name: verificar
-      run: ls -la
-    - name: verificar
-      run: ls -la
     - name: verificar
       run: ls -la
 
