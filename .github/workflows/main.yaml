@@ -63,7 +63,7 @@ jobs:
       uses: actions/checkout@master
       with:
         sparse-checkout: |
-          "server"
+          server
 
     - name: verificar
       run: ls -la
