@@ -61,13 +61,13 @@ jobs:
     runs-on: ubuntu-latest
     name: "despliegue a azure"
     steps:
-      - name: "Obtener codigo de /server"
+      - name: Obtener codigo de /server
         uses: actions/checkout@master
         with:
           sparse-checkout: |
             server
 
-      - name: verificar
+      - name: Listar archivos (1)
         run: ls -la
 
       - name: Crear ambiente con Node 20.x
@@ -79,6 +79,9 @@ jobs:
         run: |
           npm install
           npm run build --if-present
+
+      - name: Listar archivos (2)
+        run: ls -la
 
       - name: Despliegue a Azure
         uses: azure/webapps-deploy@v2
