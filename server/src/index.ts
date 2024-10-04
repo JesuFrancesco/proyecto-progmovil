@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import boom from "@hapi/boom";
+import { createClient } from "@supabase/supabase-js";
 import {
   errorHandler,
   logErrores,
@@ -50,10 +51,12 @@ app.get("/", (req, res) => {
 
 // == Express JSON Middleware
 app.use(express.json());
-app.use(cors({
-  origin: config.originAddress,
-  optionsSuccessStatus: 200,
-}));
+app.use(
+  cors({
+    origin: config.originAddress,
+    optionsSuccessStatus: 200,
+  })
+);
 
 // == Prisma Express Router
 routerAPI(app);

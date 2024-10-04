@@ -12,7 +12,7 @@ generator client {
 
 generator express {
   provider = "node ./prisma/generator/dist/generator.js"
-  output   = "./generated/express"
+  output   = "../src/generated/express"
 }
 
 // generator zod {

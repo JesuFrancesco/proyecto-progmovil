@@ -1,12 +1,12 @@
-import { DMMF } from '@prisma/generator-helper'
+import { DMMF } from "@prisma/generator-helper";
 
 export function generateRouterFunction({
   model,
 }: {
-  model: DMMF.Model
+  model: DMMF.Model;
 }): string {
-  const modelName = model.name
-  const routerFunctionName = `${modelName}Router`
+  const modelName = model.name;
+  const routerFunctionName = `${modelName}Router`;
 
   return `import express, {
   RequestHandler
@@ -184,7 +184,7 @@ export function ${routerFunctionName}(config: RouteConfig<RequestHandler>) {
   
   if (config.enableAll || config?.findUnique) {
     const { before = [], after = [], inputValidator, outputValidator } = config.findUnique || defaultBeforeAfter;
-    setupRoute('/:id', 'get', before, ${modelName}FindUnique as any, inputValidator, outputValidator);
+    setupRoute('/unique', 'get', before, ${modelName}FindUnique as any, inputValidator, outputValidator);
     if (after.length) {
       router.use(removeTrailingSlash(basePath) + '/:id', ...after);
     }
@@ -192,5 +192,5 @@ export function ${routerFunctionName}(config: RouteConfig<RequestHandler>) {
 
   return router;
 }
-`
+`;
 }

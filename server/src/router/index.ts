@@ -1,16 +1,16 @@
 import { Express, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 
-import { AccountRouter } from "../../prisma/generated/express/Account";
-import { UserRouter } from "../../prisma/generated/express/User";
-import { ProductRouter } from "../../prisma/generated/express/Product";
-import { MarketRouter } from "../../prisma/generated/express/Market";
+import { AccountRouter } from "../generated/express/Account";
+import { UserRouter } from "../generated/express/User";
+import { ProductRouter } from "../generated/express/Product";
+import { MarketRouter } from "../generated/express/Market";
 
 // import authRouter from "./auth.router";
 // import profileRouter from "./profile.router";
 
 function routerAPI(app: Express) {
-  const API_PREFIX = "/api/v1"
+  const API_PREFIX = "/api/v1";
   const prisma = new PrismaClient();
 
   const addPrisma = (req: any, res: any, next: NextFunction) => {
@@ -52,7 +52,6 @@ function routerAPI(app: Express) {
       customUrlPrefix: API_PREFIX,
     })
   );
-
 }
 
 export { routerAPI };

@@ -1,5 +1,5 @@
-import { DMMF } from '@prisma/generator-helper'
-import { toPascalCase } from '../utils/strings'
+import { DMMF } from "@prisma/generator-helper";
+import { toPascalCase } from "../utils/strings";
 /**
  * Generates an Express middleware function that includes conditional output validation with Zod.
  * This version dynamically includes the correct type for the query parameter based on the Prisma model.
@@ -7,16 +7,16 @@ import { toPascalCase } from '../utils/strings'
  * @returns {string} - The generated middleware function as a string.
  */
 export const generateFindUniqueFunction = (options: {
-  model: DMMF.Model
-  prismaImportStatement: string
+  model: DMMF.Model;
+  prismaImportStatement: string;
 }): string => {
-  const { model, prismaImportStatement } = options
-  const modelName = model.name
-  const functionName = `${modelName}FindUnique`
-  const queryTypeName = `Prisma.${modelName}FindUniqueArgs`
+  const { model, prismaImportStatement } = options;
+  const modelName = model.name;
+  const functionName = `${modelName}FindUnique`;
+  const queryTypeName = `Prisma.${modelName}FindUniqueArgs`;
 
   return `
-${prismaImportStatement.replace('{ Prisma }', `{ Prisma, ${modelName} }`)}
+${prismaImportStatement.replace("{ Prisma }", `{ Prisma, ${modelName} }`)}
 import { Request, Response, NextFunction } from 'express'
 import {
   RequestHandler,
@@ -39,15 +39,9 @@ export type FindUniqueMiddleware = RequestHandler<ParamsDictionary, any, any, ${
 
 export async function ${functionName}(req: FindUniqueRequest, res: Response, next: NextFunction) {
   try {
-    const { id } = req.params;
     const outputValidator = req.locals?.outputValidator || req.outputValidation;
 
-    const data = await req.prisma.${toPascalCase(modelName)}.findUnique({
-        where: {
-          id: parseInt(id)
-        }
-        // req.query as ${queryTypeName}
-      });
+    const data = await req.prisma.${toPascalCase(modelName)}.findUnique(req.query as ${queryTypeName});
     if (req.passToNext) {
       if (req.locals) req.locals.data = data;
       next();
@@ -64,5 +58,5 @@ export async function ${functionName}(req: FindUniqueRequest, res: Response, nex
   } catch(error: unknown) {
     next(error)
   }
-}`
-}
+}`;
+};
