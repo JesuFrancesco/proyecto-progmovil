@@ -56,31 +56,30 @@ jobs:
 
   azure-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "server"
-
     name: "despliegue a azure"
     steps:
     # checkout the repo
-    - name: 'Obtener codigo' 
+    - name: 'Obtener codigo de /server' 
       uses: actions/checkout@master
       with:
         sparse-checkout: |
           "server"
+
+#    - name: verificar archivos
+#     run: ls
 
     - name: Crear ambiente con Node 20.x
       uses: actions/setup-node@v1
       with:
         node-version: '20.x'
 
-    - name: 'Paquetes npm'
+    - name: Paquetes npm
       run: |
         npm install
         npm --prefix ./prisma/generator install
         npm run build --if-present
 
-    - name: 'Despliegue a Azure'
+    - name: Despliegue a Azure
       uses: azure/webapps-deploy@v2
       with:
         app-name: jiron-anime
