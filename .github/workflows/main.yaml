@@ -61,30 +61,27 @@ jobs:
     runs-on: ubuntu-latest
     name: "despliegue a azure"
     steps:
+      - name: "Obtener codigo de /server"
+        uses: actions/checkout@master
+        with:
+          sparse-checkout: |
+            server
 
-    - name: 'Obtener codigo de /server' 
-      uses: actions/checkout@master
-      with:
-        sparse-checkout: |
-          server
+      - name: verificar
+        run: ls -la
 
-    - name: verificar
-      run: ls -la
+      - name: Crear ambiente con Node 20.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "20.x"
 
-    - name: Crear ambiente con Node 20.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '20.x'
+      - name: Paquetes npm
+        run: |
+          npm install
+          npm run build --if-present
 
-    - name: Paquetes npm
-      run: |
-        npm install
-        npm --prefix ./prisma/generator install
-        npm run build --if-present
-
-    - name: Despliegue a Azure
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: jiron-anime
-        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
-
+      - name: Despliegue a Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: jiron-anime
+          publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
