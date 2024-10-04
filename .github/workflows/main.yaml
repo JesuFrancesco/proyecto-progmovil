@@ -58,15 +58,24 @@ jobs:
     runs-on: ubuntu-latest
     name: "despliegue a azure"
     steps:
-    # checkout the repo
-    - name: 'Obtener codigo de /server' 
-      uses: actions/checkout@master
-      with:
-        sparse-checkout: |
-          "server"
 
-#    - name: verificar archivos
-#     run: ls
+    - name: Checkout files
+      uses: Bhacaz/checkout-files@v2
+      with:
+       files: "server/"
+
+#    - name: 'Obtener codigo de /server' 
+#      uses: actions/checkout@master
+#      with:
+#        sparse-checkout: |
+#          "server"
+
+    - name: verificar
+      run: ls
+    - name: verificar
+      run: ls
+    - name: verificar
+      run: ls
 
     - name: Crear ambiente con Node 20.x
       uses: actions/setup-node@v1
