@@ -59,16 +59,11 @@ jobs:
     name: "despliegue a azure"
     steps:
 
-    - name: Checkout files
-      uses: Bhacaz/checkout-files@v2
+    - name: 'Obtener codigo de /server' 
+      uses: actions/checkout@master
       with:
-       files: "server/"
-
-#    - name: 'Obtener codigo de /server' 
-#      uses: actions/checkout@master
-#      with:
-#        sparse-checkout: |
-#          "server"
+        sparse-checkout: |
+          "server/"
 
     - name: verificar
       run: ls
