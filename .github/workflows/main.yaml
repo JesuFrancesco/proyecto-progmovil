@@ -1,4 +1,4 @@
-name: "Hacer pruebas y lanzar apk"
+name: "janime ci/cd"
 run-name: Despliegue de @${{ github.actor }}
 on:
   push:
@@ -65,6 +65,9 @@ jobs:
     # checkout the repo
     - name: 'Obtener codigo' 
       uses: actions/checkout@master
+      with:
+        sparse-checkout: |
+          "server"
 
     - name: Crear ambiente con Node 20.x
       uses: actions/setup-node@v1
