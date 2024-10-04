@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "generator:build": "npm --prefix ./prisma/generator run build",
-    "db:generate": "npx prisma generate",
+    "db:generate": "npx prisma generate --generator client --generator express",
     "express:generate": "npm run generator:build && npm run db:generate",
-    "dev": "nodemon ./src/index.ts",
-    "build": "npm run express:generate",
-    "start": "/echo \"Error: no test specified\" && exit 1",
     "db:migrate": "npx prisma migrate dev --name ",
     "db:push": "npx prisma db push",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    
+    "dev": "nodemon ./src/index.ts",
+    "build": "npm run express:generate",
+    "start": "ts-node --transpile-only ./src/index.ts"
   },
   "keywords": [],
   "author": "",
