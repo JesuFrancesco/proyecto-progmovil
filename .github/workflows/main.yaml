@@ -89,7 +89,7 @@ jobs:
         run: mkdir temp_dist/
 
       - name: Copiar paquete compilado 
-        run: cp -r dist node_modules temp_dist
+        run: cp -r dist node_modules prisma temp_dist
 
       - name: Copiar package.json
         run: cp package.json temp_dist/
