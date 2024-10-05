@@ -102,6 +102,6 @@ jobs:
         with:
           app-name: jiron-anime
           publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
-          package: ./temp_dist
+          package: ./server/temp_dist
 
         
