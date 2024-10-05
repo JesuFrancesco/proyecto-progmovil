@@ -75,7 +75,7 @@ jobs:
         with:
           node-version: "20.x"
 
-      - name: Paquetes npm
+      - name: Compilar proyecto y módulos
         run: |
           npm install
           npm run build --if-present
@@ -85,8 +85,11 @@ jobs:
       - name: Listar archivos (2)
         run: ls -la
 
+      - name: Crear carpeta temporal para subida
+        run: mkdir temp_dist/
+
       - name: Copiar paquete compilado 
-        run: cp -r dist/* temp_dist/
+        run: cp -r dist node_modules temp_dist
 
       - name: Copiar package.json
         run: cp package.json temp_dist/
