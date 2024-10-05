@@ -83,8 +83,20 @@ jobs:
       - name: Listar archivos (2)
         run: ls -la
 
+      - name: Copiar paquete compilado 
+        run: cp -r dist/* temp_dist/
+
+      - name: Copiar package.json
+        run: cp package.json temp_dist/
+
+      - name: Listar archivos (3)
+        run: ls -la temp_dist
+        
       - name: Despliegue a Azure
         uses: azure/webapps-deploy@v2
         with:
           app-name: jiron-anime
           publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
+          package: temp_dist
+
+        
