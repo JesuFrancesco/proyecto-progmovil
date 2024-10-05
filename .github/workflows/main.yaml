@@ -86,10 +86,13 @@ jobs:
         run: ls -la
 
       - name: Crear carpeta temporal para subida
-        run: mkdir temp_dist/
+        run: mkdir -p temp_dist/prisma
 
       - name: Copiar paquete compilado 
-        run: cp -r dist node_modules prisma temp_dist
+        run: cp -r dist node_modules temp_dist
+
+      - name: SQLITE3
+        run: cp -r prisma/schema.prisma prisma/migrations prisma/*.db temp_dist/prisma
 
       - name: Copiar package.json
         run: cp package.json temp_dist/
