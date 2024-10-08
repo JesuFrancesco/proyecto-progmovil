@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/home/settings/main_settings.dart';
 import 'package:jiron_anime/pages/home/store/main_productos.dart';
 import 'package:jiron_anime/pages/home/search/main_search.dart';
+import 'package:jiron_anime/pages/tienda_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   Widget _getBody(StoreWidgetType index) {
     switch (index) {
       case StoreWidgetType.tienda:
-        return accountCardsDemo(context);
+        return TiendaPage();
       case StoreWidgetType.buscar:
         return searchProductsAndMarketsDemo(context);
       case StoreWidgetType.notificaciones:
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     control.obtenerCuentas();
+    mangacontrol.obtenerMangas();
     return Scaffold(
       // https://docs.flutter.dev/ui/layout/scrolling/slivers
       // body: CustomScrollView(
