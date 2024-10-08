@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 
 import '../../../models/account.dart';
 import '../../../widgets/account_card.dart';
-import '../store_controller.dart';
+import '../home_controller.dart';
 
-StoreController control = Get.put(StoreController());
+HomeController control = Get.put(HomeController());
 
 Widget accountCardsDemo(BuildContext context) {
   return SingleChildScrollView(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/store/store_page.dart';
+import 'package:jiron_anime/pages/home/home_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 import 'package:jiron_anime/pages/demo/profile_demo.dart';
 import 'package:jiron_anime/pages/reset/reset_page.dart';
@@ -33,7 +33,7 @@ class MainApp extends StatelessWidget {
         '/demo': (context) => const ProfileScreen(),
 
         // no implementados
-        '/home': (context) => const StorePage(),
+        '/home': (context) => const HomePage(),
         '/reset': (context) => const ResetPage(),
       },
       theme: appTheme,
