@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/store/shared/main_productos.dart';
-import 'package:jiron_anime/pages/store/shared/main_search.dart';
+import 'package:jiron_anime/pages/home/settings/main_settings.dart';
+import 'package:jiron_anime/pages/home/store/main_productos.dart';
+import 'package:jiron_anime/pages/home/search/main_search.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
-class StorePage extends StatefulWidget {
-  const StorePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<StorePage> createState() => _StorePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 enum StoreWidgetType {
@@ -17,7 +18,7 @@ enum StoreWidgetType {
   ajustes,
 }
 
-class _StorePageState extends State<StorePage> {
+class _HomePageState extends State<HomePage> {
   late Widget _body;
   StoreWidgetType _selectedWidget = StoreWidgetType.tienda;
 
@@ -36,7 +37,7 @@ class _StorePageState extends State<StorePage> {
       case StoreWidgetType.notificaciones:
         return const Center(child: Text('Notificaciones template 111'));
       case StoreWidgetType.ajustes:
-        return const Center(child: Text('Ajustes template'));
+        return settingsContainer(context);
       default:
         return const Center(child: Text('NOT A REAL PAGE'));
     }
@@ -62,17 +63,18 @@ class _StorePageState extends State<StorePage> {
     control.obtenerCuentas();
     return Scaffold(
       // https://docs.flutter.dev/ui/layout/scrolling/slivers
-      body: CustomScrollView(
-        slivers: [
-          const SliverAppBar(
-            floating: true,
-            title: Text("Jiron Anime"),
-          ),
-          SliverToBoxAdapter(
-            child: _buildBody(context),
-          )
-        ],
-      ),
+      // body: CustomScrollView(
+      //   slivers: [
+      //     const SliverAppBar(
+      //       floating: true,
+      //       title: Text("Jiron Anime"),
+      //     ),
+      //     SliverToBoxAdapter(
+      //       child: _buildBody(context),
+      //     )
+      //   ],
+      // ),
+      body: _buildBody(context),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         fixedColor: AppColors.primaryColor,
