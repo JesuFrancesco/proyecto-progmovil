@@ -1,5 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
+import 'package:jiron_anime/utils/parseo.dart';
+
 import 'model_base.dart';
 import 'market.dart';
 import 'brand_seller.dart';
@@ -79,11 +81,11 @@ class Product implements ToJson, Id {
       id: json['id'] as int?,
       name: json['name'] as String?,
       stock: json['stock'] as int?,
-      price: double.tryParse(json['price']), // json['price'] as double?,
+      price: parseToDouble(json['price']), // json['price'] as double?,
       dimensions: json['dimensions'] as String?,
       warranty: json['warranty'] as bool?,
       discount: json['discount'] as int?,
-      peso: double.tryParse(json['peso']), // json['peso'] as double?,
+      peso: parseToDouble(json['peso']), // json['peso'] as double?,
       formato: json['formato'] as String?,
       anhoEdicion: json['anhoEdicion'] as int?,
       numeroPaginas: json['numeroPaginas'] as int?,

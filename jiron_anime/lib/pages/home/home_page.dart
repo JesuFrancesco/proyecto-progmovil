@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/pages/home/notifications/main_notifications.dart';
 import 'package:jiron_anime/pages/home/settings/main_settings.dart';
 import 'package:jiron_anime/pages/home/store/main_productos.dart';
 import 'package:jiron_anime/pages/home/search/main_search.dart';
@@ -35,11 +36,11 @@ class _HomePageState extends State<HomePage> {
       case StoreWidgetType.buscar:
         return searchProductsAndMarketsDemo(context);
       case StoreWidgetType.notificaciones:
-        return const Center(child: Text('Notificaciones template 111'));
+        return notificationsContainer(context);
       case StoreWidgetType.ajustes:
         return settingsContainer(context);
       default:
-        return const Center(child: Text('NOT A REAL PAGE'));
+        return const Center(child: Text('PAGINA NO IMPLEMENTADA'));
     }
   }
 
@@ -60,20 +61,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    control.obtenerCuentas();
+    // llamar a controllers
+    accountController.obtenerCuentas();
+    notificationsController.obtenerNotificaciones();
+
+    // widget
     return Scaffold(
-      // https://docs.flutter.dev/ui/layout/scrolling/slivers
-      // body: CustomScrollView(
-      //   slivers: [
-      //     const SliverAppBar(
-      //       floating: true,
-      //       title: Text("Jiron Anime"),
-      //     ),
-      //     SliverToBoxAdapter(
-      //       child: _buildBody(context),
-      //     )
-      //   ],
-      // ),
       body: _buildBody(context),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

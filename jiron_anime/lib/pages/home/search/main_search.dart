@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../home_controller.dart';
+import '../controllers/search_controller.dart';
 
 SearchTxtController searchController = Get.put(SearchTxtController());
 

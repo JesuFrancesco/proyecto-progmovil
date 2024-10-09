@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/pages/home/controllers/account_controller.dart';
 
 import '../../../models/account.dart';
 import '../../../widgets/account_card.dart';
-import '../home_controller.dart';
 
-HomeController control = Get.put(HomeController());
+AccountsController accountController = Get.put(AccountsController());
 
 Widget accountCardsDemo(BuildContext context) {
   return SingleChildScrollView(
@@ -18,9 +18,9 @@ Widget accountCardsDemo(BuildContext context) {
           return ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: control.cuentas.toList().length,
+              itemCount: accountController.cuentas.toList().length,
               itemBuilder: (context, index) {
-                Account cuenta = control.cuentas.toList()[index];
+                Account cuenta = accountController.cuentas.toList()[index];
                 return AccountCard(
                   account: cuenta,
                 );
