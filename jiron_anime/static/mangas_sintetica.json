@@ -1,0 +1,50 @@
+[
+    {
+        "productAttachments": [{ "imageUrl": "assets/image/chainsawman01.jpg" }],
+        "name": "ChainsawMan #1",
+        "descripcion": "Con sobrecubierta\ny páginas a color",
+        "formato": "Formato Tankoubon\n200 pags aprox",
+        "price": "12.99",
+        "peso": "0.45"
+    },
+    {
+        "productAttachments": [{ "imageUrl": "assets/image/miroirs.jpg" }],
+        "name": "Miroirs #1",
+        "descripcion": "Con sobrecubierta\ny páginas a color",
+        "formato": "Formato B6\n260 pags aprox",
+        "price": "15.49",
+        "peso": "0.55"
+    },
+    {
+        "productAttachments": [{ "imageUrl": "assets/image/frieren01.jpg" }],
+        "name": "Frieren #1",
+        "descripcion": "Con sobrecubierta\ny páginas a color",
+        "formato": "Formato Tankoubon\n200 pags aprox",
+        "price": "14.99",
+        "peso": "0.47"
+    },
+    {
+        "productAttachments": [{ "imageUrl": "assets/image/deathnote04.jpg" }],
+        "name": "deathnote #4",
+        "descripcion": "Con sobrecubierta\ny páginas a color",
+        "formato": "Formato B6\n260 pags aprox",
+        "price": "13.99",
+        "peso": "0.52"
+    },
+    {
+        "productAttachments": [{ "imageUrl": "assets/image/roosterfighter02.jpg" }],
+        "name": "Rooster Fighter #2",
+        "descripcion": "Con sobrecubierta\ny páginas a color",
+        "formato": "Formato Tankoubon\n200 pags aprox",
+        "price": "11.99",
+        "peso": "0.46"
+    },
+    {
+        "productAttachments": [{ "imageUrl": "assets/image/chainsawman10.jpg" }],
+        "name": "ChainsawMan #10",
+        "descripcion": "Con sobrecubierta\ny páginas a color",
+        "formato": "Formato B6\n260 pags aprox",
+        "price": "16.49",
+        "peso": "0.50"
+    }
+]

@@ -10,24 +10,24 @@ final appTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.backgroundColor,
   brightness: Brightness.light,
   textTheme: const TextTheme(
-    titleLarge: TextStyle(
-      fontFamily: AppFonts.primaryFont,
-      fontWeight: FontWeight.bold,
-      fontSize: 32,
-      color: Colors.black,
-    ),
-  ),
+      titleLarge: TextStyle(
+        fontFamily: AppFonts.primaryFont,
+        fontWeight: FontWeight.bold,
+        fontSize: 32,
+        color: Colors.black,
+      ),
+      headlineSmall: TextStyle(fontFamily: AppFonts.primaryFont)),
 );
 
 final darkAppTheme = ThemeData(
   scaffoldBackgroundColor: Colors.black,
   brightness: Brightness.dark,
   textTheme: const TextTheme(
-    titleLarge: TextStyle(
-      fontFamily: AppFonts.primaryFont,
-      fontWeight: FontWeight.bold,
-      fontSize: 32,
-      color: Colors.white,
-    ),
-  ),
+      titleLarge: TextStyle(
+        fontFamily: AppFonts.primaryFont,
+        fontWeight: FontWeight.bold,
+        fontSize: 32,
+        color: Colors.white,
+      ),
+      headlineSmall: TextStyle(fontFamily: AppFonts.primaryFont)),
 );

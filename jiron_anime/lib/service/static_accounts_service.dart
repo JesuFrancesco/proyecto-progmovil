@@ -6,7 +6,7 @@ class StaticAccountsService {
   Future<List<Account>> fetchAll() async {
     List<Account> secciones = [];
     final String response =
-        await rootBundle.loadString('static/sintetica.json');
+        await rootBundle.loadString('static/cuentas_sintetica.json');
 
     final List<dynamic> data = jsonDecode(response);
     secciones = data
