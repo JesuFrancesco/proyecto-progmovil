@@ -10,6 +10,7 @@ import 'package:jiron_anime/pages/home/product/widget/info_comic.dart';
 import 'package:jiron_anime/pages/home/product/widget/pregunta.dart';
 import 'package:jiron_anime/pages/home/product/widget/stock.dart';
 import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/fetch_and_render.dart';
 
 class ProductoPage extends StatefulWidget {
   final String comicName;
@@ -60,13 +61,6 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _loadData();
-    // _dataLoadingFuture =
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomPadding(
@@ -110,17 +104,20 @@ class _ProductoPageState extends State<ProductoPage> {
                 ],
               ),
               15.pv,
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: productoController.productos
-                      .toList()
-                      .map((manga) => SizedBox(
-                            height: 150,
-                            child: Image.asset(
-                                manga.productAttachments![0].imageUrl!),
-                          ))
-                      .toList()
-                      .sublist(0, 3)),
+              fetchAndRender(
+                _loadData,
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: productoController.productos
+                        .toList()
+                        .map((manga) => SizedBox(
+                              height: 150,
+                              child: Image.asset(
+                                  manga.productAttachments![0].imageUrl!),
+                            ))
+                        .toList()
+                        .sublist(0, 3)),
+              )
             ],
           ),
         ),
