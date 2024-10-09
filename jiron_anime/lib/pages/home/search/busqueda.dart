@@ -58,12 +58,14 @@ class _BusquedaPageState extends State<BusquedaPage> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                   ),
                   CircleAvatar(
-                    child: Image.network(
-                      CurrentUser.profileImageUrl!,
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                    ),
+                    child: CurrentUser.profileImageUrl != null
+                        ? Image.network(
+                            CurrentUser.profileImageUrl!,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
                 ],
               ),

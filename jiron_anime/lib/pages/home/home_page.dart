@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         return TiendaPage();
       case StoreWidgetType.buscar:
         // return searchProductsAndMarketsDemo(context);
-        return const BusquedaPage();
+        return BusquedaPage();
       case StoreWidgetType.notificaciones:
         return NotificationsPage(context: context);
       case StoreWidgetType.ajustes:
