@@ -1,38 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/middleware/usuario_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/tienda_page.dart';
-import 'package:jiron_anime/widgets/custom_padding.dart';
-import 'package:jiron_anime/widgets/list_comic.dart';
+import 'package:jiron_anime/pages/home/store/tienda_page.dart';
+import 'package:jiron_anime/pages/home/store/widgets/custom_padding.dart';
+import 'package:jiron_anime/pages/home/store/widgets/list_comic.dart';
 
-class Busqueda extends StatefulWidget {
-  const Busqueda({super.key});
+class BusquedaPage extends StatefulWidget {
+  const BusquedaPage({super.key});
 
   @override
-  _BusquedaState createState() => _BusquedaState();
+  State<BusquedaPage> createState() => _BusquedaPageState();
 }
 
-class _BusquedaState extends State<Busqueda> {
+class _BusquedaPageState extends State<BusquedaPage> {
   String searchQuery = '';
 
-  final List<Product> mangas = mangacontrol.mangas.toList();
+  final List<Product> mangas = mangaController.productos.toList();
 
-  
   List<Product> filteredMangas = [];
 
   @override
   void initState() {
     super.initState();
-    filteredMangas = mangas; 
+    filteredMangas = mangas;
   }
 
-  
   void _onSearchPressed() {
     setState(() {
       filteredMangas = mangas
-          .where((manga) => manga.name!
-              .toLowerCase()
-              .contains(searchQuery.toLowerCase()))
-          .toList(); 
+          .where((manga) =>
+              manga.name!.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
     });
   }
 
@@ -43,7 +41,6 @@ class _BusquedaState extends State<Busqueda> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: kToolbarHeight),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -52,13 +49,23 @@ class _BusquedaState extends State<Busqueda> {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const TiendaPage()),
+                        MaterialPageRoute(builder: (context) => TiendaPage()),
                       );
                     },
                   ),
-                  const Text("Busqueda", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
+                  const Text(
+                    "Busqueda",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
                   CircleAvatar(
-                    child: Text("WA9"),
+                    child: CurrentUser.profileImageUrl != null
+                        ? Image.network(
+                            CurrentUser.profileImageUrl!,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
                 ],
               ),
@@ -71,7 +78,7 @@ class _BusquedaState extends State<Busqueda> {
                     Expanded(
                       child: TextField(
                         onChanged: (value) {
-                          searchQuery = value; 
+                          searchQuery = value;
                         },
                         decoration: InputDecoration(
                           hintText: 'Buscar manga...',
@@ -87,14 +94,14 @@ class _BusquedaState extends State<Busqueda> {
                     ),
                     const SizedBox(width: 10),
                     ElevatedButton(
-                      onPressed: _onSearchPressed, 
+                      onPressed: _onSearchPressed,
                       child: const Text("Buscar"),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-             
+
               SizedBox(
                 height: 440,
                 child: ListView.builder(

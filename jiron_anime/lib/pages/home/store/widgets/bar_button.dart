@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/busqueda.dart';
+import 'package:jiron_anime/pages/home/search/busqueda.dart';
 
 class BarButton extends StatelessWidget {
   const BarButton({super.key});
@@ -7,78 +7,76 @@ class BarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-
         Expanded(
           child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal, 
+            scrollDirection: Axis.horizontal,
             child: Row(
               children: [
                 TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red, 
+                    backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20), 
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), 
-                      side: const BorderSide(color: Colors.transparent), 
+                      borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.transparent),
                     ),
                   ),
                   child: const Text("Catalogo completo"),
                 ),
-                const SizedBox(width: 5), 
+                const SizedBox(width: 5),
                 TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red, 
+                    backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20), 
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), 
-                      side: const BorderSide(color: Colors.transparent), 
+                      borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.transparent),
                     ),
                   ),
                   child: const Text("Shonen"),
                 ),
-                const SizedBox(width: 5), 
+                const SizedBox(width: 5),
                 TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red, 
+                    backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20), 
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), 
-                      side: const BorderSide(color: Colors.transparent), 
+                      borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.transparent),
                     ),
                   ),
                   child: const Text("Seinen"),
                 ),
-                const SizedBox(width: 5), 
+                const SizedBox(width: 5),
               ],
             ),
           ),
         ),
-        
         TextButton(
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Busqueda(),
+                builder: (context) => BusquedaPage(),
               ),
             );
           },
           style: TextButton.styleFrom(
-            backgroundColor: Colors.red, 
+            backgroundColor: Colors.red,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
-              side: const BorderSide(color: Colors.transparent), 
+              side: const BorderSide(color: Colors.transparent),
             ),
           ),
-          child: const Icon(Icons.search, color: Colors.white), 
+          child: const Icon(Icons.search, color: Colors.white),
         ),
       ],
     );

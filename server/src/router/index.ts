@@ -5,6 +5,7 @@ import { AccountRouter } from "../generated/express/Account";
 import { UserRouter } from "../generated/express/User";
 import { ProductRouter } from "../generated/express/Product";
 import { MarketRouter } from "../generated/express/Market";
+import { NotificationRouter } from "../generated/express/Notification";
 
 // import authRouter from "./auth.router";
 // import profileRouter from "./profile.router";
@@ -47,6 +48,14 @@ function routerAPI(app: Express) {
 
   app.use(
     MarketRouter({
+      addModelPrefix: true,
+      enableAll: true,
+      customUrlPrefix: API_PREFIX,
+    })
+  );
+
+  app.use(
+    NotificationRouter({
       addModelPrefix: true,
       enableAll: true,
       customUrlPrefix: API_PREFIX,

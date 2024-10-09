@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/tienda_page.dart';
+import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 
 class SliderComic extends StatefulWidget {
   const SliderComic({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class SliderComic extends StatefulWidget {
 class _SliderComicState extends State<SliderComic> {
   int currentImageIndex = 0;
 
-  final List<Product> comics = mangacontrol.mangas.toList();
+  final List<Product> comics = mangaController.productos.toList();
 
   void toggleImage() {
     setState(() {
@@ -40,7 +40,8 @@ class _SliderComicState extends State<SliderComic> {
                     Colors.white.withOpacity(0.3),
                     BlendMode.lighten,
                   ),
-                  child: Image.asset(currentComic.productAttachments![0].imageUrl!),
+                  child: Image.asset(
+                      currentComic.productAttachments![0].imageUrl!),
                 ),
               ),
             ),

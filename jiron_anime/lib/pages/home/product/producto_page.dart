@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/tienda_page.dart';
+import 'package:jiron_anime/pages/home/store/tienda_page.dart';
+import 'package:jiron_anime/pages/home/store/widgets/botones.dart';
+import 'package:jiron_anime/pages/home/store/widgets/custom_padding.dart';
+import 'package:jiron_anime/pages/home/store/widgets/descripcion.dart';
+import 'package:jiron_anime/pages/home/store/widgets/info_comic.dart';
+import 'package:jiron_anime/pages/home/store/widgets/pregunta.dart';
+import 'package:jiron_anime/pages/home/store/widgets/stock.dart';
 import 'package:jiron_anime/utils/extensions.dart';
-import 'package:jiron_anime/widgets/botones.dart';
-import 'package:jiron_anime/widgets/custom_padding.dart';
-import 'package:jiron_anime/widgets/descripcion.dart';
-import 'package:jiron_anime/widgets/info_comic.dart';
-import 'package:jiron_anime/widgets/pregunta.dart';
-import 'package:jiron_anime/widgets/stock.dart';
 
 class Carro extends StatefulWidget {
   final String comicName;
@@ -19,7 +19,7 @@ class Carro extends StatefulWidget {
   });
 
   @override
-  _CarroState createState() => _CarroState();
+  State<Carro> createState() => _CarroState();
 }
 
 class _CarroState extends State<Carro> {
@@ -47,7 +47,7 @@ class _CarroState extends State<Carro> {
   void _navigateToHomePage() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const TiendaPage()),
+      MaterialPageRoute(builder: (context) => TiendaPage()),
     );
   }
 
@@ -106,14 +106,15 @@ class _CarroState extends State<Carro> {
                   //   SizedBox(height: 150, child: Image.asset("assets/deathnote04.jpg")),
                   // ],
 
-                  children: mangacontrol.mangas
+                  children: mangaController.productos
                       .toList()
                       .map((manga) => SizedBox(
                             height: 150,
                             child: Image.asset(
                                 manga.productAttachments![0].imageUrl!),
                           ))
-                      .toList().sublist(0,3)),
+                      .toList()
+                      .sublist(0, 3)),
             ],
           ),
         ),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:jiron_anime/pages/demo/profile_demo.dart';
+import 'package:jiron_anime/pages/home/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../main.dart';
@@ -28,10 +28,9 @@ class _SignInScreenState extends State<SignInScreen> {
       if (event == AuthChangeEvent.signedIn && context.mounted) {
         // await loginSuccessfulCallback(data.session!);
 
-        // XDDD
         await Navigator.of(context.mounted ? context : context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const ProfileScreen(),
+            builder: (context) => const HomePage(),
           ),
         );
       }

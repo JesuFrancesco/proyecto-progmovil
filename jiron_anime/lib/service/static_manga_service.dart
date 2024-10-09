@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:jiron_anime/models/product.dart';
 
-class StaticMangaService {
+class StaticProductoService {
   Future<List<Product>> fetchAll() async {
     List<Product> mangas = [];
     final String response =
-        await rootBundle.loadString('static/mangas.json');
+        await rootBundle.loadString('static/mangas_sintetica.json');
 
     final List<dynamic> data = jsonDecode(response);
     mangas = data

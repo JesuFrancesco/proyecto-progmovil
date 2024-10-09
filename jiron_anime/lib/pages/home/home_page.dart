@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/home/settings/main_settings.dart';
-import 'package:jiron_anime/pages/home/store/main_productos.dart';
-import 'package:jiron_anime/pages/home/search/main_search.dart';
-import 'package:jiron_anime/pages/tienda_page.dart';
+import 'package:jiron_anime/pages/home/notifications/notifications_page.dart';
+import 'package:jiron_anime/pages/home/search/busqueda.dart';
+import 'package:jiron_anime/pages/home/settings/settings_page.dart';
+import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,13 +34,14 @@ class _HomePageState extends State<HomePage> {
       case StoreWidgetType.tienda:
         return TiendaPage();
       case StoreWidgetType.buscar:
-        return searchProductsAndMarketsDemo(context);
+        // return searchProductsAndMarketsDemo(context);
+        return BusquedaPage();
       case StoreWidgetType.notificaciones:
-        return const Center(child: Text('Notificaciones template 111'));
+        return NotificationsPage(context: context);
       case StoreWidgetType.ajustes:
-        return settingsContainer(context);
+        return SettingsPage(context: context);
       default:
-        return const Center(child: Text('NOT A REAL PAGE'));
+        return const Center(child: Text('PAGINA NO IMPLEMENTADA'));
     }
   }
 
@@ -61,21 +62,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    control.obtenerCuentas();
-    mangacontrol.obtenerMangas();
+    // widget
     return Scaffold(
-      // https://docs.flutter.dev/ui/layout/scrolling/slivers
-      // body: CustomScrollView(
-      //   slivers: [
-      //     const SliverAppBar(
-      //       floating: true,
-      //       title: Text("Jiron Anime"),
-      //     ),
-      //     SliverToBoxAdapter(
-      //       child: _buildBody(context),
-      //     )
-      //   ],
-      // ),
       body: _buildBody(context),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

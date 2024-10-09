@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/carro.dart';
+import 'package:jiron_anime/pages/home/product/producto_page.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
 class ListComic extends StatelessWidget {
-
   final Product manga;
 
   const ListComic({
-    Key? key,
+    super.key,
     required this.manga,
-  }) : super(key: key);
-
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +40,12 @@ class ListComic extends StatelessWidget {
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
-            
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => Carro(
-                  comicName: manga.name!, 
-                  comicImage: manga.productAttachments![0].imageUrl!, 
+                  comicName: manga.name!,
+                  comicImage: manga.productAttachments![0].imageUrl!,
                 ),
               ),
             );
