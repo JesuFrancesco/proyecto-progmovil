@@ -6,9 +6,15 @@ import 'package:jiron_anime/pages/home/notifications/widget/notifcation_card.dar
 NotificationsController notificationsController =
     Get.put(NotificationsController());
 
-Widget notificationsContainer(BuildContext context) {
-  return Scaffold(
-    body: NotificationsColumn(
-        items: notificationsController.notificaciones.toList()),
-  );
+class NotificationsPage extends StatelessWidget {
+  final BuildContext context;
+  const NotificationsPage({super.key, required this.context});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: NotificationsColumn(
+          items: notificationsController.notificaciones.toList()),
+    );
+  }
 }
