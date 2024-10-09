@@ -93,6 +93,7 @@ model Market {
 model Product {
   id            Int      @id @default(autoincrement())
   name          String
+  descripcion   String?
   stock         Int
   price         Decimal
   dimensions    String?
