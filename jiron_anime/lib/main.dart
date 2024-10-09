@@ -6,6 +6,7 @@ import 'package:jiron_anime/pages/reset/reset_page.dart';
 import 'package:jiron_anime/theme/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jiron_anime/pages/shopping_cart/cart_page.dart';
 
 import 'middleware/supabase_layer.dart';
 
@@ -31,7 +32,7 @@ class MainApp extends StatelessWidget {
         '/sign-in': (context) => const SignInScreen(),
         // '/sign-up': (context) => SignUpPage(), // puede q no se necesite
         '/demo': (context) => const ProfileScreen(),
-
+        '/cart': (context) => const ShoppingCartPage(),
         // no implementados
         '/home': (context) => const HomePage(),
         '/reset': (context) => const ResetPage(),

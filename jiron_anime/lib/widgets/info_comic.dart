@@ -48,7 +48,7 @@ class _InfoComicState extends State<InfoComic> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      
+                      Navigator.pushNamed(context, '/cart');
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
