@@ -17,6 +17,7 @@ class Product implements ToJson, Id {
   @override
   int? id;
   String? name;
+  String? descripcion;
   int? stock;
   double? price;
   String? dimensions;
@@ -48,6 +49,7 @@ class Product implements ToJson, Id {
   Product({
     this.id,
     this.name,
+    this.descripcion,
     this.stock,
     this.price,
     this.dimensions,
@@ -80,6 +82,7 @@ class Product implements ToJson, Id {
   factory Product.fromJson(Map<String, dynamic> json) => Product(
       id: json['id'] as int?,
       name: json['name'] as String?,
+      descripcion: json['descripcion'] as String?,
       stock: json['stock'] as int?,
       price: parseToDouble(json['price']), // json['price'] as double?,
       dimensions: json['dimensions'] as String?,
@@ -133,6 +136,7 @@ class Product implements ToJson, Id {
   Product copyWith({
     int? id,
     String? name,
+    String? descripcion,
     int? stock,
     double? price,
     String? dimensions,
@@ -164,6 +168,7 @@ class Product implements ToJson, Id {
     return Product(
         id: id ?? this.id,
         name: name ?? this.name,
+        descripcion: descripcion ?? this.descripcion,
         stock: stock ?? this.stock,
         price: price ?? this.price,
         dimensions: dimensions ?? this.dimensions,
@@ -200,6 +205,7 @@ class Product implements ToJson, Id {
     return Product(
         id: product.id ?? id,
         name: product.name ?? name,
+        descripcion: product.descripcion ?? descripcion,
         stock: product.stock ?? stock,
         price: product.price ?? price,
         dimensions: product.dimensions ?? dimensions,
@@ -236,6 +242,7 @@ class Product implements ToJson, Id {
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
         if (name != null) 'name': name,
+        if (descripcion != null) 'descripcion': descripcion,
         if (stock != null) 'stock': stock,
         if (price != null) 'price': price,
         if (dimensions != null) 'dimensions': dimensions,
@@ -295,6 +302,7 @@ class Product implements ToJson, Id {
           runtimeType == other.runtimeType &&
           id == other.id &&
           name == other.name &&
+          descripcion == other.descripcion &&
           stock == other.stock &&
           price == other.price &&
           dimensions == other.dimensions &&
@@ -327,6 +335,7 @@ class Product implements ToJson, Id {
   int get hashCode =>
       id.hashCode ^
       name.hashCode ^
+      descripcion.hashCode ^
       stock.hashCode ^
       price.hashCode ^
       dimensions.hashCode ^
