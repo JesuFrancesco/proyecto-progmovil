@@ -70,8 +70,8 @@ model Notification {
   id                Int                @id @default(autoincrement())
   title             String
   description       String
-  createdAt         DateTime           @map("created_at")
-  updatedAt         DateTime           @map("updated_at")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @default(now()) @map("updated_at")
   imageUrl          String
   userNotifications UserNotification[]
 
@@ -168,7 +168,7 @@ model Order {
 
 model Chat {
   id               Int               @id @default(autoincrement())
-  createdAt        DateTime          @map("created_at")
+  createdAt        DateTime          @default(now()) @map("created_at")
   chatMessage      ChatMessage[]
   chatParticipants ChatParticipant[]
 
@@ -178,8 +178,8 @@ model Chat {
 model Message {
   id                 Int                 @id @default(autoincrement())
   text               String
-  createdAt          DateTime            @map("created_at")
-  updatedAt          DateTime            @map("updated_at")
+  createdAt          DateTime            @default(now()) @map("created_at")
+  updatedAt          DateTime            @default(now()) @map("updated_at")
   status             Int
   accountId          Int                 @map("account_id")
   account            Account             @relation(fields: [accountId], references: [id])
@@ -284,7 +284,7 @@ model ChatParticipant {
 model ProductQuestion {
   id              Int             @id @default(autoincrement())
   text            String
-  createdAt       DateTime
+  createdAt       DateTime        @default(now())
   productId       Int
   userId          Int
   product         Product         @relation(fields: [productId], references: [id])
@@ -351,7 +351,7 @@ model ProductAttachment {
 model QuestionReply {
   id              Int             @id @default(autoincrement())
   text            String
-  createdAt       DateTime
+  createdAt       DateTime        @default(now())
   questionId      Int
   productQuestion ProductQuestion @relation(fields: [questionId], references: [id])
 
@@ -362,7 +362,7 @@ model ProductRating {
   id                Int                @id @default(autoincrement())
   score             Int
   text              String
-  createdAt         DateTime
+  createdAt         DateTime           @default(now())
   userId            Int
   productId         Int
   user              User               @relation(fields: [userId], references: [id])
