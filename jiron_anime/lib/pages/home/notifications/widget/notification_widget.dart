@@ -1,10 +1,8 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
-import 'package:jiron_anime/models/notification.dart' as m;
+import 'package:flutter/material.dart' hide Notification;
+import 'package:jiron_anime/models/notification.dart';
 
 class NotificacionRemovableWidget extends StatelessWidget {
-  final m.Notification item;
+  final Notification item;
   final VoidCallback onDismissed;
 
   const NotificacionRemovableWidget({

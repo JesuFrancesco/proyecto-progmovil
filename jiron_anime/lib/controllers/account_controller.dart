@@ -6,7 +6,7 @@ class AccountsController extends GetxController {
   StaticAccountsService service = StaticAccountsService();
   final cuentas = <Account>[].obs;
 
-  void obtenerCuentas() async {
+  Future<void> obtenerCuentas() async {
     cuentas.value = await service.fetchAll();
   }
 }

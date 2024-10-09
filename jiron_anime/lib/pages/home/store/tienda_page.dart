@@ -2,33 +2,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiron_anime/middleware/usuario_controller.dart';
-import 'package:jiron_anime/pages/home/controllers/productos_controller.dart';
+import 'package:jiron_anime/shared/usuario_controller.dart';
+import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/pages/home/store/widgets/bar_button.dart';
-import 'package:jiron_anime/pages/home/store/widgets/custom_padding.dart';
+import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/pages/home/store/widgets/list_comic.dart';
 import 'package:jiron_anime/pages/home/store/widgets/slider_comic.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
-ProductoController mangaController = Get.put(ProductoController());
+final ProductoController productoController = Get.put(ProductoController());
 
 class TiendaPage extends StatelessWidget {
-  final ProductoController mangaController = Get.put(ProductoController());
-  late final Future<void> _dataLoadingFuture;
-
   Future<void> _loadData() async {
-    mangaController.obtenerMangas();
+    await productoController.obtenerProductos();
   }
 
-  TiendaPage({super.key}) {
-    _dataLoadingFuture = _loadData();
-  }
+  const TiendaPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: _dataLoadingFuture,
+        future: _loadData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -48,16 +43,7 @@ class TiendaPage extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 36),
                         ),
-                        CircleAvatar(
-                          child: CurrentUser.profileImageUrl != null
-                              ? Image.network(
-                                  CurrentUser.profileImageUrl!,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                )
-                              : null,
-                        ),
+                        CurrentUser.getCircleAvatar(),
                       ],
                     ),
                     15.pv,
@@ -140,7 +126,7 @@ class TiendaPage extends StatelessWidget {
       height: 440,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: mangaController.productos
+        children: productoController.productos
             .toList()
             .map((manga) => Row(
                   children: [

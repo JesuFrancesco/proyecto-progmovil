@@ -43,7 +43,7 @@ class ListComic extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Carro(
+                builder: (context) => ProductoPage(
                   comicName: manga.name!,
                   comicImage: manga.productAttachments![0].imageUrl!,
                 ),

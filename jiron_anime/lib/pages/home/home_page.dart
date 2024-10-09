@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/home/notifications/notifications_page.dart';
-import 'package:jiron_anime/pages/home/search/busqueda.dart';
+import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
 import 'package:jiron_anime/pages/home/settings/settings_page.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         return TiendaPage();
       case StoreWidgetType.buscar:
         // return searchProductsAndMarketsDemo(context);
-        return BusquedaPage();
+        return const BusquedaPage();
       case StoreWidgetType.notificaciones:
         return NotificationsPage(context: context);
       case StoreWidgetType.ajustes:

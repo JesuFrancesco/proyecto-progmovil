@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/middleware/usuario_controller.dart';
+import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/pages/home/settings/widgets/menu_item.dart';
+import 'package:jiron_anime/utils/extensions.dart';
 import '../../../main.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -15,36 +16,19 @@ class SettingsPage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ClipOval(
-              child: CurrentUser.profileImageUrl != null
-                  ? Image.network(
-                      CurrentUser.profileImageUrl!,
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                    )
-                  : Container(
-                      width: 100,
-                      height: 100,
-                      color: Colors.grey[300],
-                      child:
-                          Icon(Icons.person, size: 60, color: Colors.grey[600]),
-                    ),
-            ),
-            const SizedBox(height: 16),
+            CurrentUser.getClipOvalPFP(),
             Text(
               CurrentUser.fullName ?? 'No hay sesión',
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 4),
+            12.pv,
             Text(
               CurrentUser.provider ?? '',
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
-            const SizedBox(height: 16),
+            12.pv,
             NotificationItem(
                 context: context,
                 icon: Icons.favorite,

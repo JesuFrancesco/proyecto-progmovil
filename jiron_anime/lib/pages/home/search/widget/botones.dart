@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
 
 class Botones extends StatelessWidget {
@@ -17,48 +19,45 @@ class Botones extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-
         TextButton(
           onPressed: onDescripcion,
           style: TextButton.styleFrom(
-            padding: EdgeInsets.zero, 
-            minimumSize: Size(0, 0),  
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap, 
+            padding: EdgeInsets.zero,
+            minimumSize: const Size(0, 0),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: Text(
+          child: const Text(
             "DESCRIPCION",
-            style: TextStyle(
-              color: Colors.black, 
+            style: const TextStyle(
+              color: Colors.black,
             ),
           ),
         ),
-
         TextButton(
           onPressed: onStock,
           style: TextButton.styleFrom(
             padding: EdgeInsets.zero,
-            minimumSize: Size(0, 0),
+            minimumSize: const Size(0, 0),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: Text(
+          child: const Text(
             "STOCK",
             style: TextStyle(
-              color: Colors.black, 
+              color: Colors.black,
             ),
           ),
         ),
-      
         TextButton(
           onPressed: onPreguntas,
           style: TextButton.styleFrom(
             padding: EdgeInsets.zero,
-            minimumSize: Size(0, 0),
+            minimumSize: const Size(0, 0),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: Text(
+          child: const Text(
             "COMENTARIOS",
             style: TextStyle(
-              color: Colors.black, 
+              color: Colors.black,
             ),
           ),
         ),

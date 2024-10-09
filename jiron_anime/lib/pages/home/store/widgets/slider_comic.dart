@@ -3,16 +3,16 @@ import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 
 class SliderComic extends StatefulWidget {
-  const SliderComic({Key? key}) : super(key: key);
+  const SliderComic({super.key});
 
   @override
-  _SliderComicState createState() => _SliderComicState();
+  State<SliderComic> createState() => _SliderComicState();
 }
 
 class _SliderComicState extends State<SliderComic> {
   int currentImageIndex = 0;
 
-  final List<Product> comics = mangaController.productos.toList();
+  final List<Product> comics = productoController.productos.toList();
 
   void toggleImage() {
     setState(() {

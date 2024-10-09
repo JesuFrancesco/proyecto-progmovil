@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/productos_controller.dart';
+import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
-import 'package:jiron_anime/pages/home/store/widgets/botones.dart';
-import 'package:jiron_anime/pages/home/store/widgets/custom_padding.dart';
-import 'package:jiron_anime/pages/home/store/widgets/descripcion.dart';
-import 'package:jiron_anime/pages/home/store/widgets/info_comic.dart';
-import 'package:jiron_anime/pages/home/store/widgets/pregunta.dart';
-import 'package:jiron_anime/pages/home/store/widgets/stock.dart';
+import 'package:jiron_anime/pages/home/search/widget/botones.dart';
+import 'package:jiron_anime/shared/custom_padding.dart';
+import 'package:jiron_anime/pages/home/product/widget/descripcion.dart';
+import 'package:jiron_anime/pages/home/product/widget/info_comic.dart';
+import 'package:jiron_anime/pages/home/product/widget/pregunta.dart';
+import 'package:jiron_anime/pages/home/product/widget/stock.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
-class Carro extends StatefulWidget {
+class ProductoPage extends StatefulWidget {
   final String comicName;
   final String comicImage;
 
-  const Carro({
+  const ProductoPage({
     super.key,
     required this.comicName,
     required this.comicImage,
   });
 
   @override
-  State<Carro> createState() => _CarroState();
+  State<ProductoPage> createState() => _ProductoPageState();
 }
 
-class _CarroState extends State<Carro> {
+class _ProductoPageState extends State<ProductoPage> {
+  final ProductoController productoController = Get.put(ProductoController());
   Widget _currentContent = const Descripcion();
 
   // Métodos para mostrar contenido
@@ -45,10 +49,21 @@ class _CarroState extends State<Carro> {
   }
 
   void _navigateToHomePage() {
-    Navigator.pushReplacement(
+    Navigator.pop(
       context,
-      MaterialPageRoute(builder: (context) => TiendaPage()),
+      MaterialPageRoute(builder: (context) => const TiendaPage()),
     );
+  }
+
+  Future<void> _loadData() async {
+    await productoController.obtenerProductos();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+    // _dataLoadingFuture =
   }
 
   @override
@@ -66,9 +81,7 @@ class _CarroState extends State<Carro> {
                     icon: const Icon(Icons.arrow_back),
                     onPressed: _navigateToHomePage,
                   ),
-                  CircleAvatar(
-                    child: Text("WA3"),
-                  ),
+                  CurrentUser.getCircleAvatar()
                 ],
               ),
               15.pv,
@@ -82,13 +95,13 @@ class _CarroState extends State<Carro> {
                 onStock: _showStock,
                 onPreguntas: _showPreguntas,
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 1,
               ),
               _currentContent,
               15.pv,
-              Row(
+              const Row(
                 children: [
                   Text(
                     "Lo más vendido",
@@ -99,14 +112,7 @@ class _CarroState extends State<Carro> {
               15.pv,
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                  // children: [
-                  //   SizedBox(height: 150, child: Image.asset("assets/frieren01.jpg")),
-                  //   SizedBox(height: 150, child: Image.asset("assets/miroirs.jpg")),
-                  //   SizedBox(height: 150, child: Image.asset("assets/deathnote04.jpg")),
-                  // ],
-
-                  children: mangaController.productos
+                  children: productoController.productos
                       .toList()
                       .map((manga) => SizedBox(
                             height: 150,

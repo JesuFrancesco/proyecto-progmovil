@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/home/search/busqueda.dart';
+import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
 
 class BarButton extends StatelessWidget {
   const BarButton({super.key});
@@ -65,7 +65,7 @@ class BarButton extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BusquedaPage(),
+                builder: (context) => const BusquedaPage(),
               ),
             );
           },
