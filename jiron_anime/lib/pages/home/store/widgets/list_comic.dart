@@ -44,8 +44,7 @@ class ListComic extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => ProductoPage(
-                  comicName: manga.name!,
-                  comicImage: manga.productAttachments![0].imageUrl!,
+                  produto: manga,
                 ),
               ),
             );

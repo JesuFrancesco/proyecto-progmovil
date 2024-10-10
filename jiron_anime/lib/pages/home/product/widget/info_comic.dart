@@ -1,14 +1,13 @@
 // ignore_for_file: unnecessary_const
 
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
 class InfoComic extends StatefulWidget {
-  final String comicName;
-  final String comicImage;
+  final Product producto;
 
-  const InfoComic(
-      {super.key, required this.comicName, required this.comicImage});
+  const InfoComic({super.key, required this.producto});
 
   @override
   State<InfoComic> createState() => _InfoComicState();
@@ -35,18 +34,24 @@ class _InfoComicState extends State<InfoComic> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(height: 200, child: Image.asset(widget.comicImage)),
+        SizedBox(
+            height: 200,
+            child:
+                Image.asset(widget.producto.productAttachments![0].imageUrl!)),
         15.ph,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.comicName.toUpperCase(),
+              Text(widget.producto.name!.toUpperCase(),
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 25)),
-              const Text("Kioskos argentinos",
+              Text(
+                  widget.producto.market != null
+                      ? widget.producto.market!.name!
+                      : "Kioskos argentos",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
-              const Text("S/. 59.00"),
+              Text("S/. ${widget.producto.price.toString()}"),
               Row(
                 children: [
                   ElevatedButton(
@@ -57,7 +62,7 @@ class _InfoComicState extends State<InfoComic> {
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.yellow,
                     ),
-                    child: const Text("Agregar \nal carrito",
+                    child: const Text("Agregar\nal carrito",
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                   IconButton(
@@ -71,22 +76,26 @@ class _InfoComicState extends State<InfoComic> {
                   ),
                 ],
               ),
-              const Row(children: [
-                Icon(Icons.favorite),
-                Text("Agregar a la lista de deseados")
-              ]),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Icon(Icons.favorite),
+                    10.ph,
+                    const Text("Añadir a lista de deseados")
+                  ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(children: [
                     const Icon(Icons.chat),
                     10.ph,
-                    const Text("Agregar \nresena")
+                    const Text("Dejar\nreseña")
                   ]),
                   Row(children: [
-                    const Icon(Icons.chat),
+                    const Icon(Icons.question_mark),
                     10.ph,
-                    const Text("Agregar \ncomentario")
+                    const Text("Preguntar")
                   ])
                 ],
               )

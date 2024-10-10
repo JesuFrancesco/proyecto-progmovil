@@ -1,51 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
+import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/pages/home/product/widget/descripcion.dart';
+import 'package:jiron_anime/pages/home/product/widget/pregunta.dart';
+import 'package:jiron_anime/pages/home/product/widget/stock.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
-import 'package:jiron_anime/pages/home/product/widget/descripcion.dart';
 import 'package:jiron_anime/pages/home/product/widget/info_comic.dart';
-import 'package:jiron_anime/pages/home/product/widget/pregunta.dart';
-import 'package:jiron_anime/pages/home/product/widget/stock.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/utils/fetch_and_render.dart';
 
 class ProductoPage extends StatefulWidget {
-  final String comicName;
-  final String comicImage;
+  final Product produto;
 
   const ProductoPage({
     super.key,
-    required this.comicName,
-    required this.comicImage,
+    required this.produto,
   });
 
   @override
   State<ProductoPage> createState() => _ProductoPageState();
 }
 
+enum BotonesProducto {
+  descripcionOption,
+  stockOption,
+  comentariosOption,
+}
+
 class _ProductoPageState extends State<ProductoPage> {
   final ProductoController productoController = Get.put(ProductoController());
-  Widget _currentContent = const Descripcion();
+  late Widget _body;
 
-  // Métodos para mostrar contenido
-  void _showDescripcion() {
-    setState(() {
-      _currentContent = const Descripcion();
-    });
+  late final Map<BotonesProducto, Widget Function()> _bodyWidgets;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _bodyWidgets = {
+      BotonesProducto.descripcionOption: () =>
+          DescripcionProducto(producto: widget.produto),
+      BotonesProducto.stockOption: () =>
+          StockProducto(producto: widget.produto),
+      BotonesProducto.comentariosOption: () =>
+          PreguntasProducto(producto: widget.produto),
+    };
+
+    // initial body
+    _body = _bodyWidgets[BotonesProducto.descripcionOption]!();
   }
 
-  void _showStock() {
+  void _onBotonTapped(BotonesProducto opcion) {
     setState(() {
-      _currentContent = const Stock();
-    });
-  }
-
-  void _showPreguntas() {
-    setState(() {
-      _currentContent = const Preguntas();
+      _body = _bodyWidgets[opcion]!();
     });
   }
 
@@ -80,20 +91,25 @@ class _ProductoPageState extends State<ProductoPage> {
               ),
               15.pv,
               InfoComic(
-                comicName: widget.comicName,
-                comicImage: widget.comicImage,
+                producto: widget.produto,
               ),
               15.pv,
               Botones(
-                onDescripcion: _showDescripcion,
-                onStock: _showStock,
-                onPreguntas: _showPreguntas,
+                onDescripcion: () {
+                  _onBotonTapped(BotonesProducto.descripcionOption);
+                },
+                onStock: () {
+                  _onBotonTapped(BotonesProducto.stockOption);
+                },
+                onPreguntas: () {
+                  _onBotonTapped(BotonesProducto.comentariosOption);
+                },
               ),
               const Divider(
                 color: Colors.grey,
                 thickness: 1,
               ),
-              _currentContent,
+              _body,
               15.pv,
               const Row(
                 children: [

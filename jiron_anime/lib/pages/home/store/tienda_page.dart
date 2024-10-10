@@ -81,7 +81,7 @@ class TiendaPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Text(
-                          "Tambien siguenos en ...",
+                          "Tambien contáctanos en ...",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18),
                           textAlign: TextAlign.center,
@@ -92,11 +92,11 @@ class TiendaPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Icon(Icons.sports_tennis),
+                        Icon(Icons.facebook),
                         SizedBox(width: 20),
-                        Icon(Icons.youtube_searched_for),
+                        Icon(Icons.phone),
                         SizedBox(width: 20),
-                        Icon(Icons.person_4),
+                        Icon(Icons.sms),
                       ],
                     ),
                     15.pv,
