@@ -33,6 +33,7 @@ class MainApp extends StatelessWidget {
         // '/sign-up': (context) => SignUpPage(), // puede q no se necesite
         '/demo': (context) => const ProfileScreen(),
         '/cart': (context) => const ShoppingCartPage(),
+        '/settings': (context) => const ShoppingCartPage(),
         // no implementados
         '/home': (context) => const HomePage(),
         '/reset': (context) => const ResetPage(),
