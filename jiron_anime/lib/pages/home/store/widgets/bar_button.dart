@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
 
 class BarButton extends StatelessWidget {
-  const BarButton({super.key});
+  final VoidCallback onCatalogPressed;
+  final VoidCallback onShonenPressed;
+  final VoidCallback onSeinenPressed;
+
+  const BarButton({
+    super.key,
+    required this.onCatalogPressed,
+    required this.onShonenPressed,
+    required this.onSeinenPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +24,7 @@ class BarButton extends StatelessWidget {
             child: Row(
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: onCatalogPressed,
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
@@ -29,7 +38,7 @@ class BarButton extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: onShonenPressed,
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
@@ -43,7 +52,7 @@ class BarButton extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: onSeinenPressed,
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,

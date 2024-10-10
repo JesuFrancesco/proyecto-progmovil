@@ -6,7 +6,11 @@ class ProductoController extends GetxController {
   StaticProductoService service = StaticProductoService();
   final productos = <Product>[].obs;
 
+  get filteredMangas => null;
+
   Future<void> obtenerProductos() async {
     productos.value = await service.fetchAll();
   }
+
+  void filterMangas(String category) {}
 }
