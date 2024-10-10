@@ -145,7 +145,7 @@ class ShoppingCartPage extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.backgroundColor),
+                    color: Colors.white),
               ),
             ),
           ),

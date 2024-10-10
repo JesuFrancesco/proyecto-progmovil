@@ -5,8 +5,8 @@ import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/product/widget/descripcion.dart';
 import 'package:jiron_anime/pages/home/product/widget/pregunta.dart';
 import 'package:jiron_anime/pages/home/product/widget/stock.dart';
+import 'package:jiron_anime/shared/boton_retroceso.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
-import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/pages/home/product/widget/info_comic.dart';
@@ -60,13 +60,6 @@ class _ProductoPageState extends State<ProductoPage> {
     });
   }
 
-  void _navigateToHomePage() {
-    Navigator.pop(
-      context,
-      MaterialPageRoute(builder: (context) => const TiendaPage()),
-    );
-  }
-
   Future<void> _loadData() async {
     await productoController.obtenerProductos();
   }
@@ -82,10 +75,7 @@ class _ProductoPageState extends State<ProductoPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: _navigateToHomePage,
-                  ),
+                  const BotonRetroceso(),
                   CurrentUser.getCircleAvatar()
                 ],
               ),
