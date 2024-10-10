@@ -33,7 +33,16 @@ class MainApp extends StatelessWidget {
       initialRoute: "/home",
       routes: {
         '/sign-in': (context) => const SignInPage(),
+<<<<<<< HEAD
+        // '/sign-up': (context) => SignUpPage(), // puede q no se necesite
+        '/demo': (context) => const ProfileScreen(),
+        '/cart': (context) => const ShoppingCartPage(),
+        '/settings': (context) => const ShoppingCartPage(),
+        // no implementados
+        '/home': (context) => const HomePage(),
+=======
         // '/sign-up': (context) => SignUpPage(), // por ahora manejado por supabase
+>>>>>>> 7cd7ec7a7201510222d46a1d1c82d280c6ec9d1f
         '/reset': (context) => const ResetPage(),
         '/home': (context) => const HomePage(),
         '/cart': (context) => const ShoppingCartPage(),

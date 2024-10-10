@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+import 'package:get/get.dart';
+import 'package:jiron_anime/pages/orders/orders.dart';
+=======
 import 'package:jiron_anime/pages/orders/orders_page.dart';
+>>>>>>> 7cd7ec7a7201510222d46a1d1c82d280c6ec9d1f
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/pages/home/perfil/widgets/menu_item.dart';
 import 'package:jiron_anime/utils/extensions.dart';
+import 'settings_demo.dart';
 import '../../../main.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -64,7 +70,12 @@ class SettingsPage extends StatelessWidget {
                 context: context,
                 icon: Icons.settings,
                 text: 'Más ajustes',
-                fnOnTap: () {}),
+                fnOnTap: () {
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(builder: (context) => const SettingsDemoPage())
+                    );
+                }),
             const Spacer(),
             IconMenuItem(
                 context: context,
