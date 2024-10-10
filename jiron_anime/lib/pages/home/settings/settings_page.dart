@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/pages/orders/orders.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/pages/home/settings/widgets/menu_item.dart';
 import 'package:jiron_anime/utils/extensions.dart';
@@ -43,7 +44,10 @@ class SettingsPage extends StatelessWidget {
                 context: context,
                 icon: Icons.history,
                 text: 'Historial de órdenes',
-                fnOnTap: () {}),
+                fnOnTap: () {Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Orders()),
+                    );}),
             // NotificationItem(
             //     context: context,
             //     icon: Icons.payment,
