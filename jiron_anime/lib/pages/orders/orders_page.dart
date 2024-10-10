@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders.dart';
-import 'package:jiron_anime/pages/home/home_page.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
+import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
+import 'package:jiron_anime/utils/hash_simulator.dart';
 
 final ProductoController productoController = Get.put(ProductoController());
 
@@ -20,33 +22,15 @@ class OrdersPage extends StatelessWidget {
           child: Column(
             children: [
               kToolbarHeight.pv,
+              const CustomAppbar(title: "Pedidos"),
+              30.pv,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                      );
-                    },
-                  ),
-                  const Text(
-                    "PEDIDOS",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  CurrentUser.getAvatarIcon(),
-                ],
-              ),
-              15.pv,
-              const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "PEDIDOS EN PROCESO",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -79,7 +63,8 @@ class OrdersPage extends StatelessWidget {
                                       const Text(
                                           "Pedido realizado el: 23/7/2024"),
                                       const SizedBox(height: 8),
-                                      Text("Pedido: ${manga.id}"),
+                                      // Text("Pedido: ${manga.id}"),
+                                      Text("Pedido: ${getRandomString(15)}"),
                                       const SizedBox(height: 8),
                                       const Text("Articulo: 1"),
                                       const SizedBox(height: 8),
@@ -108,21 +93,17 @@ class OrdersPage extends StatelessWidget {
                                 ],
                               ),
 
-                              // Espacio debajo de cada manga
                               15.pv,
 
-                              // Botón de "CHAT" y fila con CircleAvatar y texto
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () {
-                                      // Acción del botón de chat
-                                    },
+                                    onPressed: () {},
                                     style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.white,
-                                      backgroundColor: Colors.black,
+                                      backgroundColor: AppColors.primaryColor,
                                     ),
                                     child: const Text("CHAT",
                                         style: TextStyle(
@@ -134,9 +115,9 @@ class OrdersPage extends StatelessWidget {
                                     children: [
                                       CurrentUser.getAvatarIcon(),
                                       const SizedBox(width: 8),
-                                      const Text(
-                                        "WAZA1",
-                                        style: TextStyle(
+                                      Text(
+                                        manga.market!.name!,
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       ),
@@ -166,7 +147,7 @@ class OrdersPage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.black,
+                      backgroundColor: AppColors.primaryColor,
                     ),
                     child: const Text("IR AL HISTORIAL",
                         style: TextStyle(fontWeight: FontWeight.bold)),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/shared/boton_retroceso.dart';
-import 'package:jiron_anime/shared/usuario_controller.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
@@ -48,17 +47,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const BotonRetroceso(),
-                  Text(
-                    "Busqueda",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  CurrentUser.getAvatarIcon(),
-                ],
-              ),
+              const CustomAppbar(title: "Búsqueda"),
               20.pv,
               // Barra de búsqueda
               Padding(

@@ -1,54 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/orders/orders_page.dart';
+import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/pages/home/perfil/widgets/menu_item.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import '../../../main.dart';
 
-class SettingsPage extends StatelessWidget {
+class PerfilPage extends StatelessWidget {
   final BuildContext context;
-  const SettingsPage({super.key, required this.context});
+  const PerfilPage({super.key, required this.context});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24),
+    return CustomPadding(
+      py: 16,
       child: Scaffold(
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CurrentUser.getClipOvalAvatar(),
             Text(
               CurrentUser.fullName ?? 'No hay sesión',
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
-            12.pv,
             Text(
               CurrentUser.provider ?? '',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
-            12.pv,
+            32.pv,
             IconMenuItem(
                 context: context,
                 icon: Icons.shopping_cart,
                 text: 'Carrito de compras',
-                fnOnTap: () {}),
+                fnOnTap: () {
+                  Navigator.of(context).pushNamed("/cart");
+                }),
+            IconMenuItem(
+                context: context,
+                icon: Icons.shopping_bag_outlined,
+                text: 'Mis pedidos',
+                fnOnTap: () {
+                  Navigator.of(context).pushNamed("/orders");
+                }),
             IconMenuItem(
                 context: context,
                 icon: Icons.favorite,
                 text: 'Lista de deseados',
-                fnOnTap: () {}),
+                fnOnTap: () {
+                  Navigator.of(context).pushNamed("/wishlist");
+                }),
             IconMenuItem(
                 context: context,
                 icon: Icons.history,
-                text: 'Historial de órdenes',
+                text: 'Historial de pedidos',
                 fnOnTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const OrdersPage()),
-                  );
+                  Navigator.of(context).pushNamed("/orders-history");
                 }),
             // NotificationItem(
             //     context: context,
@@ -57,14 +65,11 @@ class SettingsPage extends StatelessWidget {
             //     fnOnTap: () {}),
             IconMenuItem(
                 context: context,
-                icon: Icons.notifications,
-                text: 'Ajustes de notificaciones',
-                fnOnTap: () {}),
-            IconMenuItem(
-                context: context,
                 icon: Icons.settings,
-                text: 'Más ajustes',
-                fnOnTap: () {}),
+                text: 'Ajustes',
+                fnOnTap: () {
+                  Navigator.of(context).pushNamed("/settings");
+                }),
             const Spacer(),
             IconMenuItem(
                 context: context,

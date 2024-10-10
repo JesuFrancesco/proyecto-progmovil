@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
+import 'package:jiron_anime/theme/colors.dart';
 
 class BarButton extends StatelessWidget {
   final VoidCallback onCatalogPressed;
@@ -26,7 +27,7 @@ class BarButton extends StatelessWidget {
                 TextButton(
                   onPressed: onCatalogPressed,
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shape: RoundedRectangleBorder(

@@ -1,7 +1,10 @@
 // shopping_cart_page.dart
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
+import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/theme/colors.dart';
+import 'package:jiron_anime/utils/extensions.dart';
 import 'cart_item.dart'; // Widget para el ítem del carrito
 
 class ShoppingCartPage extends StatelessWidget {
@@ -57,99 +60,85 @@ class ShoppingCartPage extends StatelessWidget {
             sum! + (orderItem.product!.price! * orderItem.amount!).toInt());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'CARRITO',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pushNamed(context, '/home');
-          },
-        ),
-      ),
-      extendBodyBehindAppBar: true,
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: orden.orderItems!.length,
-              itemBuilder: (context, index) {
-                final item = orden.orderItems![index];
-                return CartItemWidget(
-                  item: item,
-                  onRemove: () {
-                    // Lógica para eliminar el ítem del carrito (si lo necesitas)
-                  },
-                );
-              },
+      body: CustomPadding(
+        child: Column(
+          children: [
+            kToolbarHeight.pv,
+            const CustomAppbar(title: "Carrito de compras"),
+            Expanded(
+              child: ListView.builder(
+                itemCount: orden.orderItems!.length,
+                itemBuilder: (context, index) {
+                  final item = orden.orderItems![index];
+                  return CartItemWidget(
+                    item: item,
+                    onRemove: () {
+                      // Lógica para eliminar el ítem del carrito (si lo necesitas)
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Artículos: $totalProducts',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Artículos: $totalProducts',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total [Impuestos Incl.]: ',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'S/. ${orden.totalPrice}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  _processPayment(context, orden.totalPrice!.toDouble());
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
-                const SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Total [Impuestos Incl.]: ',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'S/. ${orden.totalPrice}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                _processPayment(context, orden.totalPrice!.toDouble());
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+                child: const Text(
+                  'PAGAR',
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
-              child: const Text(
-                'PAGAR',
-                style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
