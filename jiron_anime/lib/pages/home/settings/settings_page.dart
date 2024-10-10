@@ -31,23 +31,28 @@ class SettingsPage extends StatelessWidget {
             12.pv,
             NotificationItem(
                 context: context,
+                icon: Icons.shopping_cart,
+                text: 'Carrito de compras',
+                fnOnTap: () {}),
+            NotificationItem(
+                context: context,
                 icon: Icons.favorite,
                 text: 'Lista de deseados',
                 fnOnTap: () {}),
             NotificationItem(
                 context: context,
-                icon: Icons.payment,
-                text: 'Métodos de pago',
+                icon: Icons.history,
+                text: 'Historial de órdenes',
                 fnOnTap: () {}),
-            NotificationItem(
-                context: context,
-                icon: Icons.share,
-                text: 'Comparte la aplicación',
-                fnOnTap: () {}),
+            // NotificationItem(
+            //     context: context,
+            //     icon: Icons.payment,
+            //     text: 'Métodos de pago',
+            //     fnOnTap: () {}),
             NotificationItem(
                 context: context,
                 icon: Icons.notifications,
-                text: 'Notificaciones',
+                text: 'Ajustes de notificaciones',
                 fnOnTap: () {}),
             NotificationItem(
                 context: context,
