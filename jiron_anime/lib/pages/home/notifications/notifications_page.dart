@@ -19,13 +19,23 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage> {
   late List<Notification> _items = [];
 
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
   Future<void> _loadData() async {
     await notificationController.obtenerNotificaciones();
-    _items = notificationController.notificaciones.toList();
+    setState(() {
+      _items = notificationController.notificaciones.toList();
+    });
   }
 
   void _removeItem(int index) {
     setState(() {
+      // Optionally, you can also update the controller here if needed.
+      // notificationController.removeNotification(_items[index]);
       _items.removeAt(index);
       // TODO: lógica para quitar notificaciones de la DBMS
     });
@@ -34,36 +44,28 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder(
-            future: _loadData(),
-            builder: (body, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text(
-                        "Notificaciones",
-                        style: Theme.of(context).textTheme.titleLarge,
-                        textAlign: TextAlign.center,
-                      ),
-                      Column(
-                        children: _items.asMap().entries.map((entry) {
-                          final index = entry.key;
-                          final item = entry.value;
-                          return NotificacionRemovableWidget(
-                            item: item,
-                            onDismissed: () => _removeItem(index),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            }));
+        body: _items.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      "Notificaciones",
+                      style: Theme.of(context).textTheme.titleLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                    Column(
+                      children: _items.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final item = entry.value;
+                        return NotificacionRemovableWidget(
+                          item: item,
+                          onDismissed: () => _removeItem(index),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ));
   }
 }
