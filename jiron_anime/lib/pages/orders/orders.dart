@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
+import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
+
+final ProductoController productoController = Get.put(ProductoController());
 
 class Orders extends StatelessWidget {
   const Orders({super.key});
@@ -11,195 +16,157 @@ class Orders extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomPadding(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            kToolbarHeight.pv,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  },
-                ),
-                Text(
-                  "PEDIDOS",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                CircleAvatar(
-                  child: Text("WA3"),
-                ),
-              ],
-            ),
-            15.pv,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "PEDIDOS EN PROCESO",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "JULIO 2024",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              kToolbarHeight.pv,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
+                      );
+                    },
                   ),
-                )
-              ],
-            ),
-            15.pv,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Pedido realizado el: 23/7/2024"),
-                    SizedBox(height: 8),
-                    Text("Pedido: SOIFAMIFSM"),
-                    SizedBox(height: 8),
-                    Text("Articulo: 1"),
-                    SizedBox(height: 8),
-                    Text("Total: S. 41.00"),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                        height: 150,
-                        child: Image.asset("assets/frieren01.jpg")),
-                  ],
-                ),
-              ],
-            ),
-            15.pv,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Add your button action here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.black,
+                  const Text(
+                    "PEDIDOS",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  child: const Text("CHAT",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
+                  CurrentUser.getCircleAvatar(),
+                ],
+              ),
+              15.pv,
+              const Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "PEDIDOS EN PROCESO",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ],
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "JULIO 2024",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              
+              15.pv,
+              Obx(
+  () => Column(
+    children: productoController.productos
+        .take(3) // Limitar a los primeros 3 mangas
+        .map((manga) => Column(
+              children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment
-                      .center, // Aligns the avatar and text vertically at the center
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      child: Text("WA3"),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Pedido realizado el: 23/7/2024"),
+                        const SizedBox(height: 8),
+                        Text("Pedido: ${manga.id}"),
+                        const SizedBox(height: 8),
+                        const Text("Articulo: 1"),
+                        const SizedBox(height: 8),
+                        const Text("Total: S. 41.00"),
+                      ],
                     ),
-                    SizedBox(
-                        width:
-                            8), // Adds some space between the CircleAvatar and Text
-                    Text(
-                      "WAZA1",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 150,
+                          child: manga.productAttachments != null &&
+                                  manga.productAttachments!.isNotEmpty &&
+                                  manga.productAttachments![0].imageUrl != null
+                              ? Image.asset(manga.productAttachments![0].imageUrl!)
+                              : const SizedBox(),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-            15.pv,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Pedido realizado el: 23/7/2024"),
-                    SizedBox(height: 8),
-                    Text("Pedido: SOIFAMIFSM"),
-                    SizedBox(height: 8),
-                    Text("Articulo: 1"),
-                    SizedBox(height: 8),
-                    Text("Total: S. 41.00"),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                        height: 150, child: Image.asset("assets/miroirs.jpg")),
-                  ],
-                ),
-              ],
-            ),
-            15.pv,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.black,
-                  ),
-                  child: const Text("CHAT",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
+
+                // Espacio debajo de cada manga
+                15.pv,
+
+                // Botón de "CHAT" y fila con CircleAvatar y texto
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment
-                      .center, 
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      child: Text("WA3"),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Acción del botón de chat
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.black,
+                      ),
+                      child: const Text("CHAT",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-                    SizedBox(
-                        width:
-                            8), 
-                    Text(
-                      "WAZA1",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CurrentUser.getCircleAvatar(),
+                        const SizedBox(width: 8),
+                        const Text(
+                          "WAZA1",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ],
                     ),
                   ],
                 ),
+
+                // Espacio adicional entre mangas
+                15.pv,
               ],
-            ),
+            ))
+        .toList(),
+  ),
+),
 
-            30.pv,
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HistoryOrders()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.black,
+              15.pv,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HistoryOrders()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black,
+                    ),
+                    child: const Text("IR AL HISTORIAL",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
-                  child: const Text("IR AL HISTORIAL",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-              ],
-            )
-
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }

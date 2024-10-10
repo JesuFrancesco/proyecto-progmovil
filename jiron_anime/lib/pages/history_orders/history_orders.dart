@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:jiron_anime/pages/orders/orders.dart';
+import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 
@@ -30,9 +32,7 @@ class HistoryOrders extends StatelessWidget {
                   "PEDIDOS",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                CircleAvatar(
-                  child: Text("WA3"),
-                ),
+                CurrentUser.getCircleAvatar(),
               ],
             ),
             15.pv,
@@ -48,7 +48,7 @@ class HistoryOrders extends StatelessWidget {
 
             15.pv,
 
-            Row(
+Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
@@ -62,64 +62,54 @@ class HistoryOrders extends StatelessWidget {
 
             15.pv,
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Obx(
+  () => Column(
+    children: productoController.productos
+        .take(2) // Limitar a los primeros 3 mangas
+        .map((manga) => Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Pedido realizado el: 23/7/2024"),
-                    SizedBox(height: 8),
-                    Text("Pedido: SOIFAMIFSM"),
-                    SizedBox(height: 8),
-                    Text("Articulo: 1"),
-                    SizedBox(height: 8),
-                    Text("Total: S. 41.00"),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Pedido realizado el: 23/7/2024"),
+                        const SizedBox(height: 8),
+                        Text("Pedido: ${manga.id}"),
+                        const SizedBox(height: 8),
+                        const Text("Articulo: 1"),
+                        const SizedBox(height: 8),
+                        const Text("Total: S. 41.00"),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 150,
+                          child: manga.productAttachments != null &&
+                                  manga.productAttachments!.isNotEmpty &&
+                                  manga.productAttachments![0].imageUrl != null
+                              ? Image.asset(manga.productAttachments![0].imageUrl!)
+                              : const SizedBox(),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                        height: 150,
-                        child: Image.asset("assets/frieren01.jpg")),
-                  ],
-                ),
+
+                15.pv,
+
               ],
-            ),
+            ))
+        .toList(),
+  ),
+),
 
-            10.pv,
+15.pv,
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Pedido realizado el: 23/7/2024"),
-                    SizedBox(height: 8),
-                    Text("Pedido: SOIFAMIFSM"),
-                    SizedBox(height: 8),
-                    Text("Articulo: 1"),
-                    SizedBox(height: 8),
-                    Text("Total: S. 41.00"),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                        height: 150,
-                        child: Image.asset("assets/chainsawman01.jpg")),
-                  ],
-                ),
-              ],
-            ),
-
-
-            15.pv,
-
-            Row(
+Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
@@ -133,59 +123,50 @@ class HistoryOrders extends StatelessWidget {
 
             15.pv,
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Obx(
+  () => Column(
+    children: productoController.productos.skip(2)
+        .take(2) 
+        .map((manga) => Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Pedido realizado el: 23/7/2024"),
-                    SizedBox(height: 8),
-                    Text("Pedido: SOIFAMIFSM"),
-                    SizedBox(height: 8),
-                    Text("Articulo: 1"),
-                    SizedBox(height: 8),
-                    Text("Total: S. 41.00"),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Pedido realizado el: 23/7/2024"),
+                        const SizedBox(height: 8),
+                        Text("Pedido: ${manga.id}"),
+                        const SizedBox(height: 8),
+                        const Text("Articulo: 1"),
+                        const SizedBox(height: 8),
+                        const Text("Total: S. 41.00"),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 150,
+                          child: manga.productAttachments != null &&
+                                  manga.productAttachments!.isNotEmpty &&
+                                  manga.productAttachments![0].imageUrl != null
+                              ? Image.asset(manga.productAttachments![0].imageUrl!)
+                              : const SizedBox(),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                        height: 150,
-                        child: Image.asset("assets/chainsawman10.jpg")),
-                  ],
-                ),
-              ],
-            ),
 
-            10.pv,
+                15.pv,
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Pedido realizado el: 23/7/2024"),
-                    SizedBox(height: 8),
-                    Text("Pedido: SOIFAMIFSM"),
-                    SizedBox(height: 8),
-                    Text("Articulo: 1"),
-                    SizedBox(height: 8),
-                    Text("Total: S. 41.00"),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                        height: 150,
-                        child: Image.asset("assets/deathnote04.jpg")),
-                  ],
-                ),
               ],
-            ),
+            ))
+        .toList(),
+  ),
+),
             
               ],
             )
