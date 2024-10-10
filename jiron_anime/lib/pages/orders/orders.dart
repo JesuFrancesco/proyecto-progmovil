@@ -37,7 +37,7 @@ class Orders extends StatelessWidget {
                     "PEDIDOS",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  CurrentUser.getCircleAvatar(),
+                  CurrentUser.getAvatarIcon(),
                 ],
               ),
               15.pv,
@@ -61,87 +61,97 @@ class Orders extends StatelessWidget {
                   ),
                 ],
               ),
-              
               15.pv,
               Obx(
-  () => Column(
-    children: productoController.productos
-        .take(3) // Limitar a los primeros 3 mangas
-        .map((manga) => Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Pedido realizado el: 23/7/2024"),
-                        const SizedBox(height: 8),
-                        Text("Pedido: ${manga.id}"),
-                        const SizedBox(height: 8),
-                        const Text("Articulo: 1"),
-                        const SizedBox(height: 8),
-                        const Text("Total: S. 41.00"),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          height: 150,
-                          child: manga.productAttachments != null &&
-                                  manga.productAttachments!.isNotEmpty &&
-                                  manga.productAttachments![0].imageUrl != null
-                              ? Image.asset(manga.productAttachments![0].imageUrl!)
-                              : const SizedBox(),
-                        ),
-                      ],
-                    ),
-                  ],
+                () => Column(
+                  children: productoController.productos
+                      .take(3) // Limitar a los primeros 3 mangas
+                      .map((manga) => Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                          "Pedido realizado el: 23/7/2024"),
+                                      const SizedBox(height: 8),
+                                      Text("Pedido: ${manga.id}"),
+                                      const SizedBox(height: 8),
+                                      const Text("Articulo: 1"),
+                                      const SizedBox(height: 8),
+                                      const Text("Total: S. 41.00"),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      SizedBox(
+                                        height: 150,
+                                        child:
+                                            manga.productAttachments != null &&
+                                                    manga.productAttachments!
+                                                        .isNotEmpty &&
+                                                    manga.productAttachments![0]
+                                                            .imageUrl !=
+                                                        null
+                                                ? Image.asset(manga
+                                                    .productAttachments![0]
+                                                    .imageUrl!)
+                                                : const SizedBox(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+
+                              // Espacio debajo de cada manga
+                              15.pv,
+
+                              // Botón de "CHAT" y fila con CircleAvatar y texto
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // Acción del botón de chat
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: Colors.black,
+                                    ),
+                                    child: const Text("CHAT",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      CurrentUser.getAvatarIcon(),
+                                      const SizedBox(width: 8),
+                                      const Text(
+                                        "WAZA1",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+
+                              // Espacio adicional entre mangas
+                              15.pv,
+                            ],
+                          ))
+                      .toList(),
                 ),
-
-                // Espacio debajo de cada manga
-                15.pv,
-
-                // Botón de "CHAT" y fila con CircleAvatar y texto
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Acción del botón de chat
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.black,
-                      ),
-                      child: const Text("CHAT",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CurrentUser.getCircleAvatar(),
-                        const SizedBox(width: 8),
-                        const Text(
-                          "WAZA1",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                // Espacio adicional entre mangas
-                15.pv,
-              ],
-            ))
-        .toList(),
-  ),
-),
-
-
+              ),
               15.pv,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

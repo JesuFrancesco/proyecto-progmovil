@@ -32,7 +32,7 @@ class HistoryOrders extends StatelessWidget {
                 "PEDIDOS",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              CurrentUser.getCircleAvatar(),
+              CurrentUser.getAvatarIcon(),
             ],
           ),
           15.pv,
