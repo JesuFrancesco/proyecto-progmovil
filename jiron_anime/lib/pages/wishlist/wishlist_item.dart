@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/theme/colors.dart';
 import 'wishlist_product.dart';
 
 class WishlistItemWidget extends StatelessWidget {
@@ -6,10 +7,10 @@ class WishlistItemWidget extends StatelessWidget {
   final VoidCallback onRemove;
 
   const WishlistItemWidget({
-    Key? key,
+    super.key,
     required this.product,
     required this.onRemove,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,8 @@ class WishlistItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0), // Bordes redondeados
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center, // Alinear el contenido al inicio
+        crossAxisAlignment:
+            CrossAxisAlignment.center, // Alinear el contenido al inicio
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
@@ -42,24 +44,22 @@ class WishlistItemWidget extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 16, // Tamaño de fuente del nombre
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
                   ),
-                  overflow: TextOverflow.ellipsis, // Evita desbordamiento del nombre
+                  overflow:
+                      TextOverflow.ellipsis, // Evita desbordamiento del nombre
                 ),
                 const SizedBox(height: 4), // Espacio entre nombre y precio
                 Text(
                   'S/. ${product.price.toStringAsFixed(2)}',
                   style: const TextStyle(
-                    fontSize: 14, 
-                    color: Colors.black,
+                    fontSize: 14,
                   ),
                 ),
-                const SizedBox(height: 4), 
+                const SizedBox(height: 4),
                 Text(
-                  product.description, 
+                  product.description,
                   style: const TextStyle(
-                    fontSize: 12, 
-                    color: Colors.black54, 
+                    fontSize: 12,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -68,9 +68,9 @@ class WishlistItemWidget extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, 
+                    backgroundColor: AppColors.primaryColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0), 
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
                   child: const Text(
@@ -82,7 +82,7 @@ class WishlistItemWidget extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.delete, color: Colors.black),
+            icon: const Icon(Icons.delete),
             onPressed: onRemove,
           ),
         ],

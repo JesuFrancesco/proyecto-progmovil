@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
+import 'package:jiron_anime/theme/colors.dart';
 
 class BarButton extends StatelessWidget {
   const BarButton({super.key});
@@ -17,7 +18,7 @@ class BarButton extends StatelessWidget {
                 TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shape: RoundedRectangleBorder(

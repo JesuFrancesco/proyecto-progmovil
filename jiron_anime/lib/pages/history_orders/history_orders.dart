@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:jiron_anime/pages/orders/orders.dart';
-import 'package:jiron_anime/shared/usuario_controller.dart';
+import 'package:jiron_anime/pages/orders/orders_page.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
+import 'package:jiron_anime/utils/hash_simulator.dart';
 
-class HistoryOrders extends StatelessWidget {
-  const HistoryOrders({super.key});
+class HistoryOrdersPage extends StatelessWidget {
+  const HistoryOrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,32 +17,16 @@ class HistoryOrders extends StatelessWidget {
           child: Column(
         children: [
           kToolbarHeight.pv,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Orders()),
-                  );
-                },
-              ),
-              const Text(
-                "PEDIDOS",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              CurrentUser.getAvatarIcon(),
-            ],
-          ),
+          const CustomAppbar(title: "Historial de pedidos"),
           15.pv,
-          const Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "PEDIDOS REALIZADOS",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
               )
             ],
           ),
@@ -72,7 +57,8 @@ class HistoryOrders extends StatelessWidget {
                                 children: [
                                   const Text("Pedido realizado el: 23/7/2024"),
                                   const SizedBox(height: 8),
-                                  Text("Pedido: ${manga.id}"),
+                                  // Text("Pedido: ${manga.id}"),
+                                  Text("Pedido: ${getRandomString(15)}"),
                                   const SizedBox(height: 8),
                                   const Text("Articulo: 1"),
                                   const SizedBox(height: 8),
@@ -132,7 +118,8 @@ class HistoryOrders extends StatelessWidget {
                                 children: [
                                   const Text("Pedido realizado el: 23/7/2024"),
                                   const SizedBox(height: 8),
-                                  Text("Pedido: ${manga.id}"),
+                                  // Text("Pedido: ${manga.id}"),
+                                  Text("Pedido: ${getRandomString(15)}"),
                                   const SizedBox(height: 8),
                                   const Text("Articulo: 1"),
                                   const SizedBox(height: 8),

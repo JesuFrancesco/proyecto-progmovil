@@ -2,15 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/tags_controller.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/pages/home/store/widgets/bar_button.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/pages/home/store/widgets/list_comic.dart';
 import 'package:jiron_anime/pages/home/store/widgets/slider_comic.dart';
+import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
 final ProductoController productoController = Get.put(ProductoController());
+final TagController tagController = Get.put(TagController());
 
 class TiendaPage extends StatelessWidget {
   Future<void> _loadData() async {
@@ -50,7 +53,7 @@ class TiendaPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 0, horizontal: 10),
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const BarButton(),

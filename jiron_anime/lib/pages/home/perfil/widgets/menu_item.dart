@@ -27,7 +27,7 @@ class IconMenuItem extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.labelMedium,
               ),
             ),
             const Icon(Icons.chevron_right, size: 24),

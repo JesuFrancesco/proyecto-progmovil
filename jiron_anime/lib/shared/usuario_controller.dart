@@ -9,6 +9,13 @@ class CurrentUser {
   static String? fullName = user?.userMetadata?['full_name'];
   static String? provider = user?.appMetadata['provider'];
 
+  static void reloadData() {
+    user = supabase.auth.currentUser;
+    profileImageUrl = user?.userMetadata?['avatar_url'];
+    fullName = user?.userMetadata?['full_name'];
+    provider = user?.appMetadata['provider'];
+  }
+
   static CircleAvatar getAvatarIcon(
           {DefaultUserIconSize size = DefaultUserIconSize.small}) =>
       CircleAvatar(
