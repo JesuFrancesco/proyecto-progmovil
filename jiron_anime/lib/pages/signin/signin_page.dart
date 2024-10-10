@@ -8,14 +8,14 @@ import 'package:http/http.dart' as http;
 import '../../main.dart';
 import '../../middleware/supabase_layer.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInPageState extends State<SignInPage> {
   @override
   void initState() {
     _setupAuthListener();
@@ -56,39 +56,36 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Jiron Anime",
-                style: TextStyle(fontSize: 32, fontFamily: "Rubik"),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Jiron Anime",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const Image(image: AssetImage("assets/image/logo.png")),
+            const ElevatedButton(
+              onPressed: googleSignIn,
+              style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll<Color>(Colors.white)),
+              child: Text(
+                "Iniciar sesión con Google",
+                style: TextStyle(color: Colors.black),
               ),
-              Image(image: AssetImage("assets/image/logo.png")),
-              ElevatedButton(
-                onPressed: googleSignIn,
+            ),
+            const ElevatedButton(
+                onPressed: discordSignIn,
                 style: ButtonStyle(
                     backgroundColor:
-                        WidgetStatePropertyAll<Color>(Colors.white)),
+                        WidgetStatePropertyAll<Color>(Color(0xFF5865F2))),
                 child: Text(
-                  "Iniciar sesión con Google",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-              ElevatedButton(
-                  onPressed: discordSignIn,
-                  style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStatePropertyAll<Color>(Color(0xFF5865F2))),
-                  child: Text(
-                    "Iniciar sesión con Discord",
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ],
-          ),
+                  "Iniciar sesión con Discord",
+                  style: TextStyle(color: Colors.white),
+                )),
+          ],
         ),
       ),
     );

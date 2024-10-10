@@ -17,7 +17,7 @@ class SettingsPage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CurrentUser.getClipOvalPFP(),
+            CurrentUser.getClipOvalAvatar(),
             Text(
               CurrentUser.fullName ?? 'No hay sesión',
               style: Theme.of(context).textTheme.headlineSmall,
@@ -30,49 +30,55 @@ class SettingsPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             12.pv,
-            NotificationItem(
+            IconMenuItem(
                 context: context,
                 icon: Icons.shopping_cart,
                 text: 'Carrito de compras',
                 fnOnTap: () {}),
-            NotificationItem(
+            IconMenuItem(
                 context: context,
                 icon: Icons.favorite,
                 text: 'Lista de deseados',
                 fnOnTap: () {}),
-            NotificationItem(
+            IconMenuItem(
                 context: context,
                 icon: Icons.history,
                 text: 'Historial de órdenes',
-                fnOnTap: () {Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Orders()),
-                    );}),
+                fnOnTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Orders()),
+                  );
+                }),
             // NotificationItem(
             //     context: context,
             //     icon: Icons.payment,
             //     text: 'Métodos de pago',
             //     fnOnTap: () {}),
-            NotificationItem(
+            IconMenuItem(
                 context: context,
                 icon: Icons.notifications,
                 text: 'Ajustes de notificaciones',
                 fnOnTap: () {}),
-            NotificationItem(
+            IconMenuItem(
                 context: context,
                 icon: Icons.settings,
                 text: 'Más ajustes',
                 fnOnTap: () {}),
             const Spacer(),
-            NotificationItem(
+            IconMenuItem(
                 context: context,
-                icon: Icons.logout,
-                text: 'Cerrar sesión',
+                icon: (supabase.auth.currentSession != null)
+                    ? Icons.logout
+                    : Icons.login,
+                text: (supabase.auth.currentSession != null)
+                    ? 'Cerrar Sesión'
+                    : "Iniciar Sesión",
                 fnOnTap: () async {
                   await supabase.auth.signOut();
                   Navigator.of(context.mounted ? context : context)
-                      .pushNamed("/sign-in");
-                }),
+                      .popAndPushNamed("/sign-in");
+                })
           ],
         ),
       ),

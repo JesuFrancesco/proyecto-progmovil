@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class NotificationItem extends StatelessWidget {
+class IconMenuItem extends StatelessWidget {
   final BuildContext context;
   final VoidCallback? fnOnTap;
   final IconData icon;
   final String text;
 
-  const NotificationItem({
+  const IconMenuItem({
     super.key,
     required this.context,
     required this.icon,

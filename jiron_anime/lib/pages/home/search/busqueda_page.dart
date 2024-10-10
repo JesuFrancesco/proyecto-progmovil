@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/shared/boton_retroceso.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
@@ -50,21 +51,12 @@ class _BusquedaPageState extends State<BusquedaPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TiendaPage()),
-                      );
-                    },
-                  ),
-                  const Text(
+                  const BotonRetroceso(),
+                  Text(
                     "Busqueda",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  CurrentUser.getCircleAvatar(),
+                  CurrentUser.getAvatarIcon(),
                 ],
               ),
               20.pv,

@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
       // initialRoute: supabase.auth.currentSession == null ? "/sign-in" : "/demo",
       initialRoute: "/home",
       routes: {
-        '/sign-in': (context) => const SignInScreen(),
+        '/sign-in': (context) => const SignInPage(),
         // '/sign-up': (context) => SignUpPage(), // puede q no se necesite
         '/demo': (context) => const ProfileScreen(),
         '/cart': (context) => const ShoppingCartPage(),

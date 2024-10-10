@@ -74,10 +74,7 @@ class _ProductoPageState extends State<ProductoPage> {
               kToolbarHeight.pv,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const BotonRetroceso(),
-                  CurrentUser.getCircleAvatar()
-                ],
+                children: [const BotonRetroceso(), CurrentUser.getAvatarIcon()],
               ),
               15.pv,
               InfoComic(

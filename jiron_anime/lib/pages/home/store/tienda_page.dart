@@ -40,10 +40,9 @@ class TiendaPage extends StatelessWidget {
                       children: [
                         Text(
                           "Jiron Anime",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 36),
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        CurrentUser.getCircleAvatar(),
+                        CurrentUser.getAvatarIcon(),
                       ],
                     ),
                     15.pv,
