@@ -16,6 +16,17 @@ final appTheme = ThemeData(
         fontSize: 32,
         color: Colors.black,
       ),
+      titleMedium: TextStyle(
+        fontFamily: AppFonts.primaryFont,
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+        color: Colors.black,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: AppFonts.primaryFont,
+        fontSize: 18,
+        color: Colors.black,
+      ),
       headlineLarge: TextStyle(fontFamily: AppFonts.primaryFont),
       headlineSmall: TextStyle(fontFamily: AppFonts.primaryFont)),
 );

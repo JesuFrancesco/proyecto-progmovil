@@ -1,23 +1,55 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/tags_controller.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/pages/home/store/widgets/bar_button.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/pages/home/store/widgets/list_comic.dart';
 import 'package:jiron_anime/pages/home/store/widgets/slider_comic.dart';
+import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
 final ProductoController productoController = Get.put(ProductoController());
+final TagController tagController = Get.put(TagController());
 
-class TiendaPage extends StatelessWidget {
+class TiendaPage extends StatefulWidget {
+  const TiendaPage({super.key});
+
+  @override
+  _TiendaPageState createState() => _TiendaPageState();
+}
+
+class _TiendaPageState extends State<TiendaPage> {
+  List<String> _currentTags = [];
+
   Future<void> _loadData() async {
     await productoController.obtenerProductos();
   }
 
-  const TiendaPage({super.key});
+  @override
+  void initState() {
+    super.initState();
+    _currentTags.add("Shonen"); // Muestra Shonen por defecto
+  }
+
+  void _showAllMangas() {
+    setState(() {
+      _currentTags = []; // No filtrar por etiquetas
+    });
+  }
+
+  void _showShonenMangas() {
+    setState(() {
+      _currentTags = ["Shonen"]; // Filtrar solo por Shonen
+    });
+  }
+
+  void _showSeinenMangas() {
+    setState(() {
+      _currentTags = ["Seinen"]; // Filtrar solo por Seinen
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +66,6 @@ class TiendaPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    // kToolbarHeight.pv,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -50,10 +81,14 @@ class TiendaPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 0, horizontal: 10),
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const BarButton(),
+                      child: BarButton(
+                        onCatalogPressed: _showAllMangas,
+                        onShonenPressed: _showShonenMangas,
+                        onSeinenPressed: _showSeinenMangas,
+                      ),
                     ),
                     15.pv,
                     const SliderComic(),
@@ -73,14 +108,14 @@ class TiendaPage extends StatelessWidget {
                       ],
                     ),
                     30.pv,
-                    _buildMangaList(0, 2),
-                    _buildMangaList(2, 4),
-                    _buildMangaList(4, 6),
+                    // Filtra mangas según los tags actuales
+                    _buildMangaList(_currentTags),
+                    30.pv,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Text(
-                          "Tambien contáctanos en ...",
+                          "Tambien siguenos en ...",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18),
                           textAlign: TextAlign.center,
@@ -91,11 +126,11 @@ class TiendaPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Icon(Icons.facebook),
+                        Icon(Icons.sports_tennis),
                         SizedBox(width: 20),
-                        Icon(Icons.phone),
+                        Icon(Icons.youtube_searched_for),
                         SizedBox(width: 20),
-                        Icon(Icons.sms),
+                        Icon(Icons.person_4),
                       ],
                     ),
                     15.pv,
@@ -120,22 +155,43 @@ class TiendaPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMangaList(int start, int end) {
-    return SizedBox(
-      height: 440,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: productoController.productos
-            .toList()
-            .map((manga) => Row(
-                  children: [
-                    ListComic(manga: manga),
-                    30.ph,
-                  ],
-                ))
-            .toList()
-            .sublist(start, end),
-      ),
-    );
+Widget _buildMangaList(List<String> tags) {
+  final filteredMangas = productoController.productos
+      .where((manga) {
+        if (tags.isEmpty) return true; 
+        return manga.productTags!.any((tag) =>
+            tags.contains(tag.tag?.name)); 
+      })
+      .toList();
+
+  if (filteredMangas.isEmpty) {
+    return Center(child: Text("No hay mangas disponibles"));
   }
+
+  return SingleChildScrollView(
+    child: GridView.builder(
+      physics: NeverScrollableScrollPhysics(), // Evita que el GridView sea desplazable
+      shrinkWrap: true, // Permite que el GridView tome solo el espacio necesario
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // Número de columnas
+        childAspectRatio: 0.45, // Ajusta la relación de aspecto según tus necesidades
+        crossAxisSpacing: 10, // Espacio horizontal entre columnas// Espacio vertical entre filas
+      ),
+      itemCount: filteredMangas.length,
+      itemBuilder: (context, index) {
+        final manga = filteredMangas[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: ListComic(manga: manga),
+        );
+      },
+    ),
+  );
+}
+
+
+
+
+
+
 }

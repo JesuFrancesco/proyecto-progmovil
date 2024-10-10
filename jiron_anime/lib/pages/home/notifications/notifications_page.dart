@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/notifications_controller.dart';
 import 'package:jiron_anime/models/notification.dart';
 import 'package:jiron_anime/pages/home/notifications/widget/notification_widget.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 
 final NotificationsController notificationController =
@@ -49,11 +50,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               : SingleChildScrollView(
                   child: Column(
                     children: [
-                      Text(
-                        "Notificaciones",
-                        style: Theme.of(context).textTheme.titleLarge,
-                        textAlign: TextAlign.center,
-                      ),
+                      const CustomAppbar(title: "Notificaciones"),
                       Column(
                         children: _items.asMap().entries.map((entry) {
                           final index = entry.key;

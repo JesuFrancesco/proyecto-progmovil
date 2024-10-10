@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/product/producto_page.dart';
+import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
 class ListComic extends StatelessWidget {
@@ -17,6 +18,7 @@ class ListComic extends StatelessWidget {
       children: [
         SizedBox(
           height: 250,
+          
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(manga.productAttachments![0].imageUrl!),
@@ -51,7 +53,7 @@ class ListComic extends StatelessWidget {
           },
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
-            backgroundColor: Colors.black,
+            backgroundColor: AppColors.primaryColor,
           ),
           child: const Text("MÁS INFO"),
         ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
+import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../main.dart';
@@ -27,6 +28,8 @@ class _SignInPageState extends State<SignInPage> {
       final event = data.event;
       if (event == AuthChangeEvent.signedIn && context.mounted) {
         // await loginSuccessfulCallback(data.session!);
+
+        CurrentUser.reloadData();
 
         await Navigator.of(context.mounted ? context : context).pushReplacement(
           MaterialPageRoute(
