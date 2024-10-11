@@ -12,7 +12,7 @@ class CustomAppbar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const BotonRetroceso(),
+        if (Navigator.of(context).canPop()) const BotonRetroceso(),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/models/product.dart';
+import 'package:jiron_anime/pages/home/product/producto_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'wishlist_product.dart';
 
 class WishlistItemWidget extends StatelessWidget {
   final Product product;
@@ -15,49 +16,47 @@ class WishlistItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0), // Espaciado interno
-      margin: const EdgeInsets.symmetric(vertical: 8.0), // Margen vertical
+      padding: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.transparent, // Fondo transparente
-        borderRadius: BorderRadius.circular(12.0), // Bordes redondeados
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12.0),
       ),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.center, // Alinear el contenido al inicio
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.network(
-              product.imageUrl,
+              product.productAttachments!.first.imageUrl!,
               fit: BoxFit.cover,
-              width: 70, // Ancho de la imagen
-              height: 100, // Alto de la imagen
+              width: 70,
+              height: 100,
             ),
           ),
-          const SizedBox(width: 16), // Espacio entre la imagen y el texto
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.name,
+                  product.name!,
                   style: const TextStyle(
-                    fontSize: 16, // Tamaño de fuente del nombre
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
-                  overflow:
-                      TextOverflow.ellipsis, // Evita desbordamiento del nombre
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 4), // Espacio entre nombre y precio
+                const SizedBox(height: 4),
                 Text(
-                  'S/. ${product.price.toStringAsFixed(2)}',
+                  'S/. ${product.price?.toStringAsFixed(2)}',
                   style: const TextStyle(
                     fontSize: 14,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  product.description,
+                  product.formato!,
                   style: const TextStyle(
                     fontSize: 12,
                   ),
@@ -65,7 +64,13 @@ class WishlistItemWidget extends StatelessWidget {
                 const SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => ProductoPage(
+                          producto: product,
+                        ),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,

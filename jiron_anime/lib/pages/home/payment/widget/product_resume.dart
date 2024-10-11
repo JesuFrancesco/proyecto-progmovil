@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
 
 class ProductResumeWidget extends StatelessWidget {
-  final OrderItem item;
+  final CartItem item;
   final VoidCallback onRemove;
 
   const ProductResumeWidget({
@@ -24,15 +24,6 @@ class ProductResumeWidget extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                item.product!.productAttachments!.first.imageUrl!,
-                width: 80,
-                height: 120,
-                fit: BoxFit.cover,
-              ),
-            ),
             const SizedBox(width: 16.0),
             Expanded(
               child: Column(
@@ -76,13 +67,6 @@ class ProductResumeWidget extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8.0),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(Icons.more_vert),
-                        onPressed: () {
-                          // Agrega funcionalidad si lo necesitas
-                        },
-                      ),
                     ],
                   ),
                 ],

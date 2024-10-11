@@ -3,7 +3,7 @@ import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
 class CartItemWidget extends StatelessWidget {
-  final OrderItem item;
+  final CartItem item;
   final VoidCallback onRemove;
 
   const CartItemWidget({
@@ -27,7 +27,7 @@ class CartItemWidget extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
+              child: Image.asset(
                 item.product!.productAttachments!.first.imageUrl!,
                 width: 80,
                 height: 120,

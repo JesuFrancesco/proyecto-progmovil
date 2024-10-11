@@ -18,7 +18,6 @@ class ListComic extends StatelessWidget {
       children: [
         SizedBox(
           height: 250,
-          
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(manga.productAttachments![0].imageUrl!),
@@ -46,7 +45,7 @@ class ListComic extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => ProductoPage(
-                  produto: manga,
+                  producto: manga,
                 ),
               ),
             );

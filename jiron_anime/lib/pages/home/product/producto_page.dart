@@ -13,11 +13,11 @@ import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/utils/fetch_and_render.dart';
 
 class ProductoPage extends StatefulWidget {
-  final Product produto;
+  final Product producto;
 
   const ProductoPage({
     super.key,
-    required this.produto,
+    required this.producto,
   });
 
   @override
@@ -42,11 +42,11 @@ class _ProductoPageState extends State<ProductoPage> {
 
     _bodyWidgets = {
       BotonesProducto.descripcionOption: () =>
-          DescripcionProducto(producto: widget.produto),
+          DescripcionProducto(producto: widget.producto),
       BotonesProducto.stockOption: () =>
-          StockProducto(producto: widget.produto),
+          StockProducto(producto: widget.producto),
       BotonesProducto.comentariosOption: () =>
-          PreguntasProducto(producto: widget.produto),
+          PreguntasProducto(producto: widget.producto),
     };
 
     // initial body
@@ -73,7 +73,7 @@ class _ProductoPageState extends State<ProductoPage> {
               kToolbarHeight.pv,
               const CustomAppbar(title: ""),
               InfoComic(
-                producto: widget.produto,
+                producto: widget.producto,
               ),
               15.pv,
               Botones(

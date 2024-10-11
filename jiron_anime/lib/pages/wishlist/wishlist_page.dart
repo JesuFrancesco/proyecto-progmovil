@@ -1,4 +1,3 @@
-// wishlist_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
@@ -12,12 +11,10 @@ class WishlistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Instanciar el controlador
     final WishlistController controller = Get.put(WishlistController());
 
     return Scaffold(
       body: Obx(() {
-        // Usar Obx para escuchar cambios en wishlistItems
         final wishlistItems = controller.wishlistItems;
 
         return CustomLayout(

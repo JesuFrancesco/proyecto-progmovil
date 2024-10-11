@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/controllers/SHOPPING_CART_CONTROLLER.dart';
+import 'package:jiron_anime/controllers/shopping_cart_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 //import 'shopping_cart_controller.dart';
@@ -36,7 +36,7 @@ class _InfoComicState extends State<InfoComic> {
     int? productId = widget.producto.id;
 
     if (productId != null) {
-      int cartId = 1; // Usar el ID de un carrito existente o crear uno nuevo
+      int cartId = 1;
       await _shoppingCartController.addProductToCart(
           cartId, productId, _itemCount);
       Navigator.pushNamed(

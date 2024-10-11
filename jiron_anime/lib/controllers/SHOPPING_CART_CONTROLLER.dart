@@ -1,11 +1,14 @@
+import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' show join;
 
 class ShoppingCartController {
   Database? _database;
 
   Future<Database> get database async {
     if (_database != null) return _database!;
+
     _database = await _initDB();
     return _database!;
   }
@@ -37,15 +40,52 @@ class ShoppingCartController {
     );
   }
 
-  Future<void> addProductToCart(int cartId, int productId, int amount) async {
+  Future<ShoppingCart> obtenerCarrito(int cartId) async {
     final db = await database;
-    await db.insert('cart_items', {
-      'cart_id': cartId,
-      'product_id': productId,
-      'amount': amount,
-      'added_at': DateTime.now().toIso8601String(),
-    }, conflictAlgorithm: ConflictAlgorithm.replace);
+    List<Map<String, Object?>> resultado = await db.query('cart_items',
+        columns: ["product_id", "amount"], where: 'cart_id = $cartId');
+
+    final itemsCarrito = resultado.map((e) {
+      final p = productoController.productos
+          .firstWhere((element) => element.id == e["product_id"]);
+
+      return CartItem(
+          product: p,
+          productId: e["product_id"] as int,
+          amount: e["amount"] as int);
+    });
+
+    return ShoppingCart(cartItems: itemsCarrito.toList());
   }
 
-  // Otros métodos como eliminar, obtener productos, etc.
+  Future<void> addProductToCart(int cartId, int productId, int amount) async {
+    final db = await database;
+    await db.insert(
+        'cart_items',
+        {
+          'cart_id': cartId,
+          'product_id': productId,
+          'amount': amount,
+          'added_at': DateTime.now().toIso8601String(),
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace);
+
+    final carrito = await obtenerCarrito(cartId);
+    // ignore: avoid_print
+    print("################ PEPEEE");
+    // ignore: avoid_print
+    print(carrito.toJson());
+  }
+
+  Future<void> deleteProductFromCart(int cartId, int productId) async {
+    final db = await database;
+    await db
+        .delete('cart_items', where: "product_id = ?", whereArgs: [productId]);
+
+    final carrito = await obtenerCarrito(cartId);
+    // ignore: avoid_print
+    print("################ PEPEEE");
+    // ignore: avoid_print
+    print(carrito.toJson());
+  }
 }
