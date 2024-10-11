@@ -5,8 +5,7 @@ import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/product/widget/descripcion.dart';
 import 'package:jiron_anime/pages/home/product/widget/pregunta.dart';
 import 'package:jiron_anime/pages/home/product/widget/stock.dart';
-import 'package:jiron_anime/shared/boton_retroceso.dart';
-import 'package:jiron_anime/shared/usuario_controller.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/pages/home/product/widget/info_comic.dart';
@@ -14,11 +13,11 @@ import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/utils/fetch_and_render.dart';
 
 class ProductoPage extends StatefulWidget {
-  final Product produto;
+  final Product producto;
 
   const ProductoPage({
     super.key,
-    required this.produto,
+    required this.producto,
   });
 
   @override
@@ -43,11 +42,11 @@ class _ProductoPageState extends State<ProductoPage> {
 
     _bodyWidgets = {
       BotonesProducto.descripcionOption: () =>
-          DescripcionProducto(producto: widget.produto),
+          DescripcionProducto(producto: widget.producto),
       BotonesProducto.stockOption: () =>
-          StockProducto(producto: widget.produto),
+          StockProducto(producto: widget.producto),
       BotonesProducto.comentariosOption: () =>
-          PreguntasProducto(producto: widget.produto),
+          PreguntasProducto(producto: widget.producto),
     };
 
     // initial body
@@ -67,20 +66,16 @@ class _ProductoPageState extends State<ProductoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomPadding(
+      body: CustomLayout(
         child: SingleChildScrollView(
           child: Column(
             children: [
               kToolbarHeight.pv,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [const BotonRetroceso(), CurrentUser.getAvatarIcon()],
-              ),
-              15.pv,
+              const CustomAppbar(title: ""),
               InfoComic(
-                producto: widget.produto,
+                producto: widget.producto,
               ),
-              15.pv,
+              30.pv,
               Botones(
                 onDescripcion: () {
                   _onBotonTapped(BotonesProducto.descripcionOption);

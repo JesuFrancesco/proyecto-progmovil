@@ -36,9 +36,9 @@ class _HomePageState extends State<HomePage> {
       case StoreWidgetType.buscar:
         return const BusquedaPage();
       case StoreWidgetType.notificaciones:
-        return NotificationsPage(context: context);
+        return const NotificationsPage();
       case StoreWidgetType.perfil:
-        return PerfilPage(context: context);
+        return const PerfilPage();
       default:
         return const Center(child: Text('PAGINA NO IMPLEMENTADA'));
     }
@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // widget
     return Scaffold(
+      // backgroundColor: AppColors.primaryColor,
       body: _buildBody(context),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

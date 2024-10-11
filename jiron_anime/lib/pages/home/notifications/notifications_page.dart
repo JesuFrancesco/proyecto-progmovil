@@ -10,9 +10,7 @@ final NotificationsController notificationController =
     Get.put(NotificationsController());
 
 class NotificationsPage extends StatefulWidget {
-  final BuildContext context;
-
-  const NotificationsPage({super.key, required this.context});
+  const NotificationsPage({super.key});
 
   @override
   State<NotificationsPage> createState() => _NotificationsPageState();
@@ -43,27 +41,25 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPadding(
-      child: Scaffold(
-          body: _items.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const CustomAppbar(title: "Notificaciones"),
-                      Column(
-                        children: _items.asMap().entries.map((entry) {
-                          final index = entry.key;
-                          final item = entry.value;
-                          return NotificacionRemovableWidget(
-                            item: item,
-                            onDismissed: () => _removeItem(index),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                )),
-    );
+    return CustomLayout(
+        child: _items.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const CustomAppbar(title: "Notificaciones"),
+                    Column(
+                      children: _items.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final item = entry.value;
+                        return NotificacionRemovableWidget(
+                          item: item,
+                          onDismissed: () => _removeItem(index),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ));
   }
 }

@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/theme/colors.dart';
+// import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/theme/fonts.dart';
 
 final appTheme = ThemeData(

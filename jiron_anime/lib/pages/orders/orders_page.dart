@@ -17,7 +17,7 @@ class OrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomPadding(
+      body: CustomLayout(
         child: SingleChildScrollView(
           child: Column(
             children: [

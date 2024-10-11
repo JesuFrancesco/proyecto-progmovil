@@ -9,7 +9,7 @@ class CurrentUser {
   static String? fullName = user?.userMetadata?['full_name'];
   static String? provider = user?.appMetadata['provider'];
 
-  static void reloadData() {
+  static Future<void> reloadData() async {
     user = supabase.auth.currentUser;
     profileImageUrl = user?.userMetadata?['avatar_url'];
     fullName = user?.userMetadata?['full_name'];
