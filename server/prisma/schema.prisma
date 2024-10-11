@@ -101,6 +101,7 @@ model Product {
   discount      Int?
   peso          Decimal?
   formato       String?
+  cubierta      String?
   anhoEdicion   Int?     @map("anho_edicion")
   numeroPaginas Int?     @map("numero_paginas")
 
@@ -158,7 +159,7 @@ model Wishlist {
 
 model Order {
   id         Int         @id @default(autoincrement())
-  totalPrice Int         @map("total_price")
+  totalPrice Decimal     @map("total_price")
   status     String
   userId     Int         @map("user_id")
   user       User        @relation(fields: [userId], references: [id])
