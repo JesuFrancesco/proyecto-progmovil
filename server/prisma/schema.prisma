@@ -298,7 +298,7 @@ model ProductQuestion {
 
 model CartItem {
   amount       Int
-  addedAt      DateTime
+  addedAt      DateTime     @default(now())
   cartId       Int
   productId    Int
   shoppingCart ShoppingCart @relation(fields: [cartId], references: [id])
@@ -319,7 +319,7 @@ model ProductTag {
 }
 
 model WishlistItem {
-  addedAt    DateTime
+  addedAt    DateTime @default(now())
   wishlistId Int
   productId  Int
 
