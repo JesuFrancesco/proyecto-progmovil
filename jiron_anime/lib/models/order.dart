@@ -1,4 +1,5 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
+import 'package:jiron_anime/utils/parseo.dart';
 
 import 'model_base.dart';
 import 'user.dart';
@@ -7,7 +8,7 @@ import 'order_item.dart';
 class Order implements ToJson, Id {
   @override
   int? id;
-  int? totalPrice;
+  double? totalPrice;
   String? status;
   int? userId;
   User? user;
@@ -26,7 +27,7 @@ class Order implements ToJson, Id {
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
       id: json['id'] as int?,
-      totalPrice: json['totalPrice'] as int?,
+      totalPrice: parseToDouble(json['totalPrice']),
       status: json['status'] as String?,
       userId: json['userId'] as int?,
       user: json['user'] != null
@@ -39,7 +40,7 @@ class Order implements ToJson, Id {
 
   Order copyWith({
     int? id,
-    int? totalPrice,
+    double? totalPrice,
     String? status,
     int? userId,
     User? user,
