@@ -75,7 +75,7 @@ class _ProductoPageState extends State<ProductoPage> {
               InfoComic(
                 producto: widget.producto,
               ),
-              15.pv,
+              30.pv,
               Botones(
                 onDescripcion: () {
                   _onBotonTapped(BotonesProducto.descripcionOption);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/utils/extensions.dart';
-import 'wishlist_controller.dart';
 import 'wishlist_item.dart';
 
 class WishlistPage extends StatelessWidget {
@@ -11,11 +11,11 @@ class WishlistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final WishlistController controller = Get.put(WishlistController());
+    final ProductoController controller = Get.put(ProductoController());
 
     return Scaffold(
       body: Obx(() {
-        final wishlistItems = controller.wishlistItems;
+        final wishlistItems = controller.productos;
 
         return CustomLayout(
           py: 2,
@@ -31,7 +31,7 @@ class WishlistPage extends StatelessWidget {
                     return WishlistItemWidget(
                       product: item,
                       onRemove: () {
-                        controller.removeFromWishlist(item.id);
+                        controller.productos.removeAt(index);
                       },
                     );
                   },
@@ -40,7 +40,7 @@ class WishlistPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Articulos en lista: ${controller.totalProducts}',
+                  'Articulos en lista: ${controller.productos.length}',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

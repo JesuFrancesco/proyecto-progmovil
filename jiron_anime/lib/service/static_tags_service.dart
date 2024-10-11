@@ -7,7 +7,7 @@ class StaticTagsService {
     List<Tag> tags = [];
 
     final String response =
-        await rootBundle.loadString('assets/json/tags_sintetica.json');
+        await rootBundle.loadString('static/tags_sintetica.json');
 
     final List<dynamic> data = jsonDecode(response);
 

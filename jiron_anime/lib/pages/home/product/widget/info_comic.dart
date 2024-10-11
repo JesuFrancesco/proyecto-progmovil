@@ -99,7 +99,7 @@ class _InfoComicState extends State<InfoComic> {
             ),
             15.pv,
             Row(children: [
-              const Icon(Icons.favorite),
+              const Icon(Icons.favorite_border_outlined),
               15.ph,
               const Text("Añadir a lista de deseados")
             ]),

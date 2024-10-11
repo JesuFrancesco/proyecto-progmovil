@@ -35,19 +35,19 @@ class _TiendaPageState extends State<TiendaPage> {
 
   void _showAllMangas() {
     setState(() {
-      _currentTags = []; // No filtrar por etiquetas
+      _currentTags = [];
     });
   }
 
   void _showShonenMangas() {
     setState(() {
-      _currentTags = ["Shonen"]; // Filtrar solo por Shonen
+      _currentTags = ["Shonen"];
     });
   }
 
   void _showSeinenMangas() {
     setState(() {
-      _currentTags = ["Seinen"]; // Filtrar solo por Seinen
+      _currentTags = ["Seinen"];
     });
   }
 
@@ -84,7 +84,7 @@ class _TiendaPageState extends State<TiendaPage> {
                       color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: BarButton(
+                    child: TagsBarButton(
                       onCatalogPressed: _showAllMangas,
                       onShonenPressed: _showShonenMangas,
                       onSeinenPressed: _showSeinenMangas,

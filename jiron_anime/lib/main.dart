@@ -8,6 +8,7 @@ import 'package:jiron_anime/pages/demo/profile_demo.dart';
 import 'package:jiron_anime/pages/reset/reset_page.dart';
 import 'package:jiron_anime/pages/wishlist/wishlist_page.dart';
 import 'package:jiron_anime/theme/theme.dart';
+import 'package:jiron_anime/utils/local_sqlite.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jiron_anime/pages/shopping_cart/cart_page.dart';
@@ -18,6 +19,8 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   initializeSupabase();
+
+  initializeDatabase();
 
   runApp(const MainApp());
 }

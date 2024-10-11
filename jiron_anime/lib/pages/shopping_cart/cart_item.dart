@@ -105,7 +105,7 @@ class CartItemWidget extends StatelessWidget {
                       ),
                       const Spacer(),
                       PopupMenuButton(
-                        icon: const Icon(Icons.more_vert, color: Colors.black),
+                        icon: const Icon(Icons.more_vert),
                         itemBuilder: (BuildContext context) => [
                           const PopupMenuItem(
                             value: 'delete',
