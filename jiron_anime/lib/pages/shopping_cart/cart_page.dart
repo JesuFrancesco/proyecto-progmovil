@@ -1,6 +1,10 @@
 // shopping_cart_page.dart
 import 'package:flutter/material.dart';
-import 'product.dart'; // Modelo del producto
+import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
+import 'package:jiron_anime/shared/custom_padding.dart';
+import 'package:jiron_anime/theme/colors.dart';
+import 'package:jiron_anime/utils/extensions.dart';
 import 'cart_item.dart'; // Widget para el ítem del carrito
 
 class ShoppingCartPage extends StatelessWidget {
@@ -9,68 +13,63 @@ class ShoppingCartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Ejemplo de productos en el carrito
-    final List<Product> cartItems = [
-      Product(
-        name: "Sousou no Frieren",
-        price: 41.00,
-        quantity: 2,
-        imageUrl: "https://ramenparados.com/wp-content/uploads/2023/12/frieren-12-jp.jpg",
+    final Order orden = Order(orderItems: [
+      OrderItem(
+        amount: 2,
+        product: Product(
+            name: "Sousou no Frieren",
+            formato: "Tomo 1",
+            price: 41.00,
+            productAttachments: [
+              ProductAttachment(
+                  imageUrl:
+                      "https://ramenparados.com/wp-content/uploads/2023/12/frieren-12-jp.jpg")
+            ]),
       ),
-      Product(
-        name: "Kaguya-sama: Love Is War",
-        price: 35.00,
-        quantity: 1,
-        imageUrl: "https://static.wikia.nocookie.net/kaguyasama-wa-kokurasetai/images/c/cc/Volumen1.png/revision/latest?cb=20230625165459&path-prefix=es",
+      OrderItem(
+        amount: 1,
+        product: Product(
+            name: "Kaguya-sama: Love Is War",
+            formato: "Tomo 1",
+            price: 35.00,
+            productAttachments: [
+              ProductAttachment(
+                  imageUrl:
+                      "https://static.wikia.nocookie.net/kaguyasama-wa-kokurasetai/images/c/cc/Volumen1.png/revision/latest?cb=20230625165459&path-prefix=es")
+            ]),
       ),
-      Product(
-        name: "Kaguya-sama: Love Is War",
-        price: 35.00,
-        quantity: 1,
-        imageUrl: "https://static.wikia.nocookie.net/kaguyasama-wa-kokurasetai/images/c/cc/Volumen1.png/revision/latest?cb=20230625165459&path-prefix=es",
-      ),
-    ];
+      OrderItem(
+        amount: 1,
+        product: Product(
+            name: "Kaguya-sama: Love Is War 2",
+            price: 35.00,
+            formato: "Tomo 2",
+            productAttachments: [
+              ProductAttachment(
+                  imageUrl:
+                      "https://images.cdn2.buscalibre.com/fit-in/360x360/8a/33/8a337bc697ac34f48372e7c30f492d0b.jpg"),
+            ]),
+      )
+    ]);
 
-    // Calcular la cantidad total de productos
-    int totalProducts = cartItems.fold(0, (sum, item) => sum + item.quantity);
+    int totalProducts = orden.orderItems!.length;
 
-    // Calcular el total del carrito
-    double totalAmount = cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
+    orden.totalPrice = orden.orderItems!.fold(
+        0,
+        (sum, orderItem) =>
+            sum! + (orderItem.product!.price! * orderItem.amount!).toInt());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'CARRITO',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pushNamed(context, '/home');
-          },
-        ),
-      ),
-      extendBodyBehindAppBar: true,
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFFDE7E0), Color(0xFFFEF3F0)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+      body: CustomPadding(
         child: Column(
           children: [
+            kToolbarHeight.pv,
+            const CustomAppbar(title: "Carrito de compras"),
             Expanded(
               child: ListView.builder(
-                itemCount: cartItems.length,
+                itemCount: orden.orderItems!.length,
                 itemBuilder: (context, index) {
-                  final item = cartItems[index];
+                  final item = orden.orderItems![index];
                   return CartItemWidget(
                     item: item,
                     onRemove: () {
@@ -81,7 +80,8 @@ class ShoppingCartPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -90,7 +90,6 @@ class ShoppingCartPage extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 8.0),
@@ -102,15 +101,13 @@ class ShoppingCartPage extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
                       Text(
-                        'S/. ${totalAmount.toStringAsFixed(2)}',
+                        'S/. ${orden.totalPrice}',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -122,10 +119,10 @@ class ShoppingCartPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  _processPayment(context, totalAmount);
+                  _processPayment(context, orden.totalPrice!.toDouble());
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: AppColors.primaryColor,
                   minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -134,10 +131,9 @@ class ShoppingCartPage extends StatelessWidget {
                 child: const Text(
                   'PAGAR',
                   style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
             ),
@@ -153,7 +149,8 @@ class ShoppingCartPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Procesando pago'),
-          content: Text('El monto total es S/. ${totalAmount.toStringAsFixed(2)}'),
+          content:
+              Text('El monto total es S/. ${totalAmount.toStringAsFixed(2)}'),
           actions: <Widget>[
             TextButton(
               child: const Text('Aceptar'),

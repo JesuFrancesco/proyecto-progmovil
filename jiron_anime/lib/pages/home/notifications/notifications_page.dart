@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/notifications_controller.dart';
 import 'package:jiron_anime/models/notification.dart';
 import 'package:jiron_anime/pages/home/notifications/widget/notification_widget.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
+import 'package:jiron_anime/shared/custom_padding.dart';
 
 final NotificationsController notificationController =
     Get.put(NotificationsController());
@@ -19,9 +21,17 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage> {
   late List<Notification> _items = [];
 
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
   Future<void> _loadData() async {
     await notificationController.obtenerNotificaciones();
-    _items = notificationController.notificaciones.toList();
+    setState(() {
+      _items = notificationController.notificaciones.toList();
+    });
   }
 
   void _removeItem(int index) {
@@ -33,23 +43,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: FutureBuilder(
-            future: _loadData(),
-            builder: (body, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else {
-                return SingleChildScrollView(
+    return CustomPadding(
+      child: Scaffold(
+          body: _items.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
                   child: Column(
                     children: [
-                      Text(
-                        "Notificaciones",
-                        style: Theme.of(context).textTheme.titleLarge,
-                        textAlign: TextAlign.center,
-                      ),
+                      const CustomAppbar(title: "Notificaciones"),
                       Column(
                         children: _items.asMap().entries.map((entry) {
                           final index = entry.key;
@@ -62,8 +63,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       ),
                     ],
                   ),
-                );
-              }
-            }));
+                )),
+    );
   }
 }

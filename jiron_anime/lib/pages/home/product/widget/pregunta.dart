@@ -1,10 +1,12 @@
 // ignore_for_file: unnecessary_const
 
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
-class Preguntas extends StatelessWidget {
-  const Preguntas({super.key});
+class PreguntasProducto extends StatelessWidget {
+  final Product producto;
+  const PreguntasProducto({super.key, required this.producto});
 
   @override
   Widget build(BuildContext context) {

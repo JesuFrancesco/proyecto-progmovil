@@ -27,78 +27,88 @@ class _SliderComicState extends State<SliderComic> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       width: double.infinity,
+      height: 120,
       child: Stack(
         children: [
-          ClipRect(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: Align(
-                alignment: Alignment.topCenter,
-                heightFactor: 0.25,
-                child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                    Colors.white.withOpacity(0.3),
-                    BlendMode.lighten,
-                  ),
-                  child: Image.asset(
-                      currentComic.productAttachments![0].imageUrl!),
+          // BACKGROUND IMAGE CONTAINER WITH CLIPPING
+          ClipRRect(
+            borderRadius:
+                BorderRadius.circular(0), // Optional: for rectangle shape
+            child: SizedBox.expand(
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.3),
+                  BlendMode.lighten,
+                ),
+                child: Image.asset(
+                  currentComic.productAttachments![0].imageUrl!,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
-          Positioned(
-            left: 10,
-            right: 10,
-            top: MediaQuery.of(context).size.height / 15 - 40,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.5),
-                border: Border.all(color: Colors.black, width: 2),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                children: [
-                  Center(
-                    child: Text(
-                      currentComic.name!,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+          // MAIN FLEX LAYOUT
+          Column(
+            children: [
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // LEFT ARROW
+                    IconButton(
+                      icon: const Icon(Icons.arrow_left, color: Colors.black),
+                      onPressed: toggleImage,
+                    ),
+                    // FLEXIBLE TEXT CONTENT WITH ELLIPSIS
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.5),
+                          border: Border.all(color: Colors.black, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              currentComic.name!,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow:
+                                  TextOverflow.fade, // Ellipsis for long title
+                              maxLines: 1, // Truncate to 1 line
+                            ),
+                            const SizedBox(height: 0),
+                            Text(
+                              currentComic.descripcion!,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.5,
+                              ),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow
+                                  .ellipsis, // Ellipsis for long description
+                              maxLines: 2, // Limit to 2 lines
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 0),
-                  Center(
-                    child: Text(
-                      currentComic.name!,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.5,
-                      ),
-                      textAlign: TextAlign.center,
+                    // RIGHT ARROW
+                    IconButton(
+                      icon: const Icon(Icons.arrow_right, color: Colors.black),
+                      onPressed: toggleImage,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ),
-          Positioned(
-            left: -5,
-            top: MediaQuery.of(context).size.height / 9 - 50,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_left, color: Colors.black),
-              onPressed: toggleImage,
-            ),
-          ),
-          Positioned(
-            right: -5,
-            top: MediaQuery.of(context).size.height / 9 - 50,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_right, color: Colors.black),
-              onPressed: toggleImage,
-            ),
+            ],
           ),
         ],
       ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
-class Descripcion extends StatelessWidget {
-  const Descripcion({super.key});
+class DescripcionProducto extends StatelessWidget {
+  final Product producto;
+  const DescripcionProducto({super.key, required this.producto});
 
   @override
   Widget build(BuildContext context) {
@@ -22,79 +24,56 @@ class Descripcion extends StatelessWidget {
                 ],
               ),
               10.pv,
-              const Text(
-                  "Tomo 10 del manga de chainsawman (como nuevo). Es del año de edición del 2020. Proviene de la editorial IVREA y cuenta con 192 páginas."),
+              Text(producto.descripcion != null
+                  ? producto.descripcion!
+                  : "No hay descripción"),
               10.pv,
               const Text(
                 "Detalles del producto",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               10.pv,
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Marca"),
-                      SizedBox(height: 8),
-                      Text("Peso"),
-                      SizedBox(height: 8),
-                      Text("Formato"),
-                      SizedBox(height: 8),
-                      Text("Dimensiones"),
-                      SizedBox(height: 8),
-                      Text("Edicion"),
-                      SizedBox(height: 8),
-                      Text("Garantia"),
-                      SizedBox(height: 8),
-                      Text("Numero de paginas"),
-                      SizedBox(height: 8),
-                      Text("Categoria"),
+                      ...[
+                        if (producto.brandSeller != null) const Text("Marca"),
+                        if (producto.peso != null) const Text("Peso"),
+                        if (producto.formato != null) const Text("Formato"),
+                        if (producto.dimensions != null)
+                          const Text("Dimensiones"),
+                        if (producto.anhoEdicion != null) const Text("Edicion"),
+                        if (producto.warranty != null) const Text("Garantia"),
+                        if (producto.numeroPaginas != null)
+                          const Text("Numero de paginas"),
+                        if (producto.productTags != null)
+                          const Text("Categoria"),
+                      ].expand((label) => [label, const SizedBox(height: 8)]),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        "IVREA Argentina",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "0.1777 kg",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "B6",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "17,6 x 25 cm",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "2024",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "1Si",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "196",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "Shonen",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                      ...[
+                        if (producto.brandSeller != null)
+                          Text(producto.brandSeller!.name!),
+                        if (producto.peso != null)
+                          Text(producto.peso!.toString()),
+                        if (producto.formato != null) Text(producto.formato!),
+                        if (producto.dimensions != null)
+                          Text(producto.dimensions!),
+                        if (producto.anhoEdicion != null)
+                          Text(producto.anhoEdicion!.toString()),
+                        if (producto.warranty != null)
+                          Text(producto.warranty! == true ? "si" : "no"),
+                        if (producto.numeroPaginas != null)
+                          Text(producto.numeroPaginas!.toString()),
+                        if (producto.productTags != null)
+                          Text(producto.productTags![0].tag!.name!),
+                      ].expand((label) => [label, const SizedBox(height: 8)]),
                     ],
                   ),
                 ],

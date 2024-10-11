@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomPadding extends StatelessWidget {
-  const CustomPadding({super.key, required this.child});
+  final double px, py;
+  const CustomPadding(
+      {super.key, required this.child, this.px = 20, this.py = 4});
 
-  final Widget child; // no va a cambiar
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: px, vertical: py),
       child: child,
     );
   }

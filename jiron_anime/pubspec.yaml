@@ -20,17 +20,18 @@ dependencies:
   cupertino_icons: ^1.0.6
   chips_choice: ^3.0.0
   json_annotation: ^4.0.1
+  sqflite: ^2.4.0
 
 flutter_native_splash:
   color: "#ffffff"
   image: assets/image/logo.png
   color_dark: "#121212"
-  image_dark: assets/image/logo.png
+  image_dark: assets/image/ja_mini_mini.png
   #  branding: assets/branding-development.png
   #  branding_dark: assets/branding.png
 
   android_12:
-    image: assets/image/logo.png
+    image: assets/image/logo_spash_centered.png
     icon_background_color: "#ffffff"
     #    image_dark: assets/logo.png
     icon_background_color_dark: "#121212"

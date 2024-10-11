@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 //import 'package:jiron_anime/utils/extensions.dart';
 
-class Stock extends StatelessWidget {
-  const Stock({super.key});
+class StockProducto extends StatelessWidget {
+  final Product producto;
+  const StockProducto({super.key, required this.producto});
 
   @override
   Widget build(BuildContext context) {
