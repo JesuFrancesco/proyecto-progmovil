@@ -1,8 +1,8 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/controllers/SHOPPING_CART_CONTROLLER.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/utils/extensions.dart';
+//import 'shopping_cart_controller.dart';
 
 class InfoComic extends StatefulWidget {
   final Product producto;
@@ -15,6 +15,8 @@ class InfoComic extends StatefulWidget {
 
 class _InfoComicState extends State<InfoComic> {
   int _itemCount = 1;
+  final ShoppingCartController _shoppingCartController =
+      ShoppingCartController();
 
   void _increaseCount() {
     setState(() {
@@ -27,6 +29,23 @@ class _InfoComicState extends State<InfoComic> {
       setState(() {
         _itemCount--;
       });
+    }
+  }
+
+  Future<void> _addToCart() async {
+    int? productId = widget.producto.id;
+
+    if (productId != null) {
+      int cartId = 1; // Usar el ID de un carrito existente o crear uno nuevo
+      await _shoppingCartController.addProductToCart(
+          cartId, productId, _itemCount);
+      Navigator.pushNamed(
+          context, '/cart'); // Redirige a la pantalla del carrito
+    } else {
+      // Muestra un mensaje de error o maneja el caso en el que el producto no tiene ID
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error: El producto no tiene ID")),
+      );
     }
   }
 
@@ -58,7 +77,7 @@ class _InfoComicState extends State<InfoComic> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/cart');
+                    _addToCart();
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black,
