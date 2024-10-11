@@ -1,12 +1,5 @@
 [
 	{
-		"id": 1,
-		"title": "¡Ehuaranga encontrado inconsciente en Lima, Perú!",
-		"description": "Una persona llamada Ehuaranga ha sido encontrada tirada en la calle en Lima, Perú, generando preocupación entre los locales.",
-		"createdAt": "2024-10-10T15:00:00Z",
-		"imageUrl": "https://scontent.flim15-1.fna.fbcdn.net/v/t39.30808-6/460842342_8583635564990935_8003092595466940026_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=b04a48&_nc_ohc=pepUVP96OpgQ7kNvgENwBmy&_nc_ht=scontent.flim15-1.fna&_nc_gid=AGFxaZhssPx-Wr4MKbFrHyG&oh=00_AYDzct7gkZ63FvDYNpVqh1UvIKhuwt1smW6Lr0UsKlHTqA&oe=670E06F3"
-	},
-	{
 		"id": 2,
 		"title": "¡Polémica por la animación de Uzumaki!",
 		"description": "La esperada adaptación animada de Uzumaki ha generado polémica entre los fans, quienes critican la calidad de la animación que, según algunos, no logra capturar el estilo único de Junji Ito.",
@@ -54,6 +47,13 @@
 		"description": "Una nueva adaptación en live-action de Death Note está actualmente en desarrollo para plataformas de streaming.",
 		"createdAt": "2024-10-03T16:30:00Z",
 		"imageUrl": "https://upload.wikimedia.org/wikipedia/en/b/bc/DeathNote%28tv_series%29-poster.jpg"
+	},
+	{
+		"id": 1,
+		"title": "¡Ehuaranga encontrado inconsciente en Lima, Perú!",
+		"description": "Una persona llamada Ehuaranga ha sido encontrada tirada en la calle en Lima, Perú, generando preocupación entre los locales. Dale like y suscríbete si lo has visto",
+		"createdAt": "2024-10-10T15:00:00Z",
+		"imageUrl": "https://scontent.flim15-1.fna.fbcdn.net/v/t39.30808-6/460842342_8583635564990935_8003092595466940026_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=b04a48&_nc_ohc=pepUVP96OpgQ7kNvgENwBmy&_nc_ht=scontent.flim15-1.fna&_nc_gid=AGFxaZhssPx-Wr4MKbFrHyG&oh=00_AYDzct7gkZ63FvDYNpVqh1UvIKhuwt1smW6Lr0UsKlHTqA&oe=670E06F3"
 	},
 	{
 		"id": 9,

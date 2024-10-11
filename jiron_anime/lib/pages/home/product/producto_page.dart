@@ -5,8 +5,7 @@ import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/product/widget/descripcion.dart';
 import 'package:jiron_anime/pages/home/product/widget/pregunta.dart';
 import 'package:jiron_anime/pages/home/product/widget/stock.dart';
-import 'package:jiron_anime/shared/boton_retroceso.dart';
-import 'package:jiron_anime/shared/usuario_controller.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/pages/home/product/widget/info_comic.dart';
@@ -67,16 +66,12 @@ class _ProductoPageState extends State<ProductoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomPadding(
+      body: CustomLayout(
         child: SingleChildScrollView(
           child: Column(
             children: [
               kToolbarHeight.pv,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [const BotonRetroceso(), CurrentUser.getAvatarIcon()],
-              ),
-              15.pv,
+              const CustomAppbar(title: ""),
               InfoComic(
                 producto: widget.produto,
               ),

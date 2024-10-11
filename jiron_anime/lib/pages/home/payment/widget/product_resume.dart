@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/theme/colors.dart';
 
-class CartItemWidget extends StatelessWidget {
+class ProductResumeWidget extends StatelessWidget {
   final OrderItem item;
   final VoidCallback onRemove;
 
-  const CartItemWidget({
+  const ProductResumeWidget({
     super.key,
     required this.item,
     required this.onRemove,
@@ -77,51 +76,11 @@ class CartItemWidget extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8.0),
-                      SizedBox(
-                        width: 90,
-                        height: 30,
-                        child: TextButton.icon(
-                          onPressed: onRemove,
-                          icon: const Icon(
-                            Icons.favorite_border,
-                            color: Colors.white,
-                            size: 16.0,
-                          ),
-                          label: const Text(
-                            'Guardar',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            backgroundColor: AppColors.primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                        ),
-                      ),
                       const Spacer(),
-                      PopupMenuButton(
-                        icon: const Icon(Icons.more_vert, color: Colors.black),
-                        itemBuilder: (BuildContext context) => [
-                          const PopupMenuItem(
-                            value: 'delete',
-                            child: Row(
-                              children: [
-                                Icon(Icons.delete, color: Colors.red),
-                                SizedBox(width: 8),
-                                Text('Eliminar'),
-                              ],
-                            ),
-                          ),
-                        ],
-                        onSelected: (value) {
-                          if (value == 'delete') {
-                            onRemove(); // Llama a la función para eliminar el artículo
-                          }
+                      IconButton(
+                        icon: const Icon(Icons.more_vert),
+                        onPressed: () {
+                          // Agrega funcionalidad si lo necesitas
                         },
                       ),
                     ],

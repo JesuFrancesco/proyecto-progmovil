@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
+import 'package:jiron_anime/pages/home/notifications/notifications_page.dart';
+import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
+import 'package:jiron_anime/pages/home/settings/settings_page.dart';
 import 'package:jiron_anime/pages/orders/orders_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 import 'package:jiron_anime/pages/demo/profile_demo.dart';
@@ -32,6 +35,7 @@ class MainApp extends StatelessWidget {
       // initialRoute: supabase.auth.currentSession == null ? "/sign-in" : "/demo",
       initialRoute: "/home",
       routes: {
+        // SIGN IN, SIGN UP, RESET PASSWD
         '/sign-in': (context) => const SignInPage(),
         // '/sign-up': (context) => SignUpPage(), // puede q no se necesite
         '/demo': (context) => const ProfileScreen(),

@@ -1,6 +1,7 @@
 // shopping_cart_page.dart
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/pages/home/payment/payment_page.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/theme/colors.dart';
@@ -60,7 +61,7 @@ class ShoppingCartPage extends StatelessWidget {
             sum! + (orderItem.product!.price! * orderItem.amount!).toInt());
 
     return Scaffold(
-      body: CustomPadding(
+      body: CustomLayout(
         child: Column(
           children: [
             kToolbarHeight.pv,
@@ -73,7 +74,7 @@ class ShoppingCartPage extends StatelessWidget {
                   return CartItemWidget(
                     item: item,
                     onRemove: () {
-                      // Lógica para eliminar el ítem del carrito (si lo necesitas)
+                      orden.orderItems!.removeAt(index);
                     },
                   );
                 },
@@ -119,7 +120,7 @@ class ShoppingCartPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  _processPayment(context, orden.totalPrice!.toDouble());
+                  _processPayment(context, orden);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
@@ -143,24 +144,13 @@ class ShoppingCartPage extends StatelessWidget {
     );
   }
 
-  void _processPayment(BuildContext context, double totalAmount) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Procesando pago'),
-          content:
-              Text('El monto total es S/. ${totalAmount.toStringAsFixed(2)}'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Aceptar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+  void _processPayment(BuildContext context, Order orden) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => PaymentPage(
+          orden: orden,
+        ),
+      ),
     );
   }
 }

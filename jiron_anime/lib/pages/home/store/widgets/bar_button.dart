@@ -41,7 +41,7 @@ class BarButton extends StatelessWidget {
                 TextButton(
                   onPressed: onShonenPressed,
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shape: RoundedRectangleBorder(
@@ -55,7 +55,7 @@ class BarButton extends StatelessWidget {
                 TextButton(
                   onPressed: onSeinenPressed,
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shape: RoundedRectangleBorder(
@@ -80,7 +80,7 @@ class BarButton extends StatelessWidget {
             );
           },
           style: TextButton.styleFrom(
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
               side: const BorderSide(color: Colors.transparent),

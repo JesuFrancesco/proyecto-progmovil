@@ -3,11 +3,11 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/theme/colors.dart';
+// import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/theme/fonts.dart';
 
 final appTheme = ThemeData(
-  scaffoldBackgroundColor: AppColors.backgroundColor,
+  // scaffoldBackgroundColor: AppColors.backgroundColor,
   brightness: Brightness.light,
   textTheme: const TextTheme(
       titleLarge: TextStyle(

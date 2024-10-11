@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/theme/colors.dart';
 
-class CustomPadding extends StatelessWidget {
+class CustomLayout extends StatelessWidget {
   final double px, py;
-  const CustomPadding(
+  const CustomLayout(
       {super.key, required this.child, this.px = 20, this.py = 4});
 
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: px, vertical: py),
-      child: child,
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
+    return Container(
+      decoration: !isDarkMode
+          ? const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.0, 0.5, 1],
+                  colors: AppColors.backgroundLinearGradientColors),
+            )
+          : null,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: px, vertical: py),
+        child: child,
+      ),
     );
   }
 }
