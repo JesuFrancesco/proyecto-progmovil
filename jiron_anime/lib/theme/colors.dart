@@ -8,7 +8,8 @@ class AppColors {
   static const Color textColor = Color(0xFF262F34);
 
   static const List<Color> backgroundLinearGradientColors = [
-    Color(0xFFFFDBCB),
-    Color(0xFFEDEAE5),
+    Color(0xFFFFDBAB),
+    Color.fromARGB(255, 255, 255, 255),
+    Color(0xFFFFDBAB),
   ];
 }

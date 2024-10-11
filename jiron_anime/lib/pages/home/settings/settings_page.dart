@@ -1,97 +1,125 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:get/get.dart';
-import 'package:jiron_anime/pages/orders/orders.dart';
-=======
-import 'package:jiron_anime/pages/orders/orders_page.dart';
->>>>>>> 7cd7ec7a7201510222d46a1d1c82d280c6ec9d1f
-import 'package:jiron_anime/shared/usuario_controller.dart';
-import 'package:jiron_anime/pages/home/perfil/widgets/menu_item.dart';
-import 'package:jiron_anime/utils/extensions.dart';
-import 'settings_demo.dart';
-import '../../../main.dart';
+import 'package:jiron_anime/shared/usuario_controller.dart'; // Import del controlador de usuario o CurrentUser
 
-class SettingsPage extends StatelessWidget {
-  final BuildContext context;
-  const SettingsPage({super.key, required this.context});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  Widget _buildBody(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                CurrentUser.getClipOvalAvatar(),
+                const SizedBox(width: 10),
+                Text(
+                  CurrentUser.fullName ?? 'Usuario desconocido',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          // Sección de Ajustes
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              'Ajustes',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.blueAccent,
+                  ),
+            ),
+          ),
+          _buildSectionTitle('Cuenta', Icons.person),
+          _buildListTile('Edita tu perfil', Icons.edit),
+          _buildListTile('Cambiar contraseña', Icons.lock),
+          _buildListTile('Privacidad', Icons.privacy_tip),
+          const SizedBox(height: 16),
+          // Sección de Notificación
+          _buildSectionTitle('Notificación', Icons.notifications),
+          _buildSwitchTile('Activar notificaciones', true),
+          _buildSwitchTile('Actualización', false),
+          const SizedBox(height: 16),
+          // Sección de Otros
+          _buildSectionTitle('Otros', Icons.settings),
+          _buildSwitchTile('Modo oscuro', false),
+          const SizedBox(height: 16),
+          // Sección de Más
+          _buildSectionTitle('Más...', Icons.more_horiz),
+          _buildListTile('Sobre nosotros', Icons.info),
+          _buildListTile('Política de privacidad', Icons.privacy_tip),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.blueAccent),
+          const SizedBox(width: 10),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.blueAccent,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListTile(String title, IconData icon) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.white),
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white),
+      ),
+      trailing: const Icon(Icons.chevron_right, color: Colors.white),
+      onTap: () {},
+    );
+  }
+
+  Widget _buildSwitchTile(String title, bool value) {
+    return SwitchListTile(
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white),
+      ),
+      value: value,
+      onChanged: (bool val) {},
+      activeColor: Colors.white, // Color del interruptor activo
+      inactiveThumbColor: Colors.white, // Color del interruptor inactivo
+      inactiveTrackColor: Colors.grey.shade700, // Color de la pista inactiva
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24),
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CurrentUser.getClipOvalAvatar(),
-            Text(
-              CurrentUser.fullName ?? 'No hay sesión',
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-            12.pv,
-            Text(
-              CurrentUser.provider ?? '',
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            12.pv,
-            IconMenuItem(
-                context: context,
-                icon: Icons.shopping_cart,
-                text: 'Carrito de compras',
-                fnOnTap: () {}),
-            IconMenuItem(
-                context: context,
-                icon: Icons.favorite,
-                text: 'Lista de deseados',
-                fnOnTap: () {}),
-            IconMenuItem(
-                context: context,
-                icon: Icons.history,
-                text: 'Historial de órdenes',
-                fnOnTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const OrdersPage()),
-                  );
-                }),
-            // NotificationItem(
-            //     context: context,
-            //     icon: Icons.payment,
-            //     text: 'Métodos de pago',
-            //     fnOnTap: () {}),
-            IconMenuItem(
-                context: context,
-                icon: Icons.notifications,
-                text: 'Ajustes de notificaciones',
-                fnOnTap: () {}),
-            IconMenuItem(
-                context: context,
-                icon: Icons.settings,
-                text: 'Más ajustes',
-                fnOnTap: () {
-                  Navigator.push(
-                    context, 
-                    MaterialPageRoute(builder: (context) => const SettingsDemoPage())
-                    );
-                }),
-            const Spacer(),
-            IconMenuItem(
-                context: context,
-                icon: (supabase.auth.currentSession != null)
-                    ? Icons.logout
-                    : Icons.login,
-                text: (supabase.auth.currentSession != null)
-                    ? 'Cerrar Sesión'
-                    : "Iniciar Sesión",
-                fnOnTap: () async {
-                  await supabase.auth.signOut();
-                  Navigator.of(context.mounted ? context : context)
-                      .popAndPushNamed("/sign-in");
-                })
-          ],
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
+        body: _buildBody(context),
       ),
     );
   }

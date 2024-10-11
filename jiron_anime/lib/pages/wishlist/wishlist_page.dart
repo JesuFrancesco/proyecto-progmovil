@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
-import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'wishlist_controller.dart';
 import 'wishlist_item.dart';
@@ -21,7 +20,7 @@ class WishlistPage extends StatelessWidget {
         // Usar Obx para escuchar cambios en wishlistItems
         final wishlistItems = controller.wishlistItems;
 
-        return CustomPadding(
+        return CustomLayout(
           py: 2,
           child: Column(
             children: [
@@ -48,7 +47,6 @@ class WishlistPage extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textColor,
                   ),
                 ),
               ),

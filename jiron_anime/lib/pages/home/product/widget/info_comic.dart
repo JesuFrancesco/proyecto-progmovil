@@ -32,76 +32,72 @@ class _InfoComicState extends State<InfoComic> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(widget.producto.name!,
+            style: Theme.of(context).textTheme.headlineLarge),
+        Text(
+            widget.producto.market != null
+                ? widget.producto.market!.name!
+                : "NA",
+            style: Theme.of(context).textTheme.headlineMedium),
+        Text("S/. ${widget.producto.price.toString()}"),
+        15.pv,
         SizedBox(
-            height: 200,
             child:
                 Image.asset(widget.producto.productAttachments![0].imageUrl!)),
-        15.ph,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.producto.name!.toUpperCase(),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 25)),
-              Text(
-                  widget.producto.market != null
-                      ? widget.producto.market!.name!
-                      : "Kioskos argentos",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text("S/. ${widget.producto.price.toString()}"),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/cart');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.yellow,
-                    ),
-                    child: const Text("Agregar\nal carrito",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+        15.pv,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/cart');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.yellow,
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.remove),
-                    onPressed: _decreaseCount,
-                  ),
-                  Text('$_itemCount', style: const TextStyle(fontSize: 20)),
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: _increaseCount,
-                  ),
-                ],
-              ),
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Icon(Icons.favorite),
-                    10.ph,
-                    const Text("Añadir a lista de deseados")
-                  ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(children: [
-                    const Icon(Icons.chat),
-                    10.ph,
-                    const Text("Dejar\nreseña")
-                  ]),
-                  Row(children: [
-                    const Icon(Icons.question_mark),
-                    10.ph,
-                    const Text("Preguntar")
-                  ])
-                ],
-              )
-            ],
-          ),
-        )
+                  child: const Text("Agregar\nal carrito",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.remove),
+                  onPressed: _decreaseCount,
+                ),
+                Text('$_itemCount', style: const TextStyle(fontSize: 20)),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: _increaseCount,
+                ),
+              ],
+            ),
+            15.pv,
+            Row(children: [
+              const Icon(Icons.favorite),
+              15.ph,
+              const Text("Añadir a lista de deseados")
+            ]),
+            15.pv,
+            Row(children: [
+              const Icon(Icons.chat),
+              15.ph,
+              const Text("Dejar reseña")
+            ]),
+            15.pv,
+            Row(children: [
+              const Icon(Icons.question_mark),
+              15.ph,
+              const Text("Preguntar")
+            ])
+          ],
+        ),
       ],
     );
   }
