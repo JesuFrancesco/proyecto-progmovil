@@ -6,10 +6,10 @@ class CartItemWidget extends StatelessWidget {
   final VoidCallback onRemove;
 
   const CartItemWidget({
-    Key? key,
+    super.key,
     required this.item,
     required this.onRemove,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

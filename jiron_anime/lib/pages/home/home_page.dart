@@ -32,9 +32,8 @@ class _HomePageState extends State<HomePage> {
   Widget _getBody(StoreWidgetType index) {
     switch (index) {
       case StoreWidgetType.tienda:
-        return TiendaPage();
+        return const TiendaPage();
       case StoreWidgetType.buscar:
-        // return searchProductsAndMarketsDemo(context);
         return const BusquedaPage();
       case StoreWidgetType.notificaciones:
         return NotificationsPage(context: context);
