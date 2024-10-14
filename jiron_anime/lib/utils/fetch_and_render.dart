@@ -6,12 +6,11 @@ Widget fetchAndRender<T>(
     future: fetchDataFunc(),
     builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(
-            child: CircularProgressIndicator()); // Loading state
+        return const Center(child: CircularProgressIndicator());
       } else if (snapshot.hasError) {
-        return Center(child: Text('Error: ${snapshot.error}')); // Error state
+        return Center(child: Text('Error: ${snapshot.error}'));
       } else {
-        return successWidget; // Success state
+        return successWidget;
       }
     },
   );

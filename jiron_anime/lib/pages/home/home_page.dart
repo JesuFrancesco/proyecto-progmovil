@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/home/notifications/notifications_page.dart';
 import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
-import 'package:jiron_anime/pages/home/settings/settings_page.dart';
+import 'package:jiron_anime/pages/home/perfil/perfil_page.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
@@ -16,7 +16,7 @@ enum StoreWidgetType {
   tienda,
   buscar,
   notificaciones,
-  ajustes,
+  perfil,
 }
 
 class _HomePageState extends State<HomePage> {
@@ -36,9 +36,9 @@ class _HomePageState extends State<HomePage> {
       case StoreWidgetType.buscar:
         return const BusquedaPage();
       case StoreWidgetType.notificaciones:
-        return NotificationsPage(context: context);
-      case StoreWidgetType.ajustes:
-        return SettingsPage(context: context);
+        return const NotificationsPage();
+      case StoreWidgetType.perfil:
+        return const PerfilPage();
       default:
         return const Center(child: Text('PAGINA NO IMPLEMENTADA'));
     }
@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // widget
     return Scaffold(
+      // backgroundColor: AppColors.primaryColor,
       body: _buildBody(context),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Buscar"),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications), label: "Notificaciones"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Ajustes")
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil")
         ],
         currentIndex: _selectedWidget.index,
         onTap: _onItemTapped,

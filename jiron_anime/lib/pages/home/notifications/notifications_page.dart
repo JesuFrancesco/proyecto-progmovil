@@ -3,14 +3,14 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/notifications_controller.dart';
 import 'package:jiron_anime/models/notification.dart';
 import 'package:jiron_anime/pages/home/notifications/widget/notification_widget.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
+import 'package:jiron_anime/shared/custom_padding.dart';
 
 final NotificationsController notificationController =
     Get.put(NotificationsController());
 
 class NotificationsPage extends StatefulWidget {
-  final BuildContext context;
-
-  const NotificationsPage({super.key, required this.context});
+  const NotificationsPage({super.key});
 
   @override
   State<NotificationsPage> createState() => _NotificationsPageState();
@@ -34,8 +34,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   void _removeItem(int index) {
     setState(() {
-      // Optionally, you can also update the controller here if needed.
-      // notificationController.removeNotification(_items[index]);
       _items.removeAt(index);
       // TODO: lógica para quitar notificaciones de la DBMS
     });
@@ -43,17 +41,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: _items.isEmpty
+    return CustomLayout(
+        child: _items.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Column(
                   children: [
-                    Text(
-                      "Notificaciones",
-                      style: Theme.of(context).textTheme.titleLarge,
-                      textAlign: TextAlign.center,
-                    ),
+                    const CustomAppbar(title: "Notificaciones"),
                     Column(
                       children: _items.asMap().entries.map((entry) {
                         final index = entry.key;

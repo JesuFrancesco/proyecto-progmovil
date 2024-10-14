@@ -363,4 +363,6 @@ class Product implements ToJson, Id {
       $wishlistItemsCount.hashCode ^
       $orderItemsCount.hashCode ^
       $productRatingsCount.hashCode;
+
+  get category => null;
 }

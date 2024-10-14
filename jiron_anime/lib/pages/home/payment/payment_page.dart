@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/pages/home/payment/widget/product_resume.dart';
+import 'package:jiron_anime/pages/home/payment_success/payment_success_page.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'payment_controller.dart';
 
 PaymentController control = Get.put(PaymentController());
 
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+  final ShoppingCart carrito;
+  const PaymentPage({super.key, required this.carrito});
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -19,26 +24,20 @@ class _PaymentPageState extends State<PaymentPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Image.network(
-                  'https://images3.memedroid.com/images/UPLOADED528/663e2f9ea3686.jpeg',
-                  width: 120,
-                  height: 180,
-                ),
-                const SizedBox(width: 10),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Titulo del articulo',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text('Tomo: 1 - Cantidad: 1'),
-                  ],
-                )
-              ],
+            const CustomAppbar(title: "Pago"),
+            Expanded(
+              child: ListView.builder(
+                itemCount: widget.carrito.cartItems!.length,
+                itemBuilder: (context, index) {
+                  final item = widget.carrito.cartItems![index];
+                  return ProductResumeWidget(
+                    item: item,
+                    onRemove: () {
+                      // Lógica para eliminar el ítem del carrito (si lo necesitas)
+                    },
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 20),
             const Divider(),
@@ -93,7 +92,12 @@ class _PaymentPageState extends State<PaymentPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Acción para realizar el pedido
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) =>
+                          const PaymentSuccessPage(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -121,12 +125,10 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: null,
-        body: _buildBody(context),
-      ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: null,
+      body: _buildBody(context),
     );
   }
 }

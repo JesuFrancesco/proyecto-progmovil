@@ -9,7 +9,7 @@
 //         await rootBundle.loadString('assets/json/templates.json');
 //     final List<dynamic> data = jsonDecode(response);
 //     Templates = data
-//         .map((map) => Template.fromMap(map as Map<String, dynamic>))
+//         .map((map) => Template.fromJson(map as Map<String, dynamic>))
 //         .toList();
 //     return Templates;
 //   }

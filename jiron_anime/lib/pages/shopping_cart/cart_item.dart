@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'product.dart';
+import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/theme/colors.dart';
 
 class CartItemWidget extends StatelessWidget {
-  final Product item;
+  final CartItem item;
   final VoidCallback onRemove;
 
   const CartItemWidget({
@@ -26,8 +27,8 @@ class CartItemWidget extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                item.imageUrl,
+              child: Image.asset(
+                item.product!.productAttachments!.first.imageUrl!,
                 width: 80,
                 height: 120,
                 fit: BoxFit.cover,
@@ -39,19 +40,17 @@ class CartItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.name,
+                    item.product!.name!,
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Tomo: 1 - Cantidad: ${item.quantity}',
+                    '${item.product!.formato} - Cantidad: ${item.amount}',
                     style: const TextStyle(
                       fontSize: 16.0,
-                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 8.0),
@@ -65,15 +64,13 @@ class CartItemWidget extends StatelessWidget {
                               vertical: 4.0, horizontal: 8.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.white,
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            'S/. ${item.price.toStringAsFixed(2)}',
+                            'S/. ${item.product!.price!}',
                             style: const TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -98,8 +95,8 @@ class CartItemWidget extends StatelessWidget {
                             ),
                           ),
                           style: TextButton.styleFrom(
-                            backgroundColor: Colors.purple.shade200,
                             padding: EdgeInsets.zero,
+                            backgroundColor: AppColors.primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -107,10 +104,24 @@ class CartItemWidget extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      IconButton(
+                      PopupMenuButton(
                         icon: const Icon(Icons.more_vert),
-                        onPressed: () {
-                          // Agrega funcionalidad si lo necesitas
+                        itemBuilder: (BuildContext context) => [
+                          const PopupMenuItem(
+                            value: 'delete',
+                            child: Row(
+                              children: [
+                                Icon(Icons.delete, color: Colors.red),
+                                SizedBox(width: 8),
+                                Text('Eliminar'),
+                              ],
+                            ),
+                          ),
+                        ],
+                        onSelected: (value) {
+                          if (value == 'delete') {
+                            onRemove(); // Llama a la función para eliminar el artículo
+                          }
                         },
                       ),
                     ],

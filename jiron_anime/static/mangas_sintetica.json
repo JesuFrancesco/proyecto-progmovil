@@ -1,50 +1,224 @@
 [
     {
-        "productAttachments": [{ "imageUrl": "assets/image/chainsawman01.jpg" }],
+        "id": 1,
+        "productAttachments": [
+            {
+                "imageUrl": "assets/image/chainsawman01.jpg"
+            }
+        ],
         "name": "ChainsawMan #1",
-        "descripcion": "Con sobrecubierta\ny páginas a color",
-        "formato": "Formato Tankoubon\n200 pags aprox",
+        "descripcion": "Tomo 1 del manga ChainsawMan. Es una emocionante historia de acción y aventura. Proviene de la editorial IVREA y cuenta con 200 páginas.",
+        "formato": "Formato Tankoubon",
         "price": "12.99",
-        "peso": "0.45"
+        "peso": "0.45",
+        "stock": 30,
+        "dimensions": "17.6 x 25 cm",
+        "warranty": true,
+        "discount": 10,
+        "cubierta": "Con sobrecubierta y páginas a color",
+        "anhoEdicion": 2023,
+        "numeroPaginas": 200,
+        "market": {
+            "name": "Anime Shop",
+            "contactEmail": "contact@animeshop.com",
+            "contactPhone": "123-456-7890"
+        },
+        "brandSeller": {
+            "name": "Manga Co.",
+            "countryOrigin": "Japan",
+            "referenceLocation": "Tokyo"
+        },
+        "productTags": [
+            {
+                "tag": {
+                    "name": "Shonen"
+                }
+            }
+        ]
     },
     {
-        "productAttachments": [{ "imageUrl": "assets/image/miroirs.jpg" }],
+        "id": 2,
+        "productAttachments": [
+            {
+                "imageUrl": "assets/image/miroirs.jpg"
+            }
+        ],
         "name": "Miroirs #1",
-        "descripcion": "Con sobrecubierta\ny páginas a color",
-        "formato": "Formato B6\n260 pags aprox",
+        "descripcion": "Tomo 1 del manga Miroirs. Una intrigante historia de fantasía. Proviene de la editorial IVREA y cuenta con 260 páginas.",
+        "formato": "Formato B6",
         "price": "15.49",
-        "peso": "0.55"
+        "peso": "0.55",
+        "stock": 25,
+        "dimensions": "17.6 x 25 cm",
+        "warranty": false,
+        "discount": 5,
+        "cubierta": "Con sobrecubierta y páginas a color",
+        "anhoEdicion": 2022,
+        "numeroPaginas": 180,
+        "market": {
+            "name": "Manga World",
+            "contactEmail": "info@mangaworld.com",
+            "contactPhone": "098-765-4321"
+        },
+        "brandSeller": {
+            "name": "Comic Books Inc.",
+            "countryOrigin": "USA",
+            "referenceLocation": "New York"
+        },
+        "productTags": [
+            {
+                "tag": {
+                    "name": "Seinen"
+                }
+            }
+        ]
     },
     {
-        "productAttachments": [{ "imageUrl": "assets/image/frieren01.jpg" }],
+        "id": 3,
+        "productAttachments": [
+            {
+                "imageUrl": "assets/image/frieren01.jpg"
+            }
+        ],
         "name": "Frieren #1",
-        "descripcion": "Con sobrecubierta\ny páginas a color",
-        "formato": "Formato Tankoubon\n200 pags aprox",
+        "descripcion": "Tomo 1 del manga Frieren. Una historia conmovedora sobre la vida después de la aventura. Proviene de la editorial IVREA y cuenta con 200 páginas.",
+        "formato": "Formato Tankoubon",
         "price": "14.99",
-        "peso": "0.47"
+        "peso": "0.47",
+        "stock": 40,
+        "dimensions": "17.6 x 25 cm",
+        "warranty": true,
+        "discount": 8,
+        "cubierta": "Con sobrecubierta y páginas a color",
+        "anhoEdicion": 2024,
+        "numeroPaginas": 220,
+        "market": {
+            "name": "Bookstore Online",
+            "contactEmail": "support@bookstoreonline.com",
+            "contactPhone": "321-654-9870"
+        },
+        "brandSeller": {
+            "name": "Manga Masters",
+            "countryOrigin": "Japan",
+            "referenceLocation": "Osaka"
+        },
+        "productTags": [
+            {
+                "tag": {
+                    "name": "Shonen"
+                }
+            }
+        ]
     },
     {
-        "productAttachments": [{ "imageUrl": "assets/image/deathnote04.jpg" }],
-        "name": "deathnote #4",
-        "descripcion": "Con sobrecubierta\ny páginas a color",
-        "formato": "Formato B6\n260 pags aprox",
+        "id": 4,
+        "productAttachments": [
+            {
+                "imageUrl": "assets/image/deathnote04.jpg"
+            }
+        ],
+        "name": "Death Note #4",
+        "descripcion": "Tomo 4 del aclamado manga Death Note. Una intensa historia de misterio y suspense. Proviene de la editorial IVREA y cuenta con 260 páginas.",
+        "formato": "Formato B6",
         "price": "13.99",
-        "peso": "0.52"
+        "peso": "0.52",
+        "stock": 20,
+        "dimensions": "17.6 x 25 cm",
+        "warranty": false,
+        "discount": 7,
+        "cubierta": "Con sobrecubierta y páginas a color",
+        "anhoEdicion": 2021,
+        "numeroPaginas": 200,
+        "market": {
+            "name": "Comic Universe",
+            "contactEmail": "info@comicuniverse.com",
+            "contactPhone": "456-789-0123"
+        },
+        "brandSeller": {
+            "name": "Anime Publishing",
+            "countryOrigin": "South Korea",
+            "referenceLocation": "Seoul"
+        },
+        "productTags": [
+            {
+                "tag": {
+                    "name": "Shojo"
+                }
+            }
+        ]
     },
     {
-        "productAttachments": [{ "imageUrl": "assets/image/roosterfighter02.jpg" }],
+        "id": 5,
+        "productAttachments": [
+            {
+                "imageUrl": "assets/image/roosterfighter02.jpg"
+            }
+        ],
         "name": "Rooster Fighter #2",
-        "descripcion": "Con sobrecubierta\ny páginas a color",
-        "formato": "Formato Tankoubon\n200 pags aprox",
+        "descripcion": "Tomo 2 del manga Rooster Fighter. Una divertida historia de lucha y superación. Proviene de la editorial IVREA y cuenta con 200 páginas.",
+        "formato": "Formato Tankoubon",
         "price": "11.99",
-        "peso": "0.46"
+        "peso": "0.46",
+        "stock": 35,
+        "dimensions": "17.6 x 25 cm",
+        "warranty": true,
+        "discount": 15,
+        "cubierta": "Con sobrecubierta y páginas a color",
+        "anhoEdicion": 2023,
+        "numeroPaginas": 180,
+        "market": {
+            "name": "Manga Plaza",
+            "contactEmail": "contact@mangaplaza.com",
+            "contactPhone": "789-012-3456"
+        },
+        "brandSeller": {
+            "name": "Graphic Novels Ltd.",
+            "countryOrigin": "UK",
+            "referenceLocation": "London"
+        },
+        "productTags": [
+            {
+                "tag": {
+                    "name": "Seinen"
+                }
+            }
+        ]
     },
     {
-        "productAttachments": [{ "imageUrl": "assets/image/chainsawman10.jpg" }],
+        "id": 6,
+        "productAttachments": [
+            {
+                "imageUrl": "assets/image/chainsawman10.jpg"
+            }
+        ],
         "name": "ChainsawMan #10",
-        "descripcion": "Con sobrecubierta\ny páginas a color",
-        "formato": "Formato B6\n260 pags aprox",
+        "descripcion": "Tomo 10 del manga ChainsawMan. Es del año de edición del 2020. Proviene de la editorial IVREA y cuenta con 192 páginas.",
+        "formato": "Formato B6",
         "price": "16.49",
-        "peso": "0.50"
+        "peso": "0.50",
+        "stock": 28,
+        "dimensions": "17.6 x 25 cm",
+        "warranty": false,
+        "discount": 12,
+        "cubierta": "Con sobrecubierta y páginas a color",
+        "anhoEdicion": 2024,
+        "numeroPaginas": 220,
+        "market": {
+            "name": "Otaku Corner",
+            "contactEmail": "info@otakucorner.com",
+            "contactPhone": "654-321-0987"
+        },
+        "brandSeller": {
+            "name": "Manga Factory",
+            "countryOrigin": "China",
+            "referenceLocation": "Beijing"
+        },
+        "productTags": [
+            {
+                "tag": {
+                    "name": "Shonen"
+                }
+            }
+        ]
     }
 ]

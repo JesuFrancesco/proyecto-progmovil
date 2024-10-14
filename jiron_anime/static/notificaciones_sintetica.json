@@ -1,162 +1,177 @@
 [
 	{
-		"id": 1,
-		"title": "Drainage of Right Femoral Shaft, Perc Approach, Diagn",
-		"description": "Insect bite (nonvenomous) of breast, left breast, initial encounter",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/128x100.png/ff4444/ffffff"
-	},
-	{
 		"id": 2,
-		"title": "MRI of R Elbow using Oth Contrast",
-		"description": "Unspecified abnormalities of heart beat",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/137x100.png/5fa2dd/ffffff"
+		"title": "¡Polémica por la animación de Uzumaki!",
+		"description": "La esperada adaptación animada de Uzumaki ha generado polémica entre los fans, quienes critican la calidad de la animación que, según algunos, no logra capturar el estilo único de Junji Ito.",
+		"createdAt": "2024-09-16T15:30:00Z",
+		"imageUrl": "https://image.tmdb.org/t/p/original/hcaHxeAVPqc8IJvIpBGVImkvEyH.jpg"
 	},
 	{
 		"id": 3,
-		"title": "Revise Tissue Expander in Low Extrem Subcu/Fascia, Extern",
-		"description": "Toxic effect of carbon monoxide",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/132x100.png/dddddd/000000"
+		"title": "¡Se anuncia la fecha de lanzamiento de la Parte 4 de la temporada final de Attack on Titan!",
+		"description": "Se ha confirmado la fecha de lanzamiento de la última parte de la última temporada de Attack on Titan.",
+		"createdAt": "2024-10-08T16:00:00Z",
+		"imageUrl": "https://beebom.com/wp-content/uploads/2023/01/Attack-on-Titan-Season-4-Part-3-Everything-You-Need-to-Know.jpg"
 	},
 	{
 		"id": 4,
-		"title": "Release Upper Tooth, Multiple, Open Approach",
-		"description": "Personal history of malignant neoplasm of bronchus and lung",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/247x100.png/ff4444/ffffff"
+		"title": "¡Se lanza el tráiler de la temporada 7 de My Hero Academia!",
+		"description": "Se ha lanzado un tráiler teaser de la temporada 7 de My Hero Academia, mostrando intensas nuevas batallas.",
+		"createdAt": "2024-10-07T12:00:00Z",
+		"imageUrl": "https://i.ytimg.com/vi/T4luSeIM8EY/maxresdefault.jpg"
 	},
 	{
 		"id": 5,
-		"title": "Repair Right Metatarsal-Tarsal Joint, Perc Endo Approach",
-		"description": "Birth injury to liver",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/206x100.png/5fa2dd/ffffff"
+		"title": "¡Se anuncia una película de Demon Slayer!",
+		"description": "Una nueva película de Demon Slayer está en camino, centrada en la próxima gran aventura de Tanjiro.",
+		"createdAt": "2024-10-06T18:00:00Z",
+		"imageUrl": "https://i.ytimg.com/vi/wyiZWYMilgk/maxresdefault.jpg"
 	},
 	{
 		"id": 6,
-		"title": "Fluoroscopy of Sacroiliac Joints using Other Contrast",
-		"description": "Poisoning by anterior pituitary [adenohypophyseal] hormones, accidental (unintentional), subsequent encounter",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/159x100.png/cc0000/ffffff"
+		"title": "¡La temporada 2 de Jujutsu Kaisen presenta un nuevo villano!",
+		"description": "La temporada 2 de Jujutsu Kaisen ha introducido un poderoso nuevo villano que desafía a los héroes.",
+		"createdAt": "2024-10-05T10:00:00Z",
+		"imageUrl": "https://www.hindustantimes.com/ht-img/img/2023/05/22/550x309/toji_fushiguro_jujutsu_kaisen_season_2_1684754085068_1684754117452.jpeg"
 	},
 	{
 		"id": 7,
-		"title": "Insert Intralum Dev in L Ext Jugular Vein, Open",
-		"description": "Assault by sharp glass",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/200x100.png/cc0000/ffffff"
+		"title": "¡Tokyo Revengers temporada 3 confirmada!",
+		"description": "Tokyo Revengers ha sido renovada oficialmente para una tercera temporada, emocionando a los fans con más drama de viajes en el tiempo.",
+		"createdAt": "2024-10-04T14:00:00Z",
+		"imageUrl": "https://i.ytimg.com/vi/qs5Hi33XjHM/maxresdefault.jpg"
 	},
 	{
 		"id": 8,
-		"title": "Supplement Right Temporal Bone with Autol Sub, Perc Approach",
-		"description": "Mucormycosis, unspecified",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/169x100.png/5fa2dd/ffffff"
+		"title": "¡Serie de Death Note en live-action en desarrollo!",
+		"description": "Una nueva adaptación en live-action de Death Note está actualmente en desarrollo para plataformas de streaming.",
+		"createdAt": "2024-10-03T16:30:00Z",
+		"imageUrl": "https://upload.wikimedia.org/wikipedia/en/b/bc/DeathNote%28tv_series%29-poster.jpg"
+	},
+	{
+		"id": 1,
+		"title": "¡Ehuaranga encontrado inconsciente en Lima, Perú!",
+		"description": "Una persona llamada Ehuaranga ha sido encontrada tirada en la calle en Lima, Perú, generando preocupación entre los locales. Dale like y suscríbete si lo has visto",
+		"createdAt": "2024-10-10T15:00:00Z",
+		"imageUrl": "https://scontent.flim15-1.fna.fbcdn.net/v/t39.30808-6/460842342_8583635564990935_8003092595466940026_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=b04a48&_nc_ohc=pepUVP96OpgQ7kNvgENwBmy&_nc_ht=scontent.flim15-1.fna&_nc_gid=AGFxaZhssPx-Wr4MKbFrHyG&oh=00_AYDzct7gkZ63FvDYNpVqh1UvIKhuwt1smW6Lr0UsKlHTqA&oe=670E06F3"
 	},
 	{
 		"id": 9,
-		"title": "Extirpation of Matter from Right Nipple, External Approach",
-		"description": "Localization-related (focal) (partial) symptomatic epilepsy and epileptic syndromes with simple partial seizures, intractable",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/153x100.png/dddddd/000000"
+		"title": "¡Se anuncia un nuevo arco de Sword Art Online!",
+		"description": "Se ha anunciado un nuevo arco en la serie Sword Art Online, continuando la épica aventura de Kirito.",
+		"createdAt": "2024-10-02T13:00:00Z",
+		"imageUrl": "https://p325k7wa.twic.pics/high/sword-art-online/sao-last-recollection/03-news/SAOLR-RELEASE-DATE.jpg?twic=v1/resize=760/step=10/quality=80"
 	},
 	{
 		"id": 10,
-		"title": "Fluoroscopy of R Subclav Vein using H Osm Contrast, Guidance",
-		"description": "Postprocedural hematoma of an endocrine system organ or structure following an endocrine system procedure",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/209x100.png/cc0000/ffffff"
+		"title": "¡Secuela de la película Fairy Tail en producción!",
+		"description": "Una película secuela de la popular serie Fairy Tail está actualmente en producción, lista para deleitar a los fans.",
+		"createdAt": "2024-10-01T19:00:00Z",
+		"imageUrl": "https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/09/fairy-tail.jpeg"
 	},
 	{
 		"id": 11,
-		"title": "Bypass L Subclav Art to R Up Leg Art w Nonaut Sub, Open",
-		"description": "Underdosing of unspecified antiepileptic and sedative-hypnotic drugs",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/188x100.png/5fa2dd/ffffff"
+		"title": "¡Se confirma la fecha de lanzamiento de la Parte 2 de Bleach: Thousand-Year Blood War!",
+		"description": "La Parte 2 de Bleach: Thousand-Year Blood War se lanzará pronto, prometiendo acción intensa.",
+		"createdAt": "2024-09-30T18:00:00Z",
+		"imageUrl": "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/09/Bleach-Thousand-Year-Blood-War-Feature.jpg"
 	},
 	{
 		"id": 12,
-		"title": "Excision of Right Lower Leg, Percutaneous Approach",
-		"description": "Other superficial bite of hip, left hip, subsequent encounter",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/215x100.png/5fa2dd/ffffff"
+		"title": "¡Se confirma la temporada 3 de Mob Psycho 100!",
+		"description": "Mob Psycho 100 volverá para una tercera temporada, continuando la historia de Shigeo Kageyama.",
+		"createdAt": "2024-09-29T16:00:00Z",
+		"imageUrl": "https://gizmodo.com/app/uploads/2022/08/c59caf4fd020fbb8209d605f9cb6b2dc.jpg"
 	},
 	{
 		"id": 13,
-		"title": "Transfer Vagus Nerve to Vagus Nerve, Perc Endo Approach",
-		"description": "Obstructed labor due to compound presentation",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/164x100.png/5fa2dd/ffffff"
+		"title": "¡Secuela de Your Name en desarrollo!",
+		"description": "Una secuela de la querida película Your Name está oficialmente en desarrollo, generando mucha anticipación.",
+		"createdAt": "2024-09-28T14:00:00Z",
+		"imageUrl": "https://static1.srcdn.com/wordpress/wp-content/uploads/2022/06/Your-Name-Ending-Explained.jpg"
 	},
 	{
 		"id": 14,
-		"title": "Bypass Esophagus to Cutaneous with Synth Sub, Endo",
-		"description": "Unspecified pedal cyclist injured in collision with car, pick-up truck or van in nontraffic accident, initial encounter",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/210x100.png/5fa2dd/ffffff"
+		"title": "¡Se lanza el teaser de la temporada 3 de One Punch Man!",
+		"description": "Se ha lanzado un teaser para la muy esperada temporada 3 de One Punch Man, mostrando la próxima batalla de Saitama.",
+		"createdAt": "2024-09-27T12:00:00Z",
+		"imageUrl": "https://i.ytimg.com/vi/1jbgUWsl1z4/maxresdefault.jpg"
 	},
 	{
 		"id": 15,
-		"title": "Supplement Perineum Tendon with Nonaut Sub, Open Approach",
-		"description": "Nondisplaced fracture of body of left talus, initial encounter for open fracture",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/173x100.png/ff4444/ffffff"
+		"title": "¡Se anuncia una película de Black Clover!",
+		"description": "Una nueva película de Black Clover está programada para ser lanzada, continuando las aventuras de Asta y sus amigos.",
+		"createdAt": "2024-09-26T15:00:00Z",
+		"imageUrl": "https://m.media-amazon.com/images/M/MV5BY2MzZjRhZDQtZGNhMi00MjBhLTg2OGQtMzhlZmJiMzY1NjgyXkEyXkFqcGc@._V1_.jpg"
 	},
 	{
 		"id": 16,
-		"title": "Restriction of L Ulnar Art with Extralum Dev, Perc Approach",
-		"description": "Jumping or diving into natural body of water striking water surface causing other injury, subsequent encounter",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/197x100.png/dddddd/000000"
+		"title": "¡Se revela la fecha de lanzamiento de la temporada 3 de Dr. Stone!",
+		"description": "La fecha de lanzamiento de la temporada 3 de Dr. Stone ha sido oficialmente revelada, generando emoción.",
+		"createdAt": "2024-09-25T17:00:00Z",
+		"imageUrl": "https://a.storyblok.com/f/178900/1200x675/433367af80/c3f968bdecb2bdb940ef351f2e50a7091678906729_main.jpg/m/filters:quality(95)format(webp)"
 	},
 	{
 		"id": 17,
-		"title": "Bypass L Ureter to Ileum with Synth Sub, Perc Endo Approach",
-		"description": "Unspecified injury to L2 level of lumbar spinal cord",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/228x100.png/cc0000/ffffff"
+		"title": "¡Hellsing Ultimate Director's Cut en producción!",
+		"description": "Una versión extendida de Hellsing Ultimate está actualmente en producción, prometiendo contenido mejorado.",
+		"createdAt": "2024-09-24T13:00:00Z",
+		"imageUrl": "https://static.wikia.nocookie.net/hellsing/images/c/c2/OVA7.png/revision/latest?cb=20240326042612"
 	},
 	{
 		"id": 18,
-		"title": "Restriction of Pelvis Lymphatic, Open Approach",
-		"description": "Aneurysmal bone cyst, right forearm",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/174x100.png/5fa2dd/ffffff"
+		"title": "¡Serie de Yu Yu Hakusho en live-action confirmada!",
+		"description": "Una adaptación en live-action de Yu Yu Hakusho está oficialmente confirmada, generando entusiasmo entre los fans.",
+		"createdAt": "2024-09-23T16:00:00Z",
+		"imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRizum8jclekjB547IErWrcajwXfIOL0TvlKA&s"
 	},
 	{
 		"id": 19,
-		"title": "Occlusion of Left External Iliac Vein, Percutaneous Approach",
-		"description": "Pedestrian on skateboard injured in collision with other nonmotor vehicle, unspecified whether traffic or nontraffic accident",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/176x100.png/5fa2dd/ffffff"
+		"title": "¡Se lanza el tráiler de la temporada 5 de Boku no Hero Academia!",
+		"description": "El tráiler de la esperada temporada 5 de Boku no Hero Academia ha sido lanzado, mostrando nuevas aventuras.",
+		"createdAt": "2024-09-22T12:00:00Z",
+		"imageUrl": "https://cdn.beahero.gg/2021/03/de-750x375.jpg"
 	},
 	{
 		"id": 20,
-		"title": "Insertion of Radioact Elem into L Knee, Perc Endo Approach",
-		"description": "Drug induced subacute dyskinesia",
-		"createdAt": "2024-10-08T18:50:08.604Z",
-		"updatedAt": "2024-10-08T18:50:08.604Z",
-		"imageUrl": "http://dummyimage.com/111x100.png/cc0000/ffffff"
+		"title": "¡Se confirma una película de Dragon Ball Super!",
+		"description": "Se ha anunciado una nueva película de Dragon Ball Super, continuando la saga de Goku y sus amigos.",
+		"createdAt": "2024-09-21T14:30:00Z",
+		"imageUrl": "https://tec.com.pe/wp-content/uploads/2022/05/1652257437_311454_1652257694_gigante_normal-750x430.jpg"
+	},
+	{
+		"id": 21,
+		"title": "¡Nuevos episodios de Code Geass en camino!",
+		"description": "Se han confirmado nuevos episodios de Code Geass, trayendo de vuelta a los personajes favoritos de los fans.",
+		"createdAt": "2024-09-20T16:00:00Z",
+		"imageUrl": "https://i.ytimg.com/vi/y58cbQpLi0g/maxresdefault.jpg"
+	},
+	{
+		"id": 22,
+		"title": "¡Se revela la nueva serie de la franquicia de Fate!",
+		"description": "Una nueva serie de la popular franquicia de Fate ha sido anunciada, emocionando a los seguidores.",
+		"createdAt": "2024-09-19T10:00:00Z",
+		"imageUrl": "https://a.storyblok.com/f/178900/660x371/b8955f4eea/d5c420c4c16445d98dd705d7d9dc94061608273703_main.jpg/m/filters:quality(95)format(webp)"
+	},
+	{
+		"id": 23,
+		"title": "¡One Piece Film: Red se convierte en un éxito de taquilla!",
+		"description": "One Piece Film: Red ha arrasado en la taquilla, atrayendo a fans de todo el mundo.",
+		"createdAt": "2024-09-18T14:00:00Z",
+		"imageUrl": "https://larepublica.cronosmedia.glr.pe/migration/images/BAPOWOWQLNBN3E7AQCZKSZRHUU.jpg"
+	},
+	{
+		"id": 24,
+		"title": "¡Los nuevos episodios de Haikyuu!! se estrenan en octubre!",
+		"description": "Los nuevos episodios de Haikyuu!! están programados para estrenarse en octubre, llevando la emoción al siguiente nivel.",
+		"createdAt": "2024-09-17T12:00:00Z",
+		"imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUpO9FolsohEvdlGsbaTcqgdnf-jOxTUIBwQ&s"
+	},
+	{
+		"id": 25,
+		"title": "¡El episodio de One Piece rompe récords de streaming!",
+		"description": "El último episodio de One Piece ha establecido nuevos récords de streaming, cautivando a los fans de todo el mundo.",
+		"createdAt": "2024-10-09T14:30:00Z",
+		"imageUrl": "https://www.dexerto.com/cdn-image/wp-content/uploads/2023/09/04/one-piece-manga-anime-live-action.jpg?width=1200&quality=60&format=auto"
 	}
 ]

@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/theme/colors.dart';
+// import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/theme/fonts.dart';
 
 final appTheme = ThemeData(
@@ -16,6 +17,18 @@ final appTheme = ThemeData(
         fontSize: 32,
         color: Colors.black,
       ),
+      titleMedium: TextStyle(
+        fontFamily: AppFonts.primaryFont,
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+        color: Colors.black,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: AppFonts.primaryFont,
+        fontSize: 18,
+        color: Colors.black,
+      ),
+      headlineLarge: TextStyle(fontFamily: AppFonts.primaryFont),
       headlineSmall: TextStyle(fontFamily: AppFonts.primaryFont)),
 );
 

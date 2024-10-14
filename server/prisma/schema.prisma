@@ -21,10 +21,10 @@ generator express {
 //   output   = "./generated/zod"
 // }
 
-generator dart {
-  provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
-  output   = "../../jiron_anime/lib/models"
-}
+// generator dart {
+//   provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
+//   output   = "../../jiron_anime/lib/models"
+// }
 
 // models
 
@@ -101,6 +101,7 @@ model Product {
   discount      Int?
   peso          Decimal?
   formato       String?
+  cubierta      String?
   anhoEdicion   Int?     @map("anho_edicion")
   numeroPaginas Int?     @map("numero_paginas")
 
@@ -158,7 +159,7 @@ model Wishlist {
 
 model Order {
   id         Int         @id @default(autoincrement())
-  totalPrice Int         @map("total_price")
+  totalPrice Decimal     @map("total_price")
   status     String
   userId     Int         @map("user_id")
   user       User        @relation(fields: [userId], references: [id])
@@ -297,7 +298,7 @@ model ProductQuestion {
 
 model CartItem {
   amount       Int
-  addedAt      DateTime
+  addedAt      DateTime     @default(now())
   cartId       Int
   productId    Int
   shoppingCart ShoppingCart @relation(fields: [cartId], references: [id])
@@ -318,7 +319,7 @@ model ProductTag {
 }
 
 model WishlistItem {
-  addedAt    DateTime
+  addedAt    DateTime @default(now())
   wishlistId Int
   productId  Int
 
