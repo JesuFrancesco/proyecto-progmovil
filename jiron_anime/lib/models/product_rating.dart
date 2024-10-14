@@ -1,7 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
-import 'user.dart';
+import 'client.dart';
 import 'product.dart';
 import 'rating_attachment.dart';
 
@@ -11,9 +11,9 @@ class ProductRating implements ToJson, Id {
   int? score;
   String? text;
   DateTime? createdAt;
-  int? userId;
+  int? clientId;
   int? productId;
-  User? user;
+  Client? client;
   Product? product;
   List<RatingAttachment>? ratingAttachments;
   int? $ratingAttachmentsCount;
@@ -23,9 +23,9 @@ class ProductRating implements ToJson, Id {
     this.score,
     this.text,
     this.createdAt,
-    this.userId,
+    this.clientId,
     this.productId,
-    this.user,
+    this.client,
     this.product,
     this.ratingAttachments,
     this.$ratingAttachmentsCount,
@@ -37,10 +37,10 @@ class ProductRating implements ToJson, Id {
       text: json['text'] as String?,
       createdAt:
           json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      userId: json['userId'] as int?,
+      clientId: json['clientId'] as int?,
       productId: json['productId'] as int?,
-      user: json['user'] != null
-          ? User.fromJson(json['user'] as Map<String, dynamic>)
+      client: json['client'] != null
+          ? Client.fromJson(json['client'] as Map<String, dynamic>)
           : null,
       product: json['product'] != null
           ? Product.fromJson(json['product'] as Map<String, dynamic>)
@@ -56,9 +56,9 @@ class ProductRating implements ToJson, Id {
     int? score,
     String? text,
     DateTime? createdAt,
-    int? userId,
+    int? clientId,
     int? productId,
-    User? user,
+    Client? client,
     Product? product,
     List<RatingAttachment>? ratingAttachments,
     int? $ratingAttachmentsCount,
@@ -68,9 +68,9 @@ class ProductRating implements ToJson, Id {
         score: score ?? this.score,
         text: text ?? this.text,
         createdAt: createdAt ?? this.createdAt,
-        userId: userId ?? this.userId,
+        clientId: clientId ?? this.clientId,
         productId: productId ?? this.productId,
-        user: user ?? this.user,
+        client: client ?? this.client,
         product: product ?? this.product,
         ratingAttachments: ratingAttachments ?? this.ratingAttachments,
         $ratingAttachmentsCount:
@@ -83,9 +83,9 @@ class ProductRating implements ToJson, Id {
         score: productRating.score ?? score,
         text: productRating.text ?? text,
         createdAt: productRating.createdAt ?? createdAt,
-        userId: productRating.userId ?? userId,
+        clientId: productRating.clientId ?? clientId,
         productId: productRating.productId ?? productId,
-        user: productRating.user ?? user,
+        client: productRating.client ?? client,
         product: productRating.product ?? product,
         ratingAttachments: productRating.ratingAttachments ?? ratingAttachments,
         $ratingAttachmentsCount:
@@ -98,9 +98,9 @@ class ProductRating implements ToJson, Id {
         if (score != null) 'score': score,
         if (text != null) 'text': text,
         if (createdAt != null) 'createdAt': createdAt,
-        if (userId != null) 'userId': userId,
+        if (clientId != null) 'clientId': clientId,
         if (productId != null) 'productId': productId,
-        if (user != null) 'user': user,
+        if (client != null) 'client': client,
         if (product != null) 'product': product,
         if (ratingAttachments != null)
           'ratingAttachments':
@@ -121,9 +121,9 @@ class ProductRating implements ToJson, Id {
           score == other.score &&
           text == other.text &&
           createdAt == other.createdAt &&
-          userId == other.userId &&
+          clientId == other.clientId &&
           productId == other.productId &&
-          user == other.user &&
+          client == other.client &&
           product == other.product &&
           areListsEqual(ratingAttachments, other.ratingAttachments) &&
           $ratingAttachmentsCount == other.$ratingAttachmentsCount;
@@ -134,9 +134,9 @@ class ProductRating implements ToJson, Id {
       score.hashCode ^
       text.hashCode ^
       createdAt.hashCode ^
-      userId.hashCode ^
+      clientId.hashCode ^
       productId.hashCode ^
-      user.hashCode ^
+      client.hashCode ^
       product.hashCode ^
       ratingAttachments.hashCode ^
       $ratingAttachmentsCount.hashCode;

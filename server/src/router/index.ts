@@ -1,8 +1,6 @@
 import { Express, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 
-import { AccountRouter } from "../generated/express/Account";
-import { UserRouter } from "../generated/express/User";
 import { ProductRouter } from "../generated/express/Product";
 import { MarketRouter } from "../generated/express/Market";
 import { NotificationRouter } from "../generated/express/Notification";
@@ -22,21 +20,6 @@ function routerAPI(app: Express) {
   app.use(addPrisma);
 
   // routers
-  app.use(
-    AccountRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
-
-  app.use(
-    UserRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
 
   app.use(
     ProductRouter({

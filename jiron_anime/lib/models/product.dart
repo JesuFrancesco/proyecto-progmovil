@@ -25,6 +25,7 @@ class Product implements ToJson, Id {
   int? discount;
   double? peso;
   String? formato;
+  String? cubierta;
   int? anhoEdicion;
   int? numeroPaginas;
   int? marketId;
@@ -57,6 +58,7 @@ class Product implements ToJson, Id {
     this.discount,
     this.peso,
     this.formato,
+    this.cubierta,
     this.anhoEdicion,
     this.numeroPaginas,
     this.marketId,
@@ -90,6 +92,7 @@ class Product implements ToJson, Id {
       discount: json['discount'] as int?,
       peso: parseToDouble(json['peso']), // json['peso'] as double?,
       formato: json['formato'] as String?,
+      cubierta: json['cubierta'] as String?,
       anhoEdicion: json['anhoEdicion'] as int?,
       numeroPaginas: json['numeroPaginas'] as int?,
       marketId: json['marketId'] as int?,
@@ -144,6 +147,7 @@ class Product implements ToJson, Id {
     int? discount,
     double? peso,
     String? formato,
+    String? cubierta,
     int? anhoEdicion,
     int? numeroPaginas,
     int? marketId,
@@ -176,6 +180,7 @@ class Product implements ToJson, Id {
         discount: discount ?? this.discount,
         peso: peso ?? this.peso,
         formato: formato ?? this.formato,
+        cubierta: cubierta ?? this.cubierta,
         anhoEdicion: anhoEdicion ?? this.anhoEdicion,
         numeroPaginas: numeroPaginas ?? this.numeroPaginas,
         marketId: marketId ?? this.marketId,
@@ -213,6 +218,7 @@ class Product implements ToJson, Id {
         discount: product.discount ?? discount,
         peso: product.peso ?? peso,
         formato: product.formato ?? formato,
+        cubierta: product.cubierta ?? cubierta,
         anhoEdicion: product.anhoEdicion ?? anhoEdicion,
         numeroPaginas: product.numeroPaginas ?? numeroPaginas,
         marketId: product.marketId ?? marketId,
@@ -250,6 +256,7 @@ class Product implements ToJson, Id {
         if (discount != null) 'discount': discount,
         if (peso != null) 'peso': peso,
         if (formato != null) 'formato': formato,
+        if (cubierta != null) 'cubierta': cubierta,
         if (anhoEdicion != null) 'anhoEdicion': anhoEdicion,
         if (numeroPaginas != null) 'numeroPaginas': numeroPaginas,
         if (marketId != null) 'marketId': marketId,
@@ -310,6 +317,7 @@ class Product implements ToJson, Id {
           discount == other.discount &&
           peso == other.peso &&
           formato == other.formato &&
+          cubierta == other.cubierta &&
           anhoEdicion == other.anhoEdicion &&
           numeroPaginas == other.numeroPaginas &&
           marketId == other.marketId &&
@@ -343,6 +351,7 @@ class Product implements ToJson, Id {
       discount.hashCode ^
       peso.hashCode ^
       formato.hashCode ^
+      cubierta.hashCode ^
       anhoEdicion.hashCode ^
       numeroPaginas.hashCode ^
       marketId.hashCode ^
@@ -363,6 +372,4 @@ class Product implements ToJson, Id {
       $wishlistItemsCount.hashCode ^
       $orderItemsCount.hashCode ^
       $productRatingsCount.hashCode;
-
-  get category => null;
 }

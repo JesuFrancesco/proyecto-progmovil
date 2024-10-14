@@ -1,8 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
-import 'package:jiron_anime/utils/parseo.dart';
 
 import 'model_base.dart';
-import 'user.dart';
+import 'client.dart';
 import 'order_item.dart';
 
 class Order implements ToJson, Id {
@@ -10,8 +9,8 @@ class Order implements ToJson, Id {
   int? id;
   double? totalPrice;
   String? status;
-  int? userId;
-  User? user;
+  int? clientId;
+  Client? client;
   List<OrderItem>? orderItems;
   int? $orderItemsCount;
 
@@ -19,19 +18,19 @@ class Order implements ToJson, Id {
     this.id,
     this.totalPrice,
     this.status,
-    this.userId,
-    this.user,
+    this.clientId,
+    this.client,
     this.orderItems,
     this.$orderItemsCount,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
       id: json['id'] as int?,
-      totalPrice: parseToDouble(json['totalPrice']),
+      totalPrice: json['totalPrice'] as double?,
       status: json['status'] as String?,
-      userId: json['userId'] as int?,
-      user: json['user'] != null
-          ? User.fromJson(json['user'] as Map<String, dynamic>)
+      clientId: json['clientId'] as int?,
+      client: json['client'] != null
+          ? Client.fromJson(json['client'] as Map<String, dynamic>)
           : null,
       orderItems: json['orderItems'] != null
           ? createModels<OrderItem>(json['orderItems'], OrderItem.fromJson)
@@ -42,8 +41,8 @@ class Order implements ToJson, Id {
     int? id,
     double? totalPrice,
     String? status,
-    int? userId,
-    User? user,
+    int? clientId,
+    Client? client,
     List<OrderItem>? orderItems,
     int? $orderItemsCount,
   }) {
@@ -51,8 +50,8 @@ class Order implements ToJson, Id {
         id: id ?? this.id,
         totalPrice: totalPrice ?? this.totalPrice,
         status: status ?? this.status,
-        userId: userId ?? this.userId,
-        user: user ?? this.user,
+        clientId: clientId ?? this.clientId,
+        client: client ?? this.client,
         orderItems: orderItems ?? this.orderItems,
         $orderItemsCount: $orderItemsCount ?? this.$orderItemsCount);
   }
@@ -62,8 +61,8 @@ class Order implements ToJson, Id {
         id: order.id ?? id,
         totalPrice: order.totalPrice ?? totalPrice,
         status: order.status ?? status,
-        userId: order.userId ?? userId,
-        user: order.user ?? user,
+        clientId: order.clientId ?? clientId,
+        client: order.client ?? client,
         orderItems: order.orderItems ?? orderItems,
         $orderItemsCount: order.$orderItemsCount ?? $orderItemsCount);
   }
@@ -73,8 +72,8 @@ class Order implements ToJson, Id {
         if (id != null) 'id': id,
         if (totalPrice != null) 'totalPrice': totalPrice,
         if (status != null) 'status': status,
-        if (userId != null) 'userId': userId,
-        if (user != null) 'user': user,
+        if (clientId != null) 'clientId': clientId,
+        if (client != null) 'client': client,
         if (orderItems != null)
           'orderItems': orderItems?.map((item) => item.toJson()).toList(),
         if ($orderItemsCount != null)
@@ -91,8 +90,8 @@ class Order implements ToJson, Id {
           id == other.id &&
           totalPrice == other.totalPrice &&
           status == other.status &&
-          userId == other.userId &&
-          user == other.user &&
+          clientId == other.clientId &&
+          client == other.client &&
           areListsEqual(orderItems, other.orderItems) &&
           $orderItemsCount == other.$orderItemsCount;
 
@@ -101,8 +100,8 @@ class Order implements ToJson, Id {
       id.hashCode ^
       totalPrice.hashCode ^
       status.hashCode ^
-      userId.hashCode ^
-      user.hashCode ^
+      clientId.hashCode ^
+      client.hashCode ^
       orderItems.hashCode ^
       $orderItemsCount.hashCode;
 }

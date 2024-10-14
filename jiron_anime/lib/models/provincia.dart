@@ -3,7 +3,7 @@
 import 'model_base.dart';
 import 'departamento.dart';
 import 'distrito.dart';
-import 'user.dart';
+import 'client.dart';
 
 class Provincia implements ToJson, Id {
   @override
@@ -12,9 +12,9 @@ class Provincia implements ToJson, Id {
   int? departamentoId;
   Departamento? departamento;
   List<Distrito>? distritos;
-  List<User>? users;
+  List<Client>? clients;
   int? $distritosCount;
-  int? $usersCount;
+  int? $clientsCount;
 
   Provincia({
     this.id,
@@ -22,9 +22,9 @@ class Provincia implements ToJson, Id {
     this.departamentoId,
     this.departamento,
     this.distritos,
-    this.users,
+    this.clients,
     this.$distritosCount,
-    this.$usersCount,
+    this.$clientsCount,
   });
 
   factory Provincia.fromJson(Map<String, dynamic> json) => Provincia(
@@ -37,11 +37,11 @@ class Provincia implements ToJson, Id {
       distritos: json['distritos'] != null
           ? createModels<Distrito>(json['distritos'], Distrito.fromJson)
           : null,
-      users: json['users'] != null
-          ? createModels<User>(json['users'], User.fromJson)
+      clients: json['clients'] != null
+          ? createModels<Client>(json['clients'], Client.fromJson)
           : null,
       $distritosCount: json['_count']?['distritos'] as int?,
-      $usersCount: json['_count']?['users'] as int?);
+      $clientsCount: json['_count']?['clients'] as int?);
 
   Provincia copyWith({
     int? id,
@@ -49,9 +49,9 @@ class Provincia implements ToJson, Id {
     int? departamentoId,
     Departamento? departamento,
     List<Distrito>? distritos,
-    List<User>? users,
+    List<Client>? clients,
     int? $distritosCount,
-    int? $usersCount,
+    int? $clientsCount,
   }) {
     return Provincia(
         id: id ?? this.id,
@@ -59,9 +59,9 @@ class Provincia implements ToJson, Id {
         departamentoId: departamentoId ?? this.departamentoId,
         departamento: departamento ?? this.departamento,
         distritos: distritos ?? this.distritos,
-        users: users ?? this.users,
+        clients: clients ?? this.clients,
         $distritosCount: $distritosCount ?? this.$distritosCount,
-        $usersCount: $usersCount ?? this.$usersCount);
+        $clientsCount: $clientsCount ?? this.$clientsCount);
   }
 
   Provincia copyWithInstance(Provincia provincia) {
@@ -71,9 +71,9 @@ class Provincia implements ToJson, Id {
         departamentoId: provincia.departamentoId ?? departamentoId,
         departamento: provincia.departamento ?? departamento,
         distritos: provincia.distritos ?? distritos,
-        users: provincia.users ?? users,
+        clients: provincia.clients ?? clients,
         $distritosCount: provincia.$distritosCount ?? $distritosCount,
-        $usersCount: provincia.$usersCount ?? $usersCount);
+        $clientsCount: provincia.$clientsCount ?? $clientsCount);
   }
 
   @override
@@ -84,12 +84,12 @@ class Provincia implements ToJson, Id {
         if (departamento != null) 'departamento': departamento,
         if (distritos != null)
           'distritos': distritos?.map((item) => item.toJson()).toList(),
-        if (users != null)
-          'users': users?.map((item) => item.toJson()).toList(),
-        if ($distritosCount != null || $usersCount != null)
+        if (clients != null)
+          'clients': clients?.map((item) => item.toJson()).toList(),
+        if ($distritosCount != null || $clientsCount != null)
           '_count': {
             if ($distritosCount != null) 'distritos': $distritosCount,
-            if ($usersCount != null) 'users': $usersCount,
+            if ($clientsCount != null) 'clients': $clientsCount,
           },
       });
 
@@ -103,9 +103,9 @@ class Provincia implements ToJson, Id {
           departamentoId == other.departamentoId &&
           departamento == other.departamento &&
           areListsEqual(distritos, other.distritos) &&
-          areListsEqual(users, other.users) &&
+          areListsEqual(clients, other.clients) &&
           $distritosCount == other.$distritosCount &&
-          $usersCount == other.$usersCount;
+          $clientsCount == other.$clientsCount;
 
   @override
   int get hashCode =>
@@ -114,7 +114,7 @@ class Provincia implements ToJson, Id {
       departamentoId.hashCode ^
       departamento.hashCode ^
       distritos.hashCode ^
-      users.hashCode ^
+      clients.hashCode ^
       $distritosCount.hashCode ^
-      $usersCount.hashCode;
+      $clientsCount.hashCode;
 }

@@ -2,59 +2,59 @@
 
 import 'model_base.dart';
 import 'chat.dart';
-import 'user.dart';
+import 'client.dart';
 
 class ChatParticipant implements ToJson {
   int? chatId;
-  int? userId;
+  int? clientId;
   Chat? chat;
-  User? user;
+  Client? client;
 
   ChatParticipant({
     this.chatId,
-    this.userId,
+    this.clientId,
     this.chat,
-    this.user,
+    this.client,
   });
 
   factory ChatParticipant.fromJson(Map<String, dynamic> json) =>
       ChatParticipant(
           chatId: json['chatId'] as int?,
-          userId: json['userId'] as int?,
+          clientId: json['clientId'] as int?,
           chat: json['chat'] != null
               ? Chat.fromJson(json['chat'] as Map<String, dynamic>)
               : null,
-          user: json['user'] != null
-              ? User.fromJson(json['user'] as Map<String, dynamic>)
+          client: json['client'] != null
+              ? Client.fromJson(json['client'] as Map<String, dynamic>)
               : null);
 
   ChatParticipant copyWith({
     int? chatId,
-    int? userId,
+    int? clientId,
     Chat? chat,
-    User? user,
+    Client? client,
   }) {
     return ChatParticipant(
         chatId: chatId ?? this.chatId,
-        userId: userId ?? this.userId,
+        clientId: clientId ?? this.clientId,
         chat: chat ?? this.chat,
-        user: user ?? this.user);
+        client: client ?? this.client);
   }
 
   ChatParticipant copyWithInstance(ChatParticipant chatParticipant) {
     return ChatParticipant(
         chatId: chatParticipant.chatId ?? chatId,
-        userId: chatParticipant.userId ?? userId,
+        clientId: chatParticipant.clientId ?? clientId,
         chat: chatParticipant.chat ?? chat,
-        user: chatParticipant.user ?? user);
+        client: chatParticipant.client ?? client);
   }
 
   @override
   Map<String, dynamic> toJson() => ({
         if (chatId != null) 'chatId': chatId,
-        if (userId != null) 'userId': userId,
+        if (clientId != null) 'clientId': clientId,
         if (chat != null) 'chat': chat,
-        if (user != null) 'user': user
+        if (client != null) 'client': client
       });
 
   @override
@@ -63,11 +63,11 @@ class ChatParticipant implements ToJson {
       other is ChatParticipant &&
           runtimeType == other.runtimeType &&
           chatId == other.chatId &&
-          userId == other.userId &&
+          clientId == other.clientId &&
           chat == other.chat &&
-          user == other.user;
+          client == other.client;
 
   @override
   int get hashCode =>
-      chatId.hashCode ^ userId.hashCode ^ chat.hashCode ^ user.hashCode;
+      chatId.hashCode ^ clientId.hashCode ^ chat.hashCode ^ client.hashCode;
 }

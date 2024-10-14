@@ -1,7 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
-import 'user_notification.dart';
+import 'client_notification.dart';
 
 class Notification implements ToJson, Id {
   @override
@@ -11,8 +11,8 @@ class Notification implements ToJson, Id {
   DateTime? createdAt;
   DateTime? updatedAt;
   String? imageUrl;
-  List<UserNotification>? userNotifications;
-  int? $userNotificationsCount;
+  List<ClientNotification>? clientNotifications;
+  int? $clientNotificationsCount;
 
   Notification({
     this.id,
@@ -21,8 +21,8 @@ class Notification implements ToJson, Id {
     this.createdAt,
     this.updatedAt,
     this.imageUrl,
-    this.userNotifications,
-    this.$userNotificationsCount,
+    this.clientNotifications,
+    this.$clientNotificationsCount,
   });
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
@@ -34,11 +34,12 @@ class Notification implements ToJson, Id {
       updatedAt:
           json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       imageUrl: json['imageUrl'] as String?,
-      userNotifications: json['userNotifications'] != null
-          ? createModels<UserNotification>(
-              json['userNotifications'], UserNotification.fromJson)
+      clientNotifications: json['clientNotifications'] != null
+          ? createModels<ClientNotification>(
+              json['clientNotifications'], ClientNotification.fromJson)
           : null,
-      $userNotificationsCount: json['_count']?['userNotifications'] as int?);
+      $clientNotificationsCount:
+          json['_count']?['clientNotifications'] as int?);
 
   Notification copyWith({
     int? id,
@@ -47,8 +48,8 @@ class Notification implements ToJson, Id {
     DateTime? createdAt,
     DateTime? updatedAt,
     String? imageUrl,
-    List<UserNotification>? userNotifications,
-    int? $userNotificationsCount,
+    List<ClientNotification>? clientNotifications,
+    int? $clientNotificationsCount,
   }) {
     return Notification(
         id: id ?? this.id,
@@ -57,9 +58,9 @@ class Notification implements ToJson, Id {
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         imageUrl: imageUrl ?? this.imageUrl,
-        userNotifications: userNotifications ?? this.userNotifications,
-        $userNotificationsCount:
-            $userNotificationsCount ?? this.$userNotificationsCount);
+        clientNotifications: clientNotifications ?? this.clientNotifications,
+        $clientNotificationsCount:
+            $clientNotificationsCount ?? this.$clientNotificationsCount);
   }
 
   Notification copyWithInstance(Notification notification) {
@@ -70,9 +71,10 @@ class Notification implements ToJson, Id {
         createdAt: notification.createdAt ?? createdAt,
         updatedAt: notification.updatedAt ?? updatedAt,
         imageUrl: notification.imageUrl ?? imageUrl,
-        userNotifications: notification.userNotifications ?? userNotifications,
-        $userNotificationsCount:
-            notification.$userNotificationsCount ?? $userNotificationsCount);
+        clientNotifications:
+            notification.clientNotifications ?? clientNotifications,
+        $clientNotificationsCount: notification.$clientNotificationsCount ??
+            $clientNotificationsCount);
   }
 
   @override
@@ -83,13 +85,13 @@ class Notification implements ToJson, Id {
         if (createdAt != null) 'createdAt': createdAt,
         if (updatedAt != null) 'updatedAt': updatedAt,
         if (imageUrl != null) 'imageUrl': imageUrl,
-        if (userNotifications != null)
-          'userNotifications':
-              userNotifications?.map((item) => item.toJson()).toList(),
-        if ($userNotificationsCount != null)
+        if (clientNotifications != null)
+          'clientNotifications':
+              clientNotifications?.map((item) => item.toJson()).toList(),
+        if ($clientNotificationsCount != null)
           '_count': {
-            if ($userNotificationsCount != null)
-              'userNotifications': $userNotificationsCount,
+            if ($clientNotificationsCount != null)
+              'clientNotifications': $clientNotificationsCount,
           },
       });
 
@@ -104,8 +106,8 @@ class Notification implements ToJson, Id {
           createdAt == other.createdAt &&
           updatedAt == other.updatedAt &&
           imageUrl == other.imageUrl &&
-          areListsEqual(userNotifications, other.userNotifications) &&
-          $userNotificationsCount == other.$userNotificationsCount;
+          areListsEqual(clientNotifications, other.clientNotifications) &&
+          $clientNotificationsCount == other.$clientNotificationsCount;
 
   @override
   int get hashCode =>
@@ -115,6 +117,6 @@ class Notification implements ToJson, Id {
       createdAt.hashCode ^
       updatedAt.hashCode ^
       imageUrl.hashCode ^
-      userNotifications.hashCode ^
-      $userNotificationsCount.hashCode;
+      clientNotifications.hashCode ^
+      $clientNotificationsCount.hashCode;
 }

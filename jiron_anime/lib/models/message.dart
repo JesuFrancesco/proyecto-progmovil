@@ -1,7 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
-import 'account.dart';
+import 'user.dart';
 import 'message_attachment.dart';
 import 'chat_message.dart';
 
@@ -12,8 +12,8 @@ class Message implements ToJson, Id {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? status;
-  int? accountId;
-  Account? account;
+  String? userId;
+  User? user;
   List<MessageAttachment>? messageAttachments;
   List<ChatMessage>? chatMessages;
   int? $messageAttachmentsCount;
@@ -25,8 +25,8 @@ class Message implements ToJson, Id {
     this.createdAt,
     this.updatedAt,
     this.status,
-    this.accountId,
-    this.account,
+    this.userId,
+    this.user,
     this.messageAttachments,
     this.chatMessages,
     this.$messageAttachmentsCount,
@@ -41,9 +41,9 @@ class Message implements ToJson, Id {
       updatedAt:
           json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       status: json['status'] as int?,
-      accountId: json['accountId'] as int?,
-      account: json['account'] != null
-          ? Account.fromJson(json['account'] as Map<String, dynamic>)
+      userId: json['userId'] as String?,
+      user: json['user'] != null
+          ? User.fromJson(json['user'] as Map<String, dynamic>)
           : null,
       messageAttachments: json['messageAttachments'] != null
           ? createModels<MessageAttachment>(
@@ -62,8 +62,8 @@ class Message implements ToJson, Id {
     DateTime? createdAt,
     DateTime? updatedAt,
     int? status,
-    int? accountId,
-    Account? account,
+    String? userId,
+    User? user,
     List<MessageAttachment>? messageAttachments,
     List<ChatMessage>? chatMessages,
     int? $messageAttachmentsCount,
@@ -75,8 +75,8 @@ class Message implements ToJson, Id {
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         status: status ?? this.status,
-        accountId: accountId ?? this.accountId,
-        account: account ?? this.account,
+        userId: userId ?? this.userId,
+        user: user ?? this.user,
         messageAttachments: messageAttachments ?? this.messageAttachments,
         chatMessages: chatMessages ?? this.chatMessages,
         $messageAttachmentsCount:
@@ -91,8 +91,8 @@ class Message implements ToJson, Id {
         createdAt: message.createdAt ?? createdAt,
         updatedAt: message.updatedAt ?? updatedAt,
         status: message.status ?? status,
-        accountId: message.accountId ?? accountId,
-        account: message.account ?? account,
+        userId: message.userId ?? userId,
+        user: message.user ?? user,
         messageAttachments: message.messageAttachments ?? messageAttachments,
         chatMessages: message.chatMessages ?? chatMessages,
         $messageAttachmentsCount:
@@ -107,8 +107,8 @@ class Message implements ToJson, Id {
         if (createdAt != null) 'createdAt': createdAt,
         if (updatedAt != null) 'updatedAt': updatedAt,
         if (status != null) 'status': status,
-        if (accountId != null) 'accountId': accountId,
-        if (account != null) 'account': account,
+        if (userId != null) 'userId': userId,
+        if (user != null) 'user': user,
         if (messageAttachments != null)
           'messageAttachments':
               messageAttachments?.map((item) => item.toJson()).toList(),
@@ -132,8 +132,8 @@ class Message implements ToJson, Id {
           createdAt == other.createdAt &&
           updatedAt == other.updatedAt &&
           status == other.status &&
-          accountId == other.accountId &&
-          account == other.account &&
+          userId == other.userId &&
+          user == other.user &&
           areListsEqual(messageAttachments, other.messageAttachments) &&
           areListsEqual(chatMessages, other.chatMessages) &&
           $messageAttachmentsCount == other.$messageAttachmentsCount &&
@@ -146,8 +146,8 @@ class Message implements ToJson, Id {
       createdAt.hashCode ^
       updatedAt.hashCode ^
       status.hashCode ^
-      accountId.hashCode ^
-      account.hashCode ^
+      userId.hashCode ^
+      user.hashCode ^
       messageAttachments.hashCode ^
       chatMessages.hashCode ^
       $messageAttachmentsCount.hashCode ^

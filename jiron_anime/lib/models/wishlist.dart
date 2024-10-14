@@ -1,30 +1,30 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
-import 'user.dart';
+import 'client.dart';
 import 'wishlist_item.dart';
 
 class Wishlist implements ToJson, Id {
   @override
   int? id;
-  int? userId;
-  User? user;
+  int? clientId;
+  Client? client;
   List<WishlistItem>? wishlistItems;
   int? $wishlistItemsCount;
 
   Wishlist({
     this.id,
-    this.userId,
-    this.user,
+    this.clientId,
+    this.client,
     this.wishlistItems,
     this.$wishlistItemsCount,
   });
 
   factory Wishlist.fromJson(Map<String, dynamic> json) => Wishlist(
       id: json['id'] as int?,
-      userId: json['userId'] as int?,
-      user: json['user'] != null
-          ? User.fromJson(json['user'] as Map<String, dynamic>)
+      clientId: json['clientId'] as int?,
+      client: json['client'] != null
+          ? Client.fromJson(json['client'] as Map<String, dynamic>)
           : null,
       wishlistItems: json['wishlistItems'] != null
           ? createModels<WishlistItem>(
@@ -34,15 +34,15 @@ class Wishlist implements ToJson, Id {
 
   Wishlist copyWith({
     int? id,
-    int? userId,
-    User? user,
+    int? clientId,
+    Client? client,
     List<WishlistItem>? wishlistItems,
     int? $wishlistItemsCount,
   }) {
     return Wishlist(
         id: id ?? this.id,
-        userId: userId ?? this.userId,
-        user: user ?? this.user,
+        clientId: clientId ?? this.clientId,
+        client: client ?? this.client,
         wishlistItems: wishlistItems ?? this.wishlistItems,
         $wishlistItemsCount: $wishlistItemsCount ?? this.$wishlistItemsCount);
   }
@@ -50,8 +50,8 @@ class Wishlist implements ToJson, Id {
   Wishlist copyWithInstance(Wishlist wishlist) {
     return Wishlist(
         id: wishlist.id ?? id,
-        userId: wishlist.userId ?? userId,
-        user: wishlist.user ?? user,
+        clientId: wishlist.clientId ?? clientId,
+        client: wishlist.client ?? client,
         wishlistItems: wishlist.wishlistItems ?? wishlistItems,
         $wishlistItemsCount:
             wishlist.$wishlistItemsCount ?? $wishlistItemsCount);
@@ -60,8 +60,8 @@ class Wishlist implements ToJson, Id {
   @override
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
-        if (userId != null) 'userId': userId,
-        if (user != null) 'user': user,
+        if (clientId != null) 'clientId': clientId,
+        if (client != null) 'client': client,
         if (wishlistItems != null)
           'wishlistItems': wishlistItems?.map((item) => item.toJson()).toList(),
         if ($wishlistItemsCount != null)
@@ -77,16 +77,16 @@ class Wishlist implements ToJson, Id {
       other is Wishlist &&
           runtimeType == other.runtimeType &&
           id == other.id &&
-          userId == other.userId &&
-          user == other.user &&
+          clientId == other.clientId &&
+          client == other.client &&
           areListsEqual(wishlistItems, other.wishlistItems) &&
           $wishlistItemsCount == other.$wishlistItemsCount;
 
   @override
   int get hashCode =>
       id.hashCode ^
-      userId.hashCode ^
-      user.hashCode ^
+      clientId.hashCode ^
+      client.hashCode ^
       wishlistItems.hashCode ^
       $wishlistItemsCount.hashCode;
 }
