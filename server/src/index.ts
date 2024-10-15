@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import boom from "@hapi/boom";
-import { createClient } from "@supabase/supabase-js";
 import {
   errorHandler,
   logErrores,
@@ -13,14 +12,6 @@ import { config, logger } from "./config";
 
 const app = express();
 const port = 8080;
-
-// == Supabase auth
-// const supabase = createClient(config.supabaseURL, config.supabaseServiceRole);
-
-// (async () => {
-//   const { data } = await supabase.auth.admin.listUsers();
-//   console.log(data.users);
-// })();
 
 // == Logger | iniciar peticion
 app.use((req, res, next) => {
