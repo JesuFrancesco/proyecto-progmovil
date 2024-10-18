@@ -2,13 +2,11 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-  schemas   = ["auth", "public"]
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  binaryTargets   = ["native", "debian-openssl-3.0.x"]
-  previewFeatures = ["multiSchema"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 generator express {
@@ -16,31 +14,26 @@ generator express {
   output   = "../src/generated/express"
 }
 
-generator dart {
-  provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
-  output   = "../../jiron_anime/lib/models"
-}
+// generator dart {
+//   provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
+//   output   = "../../jiron_anime/lib/models"
+// }
 
 // models
 
-model User {
-  id    String @id @db.Uuid
-  email String @unique
+model Profile {
+  id    String  @id
+  email String  @unique
+  phone String?
 
-  role String
-
-  rawAppMetadata  Json     @map("raw_app_meta_data")
-  rawUserMetadata Json     @map("raw_user_meta_data")
-  phone           String
-  createdAt       DateTime @map("created_at")
-  updatedAt       DateTime @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
 
   client   Client?
   markets  Market[]
   messages Message[]
 
-  @@map("users")
-  @@schema("auth")
+  @@map("profiles")
 }
 
 model Client {
@@ -52,7 +45,7 @@ model Client {
   distrito         Distrito?     @relation(fields: [distritoId], references: [id])
   provincia        Provincia?    @relation(fields: [provinciaId], references: [id])
   departmento      Departamento? @relation(fields: [departamentoId], references: [id])
-  user             User          @relation(fields: [userId], references: [id])
+  profile          Profile       @relation(fields: [profileId], references: [id])
 
   shoppingCarts       ShoppingCart[]
   wishlists           Wishlist[]
@@ -62,10 +55,9 @@ model Client {
   clientNotifications ClientNotification[]
   chatParticipants    ChatParticipant[]
 
-  userId String @unique @map("user_id")
+  profileId String @unique @map("profile_id")
 
   @@map("clients")
-  @@schema("public")
 }
 
 model Notification {
@@ -78,7 +70,6 @@ model Notification {
   clientNotifications ClientNotification[]
 
   @@map("notificactions")
-  @@schema("public")
 }
 
 model Market {
@@ -86,12 +77,11 @@ model Market {
   name         String
   contactEmail String    @map("contact_email")
   contactPhone String    @map("contact_phone")
-  userId       String    @map("user_id")
-  user         User      @relation(fields: [userId], references: [id])
+  profileId    String    @map("profile_id")
+  profile      Profile   @relation(fields: [profileId], references: [id])
   products     Product[]
 
   @@map("markets")
-  @@schema("public")
 }
 
 model Product {
@@ -124,7 +114,6 @@ model Product {
   productRatings     ProductRating[]
 
   @@map("products")
-  @@schema("public")
 }
 
 model Tag {
@@ -133,7 +122,6 @@ model Tag {
   productTags ProductTag[]
 
   @@map("tags")
-  @@schema("public")
 }
 
 model Country {
@@ -143,7 +131,6 @@ model Country {
   brandSellers BrandSeller[]
 
   @@map("countries")
-  @@schema("public")
 }
 
 model ShoppingCart {
@@ -153,7 +140,6 @@ model ShoppingCart {
   cartItems CartItem[]
 
   @@map("shopping_carts")
-  @@schema("public")
 }
 
 model Wishlist {
@@ -163,7 +149,6 @@ model Wishlist {
   wishlistItems WishlistItem[]
 
   @@map("wishlists")
-  @@schema("public")
 }
 
 model Order {
@@ -175,7 +160,6 @@ model Order {
   orderItems OrderItem[]
 
   @@map("orders")
-  @@schema("public")
 }
 
 model Chat {
@@ -185,7 +169,6 @@ model Chat {
   chatParticipants ChatParticipant[]
 
   @@map("chats")
-  @@schema("public")
 }
 
 model Message {
@@ -194,13 +177,12 @@ model Message {
   createdAt          DateTime            @default(now()) @map("created_at")
   updatedAt          DateTime            @default(now()) @map("updated_at")
   status             Int
-  userId             String              @map("user_id")
-  user               User                @relation(fields: [userId], references: [id])
+  profileId          String              @map("profile_id")
+  profile            Profile             @relation(fields: [profileId], references: [id])
   messageAttachments MessageAttachment[]
   chatMessages       ChatMessage[]
 
   @@map("messages")
-  @@schema("public")
 }
 
 // location
@@ -212,7 +194,6 @@ model Departamento {
   clients    Client[]
 
   @@map("departamentos")
-  @@schema("public")
 }
 
 model Provincia {
@@ -224,7 +205,6 @@ model Provincia {
   clients        Client[]
 
   @@map("provincias")
-  @@schema("public")
 }
 
 model Distrito {
@@ -239,7 +219,6 @@ model Distrito {
   clients        Client[]
 
   @@map("distritos")
-  @@schema("public")
 }
 
 // many to many 
@@ -253,7 +232,6 @@ model ChatMessage {
 
   @@id([chatId, messageId])
   @@map("chat_messages")
-  @@schema("public")
 }
 
 model BrandSeller {
@@ -266,7 +244,6 @@ model BrandSeller {
   products          Product[]
 
   @@map("brand_sellers")
-  @@schema("public")
 }
 
 model MessageAttachment {
@@ -278,7 +255,6 @@ model MessageAttachment {
   message   Message @relation(fields: [messageId], references: [id])
 
   @@map("message_attachments")
-  @@schema("public")
 }
 
 model ClientNotification {
@@ -289,7 +265,6 @@ model ClientNotification {
 
   @@id([clientId, notificationId])
   @@map("client_notifications")
-  @@schema("public")
 }
 
 model ChatParticipant {
@@ -300,7 +275,6 @@ model ChatParticipant {
 
   @@id([chatId, clientId])
   @@map("chat_participants")
-  @@schema("public")
 }
 
 model ProductQuestion {
@@ -314,7 +288,6 @@ model ProductQuestion {
   questionReplies QuestionReply[]
 
   @@map("product_questions")
-  @@schema("public")
 }
 
 model CartItem {
@@ -327,7 +300,6 @@ model CartItem {
 
   @@id([cartId, productId])
   @@map("cart_items")
-  @@schema("public")
 }
 
 model ProductTag {
@@ -338,7 +310,6 @@ model ProductTag {
 
   @@id([categoryId, productId])
   @@map("product_tags")
-  @@schema("public")
 }
 
 model WishlistItem {
@@ -351,7 +322,6 @@ model WishlistItem {
 
   @@id([wishlistId, productId])
   @@map("wishlist_items")
-  @@schema("public")
 }
 
 model OrderItem {
@@ -363,7 +333,6 @@ model OrderItem {
 
   @@id([orderId, productId])
   @@map("order_items")
-  @@schema("public")
 }
 
 model ProductAttachment {
@@ -373,7 +342,6 @@ model ProductAttachment {
 
   @@id([productId])
   @@map("product_attachments")
-  @@schema("public")
 }
 
 model QuestionReply {
@@ -384,7 +352,6 @@ model QuestionReply {
   productQuestion ProductQuestion @relation(fields: [questionId], references: [id])
 
   @@map("question_replies")
-  @@schema("public")
 }
 
 model ProductRating {
@@ -399,7 +366,6 @@ model ProductRating {
   ratingAttachments RatingAttachment[]
 
   @@map("product_ratings")
-  @@schema("public")
 }
 
 model RatingAttachment {
@@ -411,5 +377,4 @@ model RatingAttachment {
 
   @@id([ratingId])
   @@map("rating_attachments")
-  @@schema("public")
 }

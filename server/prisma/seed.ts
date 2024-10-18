@@ -1,7 +1,9 @@
-import postgres from "postgres";
 import "dotenv/config";
+import postgres from "postgres";
+import { PrismaClient } from "@prisma/client";
 
-const dbUrl = process.env.DATABASE_URL;
+// const dbUrl = process.env.DATABASE_URL;
+const dbUrl = process.env.DIRECT_URL;
 
 if (!dbUrl) {
   throw new Error("Couldn't find db url");
@@ -9,11 +11,17 @@ if (!dbUrl) {
 const sql = postgres(dbUrl);
 
 async function main() {
+  const p = new PrismaClient();
+  console.log("proceso de seed iniciado");
+
+  const ej = await p.$queryRaw`select 1 from auth.users`;
+  console.log(ej);
+
   await sql`
      create or replace function public.handle_new_user()
      returns trigger as $$
      begin
-         insert into public.profile (id)
+         insert into public.profiles (id)
          values (new.id);
          return new;
      end;
@@ -37,7 +45,7 @@ async function main() {
 
   await sql`
      create or replace trigger on_profile_user_deleted
-       after delete on public.profile
+       after delete on public.profiles
        for each row execute procedure public.handle_user_delete()
    `;
 
