@@ -1,5 +1,5 @@
 INSERT INTO
-    `departamentos` (`id`, `name`)
+    departamentos (id, name)
 VALUES
     ('01', 'Amazonas'),
     ('02', 'Áncash'),
@@ -28,7 +28,7 @@ VALUES
     ('25', 'Ucayali');
 
 INSERT INTO
-    `provincias` (`id`, `name`, `departamento_id`)
+    provincias (id, name, departamento_id)
 VALUES
     ('0101', 'Chachapoyas', '01'),
     ('0102', 'Bagua', '01'),
@@ -228,7 +228,7 @@ VALUES
     ('2504', 'Purús', '25');
 
 INSERT INTO
-    `distritos` (`id`, `name`, `provincia_id`, `departamento_id`)
+    distritos (id, name, provincia_id, departamento_id)
 VALUES
     ('010101', 'Chachapoyas', '0101', '01'),
     ('010102', 'Asunción', '0101', '01'),
@@ -1707,7 +1707,7 @@ VALUES
     ('150407', 'Santa Rosa de Quives', '1504', '15');
 
 INSERT INTO
-    `distritos` (`id`, `name`, `provincia_id`, `departamento_id`)
+    distritos (id, name, provincia_id, departamento_id)
 VALUES
     ('150501', 'San Vicente de Cañete', '1505', '15'),
     ('150502', 'Asia', '1505', '15'),
