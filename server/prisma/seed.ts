@@ -1,14 +1,29 @@
 import "dotenv/config";
 import { Client, DatabaseError } from "pg";
 import fs from "fs";
+import * as log4js from "log4js";
 
 const sql = new Client({
   connectionString: process.env.DIRECT_URL,
 });
 
+log4js.configure({
+  appenders: {
+    consola: { type: "console" },
+    detailed: { type: "file", filename: "errors.log", level: "error" },
+  },
+  categories: {
+    default: { appenders: ["consola"], level: "info" },
+    error: { appenders: ["detailed"], level: "error" },
+  },
+});
+
 async function main() {
+  const log = log4js.getLogger();
+  const errorLog = log4js.getLogger("error");
+
   await sql.connect();
-  console.log("Proceso iniciado");
+  log.info("Proceso iniciado");
 
   // supabase auth setup
   await sql.query(`
@@ -44,18 +59,26 @@ async function main() {
     for each row execute procedure public.handle_user_delete()
     `);
 
-  console.log(
+  log.info(
     "Se han agregado los triggers y funciones que se vinculan con supabase."
   );
 
   // static
   const seedFromSQL = async (filePath: string) => {
     try {
+      log.info(`${filePath} | Inicio de seeding de datos estáticos`);
       const data = fs.readFileSync(filePath, "utf-8");
       await sql.query(data);
+      log.info(`${filePath} | migrado exitosamente`);
     } catch (error: unknown) {
       if (error instanceof DatabaseError) {
-        console.warn("Error en DB");
+        log.warn(
+          `${filePath} | Algo salio mal en DB. Más detalle en errors.log`
+        );
+        errorLog.error(error);
+      } else {
+        errorLog.error(error);
+        log.error(`${filePath} | Algo salio mal.`);
         console.error(error);
       }
     }
@@ -70,7 +93,7 @@ async function main() {
   await seedFromSQL("seeders/mock/notificaciones.sql");
   await seedFromSQL("seeders/mock/mangas_sintetica.sql");
 
-  console.log("Proceso de seeding terminado");
+  log.info("Proceso de seeding terminado");
 
   process.exit();
 }
