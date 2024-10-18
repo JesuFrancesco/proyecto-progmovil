@@ -10,7 +10,8 @@ async function main() {
   await sql.connect();
   console.log("Proceso iniciado");
 
-  const x = await sql.query(`
+  // supabase auth setup
+  await sql.query(`
      create or replace function public.handle_new_user()
      returns trigger as $$
      begin
@@ -48,25 +49,26 @@ async function main() {
   );
 
   // static
-  try {
-    const paisesData = fs.readFileSync("seeders/paises.sql", "utf-8");
-    await sql.query(paisesData);
-  } catch (error: unknown) {
-    if (error instanceof DatabaseError) {
-      console.warn("Error en DB");
-      console.error(error);
+  const seedFromSQL = async (filePath: string) => {
+    try {
+      const data = fs.readFileSync(filePath, "utf-8");
+      await sql.query(data);
+    } catch (error: unknown) {
+      if (error instanceof DatabaseError) {
+        console.warn("Error en DB");
+        console.error(error);
+      }
     }
-  }
+  };
 
-  try {
-    const ubigeosData = fs.readFileSync("seeders/ubigeos.sql", "utf-8");
-    await sql.query(ubigeosData);
-  } catch (error: unknown) {
-    if (error instanceof DatabaseError) {
-      console.warn("Error en DB");
-      console.error(error);
-    }
-  }
+  // static
+  await seedFromSQL("seeders/paises.sql");
+  await seedFromSQL("seeders/ubigeos.sql");
+  await seedFromSQL("seeders/tags.sql");
+
+  // mock
+  await seedFromSQL("seeders/mock/notificaciones.sql");
+  await seedFromSQL("seeders/mock/mangas_sintetica.sql");
 
   console.log("Proceso de seeding terminado");
 

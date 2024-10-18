@@ -69,7 +69,7 @@ model Notification {
   imageUrl            String
   clientNotifications ClientNotification[]
 
-  @@map("notificactions")
+  @@map("notifications")
 }
 
 model Market {
