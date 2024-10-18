@@ -1,17 +1,21 @@
 import { Express, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 
-import { ProductRouter } from "../generated/express/Product";
+import { ProfileRouter } from "../generated/express/Profile";
+import { ClientRouter } from "../generated/express/Client";
 import { MarketRouter } from "../generated/express/Market";
+import { ProductRouter } from "../generated/express/Product";
 import { NotificationRouter } from "../generated/express/Notification";
 
-// import authRouter from "./auth.router";
-// import profileRouter from "./profile.router";
+import { RouteConfig } from "../generated/express/routeConfig";
+
+const API_PREFIX = "/api/v1";
 
 function routerAPI(app: Express) {
-  const API_PREFIX = "/api/v1";
+  // prisma init
   const prisma = new PrismaClient();
 
+  // custom express + prisma middleware
   const addPrisma = (req: any, res: any, next: NextFunction) => {
     req.prisma = prisma;
     next();
@@ -19,31 +23,22 @@ function routerAPI(app: Express) {
 
   app.use(addPrisma);
 
-  // routers
+  const commonRouterConfig: RouteConfig<any> = {
+    addModelPrefix: true,
+    enableAll: true,
+    customUrlPrefix: API_PREFIX,
+  };
 
-  app.use(
-    ProductRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
+  // routers habilitados
+  app.use(ProfileRouter(commonRouterConfig));
 
-  app.use(
-    MarketRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
+  app.use(ClientRouter(commonRouterConfig));
 
-  app.use(
-    NotificationRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
+  app.use(MarketRouter(commonRouterConfig));
+
+  app.use(ProductRouter(commonRouterConfig));
+
+  app.use(NotificationRouter(commonRouterConfig));
 }
 
 export { routerAPI };
