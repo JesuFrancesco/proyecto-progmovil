@@ -1,4 +1,4 @@
-INSERT INTO notifications (id, title, description, created_at, updated_at, imageUrl) VALUES
+INSERT INTO notifications (id, title, description, created_at, updated_at, image_url) VALUES
 (2, '¡Polémica por la animación de Uzumaki!', 'La esperada adaptación animada de Uzumaki ha generado polémica entre los fans, quienes critican la calidad de la animación que, según algunos, no logra capturar el estilo único de Junji Ito.', '2024-09-16T15:30:00Z', NULL, 'https://image.tmdb.org/t/p/original/hcaHxeAVPqc8IJvIpBGVImkvEyH.jpg'),
 (3, '¡Se anuncia la fecha de lanzamiento de la Parte 4 de la temporada final de Attack on Titan!', 'Se ha confirmado la fecha de lanzamiento de la última parte de la última temporada de Attack on Titan.', '2024-10-08T16:00:00Z', NULL, 'https://beebom.com/wp-content/uploads/2023/01/Attack-on-Titan-Season-4-Part-3-Everything-You-Need-to-Know.jpg'),
 (4, '¡Se lanza el tráiler de la temporada 7 de My Hero Academia!', 'Se ha lanzado un tráiler teaser de la temporada 7 de My Hero Academia, mostrando intensas nuevas batallas.', '2024-10-07T12:00:00Z', NULL, 'https://i.ytimg.com/vi/T4luSeIM8EY/maxresdefault.jpg'),
