@@ -8,6 +8,7 @@ import { ProductRouter } from "../generated/express/Product";
 import { NotificationRouter } from "../generated/express/Notification";
 
 import { RouteConfig } from "../generated/express/routeConfig";
+import { TagRouter } from "../generated/express/Tag";
 
 const API_PREFIX = "/api/v1";
 
@@ -37,6 +38,8 @@ function routerAPI(app: Express) {
   app.use(MarketRouter(commonRouterConfig));
 
   app.use(ProductRouter(commonRouterConfig));
+
+  app.use(TagRouter(commonRouterConfig));
 
   app.use(NotificationRouter(commonRouterConfig));
 }

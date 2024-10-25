@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon ./src/index.ts",
+    "express:generate": "npm run generator:build && npm run db:generate",
     "generator:build": "npm --prefix ./prisma/generator install && npm --prefix ./prisma/generator run build",
     "db:generate": "npx prisma generate --generator client --generator express",
-    "express:generate": "npm run generator:build && npm run db:generate",
     "db:push": "npx prisma db push",
-    "dev": "nodemon ./src/index.ts",
     "build": "npm run express:generate && npx prisma migrate deploy && npx tsc && echo 'build realizado correctamente' || echo 'algo salio mal'",
     "start": "node ./dist/index.js"
   },
