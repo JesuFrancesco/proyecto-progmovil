@@ -13,7 +13,12 @@ SupabaseClient getSupabaseClient() {
   return Supabase.instance.client;
 }
 
-Future<AuthResponse> googleSignIn() async {
+Future<void> googleSignIn() async {
+  await getSupabaseClient().auth.signInWithOAuth(OAuthProvider.google,
+      redirectTo: "jironanime://com.example.jiron_anime");
+}
+
+Future<AuthResponse> nativeGoogleSignIn() async {
   final GoogleSignIn googleSignIn =
       GoogleSignIn(serverClientId: Config.googleServerClientID);
   final googleUser = await googleSignIn.signIn();
