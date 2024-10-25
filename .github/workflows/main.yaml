@@ -91,7 +91,7 @@ jobs:
           mkdir -p temp_dist/prisma
           cp package.json temp_dist/
           cp -r dist node_modules temp_dist
-          cp -r prisma/schema.prisma prisma/migrations prisma/*.db temp_dist/prisma
+          cp -r prisma/schema.prisma prisma/migrations temp_dist/prisma
 
       - name: Listar paquete de subida (3)
         run: ls -la temp_dist
