@@ -4,12 +4,29 @@
 
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/theme/colors.dart';
-// import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/theme/fonts.dart';
 
 final appTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.backgroundColor,
+  primaryColor: AppColors.primaryColor,
   brightness: Brightness.light,
+  // switchTheme: const SwitchThemeData(
+  //   trackColor: WidgetStatePropertyAll(AppColors.primaryColor),
+  //   thumbColor: WidgetStatePropertyAll(Colors.white),
+  // ),
+  switchTheme:
+      SwitchThemeData(trackColor: WidgetStateProperty.resolveWith((states) {
+    if (states.contains(WidgetState.selected)) return Colors.grey;
+    return Colors.green;
+  })),
+  sliderTheme: SliderThemeData(
+      activeTrackColor: AppColors.primaryColor,
+      thumbColor: Colors.white,
+      inactiveTrackColor: Colors.grey.shade700
+      // activeColor: Colors.white,
+      // inactiveThumbColor: Colors.white,
+      // inactiveTrackColor: Colors.grey.shade700,
+      ),
   textTheme: const TextTheme(
       titleLarge: TextStyle(
         fontFamily: AppFonts.primaryFont,
@@ -34,6 +51,7 @@ final appTheme = ThemeData(
 
 final darkAppTheme = ThemeData(
   scaffoldBackgroundColor: Colors.black,
+  primaryColor: AppColors.primaryColor,
   brightness: Brightness.dark,
   textTheme: const TextTheme(
       titleLarge: TextStyle(
