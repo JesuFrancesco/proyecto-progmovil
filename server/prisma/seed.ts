@@ -72,9 +72,13 @@ async function main() {
       log.info(`${filePath} | migrado exitosamente`);
     } catch (error: unknown) {
       if (error instanceof DatabaseError) {
-        log.warn(
-          `${filePath} | Algo salio mal en DB. Más detalle en errors.log`
-        );
+        if (error.code === "23505") {
+          log.info(`${filePath} | Ignorando pkey ya establecida...`);
+        } else {
+          log.warn(
+            `${filePath} | Algo salio mal en DB. Más detalle en errors.log`
+          );
+        }
         errorLog.error(error);
       } else {
         errorLog.error(error);
@@ -85,13 +89,17 @@ async function main() {
   };
 
   // static
-  await seedFromSQL("seeders/paises.sql");
-  await seedFromSQL("seeders/ubigeos.sql");
-  await seedFromSQL("seeders/tags.sql");
+  await seedFromSQL("prisma/seeders/paises.sql");
+  await seedFromSQL("prisma/seeders/ubigeos.sql");
 
   // mock
-  await seedFromSQL("seeders/mock/notificaciones.sql");
-  await seedFromSQL("seeders/mock/mangas_sintetica.sql");
+  await seedFromSQL("prisma/seeders/mock/cuentas.sql"); // working
+  await seedFromSQL("prisma/seeders/mock/tags.sql"); // working
+  await seedFromSQL("prisma/seeders/mock/notificaciones.sql"); // working
+  await seedFromSQL("prisma/seeders/mock/brand_sellers.sql");
+  await seedFromSQL("prisma/seeders/mock/products.sql");
+  await seedFromSQL("prisma/seeders/mock/product_tags.sql");
+  await seedFromSQL("prisma/seeders/mock/product_attachments.sql");
 
   log.info("Proceso de seeding terminado");
 
