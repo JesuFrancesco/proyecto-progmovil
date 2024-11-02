@@ -1,4 +1,4 @@
-import { Express, NextFunction } from "express";
+import { Express, NextFunction, Router } from "express";
 import { PrismaClient } from "@prisma/client";
 
 import { ProfileRouter } from "../generated/express/Profile";
@@ -6,42 +6,42 @@ import { ClientRouter } from "../generated/express/Client";
 import { MarketRouter } from "../generated/express/Market";
 import { ProductRouter } from "../generated/express/Product";
 import { NotificationRouter } from "../generated/express/Notification";
+import { ProductRatingRouter } from "../generated/express/ProductRating";
 
 import { RouteConfig } from "../generated/express/routeConfig";
 import { TagRouter } from "../generated/express/Tag";
 
-const API_PREFIX = "/api/v1";
+const API_ROUTER = Router();
 
-function routerAPI(app: Express) {
-  // prisma init
-  const prisma = new PrismaClient();
+// prisma init
+const prisma = new PrismaClient();
 
-  // custom express + prisma middleware
-  const addPrisma = (req: any, res: any, next: NextFunction) => {
-    req.prisma = prisma;
-    next();
-  };
+// custom express + prisma middleware
+const addPrisma = (req: any, res: any, next: NextFunction) => {
+  req.prisma = prisma;
+  next();
+};
 
-  app.use(addPrisma);
+API_ROUTER.use(addPrisma);
 
-  const commonRouterConfig: RouteConfig<any> = {
-    addModelPrefix: true,
-    enableAll: true,
-    customUrlPrefix: API_PREFIX,
-  };
+const commonRouterConfig: RouteConfig<any> = {
+  addModelPrefix: true,
+  enableAll: true,
+};
 
-  // routers habilitados
-  app.use(ProfileRouter(commonRouterConfig));
+// routers habilitados
+API_ROUTER.use(ProfileRouter(commonRouterConfig));
 
-  app.use(ClientRouter(commonRouterConfig));
+API_ROUTER.use(ClientRouter(commonRouterConfig));
 
-  app.use(MarketRouter(commonRouterConfig));
+API_ROUTER.use(MarketRouter(commonRouterConfig));
 
-  app.use(ProductRouter(commonRouterConfig));
+API_ROUTER.use(ProductRatingRouter(commonRouterConfig));
 
-  app.use(TagRouter(commonRouterConfig));
+API_ROUTER.use(ProductRouter(commonRouterConfig));
 
-  app.use(NotificationRouter(commonRouterConfig));
-}
+API_ROUTER.use(TagRouter(commonRouterConfig));
 
-export { routerAPI };
+API_ROUTER.use(NotificationRouter(commonRouterConfig));
+
+export = API_ROUTER;

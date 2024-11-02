@@ -1,0 +1,62 @@
+@BASE_URL = http://localhost:8080/api/v1
+
+# #==============#
+# | GET REQUESTS |
+# #==============#
+
+# Productos
+### Obtener los productos por paginacion pag 1
+GET {{BASE_URL}}/product?take=10&skip=0
+
+### Obtener los productos por paginacion
+GET {{BASE_URL}}/product?take=10&skip=10
+
+### Obtener producto especifico
+GET {{BASE_URL}}/product/unique?where[id]=1
+
+### Obtener productos por genero
+GET {{BASE_URL}}/product?where[productTags][some][tag][name][is]=Action&take=5
+
+# Cuentas
+### Obtener cuentas con productos
+GET {{BASE_URL}}/profile?include[markets][include][products]&take=3
+
+# Tags
+### Obtener tags de productos
+GET {{BASE_URL}}/tag?take=3
+
+# Reviews
+### Obtener reviews de producto
+GET {{BASE_URL}}/productrating?take=3
+
+# #===============#
+# | POST REQUESTS |
+# #===============#
+
+### Crear producto
+POST {{BASE_URL}}/product
+Content-Type: application/json
+
+{
+	"data": {
+		"name": "producto prueba",
+		"stock": 1,
+		"price": 3.0,
+		"marketId": 1
+		
+	}
+}
+
+# #===============#
+# | DELETE REQUESTS |
+# #===============#
+
+### Eliminar producto por PK
+DELETE {{BASE_URL}}/product
+Content-Type: application/json
+
+{
+	"where": {
+		"id": 50002,
+	}
+}
