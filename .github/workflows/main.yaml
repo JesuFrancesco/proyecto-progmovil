@@ -67,13 +67,13 @@ jobs:
           sparse-checkout: |
             server
 
-      - name: Listar archivos (1)
-        run: ls -la
-
       - name: Crear ambiente con Node 20.x
         uses: actions/setup-node@v1
         with:
           node-version: "20.x"
+
+      - name: Listar archivos (1)
+        run: ls -la
 
       - name: Compilar proyecto y módulos
         run: |
@@ -81,30 +81,24 @@ jobs:
           npm run build --if-present
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Listar archivos (2)
         run: ls -la
 
-      - name: Crear carpeta temporal para subida
-        run: mkdir -p temp_dist/prisma
+      - name: Juntar todo en el paquete para la salida
+        run: |
+          mkdir -p temp_dist/prisma
+          cp package.json temp_dist/
+          cp -r dist node_modules temp_dist
+          cp -r prisma/schema.prisma prisma/migrations temp_dist/prisma
 
-      - name: Copiar paquete compilado 
-        run: cp -r dist node_modules temp_dist
-
-      - name: SQLITE3
-        run: cp -r prisma/schema.prisma prisma/migrations prisma/*.db temp_dist/prisma
-
-      - name: Copiar package.json
-        run: cp package.json temp_dist/
-
-      - name: Listar archivos (3)
+      - name: Listar paquete de subida (3)
         run: ls -la temp_dist
-        
+
       - name: Despliegue a Azure
         uses: azure/webapps-deploy@v2
         with:
           app-name: jiron-anime
           publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
           package: ./server/temp_dist
-
-        

@@ -1,5 +1,5 @@
-export 'account.dart';
 export 'user.dart';
+export 'client.dart';
 export 'notification.dart';
 export 'market.dart';
 export 'product.dart';
@@ -16,7 +16,7 @@ export 'distrito.dart';
 export 'chat_message.dart';
 export 'brand_seller.dart';
 export 'message_attachment.dart';
-export 'user_notification.dart';
+export 'client_notification.dart';
 export 'chat_participant.dart';
 export 'product_question.dart';
 export 'cart_item.dart';

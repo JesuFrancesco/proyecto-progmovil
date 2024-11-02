@@ -2,7 +2,7 @@
 
 import 'model_base.dart';
 import 'product.dart';
-import 'user.dart';
+import 'client.dart';
 import 'question_reply.dart';
 
 class ProductQuestion implements ToJson, Id {
@@ -11,9 +11,9 @@ class ProductQuestion implements ToJson, Id {
   String? text;
   DateTime? createdAt;
   int? productId;
-  int? userId;
+  int? clientId;
   Product? product;
-  User? user;
+  Client? client;
   List<QuestionReply>? questionReplies;
   int? $questionRepliesCount;
 
@@ -22,9 +22,9 @@ class ProductQuestion implements ToJson, Id {
     this.text,
     this.createdAt,
     this.productId,
-    this.userId,
+    this.clientId,
     this.product,
-    this.user,
+    this.client,
     this.questionReplies,
     this.$questionRepliesCount,
   });
@@ -37,12 +37,12 @@ class ProductQuestion implements ToJson, Id {
               ? DateTime.parse(json['createdAt'])
               : null,
           productId: json['productId'] as int?,
-          userId: json['userId'] as int?,
+          clientId: json['clientId'] as int?,
           product: json['product'] != null
               ? Product.fromJson(json['product'] as Map<String, dynamic>)
               : null,
-          user: json['user'] != null
-              ? User.fromJson(json['user'] as Map<String, dynamic>)
+          client: json['client'] != null
+              ? Client.fromJson(json['client'] as Map<String, dynamic>)
               : null,
           questionReplies: json['questionReplies'] != null
               ? createModels<QuestionReply>(
@@ -55,9 +55,9 @@ class ProductQuestion implements ToJson, Id {
     String? text,
     DateTime? createdAt,
     int? productId,
-    int? userId,
+    int? clientId,
     Product? product,
-    User? user,
+    Client? client,
     List<QuestionReply>? questionReplies,
     int? $questionRepliesCount,
   }) {
@@ -66,9 +66,9 @@ class ProductQuestion implements ToJson, Id {
         text: text ?? this.text,
         createdAt: createdAt ?? this.createdAt,
         productId: productId ?? this.productId,
-        userId: userId ?? this.userId,
+        clientId: clientId ?? this.clientId,
         product: product ?? this.product,
-        user: user ?? this.user,
+        client: client ?? this.client,
         questionReplies: questionReplies ?? this.questionReplies,
         $questionRepliesCount:
             $questionRepliesCount ?? this.$questionRepliesCount);
@@ -80,9 +80,9 @@ class ProductQuestion implements ToJson, Id {
         text: productQuestion.text ?? text,
         createdAt: productQuestion.createdAt ?? createdAt,
         productId: productQuestion.productId ?? productId,
-        userId: productQuestion.userId ?? userId,
+        clientId: productQuestion.clientId ?? clientId,
         product: productQuestion.product ?? product,
-        user: productQuestion.user ?? user,
+        client: productQuestion.client ?? client,
         questionReplies: productQuestion.questionReplies ?? questionReplies,
         $questionRepliesCount:
             productQuestion.$questionRepliesCount ?? $questionRepliesCount);
@@ -94,9 +94,9 @@ class ProductQuestion implements ToJson, Id {
         if (text != null) 'text': text,
         if (createdAt != null) 'createdAt': createdAt,
         if (productId != null) 'productId': productId,
-        if (userId != null) 'userId': userId,
+        if (clientId != null) 'clientId': clientId,
         if (product != null) 'product': product,
-        if (user != null) 'user': user,
+        if (client != null) 'client': client,
         if (questionReplies != null)
           'questionReplies':
               questionReplies?.map((item) => item.toJson()).toList(),
@@ -116,9 +116,9 @@ class ProductQuestion implements ToJson, Id {
           text == other.text &&
           createdAt == other.createdAt &&
           productId == other.productId &&
-          userId == other.userId &&
+          clientId == other.clientId &&
           product == other.product &&
-          user == other.user &&
+          client == other.client &&
           areListsEqual(questionReplies, other.questionReplies) &&
           $questionRepliesCount == other.$questionRepliesCount;
 
@@ -128,9 +128,9 @@ class ProductQuestion implements ToJson, Id {
       text.hashCode ^
       createdAt.hashCode ^
       productId.hashCode ^
-      userId.hashCode ^
+      clientId.hashCode ^
       product.hashCode ^
-      user.hashCode ^
+      client.hashCode ^
       questionReplies.hashCode ^
       $questionRepliesCount.hashCode;
 }

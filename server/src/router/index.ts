@@ -1,66 +1,47 @@
-import { Express, NextFunction } from "express";
+import { Express, NextFunction, Router } from "express";
 import { PrismaClient } from "@prisma/client";
 
-import { AccountRouter } from "../generated/express/Account";
-import { UserRouter } from "../generated/express/User";
-import { ProductRouter } from "../generated/express/Product";
+import { ProfileRouter } from "../generated/express/Profile";
+import { ClientRouter } from "../generated/express/Client";
 import { MarketRouter } from "../generated/express/Market";
+import { ProductRouter } from "../generated/express/Product";
 import { NotificationRouter } from "../generated/express/Notification";
+import { ProductRatingRouter } from "../generated/express/ProductRating";
 
-// import authRouter from "./auth.router";
-// import profileRouter from "./profile.router";
+import { RouteConfig } from "../generated/express/routeConfig";
+import { TagRouter } from "../generated/express/Tag";
 
-function routerAPI(app: Express) {
-  const API_PREFIX = "/api/v1";
-  const prisma = new PrismaClient();
+const API_ROUTER = Router();
 
-  const addPrisma = (req: any, res: any, next: NextFunction) => {
-    req.prisma = prisma;
-    next();
-  };
+// prisma init
+const prisma = new PrismaClient();
 
-  app.use(addPrisma);
+// custom express + prisma middleware
+const addPrisma = (req: any, res: any, next: NextFunction) => {
+  req.prisma = prisma;
+  next();
+};
 
-  // routers
-  app.use(
-    AccountRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
+API_ROUTER.use(addPrisma);
 
-  app.use(
-    UserRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
+const commonRouterConfig: RouteConfig<any> = {
+  addModelPrefix: true,
+  enableAll: true,
+};
 
-  app.use(
-    ProductRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
+// routers habilitados
+API_ROUTER.use(ProfileRouter(commonRouterConfig));
 
-  app.use(
-    MarketRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
+API_ROUTER.use(ClientRouter(commonRouterConfig));
 
-  app.use(
-    NotificationRouter({
-      addModelPrefix: true,
-      enableAll: true,
-      customUrlPrefix: API_PREFIX,
-    })
-  );
-}
+API_ROUTER.use(MarketRouter(commonRouterConfig));
 
-export { routerAPI };
+API_ROUTER.use(ProductRatingRouter(commonRouterConfig));
+
+API_ROUTER.use(ProductRouter(commonRouterConfig));
+
+API_ROUTER.use(TagRouter(commonRouterConfig));
+
+API_ROUTER.use(NotificationRouter(commonRouterConfig));
+
+export = API_ROUTER;

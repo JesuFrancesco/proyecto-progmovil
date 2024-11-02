@@ -1,7 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
-import 'account.dart';
+import 'user.dart';
 import 'product.dart';
 
 class Market implements ToJson, Id {
@@ -10,8 +10,8 @@ class Market implements ToJson, Id {
   String? name;
   String? contactEmail;
   String? contactPhone;
-  int? accountId;
-  Account? account;
+  String? userId;
+  User? user;
   List<Product>? products;
   int? $productsCount;
 
@@ -20,8 +20,8 @@ class Market implements ToJson, Id {
     this.name,
     this.contactEmail,
     this.contactPhone,
-    this.accountId,
-    this.account,
+    this.userId,
+    this.user,
     this.products,
     this.$productsCount,
   });
@@ -31,9 +31,9 @@ class Market implements ToJson, Id {
       name: json['name'] as String?,
       contactEmail: json['contactEmail'] as String?,
       contactPhone: json['contactPhone'] as String?,
-      accountId: json['accountId'] as int?,
-      account: json['account'] != null
-          ? Account.fromJson(json['account'] as Map<String, dynamic>)
+      userId: json['userId'] as String?,
+      user: json['user'] != null
+          ? User.fromJson(json['user'] as Map<String, dynamic>)
           : null,
       products: json['products'] != null
           ? createModels<Product>(json['products'], Product.fromJson)
@@ -45,8 +45,8 @@ class Market implements ToJson, Id {
     String? name,
     String? contactEmail,
     String? contactPhone,
-    int? accountId,
-    Account? account,
+    String? userId,
+    User? user,
     List<Product>? products,
     int? $productsCount,
   }) {
@@ -55,8 +55,8 @@ class Market implements ToJson, Id {
         name: name ?? this.name,
         contactEmail: contactEmail ?? this.contactEmail,
         contactPhone: contactPhone ?? this.contactPhone,
-        accountId: accountId ?? this.accountId,
-        account: account ?? this.account,
+        userId: userId ?? this.userId,
+        user: user ?? this.user,
         products: products ?? this.products,
         $productsCount: $productsCount ?? this.$productsCount);
   }
@@ -67,8 +67,8 @@ class Market implements ToJson, Id {
         name: market.name ?? name,
         contactEmail: market.contactEmail ?? contactEmail,
         contactPhone: market.contactPhone ?? contactPhone,
-        accountId: market.accountId ?? accountId,
-        account: market.account ?? account,
+        userId: market.userId ?? userId,
+        user: market.user ?? user,
         products: market.products ?? products,
         $productsCount: market.$productsCount ?? $productsCount);
   }
@@ -79,8 +79,8 @@ class Market implements ToJson, Id {
         if (name != null) 'name': name,
         if (contactEmail != null) 'contactEmail': contactEmail,
         if (contactPhone != null) 'contactPhone': contactPhone,
-        if (accountId != null) 'accountId': accountId,
-        if (account != null) 'account': account,
+        if (userId != null) 'userId': userId,
+        if (user != null) 'user': user,
         if (products != null)
           'products': products?.map((item) => item.toJson()).toList(),
         if ($productsCount != null)
@@ -98,8 +98,8 @@ class Market implements ToJson, Id {
           name == other.name &&
           contactEmail == other.contactEmail &&
           contactPhone == other.contactPhone &&
-          accountId == other.accountId &&
-          account == other.account &&
+          userId == other.userId &&
+          user == other.user &&
           areListsEqual(products, other.products) &&
           $productsCount == other.$productsCount;
 
@@ -109,8 +109,8 @@ class Market implements ToJson, Id {
       name.hashCode ^
       contactEmail.hashCode ^
       contactPhone.hashCode ^
-      accountId.hashCode ^
-      account.hashCode ^
+      userId.hashCode ^
+      user.hashCode ^
       products.hashCode ^
       $productsCount.hashCode;
 }

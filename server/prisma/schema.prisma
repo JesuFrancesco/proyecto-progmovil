@@ -1,14 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  provider = "prisma-client-js"
 }
 
 generator express {
@@ -16,66 +13,64 @@ generator express {
   output   = "../src/generated/express"
 }
 
-// generator zod {
-//   provider = "prisma-zod-generator"
-//   output   = "./generated/zod"
-// }
-
 // generator dart {
 //   provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
 //   output   = "../../jiron_anime/lib/models"
 // }
 
 // models
+model Profile {
+  id    String  @id @db.Uuid
+  email String  @unique
+  phone String?
 
-model Account {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  role     String    @default("user")
-  password String
-  phone    String?
-  name     String
-  user     User?
-  markets  Market[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  client  Client?
+  markets Market[]
+
   messages Message[]
 
-  @@map("accounts")
+  @@map("profiles")
 }
 
-model User {
-  id               Int           @id @default(autoincrement())
-  referenceAddress String?
-  distritoId       Int?          @map("distrito_id")
-  provinciaId      Int?          @map("provincia_id")
-  departamentoId   Int?          @map("departamento_id")
-  distrito         Distrito?     @relation(fields: [distritoId], references: [id])
-  provincia        Provincia?    @relation(fields: [provinciaId], references: [id])
-  departmento      Departamento? @relation(fields: [departamentoId], references: [id])
-  account          Account       @relation(fields: [accountId], references: [id])
+model Client {
+  id               Int     @id @default(autoincrement())
+  referenceAddress String? @map("reference_address")
 
-  shoppingCarts     ShoppingCart[]
-  wishlists         Wishlist[]
-  orders            Order[]
-  productRatings    ProductRating[]
-  productQuestions  ProductQuestion[]
-  userNotifications UserNotification[]
-  chatParticipants  ChatParticipant[]
+  distritoId     Int? @map("distrito_id")
+  provinciaId    Int? @map("provincia_id")
+  departamentoId Int? @map("departamento_id")
 
-  accountId Int @unique @map("account_id")
+  distrito    Distrito?     @relation(fields: [distritoId], references: [id])
+  provincia   Provincia?    @relation(fields: [provinciaId], references: [id])
+  departmento Departamento? @relation(fields: [departamentoId], references: [id])
+  profile     Profile       @relation(fields: [profileId], references: [id])
 
-  @@map("users")
+  shoppingCarts       ShoppingCart[]
+  wishlists           Wishlist[]
+  orders              Order[]
+  productRatings      ProductRating[]
+  productQuestions    ProductQuestion[]
+  clientNotifications ClientNotification[]
+  chatParticipants    ChatParticipant[]
+
+  profileId String @unique @map("profile_id") @db.Uuid
+
+  @@map("clients")
 }
 
 model Notification {
-  id                Int                @id @default(autoincrement())
-  title             String
-  description       String
-  createdAt         DateTime           @default(now()) @map("created_at")
-  updatedAt         DateTime           @default(now()) @map("updated_at")
-  imageUrl          String
-  userNotifications UserNotification[]
+  id                  Int                  @id @default(autoincrement())
+  title               String
+  description         String
+  createdAt           DateTime             @default(now()) @map("created_at")
+  updatedAt           DateTime             @default(now()) @map("updated_at")
+  imageUrl            String               @map("image_url")
+  clientNotifications ClientNotification[]
 
-  @@map("notificactions")
+  @@map("notifications")
 }
 
 model Market {
@@ -83,27 +78,28 @@ model Market {
   name         String
   contactEmail String    @map("contact_email")
   contactPhone String    @map("contact_phone")
-  accountId    Int       @map("account_id")
-  account      Account   @relation(fields: [accountId], references: [id])
+  profileId    String    @map("profile_id") @db.Uuid
+  profile      Profile   @relation(fields: [profileId], references: [id])
   products     Product[]
 
   @@map("markets")
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
-  name          String
-  descripcion   String?
-  stock         Int
-  price         Decimal
-  dimensions    String?
-  warranty      Boolean?
-  discount      Int?
-  peso          Decimal?
-  formato       String?
-  cubierta      String?
-  anhoEdicion   Int?     @map("anho_edicion")
-  numeroPaginas Int?     @map("numero_paginas")
+  id              Int      @id @default(autoincrement())
+  name            String
+  descripcion     String?
+  stock           Int
+  price           Decimal
+  dimensions      String?
+  warranty        Boolean?
+  discount        Int?
+  peso            Decimal?
+  formato         String?
+  cubierta        String?
+  anhoEdicion     Int?     @map("anho_edicion")
+  numeroEpisodios Int?     @map("numero_episodios")
+  numeroPaginas   Int?     @map("numero_paginas")
 
   marketId Int    @map("market_id")
   market   Market @relation(fields: [marketId], references: [id])
@@ -141,8 +137,8 @@ model Country {
 
 model ShoppingCart {
   id        Int        @id @default(autoincrement())
-  userId    Int        @map("user_id")
-  user      User       @relation(fields: [userId], references: [id])
+  clientId  Int        @map("client_id")
+  client    Client     @relation(fields: [clientId], references: [id])
   cartItems CartItem[]
 
   @@map("shopping_carts")
@@ -150,8 +146,8 @@ model ShoppingCart {
 
 model Wishlist {
   id            Int            @id @default(autoincrement())
-  userId        Int            @map("user_id")
-  user          User           @relation(fields: [userId], references: [id])
+  clientId      Int            @map("client_id")
+  client        Client         @relation(fields: [clientId], references: [id])
   wishlistItems WishlistItem[]
 
   @@map("wishlists")
@@ -161,8 +157,8 @@ model Order {
   id         Int         @id @default(autoincrement())
   totalPrice Decimal     @map("total_price")
   status     String
-  userId     Int         @map("user_id")
-  user       User        @relation(fields: [userId], references: [id])
+  clientId   Int         @map("client_id")
+  client     Client      @relation(fields: [clientId], references: [id])
   orderItems OrderItem[]
 
   @@map("orders")
@@ -183,8 +179,8 @@ model Message {
   createdAt          DateTime            @default(now()) @map("created_at")
   updatedAt          DateTime            @default(now()) @map("updated_at")
   status             Int
-  accountId          Int                 @map("account_id")
-  account            Account             @relation(fields: [accountId], references: [id])
+  profileId          String              @map("profile_id") @db.Uuid
+  profile            Profile             @relation(fields: [profileId], references: [id])
   messageAttachments MessageAttachment[]
   chatMessages       ChatMessage[]
 
@@ -197,7 +193,7 @@ model Departamento {
   name       String      @unique
   provincias Provincia[]
   distritos  Distrito[]
-  users      User[]
+  clients    Client[]
 
   @@map("departamentos")
 }
@@ -208,7 +204,7 @@ model Provincia {
   departamentoId Int          @map("departamento_id")
   departamento   Departamento @relation(fields: [departamentoId], references: [id])
   distritos      Distrito[]
-  users          User[]
+  clients        Client[]
 
   @@map("provincias")
 }
@@ -222,7 +218,7 @@ model Distrito {
 
   departamentoId Int          @map("departamento_id")
   departamento   Departamento @relation(fields: [departamentoId], references: [id])
-  users          User[]
+  clients        Client[]
 
   @@map("distritos")
 }
@@ -230,8 +226,8 @@ model Distrito {
 // many to many 
 
 model ChatMessage {
-  chatId    Int
-  messageId Int
+  chatId    Int @map("chat_id")
+  messageId Int @map("message_id")
 
   chat    Chat    @relation(fields: [chatId], references: [id])
   message Message @relation(fields: [messageId], references: [id])
@@ -243,9 +239,9 @@ model ChatMessage {
 model BrandSeller {
   id                Int       @id @default(autoincrement())
   name              String
-  countryOrigin     String
-  referenceLocation String
-  countryId         Int
+  description       String?
+  referenceLocation String?   @map("reference_location")
+  countryId         Int       @map("country_id")
   country           Country   @relation(fields: [countryId], references: [id])
   products          Product[]
 
@@ -263,34 +259,34 @@ model MessageAttachment {
   @@map("message_attachments")
 }
 
-model UserNotification {
-  userId         Int
-  notificationId Int
-  user           User         @relation(fields: [userId], references: [id])
+model ClientNotification {
+  clientId       Int          @map("client_id")
+  notificationId Int          @map("notification_id")
+  client         Client       @relation(fields: [clientId], references: [id])
   notification   Notification @relation(fields: [notificationId], references: [id])
 
-  @@id([userId, notificationId])
-  @@map("user_notifications")
+  @@id([clientId, notificationId])
+  @@map("client_notifications")
 }
 
 model ChatParticipant {
-  chatId Int
-  userId Int
-  chat   Chat @relation(fields: [chatId], references: [id])
-  user   User @relation(fields: [userId], references: [id])
+  chatId   Int    @map("chat_id")
+  clientId Int    @map("client_id")
+  chat     Chat   @relation(fields: [chatId], references: [id])
+  client   Client @relation(fields: [clientId], references: [id])
 
-  @@id([chatId, userId])
+  @@id([chatId, clientId])
   @@map("chat_participants")
 }
 
 model ProductQuestion {
   id              Int             @id @default(autoincrement())
   text            String
-  createdAt       DateTime        @default(now())
-  productId       Int
-  userId          Int
+  createdAt       DateTime        @default(now()) @map("created_at")
+  productId       Int             @map("product_id")
+  clientId        Int             @map("client_id")
   product         Product         @relation(fields: [productId], references: [id])
-  user            User            @relation(fields: [userId], references: [id])
+  client          Client          @relation(fields: [clientId], references: [id])
   questionReplies QuestionReply[]
 
   @@map("product_questions")
@@ -298,9 +294,9 @@ model ProductQuestion {
 
 model CartItem {
   amount       Int
-  addedAt      DateTime     @default(now())
-  cartId       Int
-  productId    Int
+  addedAt      DateTime     @default(now()) @map("added_at")
+  cartId       Int          @map("cart_id")
+  productId    Int          @map("product_id")
   shoppingCart ShoppingCart @relation(fields: [cartId], references: [id])
   product      Product      @relation(fields: [productId], references: [id])
 
@@ -309,8 +305,8 @@ model CartItem {
 }
 
 model ProductTag {
-  categoryId Int
-  productId  Int
+  categoryId Int     @map("category_id")
+  productId  Int     @map("product_id")
   tag        Tag     @relation(fields: [categoryId], references: [id])
   product    Product @relation(fields: [productId], references: [id])
 
@@ -320,8 +316,8 @@ model ProductTag {
 
 model WishlistItem {
   addedAt    DateTime @default(now())
-  wishlistId Int
-  productId  Int
+  wishlistId Int      @map("wishlist_id")
+  productId  Int      @map("product_id")
 
   wishlist Wishlist @relation(fields: [wishlistId], references: [id])
   product  Product  @relation(fields: [productId], references: [id])
@@ -332,8 +328,8 @@ model WishlistItem {
 
 model OrderItem {
   amount    Int
-  orderId   Int
-  productId Int
+  orderId   Int     @map("order_id")
+  productId Int     @map("product_id")
   order     Order   @relation(fields: [orderId], references: [id])
   product   Product @relation(fields: [productId], references: [id])
 
@@ -342,8 +338,8 @@ model OrderItem {
 }
 
 model ProductAttachment {
-  imageUrl  String
-  productId Int
+  imageUrl  String  @map("image_url")
+  productId Int     @map("product_id")
   product   Product @relation(fields: [productId], references: [id])
 
   @@id([productId])
@@ -353,8 +349,8 @@ model ProductAttachment {
 model QuestionReply {
   id              Int             @id @default(autoincrement())
   text            String
-  createdAt       DateTime        @default(now())
-  questionId      Int
+  createdAt       DateTime        @default(now()) @map("created_at")
+  questionId      Int             @map("question_id")
   productQuestion ProductQuestion @relation(fields: [questionId], references: [id])
 
   @@map("question_replies")
@@ -364,10 +360,10 @@ model ProductRating {
   id                Int                @id @default(autoincrement())
   score             Int
   text              String
-  createdAt         DateTime           @default(now())
-  userId            Int
-  productId         Int
-  user              User               @relation(fields: [userId], references: [id])
+  createdAt         DateTime           @default(now()) @map("created_at")
+  clientId          Int                @map("client_id")
+  productId         Int                @map("product_id")
+  client            Client             @relation(fields: [clientId], references: [id])
   product           Product            @relation(fields: [productId], references: [id])
   ratingAttachments RatingAttachment[]
 
@@ -378,7 +374,7 @@ model RatingAttachment {
   blobUrl       String
   filename      String
   type          String
-  ratingId      Int
+  ratingId      Int           @map("rating_id")
   productRating ProductRating @relation(fields: [ratingId], references: [id])
 
   @@id([ratingId])

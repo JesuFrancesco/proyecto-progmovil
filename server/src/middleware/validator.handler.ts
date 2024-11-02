@@ -21,14 +21,3 @@ export const validatorHandler = (
     next();
   };
 };
-
-// export const checkRoles = (...roles: string[]): RequestHandler => {
-//   return (req, res, next) => {
-//     const user: any = req.user;
-//     if (roles.includes(user.role)) {
-//       next();
-//     } else {
-//       next(boom.unauthorized());
-//     }
-//   };
-// };

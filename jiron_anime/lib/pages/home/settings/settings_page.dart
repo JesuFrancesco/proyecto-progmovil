@@ -25,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   CurrentUser.getClipOvalAvatar(),
                   const SizedBox(width: 10),
                   Text(
-                    CurrentUser.fullName ?? 'Usuario desconocido',
+                    CurrentUser.fullName ?? 'Anónimo',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -88,12 +88,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildListTile(String title, IconData icon) {
     return ListTile(
-      leading: Icon(icon, color: Colors.white),
+      leading: Icon(icon, color: Theme.of(context).primaryColor),
       title: Text(
         title,
-        style: const TextStyle(color: Colors.white),
       ),
-      trailing: const Icon(Icons.chevron_right, color: Colors.white),
+      trailing: const Icon(Icons.chevron_right),
       onTap: () {},
     );
   }
@@ -102,13 +101,13 @@ class _SettingsPageState extends State<SettingsPage> {
     return SwitchListTile(
       title: Text(
         title,
-        style: const TextStyle(color: Colors.white),
       ),
       value: value,
-      onChanged: (bool val) {},
-      activeColor: Colors.white, // Color del interruptor activo
-      inactiveThumbColor: Colors.white, // Color del interruptor inactivo
-      inactiveTrackColor: Colors.grey.shade700, // Color de la pista inactiva
+      onChanged: (bool val) {
+        val = !val;
+      },
+      inactiveThumbColor: Colors.white,
+      inactiveTrackColor: Colors.grey.shade700,
     );
   }
 
