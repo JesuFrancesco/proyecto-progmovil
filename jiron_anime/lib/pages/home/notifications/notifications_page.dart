@@ -4,7 +4,6 @@ import 'package:jiron_anime/controllers/notifications_controller.dart';
 import 'package:jiron_anime/models/notification.dart';
 import 'package:jiron_anime/pages/home/notifications/widget/notification_widget.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
-import 'package:jiron_anime/shared/custom_padding.dart';
 
 final NotificationsController notificationController =
     Get.put(NotificationsController());
@@ -41,25 +40,28 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomLayout(
-        child: _items.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const CustomAppbar(title: "Notificaciones"),
-                    Column(
-                      children: _items.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final item = entry.value;
-                        return NotificacionRemovableWidget(
-                          item: item,
-                          onDismissed: () => _removeItem(index),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ));
+    return CustomScrollView(slivers: [
+      SliverFillRemaining(
+        hasScrollBody: false,
+        child: Column(
+          children: [
+            const CustomAppbar(title: "Notificaciones"),
+            _items.isEmpty
+                ? const Expanded(
+                    child: Center(child: CircularProgressIndicator()))
+                : Column(
+                    children: _items.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final item = entry.value;
+                      return NotificacionRemovableWidget(
+                        item: item,
+                        onDismissed: () => _removeItem(index),
+                      );
+                    }).toList(),
+                  ),
+          ],
+        ),
+      )
+    ]);
   }
 }

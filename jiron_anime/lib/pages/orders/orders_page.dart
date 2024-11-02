@@ -21,7 +21,6 @@ class OrdersPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              kToolbarHeight.pv,
               const CustomAppbar(title: "Pedidos"),
               30.pv,
               Row(

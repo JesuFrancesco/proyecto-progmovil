@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/home/product/producto_page.dart';
+import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 

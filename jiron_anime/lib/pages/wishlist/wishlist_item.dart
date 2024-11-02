@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/product.dart';
-import 'package:jiron_anime/pages/home/product/producto_page.dart';
+import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
 class WishlistItemWidget extends StatelessWidget {

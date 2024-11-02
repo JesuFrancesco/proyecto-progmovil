@@ -39,10 +39,8 @@ class _InfoComicState extends State<InfoComic> {
       int cartId = 1;
       await _shoppingCartController.addProductToCart(
           cartId, productId, _itemCount);
-      Navigator.pushNamed(
-          context, '/cart'); // Redirige a la pantalla del carrito
+      Navigator.of(context.mounted ? context : context).pushNamed('/cart');
     } else {
-      // Muestra un mensaje de error o maneja el caso en el que el producto no tiene ID
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Error: El producto no tiene ID")),
       );

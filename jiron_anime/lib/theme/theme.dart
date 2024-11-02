@@ -7,6 +7,9 @@ import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/theme/fonts.dart';
 
 final appTheme = ThemeData(
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: AppColors.primaryColor,
+  ),
   scaffoldBackgroundColor: AppColors.backgroundColor,
   primaryColor: AppColors.primaryColor,
   brightness: Brightness.light,
@@ -27,6 +30,8 @@ final appTheme = ThemeData(
       // inactiveThumbColor: Colors.white,
       // inactiveTrackColor: Colors.grey.shade700,
       ),
+  iconTheme: const IconThemeData(color: AppColors.primaryColor),
+  indicatorColor: AppColors.primaryColor,
   textTheme: const TextTheme(
       titleLarge: TextStyle(
         fontFamily: AppFonts.primaryFont,

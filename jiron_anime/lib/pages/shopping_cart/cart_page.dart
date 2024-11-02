@@ -2,11 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/controllers/shopping_cart_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/home/payment/payment_page.dart';
+import 'package:jiron_anime/pages/payment/payment_page.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/utils/extensions.dart';
 import 'cart_item.dart';
 
 class ShoppingCartPage extends StatefulWidget {
@@ -42,7 +41,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           : CustomLayout(
               child: Column(
                 children: [
-                  kToolbarHeight.pv,
                   const CustomAppbar(title: "Carrito de compras"),
                   Expanded(
                     child: ListView.builder(

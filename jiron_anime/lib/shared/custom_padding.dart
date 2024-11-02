@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
 class CustomLayout extends StatelessWidget {
-  final double px, py;
+  final double px, pt, pb;
   const CustomLayout(
-      {super.key, required this.child, this.px = 20, this.py = 4});
+      {super.key,
+      required this.child,
+      this.px = 20,
+      this.pt = kToolbarHeight,
+      this.pb = 0});
 
   final Widget child;
 
@@ -23,7 +27,7 @@ class CustomLayout extends StatelessWidget {
             )
           : null,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: px, vertical: py),
+        padding: EdgeInsets.only(left: px, right: px, top: pt),
         child: child,
       ),
     );

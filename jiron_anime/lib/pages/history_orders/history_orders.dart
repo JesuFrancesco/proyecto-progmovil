@@ -16,7 +16,6 @@ class HistoryOrdersPage extends StatelessWidget {
       child: SingleChildScrollView(
           child: Column(
         children: [
-          kToolbarHeight.pv,
           const CustomAppbar(title: "Historial de pedidos"),
           15.pv,
           Row(

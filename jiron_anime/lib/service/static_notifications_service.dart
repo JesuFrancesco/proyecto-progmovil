@@ -1,15 +1,20 @@
 import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
-
+import 'package:http/http.dart' as http;
+import 'package:jiron_anime/config/config.dart';
+// import 'package:flutter/services.dart' show rootBundle;
 import '../models/notification.dart';
 
 class StaticNotificationsService {
   Future<List<Notification>> fetchAll() async {
     List<Notification> notificaciones = [];
-    final String response =
-        await rootBundle.loadString('static/notificaciones_sintetica.json');
+    final response =
+        await http.get(Uri.parse("${Config.serverURL}/notification"));
 
-    final List<dynamic> data = jsonDecode(response);
+    if(response.statusCode != 200) {
+      throw Error();
+    }
+
+    final List<dynamic> data = jsonDecode(response.body);
     notificaciones = data
         .map((map) => Notification.fromJson(map as Map<String, dynamic>))
         .toList();

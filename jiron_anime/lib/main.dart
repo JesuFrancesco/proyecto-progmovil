@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
-import 'package:jiron_anime/pages/home/settings/settings_page.dart';
+import 'package:jiron_anime/pages/settings/settings_page.dart';
 import 'package:jiron_anime/pages/orders/orders_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 import 'package:jiron_anime/pages/demo/profile_demo.dart';

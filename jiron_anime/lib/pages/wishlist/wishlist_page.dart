@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
-import 'package:jiron_anime/utils/extensions.dart';
 import 'wishlist_item.dart';
 
 class WishlistPage extends StatelessWidget {
@@ -18,10 +17,9 @@ class WishlistPage extends StatelessWidget {
         final wishlistItems = controller.productos;
 
         return CustomLayout(
-          py: 2,
+          pt: 2,
           child: Column(
             children: [
-              kToolbarHeight.pv,
               const CustomAppbar(title: "Lista de deseados"),
               Expanded(
                 child: ListView.builder(
