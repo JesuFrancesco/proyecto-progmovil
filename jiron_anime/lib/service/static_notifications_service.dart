@@ -9,8 +9,9 @@ class StaticNotificationsService {
     List<Notification> notificaciones = [];
     final response =
         await http.get(Uri.parse("${Config.serverURL}/notification"));
+    // await rootBundle.loadString('static/notifications.json');
 
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       throw Error();
     }
 

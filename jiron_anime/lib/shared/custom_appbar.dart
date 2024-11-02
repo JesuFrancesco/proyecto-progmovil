@@ -4,7 +4,8 @@ import 'package:jiron_anime/shared/usuario_controller.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String title;
-  const CustomAppbar({super.key, required this.title});
+  final bool showAvatar;
+  const CustomAppbar({super.key, required this.title, this.showAvatar = true});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class CustomAppbar extends StatelessWidget {
             ],
           ),
         ),
-        CurrentUser.getAvatarIcon(),
+        if (showAvatar) CurrentUser.getAvatarIcon(),
       ],
     );
   }

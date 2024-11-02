@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiron_anime/controllers/tags_controller.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
-import 'package:jiron_anime/pages/home/store/widgets/bar_button.dart';
-import 'package:jiron_anime/pages/home/store/widgets/list_comic.dart';
-import 'package:jiron_anime/pages/home/store/widgets/slider_comic.dart';
-import 'package:jiron_anime/theme/colors.dart';
+import 'package:jiron_anime/pages/home/store/widgets/product_buttonbar.dart';
+import 'package:jiron_anime/pages/home/store/widgets/product_item.dart';
+import 'package:jiron_anime/pages/home/store/widgets/product_carousel.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
 final ProductoController productoController = Get.put(ProductoController());
-final TagController tagController = Get.put(TagController());
 
 class TiendaPage extends StatefulWidget {
   const TiendaPage({super.key});
@@ -31,21 +28,15 @@ class _TiendaPageState extends State<TiendaPage> {
     super.initState();
   }
 
+  void _changeTagsCallback(List<String> tags) {
+    setState(() {
+      _currentTags = tags;
+    });
+  }
+
   void _showAllMangas() {
     setState(() {
       _currentTags = [];
-    });
-  }
-
-  void _showShonenMangas() {
-    setState(() {
-      _currentTags = ["Shonen"];
-    });
-  }
-
-  void _showSeinenMangas() {
-    setState(() {
-      _currentTags = ["Seinen"];
     });
   }
 
@@ -74,21 +65,12 @@ class _TiendaPageState extends State<TiendaPage> {
                   ],
                 ),
                 15.pv,
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: TagsBarButton(
-                    onCatalogPressed: _showAllMangas,
-                    onShonenPressed: _showShonenMangas,
-                    onSeinenPressed: _showSeinenMangas,
-                  ),
+                TagsBarButton(
+                  onCatalogPressed: _showAllMangas,
+                  onTagPressed: _changeTagsCallback,
                 ),
                 15.pv,
-                const SliderComic(),
+                const ProductCarousel(),
                 10.pv,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,7 +149,7 @@ class _TiendaPageState extends State<TiendaPage> {
         final manga = filteredMangas[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: ListComic(manga: manga),
+          child: ProductItem(manga: manga),
         );
       },
     );

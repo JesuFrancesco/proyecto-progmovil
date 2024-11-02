@@ -4,10 +4,10 @@ import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
-class ListComic extends StatelessWidget {
+class ProductItem extends StatelessWidget {
   final Product manga;
 
-  const ListComic({
+  const ProductItem({
     super.key,
     required this.manga,
   });
@@ -20,7 +20,7 @@ class ListComic extends StatelessWidget {
           height: 250,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(manga.productAttachments![0].imageUrl!),
+            child: Image.network(manga.productAttachments![0].imageUrl!),
           ),
         ),
         5.pv,

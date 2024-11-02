@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/theme/colors.dart';
@@ -12,65 +13,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  Widget _buildBody(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: CustomLayout(
-        pt: 0,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Row(
-                  children: [
-                    CurrentUser.getClipOvalAvatar(),
-                    const SizedBox(width: 10),
-                    Text(
-                      CurrentUser.fullName ?? 'Anónimo',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-              // Sección de Ajustes
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'Ajustes',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: AppColors.primaryColor,
-                      ),
-                ),
-              ),
-              _buildSectionTitle('Cuenta', Icons.person),
-              _buildListTile('Edita tu perfil', Icons.edit),
-              _buildListTile('Cambiar contraseña', Icons.lock),
-              _buildListTile('Privacidad', Icons.privacy_tip),
-              16.pv,
-              // Sección de Notificación
-              _buildSectionTitle('Notificación', Icons.notifications),
-              _buildSwitchTile('Activar notificaciones', true),
-              16.pv,
-              // Sección de Otros
-              _buildSectionTitle('Otros', Icons.settings),
-              _buildSwitchTile('Modo oscuro', false),
-              16.pv,
-              // Sección de Más
-              _buildSectionTitle('Más...', Icons.more_horiz),
-              _buildListTile('Sobre nosotros', Icons.info),
-              _buildListTile('Política de privacidad', Icons.privacy_tip),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildSectionTitle(String title, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -113,15 +55,63 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          iconTheme: const IconThemeData(color: Colors.white),
+    return Scaffold(
+      body: CustomLayout(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CustomAppbar(
+                title: "",
+                showAvatar: false,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Row(
+                  children: [
+                    CurrentUser.getClipOvalAvatar(),
+                    const SizedBox(width: 10),
+                    Text(
+                      CurrentUser.fullName ?? 'Anónimo',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              // Sección de Ajustes
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  'Ajustes',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
+                ),
+              ),
+              _buildSectionTitle('Cuenta', Icons.person),
+              _buildListTile('Edita tu perfil', Icons.edit),
+              _buildListTile('Cambiar contraseña', Icons.lock),
+              _buildListTile('Privacidad', Icons.privacy_tip),
+              16.pv,
+              // Sección de Notificación
+              _buildSectionTitle('Notificación', Icons.notifications),
+              _buildSwitchTile('Activar notificaciones', true),
+              16.pv,
+              // Sección de Otros
+              _buildSectionTitle('Otros', Icons.settings),
+              _buildSwitchTile('Modo oscuro', false),
+              16.pv,
+              // Sección de Más
+              _buildSectionTitle('Más', Icons.more_horiz),
+              _buildListTile('Sobre nosotros', Icons.info),
+              _buildListTile('Política de privacidad', Icons.privacy_tip),
+            ],
+          ),
         ),
-        body: _buildBody(context),
       ),
     );
   }

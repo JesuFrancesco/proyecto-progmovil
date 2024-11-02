@@ -8,7 +8,7 @@ import 'package:jiron_anime/pages/home/store/product/widget/stock.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
 import 'package:jiron_anime/shared/custom_padding.dart';
-import 'package:jiron_anime/pages/home/store/product/widget/info_comic.dart';
+import 'package:jiron_anime/pages/home/store/product/widget/product_info.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/utils/fetch_and_render.dart';
 
@@ -109,7 +109,7 @@ class _ProductoPageState extends State<ProductoPage> {
                         .toList()
                         .map((manga) => SizedBox(
                               height: 150,
-                              child: Image.asset(
+                              child: Image.network(
                                   manga.productAttachments![0].imageUrl!),
                             ))
                         .toList()

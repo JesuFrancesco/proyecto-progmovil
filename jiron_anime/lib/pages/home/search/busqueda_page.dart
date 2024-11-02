@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
-import 'package:jiron_anime/pages/home/store/widgets/list_comic.dart';
+import 'package:jiron_anime/pages/home/store/widgets/product_item.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
@@ -106,7 +106,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
                 final manga = filteredMangas[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ListComic(manga: manga),
+                  child: ProductItem(manga: manga),
                 );
               },
             )

@@ -62,8 +62,8 @@ class _InfoComicState extends State<InfoComic> {
         Text("S/. ${widget.producto.price.toString()}"),
         15.pv,
         SizedBox(
-            child:
-                Image.asset(widget.producto.productAttachments![0].imageUrl!)),
+            child: Image.network(
+                widget.producto.productAttachments![0].imageUrl!)),
         15.pv,
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

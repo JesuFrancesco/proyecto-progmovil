@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 
-class SliderComic extends StatefulWidget {
-  const SliderComic({super.key});
+class ProductCarousel extends StatefulWidget {
+  const ProductCarousel({super.key});
 
   @override
-  State<SliderComic> createState() => _SliderComicState();
+  State<ProductCarousel> createState() => _ProductCarouselState();
 }
 
-class _SliderComicState extends State<SliderComic> {
+class _ProductCarouselState extends State<ProductCarousel> {
   int currentImageIndex = 0;
 
   final List<Product> comics = productoController.productos.toList();
@@ -40,7 +40,7 @@ class _SliderComicState extends State<SliderComic> {
                   Colors.white.withOpacity(0.3),
                   BlendMode.lighten,
                 ),
-                child: Image.asset(
+                child: Image.network(
                   currentComic.productAttachments![0].imageUrl!,
                   fit: BoxFit.cover,
                 ),
