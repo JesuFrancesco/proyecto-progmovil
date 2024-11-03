@@ -11,10 +11,19 @@ GET {{BASE_URL}}/product?take=10&skip=0
 ### Obtener los productos por paginacion
 GET {{BASE_URL}}/product?take=10&skip=10
 
+### Obtener los productos por busqueda de nombre
+GET {{BASE_URL}}/product?where[name][contains]=dragon&where[name][mode]=insensitive
+
 ### Obtener producto especifico
 GET {{BASE_URL}}/product/unique?where[id]=1
 
-### Obtener productos por genero
+### Obtener producto especifico + extra
+GET {{BASE_URL}}/product/unique?where[id]=1&include[productAttachments]&include[productQuestions]&include[productRatings]
+
+### Obtener productos por genero (id)
+GET {{BASE_URL}}/product?where[productTags][some][tag][id]=10
+
+### Obtener productos por genero (nombre)
 GET {{BASE_URL}}/product?where[productTags][some][tag][name][is]=Action&take=5
 
 # Cuentas
@@ -23,11 +32,33 @@ GET {{BASE_URL}}/profile?include[markets][include][products]&take=3
 
 # Tags
 ### Obtener tags de productos
-GET {{BASE_URL}}/tag?take=3
+GET {{BASE_URL}}/tag
 
 # Reviews
 ### Obtener reviews de producto
 GET {{BASE_URL}}/productrating?take=3
+
+# Lista de deseados
+### Obtener lista de deseados
+GET {{BASE_URL}}/wishlist?include[wishlistItems]
+
+### Obtener lista de deseados por usuario
+GET {{BASE_URL}}/wishlist/unique?where[clientId]=1&include[wishlistItems]
+
+# Carrito de compras
+### Obtener carritos de compras
+GET {{BASE_URL}}/shoppingcart?include[cartItems]
+
+### Obtener carrito de compra por usuario
+GET {{BASE_URL}}/shoppingcart/unique?where[clientId]=1&include[cartItems]
+
+# Ordenes de compra
+### Obtener ordenes de compra
+GET {{BASE_URL}}/order?include[orderItems]
+
+### Obtener ordenes de compra por usuario
+GET {{BASE_URL}}/order?where[clientId]=1&include[orderItems]
+
 
 # #===============#
 # | POST REQUESTS |
@@ -47,9 +78,107 @@ Content-Type: application/json
 	}
 }
 
-# #===============#
+### Crear producto
+POST {{BASE_URL}}/product
+Content-Type: application/json
+
+{
+	"data": {
+		"name": "producto prueba",
+		"stock": 1,
+		"price": 3.0,
+		"marketId": 1
+		
+	}
+}
+
+### Publicar reseña
+POST {{BASE_URL}}/productrating
+Content-Type: application/json
+
+{
+	"data": {
+		"score": 1,
+		"text": "buen anime, me gusto 👍👍👍👍",
+		"clientId": 1,
+		"productId": 222,
+		"ratingAttachments": {
+			"create": [
+				{
+					"blobUrl": "https://placehold.co/600x400",
+					"filename": "image.jpg",
+					"type": "image/jpeg"
+				}
+			]
+		}
+	},
+	"include": {
+		"ratingAttachments": true
+	}
+}
+
+### Publicar pregunta
+POST {{BASE_URL}}/productrating
+Content-Type: application/json
+
+{
+	"data": {
+		"text": "tiene stoc?",
+		"clientId": 1,
+		"productId": 222
+	}
+}
+
+### Añadir item al carrito
+POST {{BASE_URL}}/cartitem
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "amount": 1,
+      "cartId": 1,
+      "productId": 1
+    }
+  ]
+}
+
+### Añadir a lista de deseados
+POST {{BASE_URL}}/wishlistitem
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "productId": 1,
+      "wishlistId": 1
+    }
+  ]
+}
+
+
+
+### Crear orden de compra
+POST {{BASE_URL}}/order
+Content-Type: application/json
+{
+	"data": {
+		"totalPrice": 123,
+		"status": "Recepcionando compra...",
+		"clientId": 1,
+		"orderItems": {
+			"create": []
+		}
+	},
+	"include": {
+		"orderItems": true
+	}
+}
+
+
+# #=================#
 # | DELETE REQUESTS |
-# #===============#
+# #=================#
 
 ### Eliminar producto por PK
 DELETE {{BASE_URL}}/product
@@ -59,4 +188,16 @@ Content-Type: application/json
 	"where": {
 		"id": 50002,
 	}
+}
+
+### Limpiar carrito de compras
+DELETE {{BASE_URL}}/wishlistitem/many/
+Content-Type: application/json
+
+{
+	"where": {
+    "wishlist": {
+      "clientId": 1
+    }
+  }
 }

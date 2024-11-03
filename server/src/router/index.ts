@@ -1,4 +1,4 @@
-import { Express, NextFunction, Router } from "express";
+import { NextFunction, Router } from "express";
 import { PrismaClient } from "@prisma/client";
 
 import { ProfileRouter } from "../generated/express/Profile";
@@ -7,6 +7,15 @@ import { MarketRouter } from "../generated/express/Market";
 import { ProductRouter } from "../generated/express/Product";
 import { NotificationRouter } from "../generated/express/Notification";
 import { ProductRatingRouter } from "../generated/express/ProductRating";
+import { ProductQuestionRouter } from "../generated/express/ProductQuestion";
+
+import { OrderRouter } from "../generated/express/Order";
+
+import { ShoppingCartRouter } from "../generated/express/ShoppingCart";
+import { CartItemRouter } from "../generated/express/CartItem";
+
+import { WishlistRouter } from "../generated/express/Wishlist";
+import { WishlistItemRouter } from "../generated/express/WishlistItem";
 
 import { RouteConfig } from "../generated/express/routeConfig";
 import { TagRouter } from "../generated/express/Tag";
@@ -38,10 +47,20 @@ API_ROUTER.use(MarketRouter(commonRouterConfig));
 
 API_ROUTER.use(ProductRatingRouter(commonRouterConfig));
 
+API_ROUTER.use(ProductQuestionRouter(commonRouterConfig));
+
 API_ROUTER.use(ProductRouter(commonRouterConfig));
 
 API_ROUTER.use(TagRouter(commonRouterConfig));
 
 API_ROUTER.use(NotificationRouter(commonRouterConfig));
+
+API_ROUTER.use(WishlistRouter(commonRouterConfig));
+API_ROUTER.use(WishlistItemRouter(commonRouterConfig));
+
+API_ROUTER.use(OrderRouter(commonRouterConfig));
+
+API_ROUTER.use(ShoppingCartRouter(commonRouterConfig));
+API_ROUTER.use(CartItemRouter(commonRouterConfig));
 
 export = API_ROUTER;
