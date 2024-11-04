@@ -45,11 +45,11 @@ API_ROUTER.use(ClientRouter(commonRouterConfig));
 
 API_ROUTER.use(MarketRouter(commonRouterConfig));
 
+API_ROUTER.use(ProductRouter(commonRouterConfig));
+
 API_ROUTER.use(ProductRatingRouter(commonRouterConfig));
 
 API_ROUTER.use(ProductQuestionRouter(commonRouterConfig));
-
-API_ROUTER.use(ProductRouter(commonRouterConfig));
 
 API_ROUTER.use(TagRouter(commonRouterConfig));
 
