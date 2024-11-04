@@ -138,7 +138,7 @@ model Country {
 
 model ShoppingCart {
   id        Int        @id @default(autoincrement())
-  clientId  Int        @map("client_id")
+  clientId  Int        @unique @map("client_id")
   client    Client     @relation(fields: [clientId], references: [id])
   cartItems CartItem[]
 
@@ -147,7 +147,7 @@ model ShoppingCart {
 
 model Wishlist {
   id            Int            @id @default(autoincrement())
-  clientId      Int            @map("client_id")
+  clientId      Int            @unique @map("client_id")
   client        Client         @relation(fields: [clientId], references: [id])
   wishlistItems WishlistItem[]
 
