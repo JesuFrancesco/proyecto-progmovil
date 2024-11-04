@@ -27,22 +27,28 @@ class ProductItem extends StatelessWidget {
         Text(
           manga.name!.toUpperCase(),
           style: const TextStyle(fontWeight: FontWeight.bold),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         Text(
           manga.name!,
           style: const TextStyle(fontWeight: FontWeight.w400),
           textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         Text(
           manga.formato!,
           style: const TextStyle(fontWeight: FontWeight.w300),
           textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
-              context,
+            Navigator.of(context).push(
+              // TODO: cambiarlo por un request a producto en especifico en lugar de pasar el producto del TiendaPage
               MaterialPageRoute(
                 builder: (context) => ProductoPage(
                   producto: manga,

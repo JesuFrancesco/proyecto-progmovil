@@ -5,6 +5,7 @@ import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_item.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/show_dialog.dart';
 
 class BusquedaPage extends StatefulWidget {
   const BusquedaPage({super.key});
@@ -14,29 +15,52 @@ class BusquedaPage extends StatefulWidget {
 }
 
 class _BusquedaPageState extends State<BusquedaPage> {
-  late List<Product> mangas = [];
-  List<Product> filteredMangas = [];
+  late List<Product> filteredProductos = [];
   String searchQuery = '';
+  int page = 1;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _loadData();
   }
 
-  Future<void> _loadData() async {
-    await productoController.obtenerProductos();
-    mangas = productoController.productos.toList();
-    filteredMangas = mangas;
-  }
-
-  void _onSearchPressed() {
+  Future<void> _searchProductos(String productName) async {
     setState(() {
-      filteredMangas = mangas
-          .where((manga) =>
-              manga.name!.toLowerCase().contains(searchQuery.toLowerCase()))
-          .toList();
+      isLoading = true;
     });
+
+    await productoController.buscarProductos(productName, page);
+
+    setState(() {
+      filteredProductos = productoController.filteredProductos.toList();
+      isLoading = false;
+    });
+  }
+
+  void _onSearchPressed() async {
+    if (searchQuery.isEmpty) {
+      showAlert(context, "Por favor, ingresa un término de búsqueda.");
+      return;
+    }
+    page = 1;
+    await _searchProductos(searchQuery);
+  }
+
+  void _goToNextPage() async {
+    setState(() {
+      page++;
+    });
+    await _searchProductos(searchQuery);
+  }
+
+  void _goToPreviousPage() async {
+    if (page > 1) {
+      setState(() {
+        page--;
+      });
+      await _searchProductos(searchQuery);
+    }
   }
 
   @override
@@ -93,23 +117,58 @@ class _BusquedaPageState extends State<BusquedaPage> {
               ),
             ),
             20.pv,
-            GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.45,
-                crossAxisSpacing: 10,
-              ),
-              itemCount: filteredMangas.length,
-              itemBuilder: (context, index) {
-                final manga = filteredMangas[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ProductItem(manga: manga),
-                );
-              },
-            )
+            isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : Column(
+                    children: [
+                      GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.45,
+                          crossAxisSpacing: 10,
+                        ),
+                        itemCount: filteredProductos.length,
+                        itemBuilder: (context, index) {
+                          final manga = filteredProductos[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: ProductItem(manga: manga),
+                          );
+                        },
+                      ),
+                      20.pv,
+                      if (filteredProductos.isNotEmpty)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: page > 1 ? _goToPreviousPage : null,
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: page > 1
+                                    ? AppColors.primaryColor
+                                    : Colors.grey.shade400,
+                              ),
+                              child: const Text("<"),
+                            ),
+                            const SizedBox(width: 10),
+                            Text("Página $page"),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                              onPressed: _goToNextPage,
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: AppColors.primaryColor,
+                              ),
+                              child: const Text(">"),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
           ],
         ),
       ),

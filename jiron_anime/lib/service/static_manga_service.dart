@@ -22,4 +22,23 @@ class StaticProductoService {
 
     return mangas;
   }
+
+  Future<List<Product>> searchProducts(String productName, int page) async {
+    int PRODUCTS_PER_PAGE = 30;
+    List<Product> mangas = [];
+    final response = await http.get(Uri.parse(
+        "${Config.serverURL}/product?where[name][contains]=$productName&where[name][mode]=insensitive&include[productAttachments]&take=$PRODUCTS_PER_PAGE&skip=${(page - 1) * PRODUCTS_PER_PAGE}"));
+    // await rootBundle.loadString('static/mangas_sintetica.json');
+
+    if (response.statusCode != 200) {
+      throw Error();
+    }
+
+    final List<dynamic> data = jsonDecode(response.body);
+    mangas = data
+        .map((map) => Product.fromJson(map as Map<String, dynamic>))
+        .toList();
+
+    return mangas;
+  }
 }

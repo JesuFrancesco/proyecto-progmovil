@@ -10,6 +10,10 @@ final appTheme = ThemeData(
   progressIndicatorTheme: const ProgressIndicatorThemeData(
     color: AppColors.primaryColor,
   ),
+  elevatedButtonTheme: const ElevatedButtonThemeData(
+      style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(AppColors.primaryColor),
+          foregroundColor: WidgetStatePropertyAll(Colors.white))),
   scaffoldBackgroundColor: AppColors.backgroundColor,
   primaryColor: AppColors.primaryColor,
   brightness: Brightness.light,
@@ -55,6 +59,13 @@ final appTheme = ThemeData(
 );
 
 final darkAppTheme = ThemeData(
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: AppColors.primaryColor,
+  ),
+  elevatedButtonTheme: const ElevatedButtonThemeData(
+      style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(AppColors.primaryColor),
+          foregroundColor: WidgetStatePropertyAll(Colors.white))),
   scaffoldBackgroundColor: Colors.black,
   primaryColor: AppColors.primaryColor,
   brightness: Brightness.dark,
