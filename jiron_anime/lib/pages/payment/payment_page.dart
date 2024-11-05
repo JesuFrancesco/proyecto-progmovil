@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/order_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/payment/widget/product_resume.dart';
 import 'package:jiron_anime/pages/payment_success/payment_success_page.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
-import 'payment_controller.dart';
-
-PaymentController control = Get.put(PaymentController());
 
 class PaymentPage extends StatefulWidget {
   final ShoppingCart carrito;
@@ -17,6 +14,8 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  final orderController = OrderController();
+
   Widget _buildBody(BuildContext context) {
     return SafeArea(
       child: Padding(
@@ -83,22 +82,15 @@ class _PaymentPageState extends State<PaymentPage> {
             ),
             const Spacer(),
             const Divider(),
-            const Text(
-              'Total: S/. 41.00',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Text(
+              'Total: S/. ${widget.carrito.cartItems!.fold(0, (sum, cartItem) => sum + (cartItem.product!.price! * cartItem.amount!).toInt())}',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const PaymentSuccessPage(),
-                    ),
-                  );
-                },
+                onPressed: handleRealizarPedidoOnClick,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -129,6 +121,28 @@ class _PaymentPageState extends State<PaymentPage> {
       resizeToAvoidBottomInset: false,
       appBar: null,
       body: _buildBody(context),
+    );
+  }
+
+  Future<void> handleRealizarPedidoOnClick() async {
+    final itemsCarrito = widget.carrito.cartItems!;
+
+    final itemsOrden = itemsCarrito.map((e) {
+      return OrderItem(
+        amount: e.amount,
+        product: e.product,
+        productId: e.productId,
+      );
+    }).toList();
+
+    print("Procesando orden...............");
+    await orderController.processOrder(itemsOrden);
+    print("GOTY");
+
+    await Navigator.of(context.mounted ? context : context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const PaymentSuccessPage(),
+      ),
     );
   }
 }

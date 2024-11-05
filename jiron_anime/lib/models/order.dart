@@ -1,5 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
+import 'package:jiron_anime/utils/parseo.dart';
+
 import 'model_base.dart';
 import 'client.dart';
 import 'order_item.dart';
@@ -26,7 +28,7 @@ class Order implements ToJson, Id {
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
       id: json['id'] as int?,
-      totalPrice: json['totalPrice'] as double?,
+      totalPrice: parseToDouble(json['totalPrice']),
       status: json['status'] as String?,
       clientId: json['clientId'] as int?,
       client: json['client'] != null

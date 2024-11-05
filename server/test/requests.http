@@ -1,4 +1,5 @@
-@BASE_URL = http://localhost:8080/api/v1
+# @BASE_URL = http://localhost:8080/api/v1
+@BASE_URL = https://jiron-anime.azurewebsites.net/api/v1
 
 # #==============#
 # | GET REQUESTS |
@@ -59,6 +60,8 @@ GET {{BASE_URL}}/order?include[orderItems]
 ### Obtener ordenes de compra por usuario
 GET {{BASE_URL}}/order?where[clientId]=1&include[orderItems]
 
+### Obtener ordenes de compra por usuario
+GET {{BASE_URL}}/shoppingcart/unique?where[clientId]=50001&include[cartItems][product]
 
 # #===============#
 # | POST REQUESTS |
@@ -129,15 +132,27 @@ Content-Type: application/json
 	}
 }
 
-### Añadir item al carrito
+### Añadir un item al carrito
 POST {{BASE_URL}}/cartitem
+Content-Type: application/json
+
+{
+	"data": {
+		"amount": 1,
+		"cartId": 2,
+		"productId": 777
+	}
+}
+
+### Añadir varios al carrito
+POST {{BASE_URL}}/cartitem/many
 Content-Type: application/json
 
 {
   "data": [
     {
       "amount": 1,
-      "cartId": 1,
+      "cartId": 2,
       "productId": 1
     }
   ]
@@ -161,13 +176,17 @@ Content-Type: application/json
 ### Crear orden de compra
 POST {{BASE_URL}}/order
 Content-Type: application/json
+
 {
 	"data": {
 		"totalPrice": 123,
 		"status": "Recepcionando compra...",
 		"clientId": 1,
 		"orderItems": {
-			"create": []
+			"create": [{
+				"productId": 777,
+				"amount": 1
+			}]
 		}
 	},
 	"include": {
@@ -191,6 +210,19 @@ Content-Type: application/json
 }
 
 ### Limpiar carrito de compras
+DELETE {{BASE_URL}}/cartitem
+Content-Type: application/json
+
+{
+	"where": {
+		"cartId_productId": {
+			"cartId": 1,
+			"productId": 1
+		}
+	}
+}
+
+### Limpiar lista de deseados
 DELETE {{BASE_URL}}/wishlistitem/many/
 Content-Type: application/json
 

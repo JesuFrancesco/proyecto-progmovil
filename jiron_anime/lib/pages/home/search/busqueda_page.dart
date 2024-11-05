@@ -19,6 +19,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
   String searchQuery = '';
   int page = 1;
   bool isLoading = false;
+  bool hizoQuery = false;
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
 
   Future<void> _searchProductos(String productName) async {
     setState(() {
+      hizoQuery = true;
       isLoading = true;
     });
 
@@ -121,24 +123,27 @@ class _BusquedaPageState extends State<BusquedaPage> {
                 ? const Center(child: CircularProgressIndicator())
                 : Column(
                     children: [
-                      GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.45,
-                          crossAxisSpacing: 10,
-                        ),
-                        itemCount: filteredProductos.length,
-                        itemBuilder: (context, index) {
-                          final manga = filteredProductos[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: ProductItem(manga: manga),
-                          );
-                        },
-                      ),
+                      hizoQuery && filteredProductos.isEmpty
+                          ? const Text("no hay nada")
+                          : GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.45,
+                                crossAxisSpacing: 10,
+                              ),
+                              itemCount: filteredProductos.length,
+                              itemBuilder: (context, index) {
+                                final manga = filteredProductos[index];
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: ProductItem(manga: manga),
+                                );
+                              },
+                            ),
                       20.pv,
                       if (filteredProductos.isNotEmpty)
                         Row(

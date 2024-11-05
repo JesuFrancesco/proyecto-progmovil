@@ -72,12 +72,16 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     CurrentUser.getClipOvalAvatar(),
                     const SizedBox(width: 10),
-                    Text(
-                      CurrentUser.fullName ?? 'Anónimo',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                    Expanded(
+                      child: Text(
+                        CurrentUser.fullName != null
+                            ? CurrentUser.fullName!
+                            : 'Anónimo',
+                        style: Theme.of(context).textTheme.titleLarge,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                        maxLines: 2,
+                      ),
                     ),
                   ],
                 ),

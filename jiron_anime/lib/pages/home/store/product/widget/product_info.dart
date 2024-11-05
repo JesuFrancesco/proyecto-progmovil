@@ -36,9 +36,7 @@ class _InfoComicState extends State<InfoComic> {
     int? productId = widget.producto.id;
 
     if (productId != null) {
-      int cartId = 1;
-      await _shoppingCartController.addProductToCart(
-          cartId, productId, _itemCount);
+      await _shoppingCartController.addProductToCart(productId, _itemCount);
       Navigator.of(context.mounted ? context : context).pushNamed('/cart');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -61,9 +59,11 @@ class _InfoComicState extends State<InfoComic> {
             style: Theme.of(context).textTheme.headlineMedium),
         Text("S/. ${widget.producto.price.toString()}"),
         15.pv,
-        SizedBox(
-            child: Image.network(
-                widget.producto.productAttachments![0].imageUrl!)),
+        Center(
+          child: SizedBox(
+              child: Image.network(
+                  widget.producto.productAttachments![0].imageUrl!)),
+        ),
         15.pv,
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

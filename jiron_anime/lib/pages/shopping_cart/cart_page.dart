@@ -19,6 +19,7 @@ final ShoppingCartController shoppingCartController = ShoppingCartController();
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   ShoppingCart? carrito;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -27,16 +28,35 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future<void> cargarCarrito() async {
-    final ShoppingCart res = await shoppingCartController.obtenerCarrito(1);
     setState(() {
-      carrito = res;
+      isLoading = true;
     });
+    await shoppingCartController.obtenerCarrito();
+    setState(() {
+      carrito = shoppingCartController.carrito.value;
+      isLoading = false;
+    });
+  }
+
+  Future<void> productoOnDelete(CartItem item) async {
+    setState(() {
+      carrito = shoppingCartController.carrito.value;
+      isLoading = true;
+    });
+
+    await shoppingCartController.deleteProductFromCart(item.productId!);
+
+    setState(() {
+      carrito = shoppingCartController.carrito.value;
+      isLoading = false;
+    });
+    await cargarCarrito();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: carrito == null
+      body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : CustomLayout(
               child: Column(
@@ -49,13 +69,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         final item = carrito!.cartItems![index];
                         return CartItemWidget(
                           item: item,
-                          onRemove: () {
-                            setState(() {
-                              shoppingCartController.deleteProductFromCart(
-                                  1, item.productId!);
-                              carrito!.cartItems!.removeAt(index);
-                            });
-                          },
+                          onRemove: () => productoOnDelete(item),
                         );
                       },
                     ),
