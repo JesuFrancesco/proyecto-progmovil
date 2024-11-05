@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jiron_anime/middleware/supabase/login.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../main.dart';
-import '../../middleware/supabase_layer.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -71,7 +71,7 @@ class _SignInPageState extends State<SignInPage> {
             ),
             const Image(image: AssetImage("assets/image/logo.png")),
             const ElevatedButton(
-              onPressed: googleSignIn,
+              onPressed: browserGoogleSignIn,
               style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll<Color>(Colors.white)),
               child: Text(

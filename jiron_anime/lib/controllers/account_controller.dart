@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:jiron_anime/models/account.dart';
-import 'package:jiron_anime/service/static_accounts_service.dart';
+import 'package:jiron_anime/service/account_service.dart';
 
 class AccountsController extends GetxController {
-  StaticAccountsService service = StaticAccountsService();
+  AccountService service = AccountService();
   final cuentas = <Account>[].obs;
 
   Future<void> obtenerCuentas() async {

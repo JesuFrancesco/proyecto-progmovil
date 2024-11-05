@@ -4,7 +4,7 @@ import 'package:jiron_anime/config/config.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 import '../models/notification.dart';
 
-class StaticNotificationsService {
+class NotificationsService {
   Future<List<Notification>> fetchAll() async {
     List<Notification> notificaciones = [];
     final response =
