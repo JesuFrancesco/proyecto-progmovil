@@ -58,31 +58,31 @@ const commonRouterConfig: RouteConfig<any> = {
 // == routers habilitados
 // protected routes
 const profileRouter = ProfileRouter(commonRouterConfig);
-profileRouter.use(authHandler);
+// profileRouter.use(authHandler);
 API_ROUTER.use(profileRouter);
 
 const clientRouter = ClientRouter(commonRouterConfig);
-clientRouter.use(authHandler);
+// clientRouter.use(authHandler);
 API_ROUTER.use(clientRouter);
 
 const wishlistRouter = WishlistRouter(commonRouterConfig);
-wishlistRouter.use(authHandler);
+// wishlistRouter.use(authHandler);
 API_ROUTER.use(wishlistRouter);
 
 const wishlistItemRouter = WishlistItemRouter(commonRouterConfig);
-wishlistItemRouter.use(authHandler);
+// wishlistItemRouter.use(authHandler);
 API_ROUTER.use(wishlistItemRouter);
 
 const shoppingCartRouter = ShoppingCartRouter(commonRouterConfig);
-shoppingCartRouter.use(authHandler);
+// shoppingCartRouter.use(authHandler);
 API_ROUTER.use(shoppingCartRouter);
 
 const cartItemRouter = CartItemRouter(commonRouterConfig);
-cartItemRouter.use(authHandler);
+// cartItemRouter.use(authHandler);
 API_ROUTER.use(cartItemRouter);
 
 const orderRouter = OrderRouter(commonRouterConfig);
-orderRouter.use(authHandler);
+// orderRouter.use(authHandler);
 API_ROUTER.use(orderRouter);
 
 // public router
