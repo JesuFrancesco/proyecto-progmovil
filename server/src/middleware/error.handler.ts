@@ -28,7 +28,7 @@ const boomErrorHandler: ErrorRequestHandler = (err: Boom, req, res, next) => {
 };
 
 /**
- * Middleware para atrapar los errores de boom
+ * Middleware para atrapar los errores de prisma
  */
 const prismaClientValidationErrorHandler: ErrorRequestHandler = (
   err: Error,
@@ -38,7 +38,7 @@ const prismaClientValidationErrorHandler: ErrorRequestHandler = (
 ) => {
   if (err instanceof PrismaClientValidationError) {
     const { name, message } = err;
-    res.status(400).json({ name, message });
+    res.status(400).json({ errorType: "¡Error de prisma!", name, message });
   } else {
     next(err);
   }

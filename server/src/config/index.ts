@@ -21,7 +21,7 @@ const logger = log4js.getLogger();
 const config = {
   env: process.env.NODE_ENV || "dev",
   supabaseURL: process.env.SUPABASE_URL || "none",
-  supabaseServiceRole: process.env.SUPABASE_SERVICE_ROLE || "none",
+  supabaseAnonKey: process.env.SUPABASE_ANON_KEY || "none",
   originAddress: process.env.ORIGIN_ADDRESS || "none",
 };
 

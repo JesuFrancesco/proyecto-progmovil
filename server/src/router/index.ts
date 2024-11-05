@@ -1,4 +1,16 @@
-import { NextFunction, Router } from "express";
+/**
+ * disclaimer !!!!!!!!!
+ * La presente configuración es bastante insegura de por sí.
+ * Su implementación responde únicamente al propósito de tener un CRUD de manera rápida.
+ * Una implementación más segura requiere un mejor uso del middleware de Supabase para evitar peticiones que NO deberían ser usados por usuarios externos
+ */
+import {
+  NextFunction,
+  Request,
+  RequestHandler,
+  Response,
+  Router,
+} from "express";
 import { PrismaClient } from "@prisma/client";
 
 import { ProfileRouter } from "../generated/express/Profile";
@@ -19,6 +31,7 @@ import { WishlistItemRouter } from "../generated/express/WishlistItem";
 
 import { RouteConfig } from "../generated/express/routeConfig";
 import { TagRouter } from "../generated/express/Tag";
+import { authHandler } from "../middleware/authorization.handler";
 
 const API_ROUTER = Router();
 
@@ -26,7 +39,11 @@ const API_ROUTER = Router();
 const prisma = new PrismaClient();
 
 // custom express + prisma middleware
-const addPrisma = (req: any, res: any, next: NextFunction) => {
+const addPrisma: RequestHandler = (
+  req: Request & { prisma: PrismaClient },
+  res: Response,
+  next: NextFunction
+) => {
   req.prisma = prisma;
   next();
 };
@@ -38,14 +55,40 @@ const commonRouterConfig: RouteConfig<any> = {
   enableAll: true,
 };
 
-// routers habilitados
-API_ROUTER.use(ProfileRouter(commonRouterConfig));
+// == routers habilitados
+// protected routes
+const profileRouter = ProfileRouter(commonRouterConfig);
+profileRouter.use(authHandler);
+API_ROUTER.use(profileRouter);
 
-API_ROUTER.use(ClientRouter(commonRouterConfig));
+const clientRouter = ClientRouter(commonRouterConfig);
+clientRouter.use(authHandler);
+API_ROUTER.use(clientRouter);
+
+const wishlistRouter = WishlistRouter(commonRouterConfig);
+wishlistRouter.use(authHandler);
+API_ROUTER.use(wishlistRouter);
+
+const wishlistItemRouter = WishlistItemRouter(commonRouterConfig);
+wishlistItemRouter.use(authHandler);
+API_ROUTER.use(wishlistItemRouter);
+
+const shoppingCartRouter = ShoppingCartRouter(commonRouterConfig);
+shoppingCartRouter.use(authHandler);
+API_ROUTER.use(shoppingCartRouter);
+
+const cartItemRouter = CartItemRouter(commonRouterConfig);
+cartItemRouter.use(authHandler);
+API_ROUTER.use(cartItemRouter);
+
+const orderRouter = OrderRouter(commonRouterConfig);
+orderRouter.use(authHandler);
+API_ROUTER.use(orderRouter);
+
+// public router
+API_ROUTER.use(ProductRouter(commonRouterConfig));
 
 API_ROUTER.use(MarketRouter(commonRouterConfig));
-
-API_ROUTER.use(ProductRouter(commonRouterConfig));
 
 API_ROUTER.use(ProductRatingRouter(commonRouterConfig));
 
@@ -54,13 +97,5 @@ API_ROUTER.use(ProductQuestionRouter(commonRouterConfig));
 API_ROUTER.use(TagRouter(commonRouterConfig));
 
 API_ROUTER.use(NotificationRouter(commonRouterConfig));
-
-API_ROUTER.use(WishlistRouter(commonRouterConfig));
-API_ROUTER.use(WishlistItemRouter(commonRouterConfig));
-
-API_ROUTER.use(OrderRouter(commonRouterConfig));
-
-API_ROUTER.use(ShoppingCartRouter(commonRouterConfig));
-API_ROUTER.use(CartItemRouter(commonRouterConfig));
 
 export = API_ROUTER;
