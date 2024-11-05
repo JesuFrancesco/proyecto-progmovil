@@ -196,8 +196,8 @@ Content-Type: application/json
 
 {
 	"where": {
-    "wishlist": {
-      "clientId": 1
-    }
-  }
+		"wishlist": {
+			"clientId": 1
+		}
+	}
 }
