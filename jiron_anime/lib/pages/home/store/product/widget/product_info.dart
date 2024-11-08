@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/controllers/shopping_cart_controller.dart';
+import 'package:jiron_anime/main.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 //import 'shopping_cart_controller.dart';
@@ -33,6 +34,10 @@ class _InfoComicState extends State<InfoComic> {
   }
 
   Future<void> _addToCart() async {
+    if (supabase.auth.currentSession == null) {
+      Navigator.of(context).pushNamed("/login");
+    }
+
     int? productId = widget.producto.id;
 
     if (productId != null) {
