@@ -35,7 +35,8 @@ class _InfoComicState extends State<InfoComic> {
 
   Future<void> _addToCart() async {
     if (supabase.auth.currentSession == null) {
-      Navigator.of(context).pushNamed("/login");
+      Navigator.of(context).pushNamed("/sign-in");
+      return;
     }
 
     int? productId = widget.producto.id;
