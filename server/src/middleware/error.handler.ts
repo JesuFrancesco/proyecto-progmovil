@@ -1,7 +1,13 @@
 import { Boom } from "@hapi/boom";
 import { ErrorRequestHandler } from "express";
 import { logger } from "../config";
-import { PrismaClientValidationError } from "@prisma/client/runtime/library";
+import {
+  PrismaClientValidationError,
+  PrismaClientKnownRequestError,
+  PrismaClientInitializationError,
+  PrismaClientUnknownRequestError,
+  PrismaClientRustPanicError,
+} from "@prisma/client/runtime/library";
 
 /**
  * Middleware para loggear los errores
@@ -38,7 +44,33 @@ const prismaClientValidationErrorHandler: ErrorRequestHandler = (
 ) => {
   if (err instanceof PrismaClientValidationError) {
     const { name, message } = err;
-    res.status(400).json({ errorType: "¡Error de prisma!", name, message });
+    return res
+      .status(400)
+      .json({ errorType: "¡Error de validación con prisma!", name, message });
+  } else if (err instanceof PrismaClientKnownRequestError) {
+    const { code, message } = err;
+    return res
+      .status(400)
+      .json({ errorType: "¡Error de request con prisma!", code, message });
+  } else if (err instanceof PrismaClientInitializationError) {
+    const { name, message } = err;
+    return res
+      .status(400)
+      .json({ errorType: "¡Error de iniciación con prisma!", name, message });
+  } else if (err instanceof PrismaClientRustPanicError) {
+    const { name, message } = err;
+    return res
+      .status(400)
+      .json({ errorType: "¡Error de rust panic con prisma!", name, message });
+  } else if (err instanceof PrismaClientUnknownRequestError) {
+    const { name, message } = err;
+    return res
+      .status(400)
+      .json({
+        errorType: "¡Error de request desconocido con prisma!",
+        name,
+        message,
+      });
   } else {
     next(err);
   }
