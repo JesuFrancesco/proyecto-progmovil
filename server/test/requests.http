@@ -44,7 +44,7 @@ GET {{BASE_URL}}/productrating?take=3
 GET {{BASE_URL}}/wishlist?include[wishlistItems]
 
 ### Obtener lista de deseados por usuario
-GET {{BASE_URL}}/wishlist/unique?where[clientId]=1&include[wishlistItems]
+GET {{BASE_URL}}/wishlist/unique?where[clientId]=1&include[wishlistItems][include][product][include][productAttachments]
 
 # Carrito de compras
 ### Obtener carritos de compras
@@ -218,6 +218,18 @@ Content-Type: application/json
 		"cartId_productId": {
 			"cartId": 1,
 			"productId": 1
+		}
+	}
+}
+
+### Limpiar lista de deseados
+DELETE {{BASE_URL}}/wishlistitem/
+Content-Type: application/json
+
+{
+	"where": {
+		"wishlist": {
+			"clientId": 1
 		}
 	}
 }

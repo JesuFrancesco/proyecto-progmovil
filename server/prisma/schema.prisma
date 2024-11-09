@@ -171,6 +171,10 @@ model Order {
   status     String
   clientId   Int         @map("client_id")
   client     Client      @relation(fields: [clientId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
   orderItems OrderItem[]
 
   @@map("orders")
