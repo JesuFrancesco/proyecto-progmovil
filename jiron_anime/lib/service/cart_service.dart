@@ -1,26 +1,33 @@
 import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:http_status/http_status.dart';
 import 'package:jiron_anime/config/config.dart';
+import 'package:jiron_anime/shared/error_dialog.dart';
+import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
 import 'package:jiron_anime/models/models_library.dart';
 
 import 'package:http/http.dart' as http;
 
 class CartService {
-  Future<ShoppingCart> obtenerCarritoConProductos() async {
-    ShoppingCart carrito;
+  Future<ShoppingCart> fetchCartWithProducts() async {
+    final queryParams = {
+      "where[clientId]": getClientId(),
+      "include[cartItems][include][product][include][productAttachments]": true
+    };
+
     final response = await http.get(
         Uri.parse(
-            "${Config.serverURL}/shoppingcart/unique?where[clientId]=${getClientId()}&include[cartItems][include][product][include][productAttachments]"),
+            "${Config.serverURL}/shoppingcart/unique?${parseToQueryParams(queryParams)}"),
         headers: getSupabaseAuthHeaders());
 
     final dynamic data = jsonDecode(response.body);
-    carrito = ShoppingCart.fromJson(data);
 
-    return carrito;
+    return ShoppingCart.fromJson(data);
   }
 
-  Future<void> agregarProductoAlCarrito(int amount, int productId) async {
-    final response = await http.post(Uri.parse("${Config.serverURL}/cartitem"),
+  Future<void> addProductToCart(int amount, int productId) async {
+    final res = await http.post(Uri.parse("${Config.serverURL}/cartitem"),
         body: json.encode({
           "data": {
             "cartId": getShoppingCartId(),
@@ -33,14 +40,13 @@ class CartService {
           ...getSupabaseAuthHeaders()
         });
 
-    if (response.statusCode != 201) {
-      throw Error();
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
+      Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));
     }
   }
 
-  Future<void> eliminarProductoDelCarrito(int productId) async {
-    final response = await http.delete(
-        Uri.parse("${Config.serverURL}/cartitem"),
+  Future<void> deleteProductFromCart(int productId) async {
+    final res = await http.delete(Uri.parse("${Config.serverURL}/cartitem"),
         body: json.encode({
           "where": {
             "cartId_productId": {
@@ -54,13 +60,13 @@ class CartService {
           ...getSupabaseAuthHeaders()
         });
 
-    if (response.statusCode != 200 && response.statusCode != 202) {
-      throw Error();
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
+      Get.dialog(ErrorDialog(message: "Algo salió mal\n${res.body}"));
     }
   }
 
   Future<void> emptyShoppingCart() async {
-    final response = await http.delete(
+    final res = await http.delete(
         Uri.parse("${Config.serverURL}/cartitem/many"),
         body: json.encode({
           "where": {
@@ -71,8 +77,9 @@ class CartService {
           "Content-Type": "application/json",
           ...getSupabaseAuthHeaders()
         });
-    ;
-    print("response.body 2");
-    print(response.body);
+
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
+      Get.dialog(ErrorDialog(message: "Algo salió mal\n${res.body}"));
+    }
   }
 }

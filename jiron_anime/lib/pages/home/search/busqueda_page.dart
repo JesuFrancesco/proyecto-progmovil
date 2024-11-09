@@ -132,7 +132,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 childAspectRatio: 0.45,
-                                crossAxisSpacing: 10,
+                                // crossAxisSpacing: 10,
                               ),
                               itemCount: filteredProductos.length,
                               itemBuilder: (context, index) {

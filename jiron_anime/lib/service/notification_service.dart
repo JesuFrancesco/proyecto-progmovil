@@ -1,21 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:http_status/http_status.dart';
 import 'package:jiron_anime/config/config.dart';
-// import 'package:flutter/services.dart' show rootBundle;
 import '../models/notification.dart';
 
 class NotificationsService {
   Future<List<Notification>> fetchAll() async {
     List<Notification> notificaciones = [];
-    final response =
-        await http.get(Uri.parse("${Config.serverURL}/notification"));
-    // await rootBundle.loadString('static/notifications.json');
+    final res = await http.get(Uri.parse("${Config.serverURL}/notification"));
 
-    if (response.statusCode != 200) {
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
       throw Error();
     }
 
-    final List<dynamic> data = jsonDecode(response.body);
+    final List<dynamic> data = jsonDecode(res.body);
     notificaciones = data
         .map((map) => Notification.fromJson(map as Map<String, dynamic>))
         .toList();

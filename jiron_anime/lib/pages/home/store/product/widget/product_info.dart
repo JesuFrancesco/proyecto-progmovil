@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/shopping_cart_controller.dart';
-import 'package:jiron_anime/main.dart';
+import 'package:jiron_anime/controllers/wishlist_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/utils/extensions.dart';
-//import 'shopping_cart_controller.dart';
 
-class InfoComic extends StatefulWidget {
+class ProductoInfo extends StatefulWidget {
   final Product producto;
 
-  const InfoComic({super.key, required this.producto});
+  const ProductoInfo({super.key, required this.producto});
 
   @override
-  State<InfoComic> createState() => _InfoComicState();
+  State<ProductoInfo> createState() => _ProductoInfoState();
 }
 
-class _InfoComicState extends State<InfoComic> {
+class _ProductoInfoState extends State<ProductoInfo> {
   int _itemCount = 1;
-  final ShoppingCartController _shoppingCartController =
-      ShoppingCartController();
+
+  final _wishlistController = WishlistController();
+  final _shoppingCartController = ShoppingCartController();
 
   void _increaseCount() {
     setState(() {
@@ -34,16 +35,12 @@ class _InfoComicState extends State<InfoComic> {
   }
 
   Future<void> _addToCart() async {
-    if (supabase.auth.currentSession == null) {
-      Navigator.of(context).pushNamed("/sign-in");
-      return;
-    }
-
     int? productId = widget.producto.id;
 
     if (productId != null) {
-      await _shoppingCartController.addProductToCart(productId, _itemCount);
-      Navigator.of(context.mounted ? context : context).pushNamed('/cart');
+      await _shoppingCartController.aniadirProductoAlCarrito(
+          productId, _itemCount);
+      Get.toNamed("/cart");
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Error: El producto no tiene ID")),
@@ -102,11 +99,14 @@ class _InfoComicState extends State<InfoComic> {
               ],
             ),
             15.pv,
-            Row(children: [
-              const Icon(Icons.favorite_border_outlined),
-              15.ph,
-              const Text("Añadir a lista de deseados")
-            ]),
+            GestureDetector(
+              onTap: () => handleAgregarAWishlist(widget.producto),
+              child: Row(children: [
+                const Icon(Icons.favorite_border_outlined),
+                15.ph,
+                const Text("Añadir a lista de deseados")
+              ]),
+            ),
             15.pv,
             Row(children: [
               const Icon(Icons.chat),
@@ -123,5 +123,9 @@ class _InfoComicState extends State<InfoComic> {
         ),
       ],
     );
+  }
+
+  Future<void> handleAgregarAWishlist(Product producto) async {
+    await _wishlistController.agregarItemAWishlist(producto.id!);
   }
 }

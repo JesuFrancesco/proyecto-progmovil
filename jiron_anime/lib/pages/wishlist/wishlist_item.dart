@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/models/product.dart';
 import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
@@ -27,7 +28,7 @@ class WishlistItemWidget extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
+            child: Image.network(
               product.productAttachments!.first.imageUrl!,
               fit: BoxFit.cover,
               width: 70,
@@ -64,11 +65,9 @@ class WishlistItemWidget extends StatelessWidget {
                 const SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => ProductoPage(
-                          producto: product,
-                        ),
+                    Get.to(
+                      () => ProductoPage(
+                        producto: product,
                       ),
                     );
                   },

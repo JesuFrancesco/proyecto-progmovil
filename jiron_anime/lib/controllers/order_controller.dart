@@ -8,14 +8,14 @@ class OrderController {
   final orderService = OrderService();
   final cartService = CartService();
 
-  var ordenes = <Order>[].obs;
+  final ordenes = <Order>[].obs;
 
-  Future<void> fetchOrders() async {
-    ordenes.value = await orderService.fetchAll();
+  Future<void> obtenerOrdenesDeCompra() async {
+    ordenes.value = await orderService.fetchMyOrderHistory();
   }
 
-  Future<void> processOrder(List<OrderItem> items) async {
-    await orderService.procesarOrdenDeCompra(items);
+  Future<void> procesarOrdenDeCompra(List<OrderItem> items) async {
+    await orderService.processPurchaseOrder(items);
     await cartService.emptyShoppingCart();
   }
 }

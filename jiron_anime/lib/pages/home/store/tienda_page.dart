@@ -23,7 +23,11 @@ class _TiendaPageState extends State<TiendaPage> {
   List<Tag> _currentTags = [];
 
   Future<void> _loadData() async {
-    await productoController.obtenerProductosPorGenero(_currentTags, page);
+    if (_currentTags.isEmpty) {
+      await productoController.obtenerProductosRecientes(page);
+    } else {
+      await productoController.obtenerProductosPorGenero(_currentTags, page);
+    }
   }
 
   void _handlePageForward() {

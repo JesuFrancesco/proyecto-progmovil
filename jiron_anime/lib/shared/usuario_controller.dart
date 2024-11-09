@@ -19,16 +19,21 @@ class CurrentUser {
   static CircleAvatar getAvatarIcon(
           {DefaultUserIconSize size = DefaultUserIconSize.small}) =>
       CircleAvatar(
-          child: CurrentUser.profileImageUrl != null
-              ? Image.network(
-                  CurrentUser.profileImageUrl!,
-                  fit: BoxFit.cover,
-                  // width: 100,
-                  // height: 100,
-                )
-              : DefaultUserIcon(
-                  size: size,
-                ));
+        child: CurrentUser.profileImageUrl != null
+            ? Image.network(
+                CurrentUser.profileImageUrl!,
+                fit: BoxFit.cover,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (frame == null) {
+                    return child;
+                  }
+                  return child;
+                },
+              )
+            : DefaultUserIcon(
+                size: size,
+              ),
+      );
 
   static ClipOval getClipOvalAvatar(
           [DefaultUserIconSize size = DefaultUserIconSize.medium]) =>

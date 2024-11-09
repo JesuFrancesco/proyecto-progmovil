@@ -4,9 +4,10 @@ import 'package:jiron_anime/service/account_service.dart';
 
 class AccountsController extends GetxController {
   AccountService service = AccountService();
-  final cuentas = <Account>[].obs;
+
+  final cuenta = Account().obs;
 
   Future<void> obtenerCuentas() async {
-    cuentas.value = await service.fetchAll();
+    cuenta.value = await service.fetchMyAccount();
   }
 }

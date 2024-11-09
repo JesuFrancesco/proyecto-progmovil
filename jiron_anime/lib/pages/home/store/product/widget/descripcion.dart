@@ -72,7 +72,9 @@ class DescripcionProducto extends StatelessWidget {
                         if (producto.numeroPaginas != null)
                           Text(producto.numeroPaginas!.toString()),
                         if (producto.productTags != null)
-                          Text(producto.productTags![0].tag!.name!),
+                          Text(producto.productTags!
+                              .map((e) => e.tag!.name!)
+                              .join(", ")),
                       ].expand((label) => [label, const SizedBox(height: 8)]),
                     ],
                   ),

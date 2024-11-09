@@ -10,75 +10,87 @@ class PerfilPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CurrentUser.getClipOvalAvatar(),
-        Text(
-          CurrentUser.fullName ?? 'No hay sesión',
-          style: Theme.of(context).textTheme.titleMedium,
-          textAlign: TextAlign.center,
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CurrentUser.getClipOvalAvatar(),
+                Text(
+                  CurrentUser.fullName ?? 'No hay sesión',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  CurrentUser.provider ?? '',
+                  style: Theme.of(context).textTheme.titleSmall,
+                  textAlign: TextAlign.center,
+                ),
+                32.pv,
+                IconMenuItem(
+                    context: context,
+                    icon: Icons.shopping_cart,
+                    text: 'Carrito de compras',
+                    fnOnTap: () {
+                      Get.toNamed("/cart");
+                    }),
+                IconMenuItem(
+                    context: context,
+                    icon: Icons.shopping_bag_outlined,
+                    text: 'Mis pedidos',
+                    fnOnTap: () {
+                      Get.toNamed("/orders");
+                    }),
+                IconMenuItem(
+                    context: context,
+                    icon: Icons.favorite,
+                    text: 'Lista de deseados',
+                    fnOnTap: () {
+                      Get.toNamed("/wishlist");
+                    }),
+                IconMenuItem(
+                    context: context,
+                    icon: Icons.history,
+                    text: 'Historial de pedidos',
+                    fnOnTap: () {
+                      Get.toNamed("/orders-history");
+                    }),
+                // NotificationItem(
+                //     context: context,
+                //     icon: Icons.payment,
+                //     text: 'Métodos de pago',
+                //     fnOnTap: () {}),
+                IconMenuItem(
+                    context: context,
+                    icon: Icons.settings,
+                    text: 'Ajustes',
+                    fnOnTap: () {
+                      Get.toNamed("/settings");
+                    }),
+                IconMenuItem(
+                    context: context,
+                    icon: (supabase.auth.currentSession != null)
+                        ? Icons.logout
+                        : Icons.login,
+                    text: (supabase.auth.currentSession != null)
+                        ? 'Cerrar Sesión'
+                        : "Iniciar Sesión",
+                    fnOnTap: () async {
+                      await supabase.auth.signOut();
+                      Get.toNamed("/sign-in");
+                    }),
+              ],
+            ),
+          ]),
         ),
-        Text(
-          CurrentUser.provider ?? '',
-          style: Theme.of(context).textTheme.titleSmall,
-          textAlign: TextAlign.center,
+        SliverFillRemaining(
+          hasScrollBody: false, // Prevent scrolling inside the remaining space
+          child:
+              Container(), // Empty container to fill remaining space, can be customized
         ),
-        32.pv,
-        IconMenuItem(
-            context: context,
-            icon: Icons.shopping_cart,
-            text: 'Carrito de compras',
-            fnOnTap: () {
-              Get.toNamed("/cart");
-            }),
-        IconMenuItem(
-            context: context,
-            icon: Icons.shopping_bag_outlined,
-            text: 'Mis pedidos',
-            fnOnTap: () {
-              Get.toNamed("/orders");
-            }),
-        IconMenuItem(
-            context: context,
-            icon: Icons.favorite,
-            text: 'Lista de deseados',
-            fnOnTap: () {
-              Get.toNamed("/wishlist");
-            }),
-        IconMenuItem(
-            context: context,
-            icon: Icons.history,
-            text: 'Historial de pedidos',
-            fnOnTap: () {
-              Get.toNamed("/orders-history");
-            }),
-        // NotificationItem(
-        //     context: context,
-        //     icon: Icons.payment,
-        //     text: 'Métodos de pago',
-        //     fnOnTap: () {}),
-        IconMenuItem(
-            context: context,
-            icon: Icons.settings,
-            text: 'Ajustes',
-            fnOnTap: () {
-              Get.toNamed("/settings");
-            }),
-        const Spacer(),
-        IconMenuItem(
-            context: context,
-            icon: (supabase.auth.currentSession != null)
-                ? Icons.logout
-                : Icons.login,
-            text: (supabase.auth.currentSession != null)
-                ? 'Cerrar Sesión'
-                : "Iniciar Sesión",
-            fnOnTap: () async {
-              await supabase.auth.signOut();
-              Get.toNamed("/sign-in");
-            })
       ],
     );
   }

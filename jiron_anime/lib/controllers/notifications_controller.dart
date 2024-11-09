@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:jiron_anime/service/notifications_service.dart';
+import 'package:jiron_anime/service/notification_service.dart';
 
 import '../models/notification.dart';
 

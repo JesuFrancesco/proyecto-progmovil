@@ -5,21 +5,21 @@ import 'package:jiron_anime/service/cart_service.dart';
 class ShoppingCartController {
   final service = CartService();
 
-  var carrito = ShoppingCart().obs;
+  final carrito = ShoppingCart().obs;
 
   Future<void> obtenerCarrito() async {
-    carrito.value = await service.obtenerCarritoConProductos();
+    carrito.value = await service.fetchCartWithProducts();
   }
 
-  Future<void> addProductToCart(int productId, int amount) async {
-    await service.agregarProductoAlCarrito(amount, productId);
+  Future<void> aniadirProductoAlCarrito(int productId, int amount) async {
+    await service.addProductToCart(amount, productId);
   }
 
-  Future<void> deleteProductFromCart(int productId) async {
-    await service.eliminarProductoDelCarrito(productId);
+  Future<void> eliminarProductoDelCarrito(int productId) async {
+    await service.deleteProductFromCart(productId);
   }
 
-  Future<void> emptyShoppingCart(int productId, int amount) async {
-    await service.agregarProductoAlCarrito(amount, productId);
+  Future<void> vaciarCarritoDeCompras() async {
+    await service.emptyShoppingCart();
   }
 }

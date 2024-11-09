@@ -7,8 +7,6 @@ class ProductoController extends GetxController {
   final productos = <Product>[].obs;
   final queryProductos = <Product>[].obs;
 
-  get filteredMangas => null;
-
   Future<void> obtenerProductos() async {
     productos.value = await service.fetchAll();
   }

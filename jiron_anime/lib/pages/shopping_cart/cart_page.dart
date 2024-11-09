@@ -44,7 +44,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       isLoading = true;
     });
 
-    await shoppingCartController.deleteProductFromCart(item.productId!);
+    await shoppingCartController.eliminarProductoDelCarrito(item.productId!);
 
     setState(() {
       carrito = shoppingCartController.carrito.value;

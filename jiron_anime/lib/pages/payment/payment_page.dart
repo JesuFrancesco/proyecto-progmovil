@@ -136,7 +136,7 @@ class _PaymentPageState extends State<PaymentPage> {
     }).toList();
 
     print("Procesando orden...............");
-    await orderController.processOrder(itemsOrden);
+    await orderController.procesarOrdenDeCompra(itemsOrden);
     print("GOTY");
 
     await Navigator.of(context.mounted ? context : context).pushReplacement(

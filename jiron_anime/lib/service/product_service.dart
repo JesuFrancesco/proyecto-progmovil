@@ -20,14 +20,14 @@ class ProductoService {
       "take": _productsPerPage
     };
 
-    final response = await http.get(Uri.parse(
+    final res = await http.get(Uri.parse(
         "${Config.serverURL}/product?${parseToQueryParams(queryParams)}"));
 
-    if (response.statusCode != 200) {
-      throw Error();
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
+      Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));
     }
 
-    final List<dynamic> data = jsonDecode(response.body);
+    final List<dynamic> data = jsonDecode(res.body);
     mangas = data
         .map((map) => Product.fromJson(map as Map<String, dynamic>))
         .toList();
@@ -39,10 +39,8 @@ class ProductoService {
     List<Product> mangas = [];
 
     final queryParams = {
-      "take": _productsPerPage,
-      "skip": (page - 1) * _productsPerPage,
-      "include[productAttachments]": true,
-      "include[productTags]": true,
+      ..._pagination(page),
+      ..._commonJoins,
       "orderBy[createdAt]": "desc"
     };
 
@@ -66,12 +64,11 @@ class ProductoService {
   Future<List<Product>> searchProducts(String productName, int page) async {
     List<Product> mangas = [];
     final queryParams = {
-      "take": _productsPerPage,
-      "skip": (page - 1) * _productsPerPage,
+      ..._pagination(page),
+      ..._commonJoins,
       "where[name][contains]": productName,
       "where[name][mode]": "insensitive",
-      "include[productAttachments]": true,
-      // "orderBy[createdAt]": "desc"
+      "orderBy[createdAt]": "desc"
     };
 
     final res = await http.get(Uri.parse(
@@ -94,10 +91,9 @@ class ProductoService {
   Future<List<Product>> fetchProductsByGenre(List<Tag> tags, int page) async {
     List<Product> mangas = [];
     final queryParams = {
-      "take": _productsPerPage,
-      "skip": (page - 1) * _productsPerPage,
+      ..._pagination(page),
+      ..._commonJoins,
       "where[productTags][some][tag][id]": tags[0].id!,
-      "include[productAttachments]": true,
       "orderBy[createdAt]": "desc",
     };
 
@@ -118,3 +114,15 @@ class ProductoService {
     return mangas;
   }
 }
+
+Map<String, Object> _pagination(int page) {
+  return {
+    "take": _productsPerPage,
+    "skip": (page - 1) * _productsPerPage,
+  };
+}
+
+Map<String, Object> _commonJoins = {
+  "include[productAttachments]": true,
+  "include[productTags][include][tag]": true,
+};

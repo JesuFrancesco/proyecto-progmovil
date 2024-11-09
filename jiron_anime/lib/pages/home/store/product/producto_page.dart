@@ -60,7 +60,8 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   Future<void> _loadData() async {
-    await productoController.obtenerProductos();
+    await productoController.obtenerProductosPorGenero(
+        widget.producto.productTags!.map((e) => e.tag!).toList(), 1);
   }
 
   @override
@@ -71,7 +72,7 @@ class _ProductoPageState extends State<ProductoPage> {
           child: Column(
             children: [
               const CustomAppbar(title: ""),
-              InfoComic(
+              ProductoInfo(
                 producto: widget.producto,
               ),
               30.pv,
@@ -95,7 +96,7 @@ class _ProductoPageState extends State<ProductoPage> {
               const Row(
                 children: [
                   Text(
-                    "Lo más vendido",
+                    "También te puede interesar...",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ],
@@ -103,17 +104,24 @@ class _ProductoPageState extends State<ProductoPage> {
               15.pv,
               fetchAndRender(
                 _loadData,
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: productoController.productos
-                        .toList()
-                        .map((manga) => SizedBox(
-                              height: 150,
-                              child: Image.network(
-                                  manga.productAttachments![0].imageUrl!),
-                            ))
-                        .toList()
-                        .sublist(0, 3)),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: productoController.productos
+                          .toList()
+                          .expand(
+                            (manga) => [
+                              SizedBox(
+                                height: 150,
+                                child: Image.network(
+                                    manga.productAttachments![0].imageUrl!),
+                              ),
+                              10.ph,
+                            ],
+                          )
+                          .toList()),
+                ),
               )
             ],
           ),
