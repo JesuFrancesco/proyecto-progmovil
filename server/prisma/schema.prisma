@@ -14,10 +14,10 @@ generator express {
   output   = "../src/generated/express"
 }
 
-// generator dart {
-//   provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
-//   output   = "../../jiron_anime/lib/models"
-// }
+generator dart {
+  provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
+  output   = "../../jiron_anime/lib/models"
+}
 
 // models
 model Profile {

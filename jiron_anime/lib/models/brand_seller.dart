@@ -8,7 +8,7 @@ class BrandSeller implements ToJson, Id {
   @override
   int? id;
   String? name;
-  String? countryOrigin;
+  String? description;
   String? referenceLocation;
   int? countryId;
   Country? country;
@@ -18,7 +18,7 @@ class BrandSeller implements ToJson, Id {
   BrandSeller({
     this.id,
     this.name,
-    this.countryOrigin,
+    this.description,
     this.referenceLocation,
     this.countryId,
     this.country,
@@ -29,7 +29,7 @@ class BrandSeller implements ToJson, Id {
   factory BrandSeller.fromJson(Map<String, dynamic> json) => BrandSeller(
       id: json['id'] as int?,
       name: json['name'] as String?,
-      countryOrigin: json['countryOrigin'] as String?,
+      description: json['description'] as String?,
       referenceLocation: json['referenceLocation'] as String?,
       countryId: json['countryId'] as int?,
       country: json['country'] != null
@@ -43,7 +43,7 @@ class BrandSeller implements ToJson, Id {
   BrandSeller copyWith({
     int? id,
     String? name,
-    String? countryOrigin,
+    String? description,
     String? referenceLocation,
     int? countryId,
     Country? country,
@@ -53,7 +53,7 @@ class BrandSeller implements ToJson, Id {
     return BrandSeller(
         id: id ?? this.id,
         name: name ?? this.name,
-        countryOrigin: countryOrigin ?? this.countryOrigin,
+        description: description ?? this.description,
         referenceLocation: referenceLocation ?? this.referenceLocation,
         countryId: countryId ?? this.countryId,
         country: country ?? this.country,
@@ -65,7 +65,7 @@ class BrandSeller implements ToJson, Id {
     return BrandSeller(
         id: brandSeller.id ?? id,
         name: brandSeller.name ?? name,
-        countryOrigin: brandSeller.countryOrigin ?? countryOrigin,
+        description: brandSeller.description ?? description,
         referenceLocation: brandSeller.referenceLocation ?? referenceLocation,
         countryId: brandSeller.countryId ?? countryId,
         country: brandSeller.country ?? country,
@@ -77,7 +77,7 @@ class BrandSeller implements ToJson, Id {
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
         if (name != null) 'name': name,
-        if (countryOrigin != null) 'countryOrigin': countryOrigin,
+        if (description != null) 'description': description,
         if (referenceLocation != null) 'referenceLocation': referenceLocation,
         if (countryId != null) 'countryId': countryId,
         if (country != null) 'country': country,
@@ -96,7 +96,7 @@ class BrandSeller implements ToJson, Id {
           runtimeType == other.runtimeType &&
           id == other.id &&
           name == other.name &&
-          countryOrigin == other.countryOrigin &&
+          description == other.description &&
           referenceLocation == other.referenceLocation &&
           countryId == other.countryId &&
           country == other.country &&
@@ -107,7 +107,7 @@ class BrandSeller implements ToJson, Id {
   int get hashCode =>
       id.hashCode ^
       name.hashCode ^
-      countryOrigin.hashCode ^
+      description.hashCode ^
       referenceLocation.hashCode ^
       countryId.hashCode ^
       country.hashCode ^

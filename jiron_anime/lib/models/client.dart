@@ -4,7 +4,7 @@ import 'model_base.dart';
 import 'distrito.dart';
 import 'provincia.dart';
 import 'departamento.dart';
-import 'user.dart';
+import 'profile.dart';
 import 'shopping_cart.dart';
 import 'wishlist.dart';
 import 'order.dart';
@@ -23,7 +23,7 @@ class Client implements ToJson, Id {
   Distrito? distrito;
   Provincia? provincia;
   Departamento? departmento;
-  User? user;
+  Profile? profile;
   List<ShoppingCart>? shoppingCarts;
   List<Wishlist>? wishlists;
   List<Order>? orders;
@@ -31,7 +31,9 @@ class Client implements ToJson, Id {
   List<ProductQuestion>? productQuestions;
   List<ClientNotification>? clientNotifications;
   List<ChatParticipant>? chatParticipants;
-  String? userId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? profileId;
   int? $shoppingCartsCount;
   int? $wishlistsCount;
   int? $ordersCount;
@@ -49,7 +51,7 @@ class Client implements ToJson, Id {
     this.distrito,
     this.provincia,
     this.departmento,
-    this.user,
+    this.profile,
     this.shoppingCarts,
     this.wishlists,
     this.orders,
@@ -57,7 +59,9 @@ class Client implements ToJson, Id {
     this.productQuestions,
     this.clientNotifications,
     this.chatParticipants,
-    this.userId,
+    this.createdAt,
+    this.updatedAt,
+    this.profileId,
     this.$shoppingCartsCount,
     this.$wishlistsCount,
     this.$ordersCount,
@@ -82,8 +86,8 @@ class Client implements ToJson, Id {
       departmento: json['departmento'] != null
           ? Departamento.fromJson(json['departmento'] as Map<String, dynamic>)
           : null,
-      user: json['user'] != null
-          ? User.fromJson(json['user'] as Map<String, dynamic>)
+      profile: json['profile'] != null
+          ? Profile.fromJson(json['profile'] as Map<String, dynamic>)
           : null,
       shoppingCarts: json['shoppingCarts'] != null
           ? createModels<ShoppingCart>(
@@ -111,7 +115,11 @@ class Client implements ToJson, Id {
           ? createModels<ChatParticipant>(
               json['chatParticipants'], ChatParticipant.fromJson)
           : null,
-      userId: json['userId'] as String?,
+      createdAt:
+          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt:
+          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      profileId: json['profileId'] as String?,
       $shoppingCartsCount: json['_count']?['shoppingCarts'] as int?,
       $wishlistsCount: json['_count']?['wishlists'] as int?,
       $ordersCount: json['_count']?['orders'] as int?,
@@ -129,7 +137,7 @@ class Client implements ToJson, Id {
     Distrito? distrito,
     Provincia? provincia,
     Departamento? departmento,
-    User? user,
+    Profile? profile,
     List<ShoppingCart>? shoppingCarts,
     List<Wishlist>? wishlists,
     List<Order>? orders,
@@ -137,7 +145,9 @@ class Client implements ToJson, Id {
     List<ProductQuestion>? productQuestions,
     List<ClientNotification>? clientNotifications,
     List<ChatParticipant>? chatParticipants,
-    String? userId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? profileId,
     int? $shoppingCartsCount,
     int? $wishlistsCount,
     int? $ordersCount,
@@ -155,7 +165,7 @@ class Client implements ToJson, Id {
         distrito: distrito ?? this.distrito,
         provincia: provincia ?? this.provincia,
         departmento: departmento ?? this.departmento,
-        user: user ?? this.user,
+        profile: profile ?? this.profile,
         shoppingCarts: shoppingCarts ?? this.shoppingCarts,
         wishlists: wishlists ?? this.wishlists,
         orders: orders ?? this.orders,
@@ -163,7 +173,9 @@ class Client implements ToJson, Id {
         productQuestions: productQuestions ?? this.productQuestions,
         clientNotifications: clientNotifications ?? this.clientNotifications,
         chatParticipants: chatParticipants ?? this.chatParticipants,
-        userId: userId ?? this.userId,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        profileId: profileId ?? this.profileId,
         $shoppingCartsCount: $shoppingCartsCount ?? this.$shoppingCartsCount,
         $wishlistsCount: $wishlistsCount ?? this.$wishlistsCount,
         $ordersCount: $ordersCount ?? this.$ordersCount,
@@ -186,7 +198,7 @@ class Client implements ToJson, Id {
         distrito: client.distrito ?? distrito,
         provincia: client.provincia ?? provincia,
         departmento: client.departmento ?? departmento,
-        user: client.user ?? user,
+        profile: client.profile ?? profile,
         shoppingCarts: client.shoppingCarts ?? shoppingCarts,
         wishlists: client.wishlists ?? wishlists,
         orders: client.orders ?? orders,
@@ -194,7 +206,9 @@ class Client implements ToJson, Id {
         productQuestions: client.productQuestions ?? productQuestions,
         clientNotifications: client.clientNotifications ?? clientNotifications,
         chatParticipants: client.chatParticipants ?? chatParticipants,
-        userId: client.userId ?? userId,
+        createdAt: client.createdAt ?? createdAt,
+        updatedAt: client.updatedAt ?? updatedAt,
+        profileId: client.profileId ?? profileId,
         $shoppingCartsCount: client.$shoppingCartsCount ?? $shoppingCartsCount,
         $wishlistsCount: client.$wishlistsCount ?? $wishlistsCount,
         $ordersCount: client.$ordersCount ?? $ordersCount,
@@ -218,7 +232,7 @@ class Client implements ToJson, Id {
         if (distrito != null) 'distrito': distrito,
         if (provincia != null) 'provincia': provincia,
         if (departmento != null) 'departmento': departmento,
-        if (user != null) 'user': user,
+        if (profile != null) 'profile': profile,
         if (shoppingCarts != null)
           'shoppingCarts': shoppingCarts?.map((item) => item.toJson()).toList(),
         if (wishlists != null)
@@ -237,7 +251,9 @@ class Client implements ToJson, Id {
         if (chatParticipants != null)
           'chatParticipants':
               chatParticipants?.map((item) => item.toJson()).toList(),
-        if (userId != null) 'userId': userId,
+        if (createdAt != null) 'createdAt': createdAt,
+        if (updatedAt != null) 'updatedAt': updatedAt,
+        if (profileId != null) 'profileId': profileId,
         if ($shoppingCartsCount != null ||
             $wishlistsCount != null ||
             $ordersCount != null ||
@@ -274,7 +290,7 @@ class Client implements ToJson, Id {
           distrito == other.distrito &&
           provincia == other.provincia &&
           departmento == other.departmento &&
-          user == other.user &&
+          profile == other.profile &&
           areListsEqual(shoppingCarts, other.shoppingCarts) &&
           areListsEqual(wishlists, other.wishlists) &&
           areListsEqual(orders, other.orders) &&
@@ -282,7 +298,9 @@ class Client implements ToJson, Id {
           areListsEqual(productQuestions, other.productQuestions) &&
           areListsEqual(clientNotifications, other.clientNotifications) &&
           areListsEqual(chatParticipants, other.chatParticipants) &&
-          userId == other.userId &&
+          createdAt == other.createdAt &&
+          updatedAt == other.updatedAt &&
+          profileId == other.profileId &&
           $shoppingCartsCount == other.$shoppingCartsCount &&
           $wishlistsCount == other.$wishlistsCount &&
           $ordersCount == other.$ordersCount &&
@@ -301,7 +319,7 @@ class Client implements ToJson, Id {
       distrito.hashCode ^
       provincia.hashCode ^
       departmento.hashCode ^
-      user.hashCode ^
+      profile.hashCode ^
       shoppingCarts.hashCode ^
       wishlists.hashCode ^
       orders.hashCode ^
@@ -309,7 +327,9 @@ class Client implements ToJson, Id {
       productQuestions.hashCode ^
       clientNotifications.hashCode ^
       chatParticipants.hashCode ^
-      userId.hashCode ^
+      createdAt.hashCode ^
+      updatedAt.hashCode ^
+      profileId.hashCode ^
       $shoppingCartsCount.hashCode ^
       $wishlistsCount.hashCode ^
       $ordersCount.hashCode ^

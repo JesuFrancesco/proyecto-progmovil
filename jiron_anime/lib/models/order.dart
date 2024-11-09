@@ -13,6 +13,8 @@ class Order implements ToJson, Id {
   String? status;
   int? clientId;
   Client? client;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   List<OrderItem>? orderItems;
   int? $orderItemsCount;
 
@@ -22,6 +24,8 @@ class Order implements ToJson, Id {
     this.status,
     this.clientId,
     this.client,
+    this.createdAt,
+    this.updatedAt,
     this.orderItems,
     this.$orderItemsCount,
   });
@@ -34,6 +38,10 @@ class Order implements ToJson, Id {
       client: json['client'] != null
           ? Client.fromJson(json['client'] as Map<String, dynamic>)
           : null,
+      createdAt:
+          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt:
+          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       orderItems: json['orderItems'] != null
           ? createModels<OrderItem>(json['orderItems'], OrderItem.fromJson)
           : null,
@@ -45,6 +53,8 @@ class Order implements ToJson, Id {
     String? status,
     int? clientId,
     Client? client,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     List<OrderItem>? orderItems,
     int? $orderItemsCount,
   }) {
@@ -54,6 +64,8 @@ class Order implements ToJson, Id {
         status: status ?? this.status,
         clientId: clientId ?? this.clientId,
         client: client ?? this.client,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
         orderItems: orderItems ?? this.orderItems,
         $orderItemsCount: $orderItemsCount ?? this.$orderItemsCount);
   }
@@ -65,6 +77,8 @@ class Order implements ToJson, Id {
         status: order.status ?? status,
         clientId: order.clientId ?? clientId,
         client: order.client ?? client,
+        createdAt: order.createdAt ?? createdAt,
+        updatedAt: order.updatedAt ?? updatedAt,
         orderItems: order.orderItems ?? orderItems,
         $orderItemsCount: order.$orderItemsCount ?? $orderItemsCount);
   }
@@ -76,6 +90,8 @@ class Order implements ToJson, Id {
         if (status != null) 'status': status,
         if (clientId != null) 'clientId': clientId,
         if (client != null) 'client': client,
+        if (createdAt != null) 'createdAt': createdAt,
+        if (updatedAt != null) 'updatedAt': updatedAt,
         if (orderItems != null)
           'orderItems': orderItems?.map((item) => item.toJson()).toList(),
         if ($orderItemsCount != null)
@@ -94,6 +110,8 @@ class Order implements ToJson, Id {
           status == other.status &&
           clientId == other.clientId &&
           client == other.client &&
+          createdAt == other.createdAt &&
+          updatedAt == other.updatedAt &&
           areListsEqual(orderItems, other.orderItems) &&
           $orderItemsCount == other.$orderItemsCount;
 
@@ -104,6 +122,8 @@ class Order implements ToJson, Id {
       status.hashCode ^
       clientId.hashCode ^
       client.hashCode ^
+      createdAt.hashCode ^
+      updatedAt.hashCode ^
       orderItems.hashCode ^
       $orderItemsCount.hashCode;
 }

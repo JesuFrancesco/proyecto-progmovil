@@ -1,4 +1,4 @@
-export 'user.dart';
+export 'profile.dart';
 export 'client.dart';
 export 'notification.dart';
 export 'market.dart';

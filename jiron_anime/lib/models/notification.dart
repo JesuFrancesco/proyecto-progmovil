@@ -8,20 +8,20 @@ class Notification implements ToJson, Id {
   int? id;
   String? title;
   String? description;
-  DateTime? createdAt;
-  DateTime? updatedAt;
   String? imageUrl;
   List<ClientNotification>? clientNotifications;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   int? $clientNotificationsCount;
 
   Notification({
     this.id,
     this.title,
     this.description,
-    this.createdAt,
-    this.updatedAt,
     this.imageUrl,
     this.clientNotifications,
+    this.createdAt,
+    this.updatedAt,
     this.$clientNotificationsCount,
   });
 
@@ -29,15 +29,15 @@ class Notification implements ToJson, Id {
       id: json['id'] as int?,
       title: json['title'] as String?,
       description: json['description'] as String?,
-      createdAt:
-          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt:
-          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       imageUrl: json['imageUrl'] as String?,
       clientNotifications: json['clientNotifications'] != null
           ? createModels<ClientNotification>(
               json['clientNotifications'], ClientNotification.fromJson)
           : null,
+      createdAt:
+          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt:
+          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       $clientNotificationsCount:
           json['_count']?['clientNotifications'] as int?);
 
@@ -45,20 +45,20 @@ class Notification implements ToJson, Id {
     int? id,
     String? title,
     String? description,
-    DateTime? createdAt,
-    DateTime? updatedAt,
     String? imageUrl,
     List<ClientNotification>? clientNotifications,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     int? $clientNotificationsCount,
   }) {
     return Notification(
         id: id ?? this.id,
         title: title ?? this.title,
         description: description ?? this.description,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
         imageUrl: imageUrl ?? this.imageUrl,
         clientNotifications: clientNotifications ?? this.clientNotifications,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
         $clientNotificationsCount:
             $clientNotificationsCount ?? this.$clientNotificationsCount);
   }
@@ -68,11 +68,11 @@ class Notification implements ToJson, Id {
         id: notification.id ?? id,
         title: notification.title ?? title,
         description: notification.description ?? description,
-        createdAt: notification.createdAt ?? createdAt,
-        updatedAt: notification.updatedAt ?? updatedAt,
         imageUrl: notification.imageUrl ?? imageUrl,
         clientNotifications:
             notification.clientNotifications ?? clientNotifications,
+        createdAt: notification.createdAt ?? createdAt,
+        updatedAt: notification.updatedAt ?? updatedAt,
         $clientNotificationsCount: notification.$clientNotificationsCount ??
             $clientNotificationsCount);
   }
@@ -82,12 +82,12 @@ class Notification implements ToJson, Id {
         if (id != null) 'id': id,
         if (title != null) 'title': title,
         if (description != null) 'description': description,
-        if (createdAt != null) 'createdAt': createdAt,
-        if (updatedAt != null) 'updatedAt': updatedAt,
         if (imageUrl != null) 'imageUrl': imageUrl,
         if (clientNotifications != null)
           'clientNotifications':
               clientNotifications?.map((item) => item.toJson()).toList(),
+        if (createdAt != null) 'createdAt': createdAt,
+        if (updatedAt != null) 'updatedAt': updatedAt,
         if ($clientNotificationsCount != null)
           '_count': {
             if ($clientNotificationsCount != null)
@@ -103,10 +103,10 @@ class Notification implements ToJson, Id {
           id == other.id &&
           title == other.title &&
           description == other.description &&
-          createdAt == other.createdAt &&
-          updatedAt == other.updatedAt &&
           imageUrl == other.imageUrl &&
           areListsEqual(clientNotifications, other.clientNotifications) &&
+          createdAt == other.createdAt &&
+          updatedAt == other.updatedAt &&
           $clientNotificationsCount == other.$clientNotificationsCount;
 
   @override
@@ -114,9 +114,9 @@ class Notification implements ToJson, Id {
       id.hashCode ^
       title.hashCode ^
       description.hashCode ^
-      createdAt.hashCode ^
-      updatedAt.hashCode ^
       imageUrl.hashCode ^
       clientNotifications.hashCode ^
+      createdAt.hashCode ^
+      updatedAt.hashCode ^
       $clientNotificationsCount.hashCode;
 }
