@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:jiron_anime/middleware/supabase/login.dart';
+import 'package:jiron_anime/middleware/auth/login.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

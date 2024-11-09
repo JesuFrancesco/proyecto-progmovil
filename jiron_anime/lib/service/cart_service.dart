@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:jiron_anime/config/config.dart';
-import 'package:jiron_anime/middleware/supabase_layer.dart';
+import 'package:jiron_anime/utils/supabase_utils.dart';
 import 'package:jiron_anime/models/models_library.dart';
 
 import 'package:http/http.dart' as http;

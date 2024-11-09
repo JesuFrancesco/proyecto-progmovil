@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/pages/home/perfil/widgets/menu_item.dart';
 import 'package:jiron_anime/utils/extensions.dart';
@@ -30,28 +31,28 @@ class PerfilPage extends StatelessWidget {
             icon: Icons.shopping_cart,
             text: 'Carrito de compras',
             fnOnTap: () {
-              Navigator.of(context).pushNamed("/cart");
+              Get.toNamed("/cart");
             }),
         IconMenuItem(
             context: context,
             icon: Icons.shopping_bag_outlined,
             text: 'Mis pedidos',
             fnOnTap: () {
-              Navigator.of(context).pushNamed("/orders");
+              Get.toNamed("/orders");
             }),
         IconMenuItem(
             context: context,
             icon: Icons.favorite,
             text: 'Lista de deseados',
             fnOnTap: () {
-              Navigator.of(context).pushNamed("/wishlist");
+              Get.toNamed("/wishlist");
             }),
         IconMenuItem(
             context: context,
             icon: Icons.history,
             text: 'Historial de pedidos',
             fnOnTap: () {
-              Navigator.of(context).pushNamed("/orders-history");
+              Get.toNamed("/orders-history");
             }),
         // NotificationItem(
         //     context: context,
@@ -63,7 +64,7 @@ class PerfilPage extends StatelessWidget {
             icon: Icons.settings,
             text: 'Ajustes',
             fnOnTap: () {
-              Navigator.of(context).pushNamed("/settings");
+              Get.toNamed("/settings");
             }),
         const Spacer(),
         IconMenuItem(
@@ -76,8 +77,7 @@ class PerfilPage extends StatelessWidget {
                 : "Iniciar Sesión",
             fnOnTap: () async {
               await supabase.auth.signOut();
-              Navigator.of(context.mounted ? context : context)
-                  .popAndPushNamed("/sign-in");
+              Get.toNamed("/sign-in");
             })
       ],
     );

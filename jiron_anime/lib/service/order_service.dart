@@ -1,21 +1,25 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:http_status/http_status.dart';
 import 'package:jiron_anime/config/config.dart';
-import 'package:jiron_anime/middleware/supabase_layer.dart';
+import 'package:jiron_anime/utils/query_string.dart';
+import 'package:jiron_anime/utils/supabase_utils.dart';
 import 'package:jiron_anime/models/order.dart';
 import 'package:jiron_anime/models/order_item.dart';
 
 class OrderService {
   Future<List<Order>> fetchAll() async {
     List<Order> ordenes = [];
-    final response = await http.get(Uri.parse(
-        "${Config.serverURL}/order?where[clientId]=${getClientId()}"));
+    final queryParams = {"where[clientId]": getClientId()};
 
-    if (response.statusCode != 200) {
+    final res = await http.get(Uri.parse(
+        "${Config.serverURL}/order?${parseToQueryParams(queryParams)}"));
+
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
       throw Error();
     }
 
-    final List<dynamic> data = jsonDecode(response.body);
+    final List<dynamic> data = jsonDecode(res.body);
     ordenes =
         data.map((map) => Order.fromJson(map as Map<String, dynamic>)).toList();
 
@@ -46,9 +50,6 @@ class OrderService {
           "Content-Type": "application/json",
           ...getSupabaseAuthHeaders(),
         });
-
-    print("response.body 1");
-    print(response.body);
 
     final dynamic data = jsonDecode(response.body);
 

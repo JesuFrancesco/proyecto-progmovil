@@ -32,10 +32,10 @@ class _BusquedaPageState extends State<BusquedaPage> {
       isLoading = true;
     });
 
-    await productoController.buscarProductos(productName, page);
+    await productoController.obtenerProductosPorQuery(productName, page);
 
     setState(() {
-      filteredProductos = productoController.filteredProductos.toList();
+      filteredProductos = productoController.queryProductos.toList();
       isLoading = false;
     });
   }

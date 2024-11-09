@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 
 import '../../main.dart';
@@ -19,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
             onPressed: () async {
               await supabase.auth.signOut();
               if (context.mounted) {
-                Navigator.of(context).pushReplacement(
+                Get.offAll(
                   MaterialPageRoute(builder: (context) => const SignInPage()),
                 );
               }

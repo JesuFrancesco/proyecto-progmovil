@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide Notification;
+import 'package:get/get.dart';
 import 'package:jiron_anime/models/notification.dart';
 
 class NotificacionRemovableWidget extends StatelessWidget {
@@ -83,7 +84,7 @@ class NotificacionRemovableWidget extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.close, color: Colors.white, size: 30),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Get.back();
                   },
                 ),
               ),

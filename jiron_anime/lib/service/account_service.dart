@@ -1,7 +1,7 @@
 import 'dart:convert';
 // import 'package:flutter/services.dart' show rootBundle;
 import 'package:jiron_anime/config/config.dart';
-import 'package:jiron_anime/middleware/supabase_layer.dart';
+import 'package:jiron_anime/utils/supabase_utils.dart';
 
 import '../models/account.dart';
 import 'package:http/http.dart' as http;

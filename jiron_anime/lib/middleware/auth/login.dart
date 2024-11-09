@@ -1,6 +1,6 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jiron_anime/config/config.dart';
-import 'package:jiron_anime/middleware/supabase_layer.dart';
+import 'package:jiron_anime/utils/supabase_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> browserGoogleSignIn() async {

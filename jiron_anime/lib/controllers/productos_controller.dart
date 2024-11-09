@@ -3,9 +3,9 @@ import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/service/product_service.dart';
 
 class ProductoController extends GetxController {
-  StaticProductoService service = StaticProductoService();
+  ProductoService service = ProductoService();
   final productos = <Product>[].obs;
-  final filteredProductos = <Product>[].obs;
+  final queryProductos = <Product>[].obs;
 
   get filteredMangas => null;
 
@@ -13,9 +13,15 @@ class ProductoController extends GetxController {
     productos.value = await service.fetchAll();
   }
 
-  Future<void> buscarProductos(String productName, int page) async {
-    filteredProductos.value = await service.searchProducts(productName, page);
+  Future<void> obtenerProductosRecientes(int page) async {
+    productos.value = await service.fetchRecent(page);
   }
 
-  void filterMangas(String category) {}
+  Future<void> obtenerProductosPorGenero(List<Tag> tags, int page) async {
+    productos.value = await service.fetchProductsByGenre(tags, page);
+  }
+
+  Future<void> obtenerProductosPorQuery(String productName, int page) async {
+    queryProductos.value = await service.searchProducts(productName, page);
+  }
 }

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/tags_controller.dart';
+import 'package:jiron_anime/models/tag.dart';
 import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
+import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
 class TagsBarButton extends StatefulWidget {
-  final VoidCallback onCatalogPressed;
   final Function onTagPressed;
 
   const TagsBarButton({
     super.key,
-    required this.onCatalogPressed,
     required this.onTagPressed,
   });
 
@@ -67,7 +68,7 @@ class _TagsBarButtonState extends State<TagsBarButton> {
                             // setState(() {
                             //   selectedIndex = 0;
                             // });
-                            widget.onCatalogPressed();
+                            widget.onTagPressed(<Tag>[]);
                           },
                           style: TextButton.styleFrom(
                             // backgroundColor: selectedIndex == 0
@@ -89,7 +90,7 @@ class _TagsBarButtonState extends State<TagsBarButton> {
                                       // setState(() {
                                       //   selectedIndex = 0;
                                       // });
-                                      widget.onTagPressed([tag.name!]);
+                                      widget.onTagPressed([tag]);
                                     },
                                     style: TextButton.styleFrom(
                                       // backgroundColor: selectedIndex == 0
@@ -116,11 +117,8 @@ class _TagsBarButtonState extends State<TagsBarButton> {
               }),
           TextButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const BusquedaPage(),
-                ),
+              Get.to(
+                const CustomLayout(child: BusquedaPage()),
               );
             },
             style: TextButton.styleFrom(

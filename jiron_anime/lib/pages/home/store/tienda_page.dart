@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/models/tag.dart';
 import 'package:jiron_anime/shared/usuario_controller.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_buttonbar.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_item.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_carousel.dart';
+import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
 final ProductoController productoController = Get.put(ProductoController());
@@ -17,27 +19,30 @@ class TiendaPage extends StatefulWidget {
 }
 
 class _TiendaPageState extends State<TiendaPage> {
-  List<String> _currentTags = [];
+  int page = 1;
+  List<Tag> _currentTags = [];
 
   Future<void> _loadData() async {
-    await productoController.obtenerProductos();
+    await productoController.obtenerProductosPorGenero(_currentTags, page);
   }
 
-  @override
-  void initState() {
-    super.initState();
+  void _handlePageForward() {
+    setState(() {
+      page++;
+    });
   }
 
-  void _changeTagsCallback(List<String> tags) {
+  void _handlePageBackward() {
+    setState(() {
+      page--;
+    });
+  }
+
+  Future<void> _changeTagsCallback(List<Tag> tags) async {
     setState(() {
       _currentTags = tags;
     });
-  }
-
-  void _showAllMangas() {
-    setState(() {
-      _currentTags = [];
-    });
+    await _loadData();
   }
 
   @override
@@ -66,7 +71,6 @@ class _TiendaPageState extends State<TiendaPage> {
                 ),
                 15.pv,
                 TagsBarButton(
-                  onCatalogPressed: _showAllMangas,
                   onTagPressed: _changeTagsCallback,
                 ),
                 15.pv,
@@ -83,6 +87,34 @@ class _TiendaPageState extends State<TiendaPage> {
                 ),
                 5.pv,
                 _buildMangaList(_currentTags),
+                5.pv,
+                if (productoController.productos.isNotEmpty)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: page > 1 ? _handlePageBackward : null,
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: page > 1
+                              ? AppColors.primaryColor
+                              : Colors.grey.shade400,
+                        ),
+                        child: const Text("<"),
+                      ),
+                      const SizedBox(width: 10),
+                      Text("Página $page"),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: _handlePageForward,
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: AppColors.primaryColor,
+                        ),
+                        child: const Text(">"),
+                      ),
+                    ],
+                  ),
                 30.pv,
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -126,13 +158,8 @@ class _TiendaPageState extends State<TiendaPage> {
     );
   }
 
-  Widget _buildMangaList(List<String> tags) {
-    final filteredMangas = productoController.productos.where((manga) {
-      if (tags.isEmpty) return true;
-      return manga.productTags!.any((tag) => tags.contains(tag.tag?.name));
-    }).toList();
-
-    if (filteredMangas.isEmpty) {
+  Widget _buildMangaList(List<Tag> tags) {
+    if (productoController.productos.isEmpty) {
       return const Center(child: Text("No hay mangas disponibles"));
     }
 
@@ -144,9 +171,9 @@ class _TiendaPageState extends State<TiendaPage> {
         childAspectRatio: 0.45,
         crossAxisSpacing: 10,
       ),
-      itemCount: filteredMangas.length,
+      itemCount: productoController.productos.length,
       itemBuilder: (context, index) {
-        final manga = filteredMangas[index];
+        final manga = productoController.productos[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: ProductItem(manga: manga),
