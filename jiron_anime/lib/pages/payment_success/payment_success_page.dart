@@ -1,118 +1,135 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/shared/custom_layout.dart';
+import 'package:jiron_anime/utils/descargar_constancia.dart';
+import 'package:jiron_anime/utils/extensions.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
-  const PaymentSuccessPage({super.key});
+  final Order order;
+  const PaymentSuccessPage({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Container(
-            decoration:
-                const BoxDecoration(color: Color.fromARGB(255, 248, 225, 213)),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 20),
-                  const Icon(
-                    Icons.check_circle_outline,
-                    size: 100,
-                    color: Colors.orange,
+    return Scaffold(
+      body: CustomLayout(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                20.pv,
+                const Icon(
+                  Icons.check_circle_outline,
+                  size: 100,
+                  color: Colors.orange,
+                ),
+                20.pv,
+                const Text(
+                  'Pago realizado!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Pago realizado!',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                ),
+                const Text(
+                  'Hemos recibido tu pago.',
+                ),
+                30.pv,
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Estado',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                10.pv,
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.orange,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Realizado'),
+                  ],
+                ),
+                20.pv,
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Fecha',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                10.pv,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(DateFormat("dd/MM/yyyy HH:mm:ss")
+                        .format(DateTime.now())),
+                  ],
+                ),
+                20.pv,
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Método de pago',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                10.pv,
+                Row(
+                  children: [
+                    Image.network(
+                      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/480px-Mastercard-logo.png',
+                      width: 50,
+                    ),
+                    10.ph,
+                    const Text('Mastercard\nTermina en 4521'),
+                  ],
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => descargarConstancia(order),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    icon: const Icon(Icons.download, color: Colors.white),
+                    label: const Text(
+                      'DESCARGAR CONSTANCIA',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  const Text(
-                    'Hemos recibido tu pago.',
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
-                  ),
-                  const SizedBox(height: 30),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Estado',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.check_circle,
-                        color: Colors.orange,
-                      ),
-                      SizedBox(width: 10),
-                      Text('Realizado'),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Fecha',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text('30 de agosto, 2024 - 5:49 PM'),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Método de pago',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Image.network(
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/480px-Mastercard-logo.png',
-                        width: 50,
-                      ),
-                      const SizedBox(width: 10),
-                      const Text('Mastercard\nTermina en 4521'),
-                    ],
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                      ),
-                      icon: const Icon(Icons.download, color: Colors.white),
-                      label: const Text(
-                        'DESCARGAR CONSTANCIA',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                ),
+                15.pv,
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => Get.toNamed("/home"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    label: const Text(
+                      'VOLVER A TIENDA',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

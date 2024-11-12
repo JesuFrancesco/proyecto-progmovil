@@ -25,7 +25,13 @@ class CustomLayout extends StatelessWidget {
                   stops: [0.0, 0.5, 1],
                   colors: AppColors.backgroundLinearGradientColors),
             )
-          : null,
+          : const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.0, 0.5, 1],
+                  colors: AppColors.darkBackgroundLinearGradientColors),
+            ),
       child: Padding(
         padding: EdgeInsets.only(left: px, right: px, top: pt),
         child: child,

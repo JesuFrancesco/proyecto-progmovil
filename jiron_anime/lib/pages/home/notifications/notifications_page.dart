@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart' hide Notification;
-import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/notifications_controller.dart';
 import 'package:jiron_anime/models/notification.dart';
 import 'package:jiron_anime/pages/home/notifications/widget/notification_widget.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
+import 'package:jiron_anime/shared/custom_layout.dart';
 
 final NotificationsController notificationController =
-    Get.put(NotificationsController());
+    NotificationsController();
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -40,28 +40,32 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-      SliverFillRemaining(
-        hasScrollBody: false,
-        child: Column(
-          children: [
-            const CustomAppbar(title: "Notificaciones"),
-            _items.isEmpty
-                ? const Expanded(
-                    child: Center(child: CircularProgressIndicator()))
-                : Column(
-                    children: _items.asMap().entries.map((entry) {
-                      final index = entry.key;
-                      final item = entry.value;
-                      return NotificacionRemovableWidget(
-                        item: item,
-                        onDismissed: () => _removeItem(index),
-                      );
-                    }).toList(),
-                  ),
-          ],
-        ),
-      )
-    ]);
+    return Scaffold(
+      body: CustomLayout(
+        child: CustomScrollView(slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              children: [
+                const CustomAppbar(title: "Notificaciones"),
+                _items.isEmpty
+                    ? const Expanded(
+                        child: Center(child: CircularProgressIndicator()))
+                    : Column(
+                        children: _items.asMap().entries.map((entry) {
+                          final index = entry.key;
+                          final item = entry.value;
+                          return NotificacionRemovableWidget(
+                            item: item,
+                            onDismissed: () => _removeItem(index),
+                          );
+                        }).toList(),
+                      ),
+              ],
+            ),
+          )
+        ]),
+      ),
+    );
   }
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/shared/boton_retroceso.dart';
-import 'package:jiron_anime/shared/usuario_controller.dart';
+import 'package:jiron_anime/shared/user_widgets.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String title;
   final bool showAvatar;
-  const CustomAppbar({super.key, required this.title, this.showAvatar = true});
+
+  const CustomAppbar({super.key, this.title = "", this.showAvatar = true});
 
   @override
   Widget build(BuildContext context) {

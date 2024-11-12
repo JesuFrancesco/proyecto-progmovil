@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http_status/http_status.dart';
 import 'package:jiron_anime/config/config.dart';
-import 'package:jiron_anime/shared/error_dialog.dart';
+import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
 import 'package:jiron_anime/models/models_library.dart';
@@ -62,6 +62,7 @@ class CartService {
 
     if (!res.statusCode.isSuccessfulHttpStatusCode) {
       Get.dialog(ErrorDialog(message: "Algo salió mal\n${res.body}"));
+      throw Error();
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:jiron_anime/service/tags_service.dart';
 
 class TagController extends GetxController {
   TagService service = TagService();
+
   final tags = <Tag>[].obs;
 
   Future<void> obtenerTags() async {

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/tags_controller.dart';
 import 'package:jiron_anime/models/tag.dart';
 import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
-import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
 class TagsBarButton extends StatefulWidget {
@@ -118,7 +117,7 @@ class _TagsBarButtonState extends State<TagsBarButton> {
           TextButton(
             onPressed: () {
               Get.to(
-                const CustomLayout(child: BusquedaPage()),
+                const BusquedaPage(),
               );
             },
             style: TextButton.styleFrom(

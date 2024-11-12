@@ -21,9 +21,16 @@ dependencies:
   chips_choice: ^3.0.0
   json_annotation: ^4.0.1
   sqflite: ^2.4.0
-  path_provider: ^2.0.11
+  path_provider: ^2.1.5
   path: ^1.9.0
   http_status: ^3.3.3
+  async: ^2.11.0
+  fluttertoast: ^8.2.8
+  image_picker: ^1.1.2
+  intl: ^0.19.0
+  flutter_file_saver: ^0.6.2
+  pdf: ^3.11.1
+  shared_preferences: ^2.3.3
 
 flutter_native_splash:
   color: "#ffffff"
@@ -70,7 +77,6 @@ flutter:
     - assets/
     - assets/image/
     - assets/font/
-    - static/
     - .env
   fonts:
     - family: Rubik

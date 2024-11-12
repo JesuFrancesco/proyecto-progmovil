@@ -2,14 +2,13 @@ import 'dart:convert';
 // import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 import 'package:jiron_anime/config/config.dart';
+import 'package:jiron_anime/config/const.dart';
 import 'package:jiron_anime/models/product.dart';
 import 'package:http_status/http_status.dart';
 import 'package:http/http.dart' as http;
 import 'package:jiron_anime/models/tag.dart';
-import 'package:jiron_anime/shared/error_dialog.dart';
+import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
-
-int _productsPerPage = 30;
 
 class ProductoService {
   Future<List<Product>> fetchAll() async {
@@ -17,7 +16,7 @@ class ProductoService {
 
     final queryParams = {
       "include[productAttachments]": true,
-      "take": _productsPerPage
+      "take": ConstValues.RESULTS_PER_PAGE
     };
 
     final res = await http.get(Uri.parse(
@@ -117,8 +116,8 @@ class ProductoService {
 
 Map<String, Object> _pagination(int page) {
   return {
-    "take": _productsPerPage,
-    "skip": (page - 1) * _productsPerPage,
+    "take": ConstValues.RESULTS_PER_PAGE + 1,
+    "skip": (page - 1) * ConstValues.RESULTS_PER_PAGE,
   };
 }
 

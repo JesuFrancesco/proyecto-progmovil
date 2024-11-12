@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 
 class BotonRetroceso extends StatelessWidget {
@@ -11,10 +12,7 @@ class BotonRetroceso extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
       onPressed: () {
-        Navigator.pop(
-          context,
-          MaterialPageRoute(builder: (context) => pagina),
-        );
+        Get.back();
       },
     );
   }

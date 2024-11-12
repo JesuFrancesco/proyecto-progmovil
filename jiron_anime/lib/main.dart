@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/middleware/auth/middleware.dart';
-import 'package:jiron_anime/pages/history_orders/history_orders.dart';
+import 'package:jiron_anime/pages/history_orders/history_orders_page.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
 import 'package:jiron_anime/pages/settings/settings_page.dart';
 import 'package:jiron_anime/pages/orders/orders_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 import 'package:jiron_anime/pages/wishlist/wishlist_page.dart';
+import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/theme/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jiron_anime/pages/shopping_cart/cart_page.dart';
 import 'utils/supabase_utils.dart';
 
+// anonymous supabase client
+final supabase = Supabase.instance.client;
+
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   initializeSupabase();
 
   runApp(const MainApp());
 }
-
-final supabase = Supabase.instance.client;
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -29,13 +33,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      // initialRoute: supabase.auth.currentSession == null ? "/sign-in" : "/demo",
       initialRoute: "/home",
       getPages: [
-        // GetPage(name: "/demo", page: () => const ProfileScreen()),
-        GetPage(name: "/sign-in", page: () => const SignInPage()),
         GetPage(name: "/home", page: () => const HomePage()),
         GetPage(name: "/settings", page: () => const SettingsPage()),
+        GetPage(name: "/sign-in", page: () => const SignInPage()),
         GetPage(
             name: "/cart",
             page: () => const ShoppingCartPage(),
@@ -55,6 +57,7 @@ class MainApp extends StatelessWidget {
       ],
       theme: appTheme,
       darkTheme: darkAppTheme,
+      onReady: AuthService.setupAuthListener,
     );
   }
 }

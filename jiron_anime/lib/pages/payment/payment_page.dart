@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/order_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/payment/widget/product_resume.dart';
 import 'package:jiron_anime/pages/payment_success/payment_success_page.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
+import 'package:jiron_anime/shared/custom_layout.dart';
+import 'package:jiron_anime/utils/extensions.dart';
 
 class PaymentPage extends StatefulWidget {
   final ShoppingCart carrito;
@@ -16,10 +19,10 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   final orderController = OrderController();
 
-  Widget _buildBody(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomLayout(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -32,19 +35,18 @@ class _PaymentPageState extends State<PaymentPage> {
                   return ProductResumeWidget(
                     item: item,
                     onRemove: () {
-                      // Lógica para eliminar el ítem del carrito (si lo necesitas)
+                      // Lógica para eliminar el ítem del carrito (de ser necesario)
                     },
                   );
                 },
               ),
             ),
-            const SizedBox(height: 20),
             const Divider(),
             const Text(
               'ENVÍO',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            8.pv,
             const Text('Llega el jueves, 12 set.'),
             const Text('ENTREGA - GRATIS'),
             const Text('Jr. Monterico 492, LA MOLINA'),
@@ -115,15 +117,6 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: null,
-      body: _buildBody(context),
-    );
-  }
-
   Future<void> handleRealizarPedidoOnClick() async {
     final itemsCarrito = widget.carrito.cartItems!;
 
@@ -135,14 +128,10 @@ class _PaymentPageState extends State<PaymentPage> {
       );
     }).toList();
 
-    print("Procesando orden...............");
-    await orderController.procesarOrdenDeCompra(itemsOrden);
-    print("GOTY");
+    final order = await orderController.procesarOrdenDeCompra(itemsOrden);
 
-    await Navigator.of(context.mounted ? context : context).pushReplacement(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const PaymentSuccessPage(),
-      ),
-    );
+    Get.offAll(() => PaymentSuccessPage(
+          order: order,
+        ));
   }
 }

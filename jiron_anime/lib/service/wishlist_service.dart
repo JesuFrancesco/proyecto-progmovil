@@ -4,7 +4,7 @@ import 'package:jiron_anime/config/config.dart';
 import 'package:jiron_anime/models/wishlist.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status/http_status.dart';
-import 'package:jiron_anime/shared/error_dialog.dart';
+import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
 
@@ -24,8 +24,6 @@ class WishlistService {
     }
 
     final dynamic data = jsonDecode(res.body);
-
-    print(data.toString());
 
     return Wishlist.fromJson(data);
   }
@@ -50,7 +48,6 @@ class WishlistService {
 
     final dynamic data = jsonDecode(res.body);
 
-    Get.dialog(ErrorDialog(message: "TODO SALIO BIEN\n${data.toString()}"));
     return Wishlist.fromJson(data);
   }
 

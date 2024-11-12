@@ -3,7 +3,6 @@ import 'package:jiron_anime/pages/home/notifications/notifications_page.dart';
 import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
 import 'package:jiron_anime/pages/home/perfil/perfil_page.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
-import 'package:jiron_anime/shared/custom_padding.dart';
 import 'package:jiron_anime/theme/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -52,15 +51,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget _buildBody() {
-    return CustomLayout(child: _body);
-  }
+  Widget _buildBody() => _body;
 
   @override
   Widget build(BuildContext context) {
     // widget
     return Scaffold(
-      // backgroundColor: AppColors.primaryColor,
       body: _buildBody(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

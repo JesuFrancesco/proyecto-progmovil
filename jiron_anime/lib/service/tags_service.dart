@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/config/config.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:http/http.dart' as http;
-import 'package:jiron_anime/shared/error_dialog.dart';
+import 'package:jiron_anime/shared/dialogs.dart';
 
 class TagService {
   Future<List<Tag>> fetchAll() async {

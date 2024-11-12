@@ -1,13 +1,14 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
+import 'package:jiron_anime/controllers/wishlist_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/descripcion.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/pregunta.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/stock.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
-import 'package:jiron_anime/shared/custom_padding.dart';
+import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/product_info.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/utils/fetch_and_render.dart';
@@ -31,9 +32,12 @@ enum BotonesProducto {
 }
 
 class _ProductoPageState extends State<ProductoPage> {
-  final ProductoController productoController = Get.put(ProductoController());
-  late Widget _body;
+  final _memoizer = AsyncMemoizer();
 
+  final wishlistController = WishlistController();
+  final productoController = ProductoController();
+
+  late Widget _body;
   late final Map<BotonesProducto, Widget Function()> _bodyWidgets;
 
   @override
@@ -54,14 +58,14 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   void _onBotonTapped(BotonesProducto opcion) {
-    setState(() {
-      _body = _bodyWidgets[opcion]!();
-    });
+    setState(() => _body = _bodyWidgets[opcion]!());
   }
 
-  Future<void> _loadData() async {
-    await productoController.obtenerProductosPorGenero(
-        widget.producto.productTags!.map((e) => e.tag!).toList(), 1);
+  Future<void> _obtenerProductosPorGenero() async {
+    return _memoizer.runOnce(() async {
+      await productoController.obtenerProductosPorGenero(
+          widget.producto.productTags!.map((e) => e.tag!).toList(), 1);
+    });
   }
 
   @override
@@ -71,7 +75,7 @@ class _ProductoPageState extends State<ProductoPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppbar(title: ""),
+              const CustomAppbar(),
               ProductoInfo(
                 producto: widget.producto,
               ),
@@ -88,7 +92,6 @@ class _ProductoPageState extends State<ProductoPage> {
                 },
               ),
               const Divider(
-                color: Colors.grey,
                 thickness: 1,
               ),
               _body,
@@ -103,7 +106,7 @@ class _ProductoPageState extends State<ProductoPage> {
               ),
               15.pv,
               fetchAndRender(
-                _loadData,
+                _obtenerProductosPorGenero,
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -120,6 +123,7 @@ class _ProductoPageState extends State<ProductoPage> {
                               10.ph,
                             ],
                           )
+                          .take(15)
                           .toList()),
                 ),
               )

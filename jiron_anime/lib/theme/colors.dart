@@ -16,4 +16,10 @@ class AppColors {
     Color.fromARGB(255, 255, 255, 255),
     Color(0xFFFFDBAB),
   ];
+
+  static const List<Color> darkBackgroundLinearGradientColors = [
+    Color(0x00000000),
+    Color.fromARGB(78, 128, 37, 37),
+    Color(0x00000000),
+  ];
 }

@@ -28,9 +28,6 @@ class Botones extends StatelessWidget {
           ),
           child: const Text(
             "DESCRIPCION",
-            style: const TextStyle(
-              color: Colors.black,
-            ),
           ),
         ),
         TextButton(
@@ -42,9 +39,6 @@ class Botones extends StatelessWidget {
           ),
           child: const Text(
             "STOCK",
-            style: TextStyle(
-              color: Colors.black,
-            ),
           ),
         ),
         TextButton(
@@ -56,9 +50,6 @@ class Botones extends StatelessWidget {
           ),
           child: const Text(
             "COMENTARIOS",
-            style: TextStyle(
-              color: Colors.black,
-            ),
           ),
         ),
       ],

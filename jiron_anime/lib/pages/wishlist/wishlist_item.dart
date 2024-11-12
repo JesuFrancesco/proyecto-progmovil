@@ -32,7 +32,7 @@ class WishlistItemWidget extends StatelessWidget {
               product.productAttachments!.first.imageUrl!,
               fit: BoxFit.cover,
               width: 70,
-              height: 100,
+              height: 120,
             ),
           ),
           const SizedBox(width: 16),

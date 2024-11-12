@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
 class IconMenuItem extends StatelessWidget {
-  final BuildContext context;
   final VoidCallback? fnOnTap;
   final IconData icon;
   final String text;
 
   const IconMenuItem({
     super.key,
-    required this.context,
     required this.icon,
     required this.text,
     this.fnOnTap,

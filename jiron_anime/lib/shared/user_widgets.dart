@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/main.dart';
-import 'package:jiron_anime/utils/component_default.dart';
+import 'package:jiron_anime/shared/component_default.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CurrentUser {

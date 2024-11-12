@@ -23,10 +23,10 @@ class StockProducto extends StatelessWidget {
               ],
             ),
             10.pv,
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Stock"),
@@ -38,11 +38,11 @@ class StockProducto extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "39",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      "${producto.stock!}",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 8),
+                    const Text(
                       "Si",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),

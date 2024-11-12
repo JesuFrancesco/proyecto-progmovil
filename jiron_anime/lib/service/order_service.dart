@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status/http_status.dart';
 import 'package:jiron_anime/config/config.dart';
-import 'package:jiron_anime/shared/error_dialog.dart';
+import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
 import 'package:jiron_anime/models/order.dart';
