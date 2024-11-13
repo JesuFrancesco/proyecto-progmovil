@@ -24,8 +24,8 @@ const logErrores: ErrorRequestHandler = (err: Error, req, res, next) => {
 /**
  * Middleware para atrapar los errores de boom (manejados por el servidor)
  */
-const boomErrorHandler: ErrorRequestHandler = (err: Boom, req, res, next) => {
-  if (err.isBoom) {
+const boomErrorHandler: ErrorRequestHandler = (err: Error, req, res, next) => {
+  if (err instanceof Boom) {
     const { output } = err;
     return res.status(output.statusCode).json(output.payload);
   } else {
@@ -64,13 +64,11 @@ const prismaClientValidationErrorHandler: ErrorRequestHandler = (
       .json({ errorType: "¡Error de rust panic con prisma!", name, message });
   } else if (err instanceof PrismaClientUnknownRequestError) {
     const { name, message } = err;
-    return res
-      .status(400)
-      .json({
-        errorType: "¡Error de request desconocido con prisma!",
-        name,
-        message,
-      });
+    return res.status(400).json({
+      errorType: "¡Error de request desconocido con prisma!",
+      name,
+      message,
+    });
   } else {
     next(err);
   }
@@ -79,8 +77,13 @@ const prismaClientValidationErrorHandler: ErrorRequestHandler = (
 /**
  * MIddleware para atrapar los errores del servidor
  */
-const errorHandler: ErrorRequestHandler = (err: Error, req, res, next) => {
-  res.status(500).json({
+const genericErrorHandler: ErrorRequestHandler = (
+  err: Error,
+  req,
+  res,
+  next
+) => {
+  return res.status(500).json({
     message: err.message,
     stack: err.stack,
   });
@@ -88,7 +91,7 @@ const errorHandler: ErrorRequestHandler = (err: Error, req, res, next) => {
 
 export {
   logErrores,
-  errorHandler,
+  genericErrorHandler,
   prismaClientValidationErrorHandler,
   boomErrorHandler,
 };

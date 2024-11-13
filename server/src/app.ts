@@ -1,10 +1,10 @@
 import { specs } from "./swagger";
-import API_ROUTER from "./router";
+import { API_ROUTER } from "./router";
 import swaggerUi from "swagger-ui-express";
 import express from "express";
 import cors from "cors";
 import {
-  errorHandler,
+  genericErrorHandler,
   logErrores,
   prismaClientValidationErrorHandler,
   boomErrorHandler,
@@ -48,9 +48,9 @@ app.use(API_PREFIX, API_ROUTER);
 app.use(notFoundLogHandler);
 
 // == Custom middleware
+app.use(logErrores);
 app.use(boomErrorHandler);
 app.use(prismaClientValidationErrorHandler);
-app.use(logErrores);
-app.use(errorHandler);
+app.use(genericErrorHandler);
 
 export default app;

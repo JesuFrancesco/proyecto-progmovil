@@ -21,8 +21,6 @@ import { NotificationRouter } from "../generated/express/Notification";
 import { ProductRatingRouter } from "../generated/express/ProductRating";
 import { ProductQuestionRouter } from "../generated/express/ProductQuestion";
 
-import { OrderRouter } from "../generated/express/Order";
-
 import { ShoppingCartRouter } from "../generated/express/ShoppingCart";
 import { CartItemRouter } from "../generated/express/CartItem";
 
@@ -32,6 +30,8 @@ import { WishlistItemRouter } from "../generated/express/WishlistItem";
 import { RouteConfig } from "../generated/express/routeConfig";
 import { TagRouter } from "../generated/express/Tag";
 import { authHandler } from "../middleware/authorization.handler";
+import orderRouter from "./order.router";
+import { commonRouterConfig } from "./const";
 
 const API_ROUTER = Router();
 
@@ -50,39 +50,44 @@ const addPrisma: RequestHandler = (
 
 API_ROUTER.use(addPrisma);
 
-const commonRouterConfig: RouteConfig<any> = {
-  addModelPrefix: true,
-  enableAll: true,
-};
-
 // == routers habilitados
 // protected routes
-const profileRouter = ProfileRouter(commonRouterConfig);
-// profileRouter.use(authHandler);
-API_ROUTER.use(profileRouter);
+const profileRouter = ProfileRouter({
+  enableAll: true,
+});
+profileRouter.use(authHandler);
+API_ROUTER.use("/profile", profileRouter);
 
-const clientRouter = ClientRouter(commonRouterConfig);
-// clientRouter.use(authHandler);
-API_ROUTER.use(clientRouter);
+const clientRouter = ClientRouter({
+  enableAll: true,
+});
+clientRouter.use(authHandler);
+API_ROUTER.use("/client", clientRouter);
 
-const wishlistRouter = WishlistRouter(commonRouterConfig);
-// wishlistRouter.use(authHandler);
-API_ROUTER.use(wishlistRouter);
+const wishlistRouter = WishlistRouter({
+  enableAll: true,
+});
+wishlistRouter.use(authHandler);
+API_ROUTER.use("/wishlist", wishlistRouter);
 
-const wishlistItemRouter = WishlistItemRouter(commonRouterConfig);
-// wishlistItemRouter.use(authHandler);
-API_ROUTER.use(wishlistItemRouter);
+const wishlistItemRouter = WishlistItemRouter({
+  enableAll: true,
+});
+wishlistItemRouter.use(authHandler);
+API_ROUTER.use("/wishlist-item", wishlistItemRouter);
 
-const shoppingCartRouter = ShoppingCartRouter(commonRouterConfig);
-// shoppingCartRouter.use(authHandler);
-API_ROUTER.use(shoppingCartRouter);
+const shoppingCartRouter = ShoppingCartRouter({
+  enableAll: true,
+});
+shoppingCartRouter.use(authHandler);
+API_ROUTER.use("/shopping-cart", shoppingCartRouter);
 
-const cartItemRouter = CartItemRouter(commonRouterConfig);
-// cartItemRouter.use(authHandler);
-API_ROUTER.use(cartItemRouter);
+const cartItemRouter = CartItemRouter({
+  enableAll: true,
+});
+cartItemRouter.use(authHandler);
+API_ROUTER.use("/cart-item", cartItemRouter);
 
-const orderRouter = OrderRouter(commonRouterConfig);
-// orderRouter.use(authHandler);
 API_ROUTER.use(orderRouter);
 
 // public router
@@ -98,4 +103,4 @@ API_ROUTER.use(TagRouter(commonRouterConfig));
 
 API_ROUTER.use(NotificationRouter(commonRouterConfig));
 
-export = API_ROUTER;
+export { API_ROUTER };

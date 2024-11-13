@@ -281,7 +281,7 @@ model MessageAttachment {
   blobUrl   String
   filename  String
   type      String
-  messageId Int
+  messageId Int @map("message_id")
   message   Message @relation(fields: [messageId], references: [id])
 
   @@map("message_attachments")
@@ -310,6 +310,7 @@ model ChatParticipant {
 
 model ProductQuestion {
   id              Int             @id @default(autoincrement())
+  subject         String          @default("Consulta")
   text            String
   productId       Int             @map("product_id")
   clientId        Int             @map("client_id")
@@ -380,7 +381,6 @@ model ProductAttachment {
 model QuestionReply {
   id              Int             @id @default(autoincrement())
   text            String
-  asunto          String?
   createdAt       DateTime        @default(now()) @map("created_at")
   questionId      Int             @map("question_id")
   productQuestion ProductQuestion @relation(fields: [questionId], references: [id])

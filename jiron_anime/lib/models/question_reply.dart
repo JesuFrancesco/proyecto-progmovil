@@ -7,7 +7,6 @@ class QuestionReply implements ToJson, Id {
   @override
   int? id;
   String? text;
-  String? asunto;
   DateTime? createdAt;
   int? questionId;
   ProductQuestion? productQuestion;
@@ -15,7 +14,6 @@ class QuestionReply implements ToJson, Id {
   QuestionReply({
     this.id,
     this.text,
-    this.asunto,
     this.createdAt,
     this.questionId,
     this.productQuestion,
@@ -24,7 +22,6 @@ class QuestionReply implements ToJson, Id {
   factory QuestionReply.fromJson(Map<String, dynamic> json) => QuestionReply(
       id: json['id'] as int?,
       text: json['text'] as String?,
-      asunto: json['asunto'] as String?,
       createdAt:
           json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
       questionId: json['questionId'] as int?,
@@ -36,7 +33,6 @@ class QuestionReply implements ToJson, Id {
   QuestionReply copyWith({
     int? id,
     String? text,
-    String? asunto,
     DateTime? createdAt,
     int? questionId,
     ProductQuestion? productQuestion,
@@ -44,7 +40,6 @@ class QuestionReply implements ToJson, Id {
     return QuestionReply(
         id: id ?? this.id,
         text: text ?? this.text,
-        asunto: asunto ?? this.asunto,
         createdAt: createdAt ?? this.createdAt,
         questionId: questionId ?? this.questionId,
         productQuestion: productQuestion ?? this.productQuestion);
@@ -54,7 +49,6 @@ class QuestionReply implements ToJson, Id {
     return QuestionReply(
         id: questionReply.id ?? id,
         text: questionReply.text ?? text,
-        asunto: questionReply.asunto ?? asunto,
         createdAt: questionReply.createdAt ?? createdAt,
         questionId: questionReply.questionId ?? questionId,
         productQuestion: questionReply.productQuestion ?? productQuestion);
@@ -64,7 +58,6 @@ class QuestionReply implements ToJson, Id {
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
         if (text != null) 'text': text,
-        if (asunto != null) 'asunto': asunto,
         if (createdAt != null) 'createdAt': createdAt,
         if (questionId != null) 'questionId': questionId,
         if (productQuestion != null) 'productQuestion': productQuestion
@@ -77,7 +70,6 @@ class QuestionReply implements ToJson, Id {
           runtimeType == other.runtimeType &&
           id == other.id &&
           text == other.text &&
-          asunto == other.asunto &&
           createdAt == other.createdAt &&
           questionId == other.questionId &&
           productQuestion == other.productQuestion;
@@ -86,7 +78,6 @@ class QuestionReply implements ToJson, Id {
   int get hashCode =>
       id.hashCode ^
       text.hashCode ^
-      asunto.hashCode ^
       createdAt.hashCode ^
       questionId.hashCode ^
       productQuestion.hashCode;

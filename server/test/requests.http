@@ -33,7 +33,7 @@ GET {{BASE_URL}}/profile?include[markets][include][products]&take=3
 
 # Tags
 ### Obtener tags de productos
-GET {{BASE_URL}}/tag
+GET {{BASE_URL}}/tag?orderBy[name]=asc
 
 # Reviews
 ### Obtener reviews de producto

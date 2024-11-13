@@ -8,6 +8,7 @@ import 'question_reply.dart';
 class ProductQuestion implements ToJson, Id {
   @override
   int? id;
+  String? subject;
   String? text;
   int? productId;
   int? clientId;
@@ -20,6 +21,7 @@ class ProductQuestion implements ToJson, Id {
 
   ProductQuestion({
     this.id,
+    this.subject = "Consulta",
     this.text,
     this.productId,
     this.clientId,
@@ -34,6 +36,7 @@ class ProductQuestion implements ToJson, Id {
   factory ProductQuestion.fromJson(Map<String, dynamic> json) =>
       ProductQuestion(
           id: json['id'] as int?,
+          subject: json['subject'] as String?,
           text: json['text'] as String?,
           productId: json['productId'] as int?,
           clientId: json['clientId'] as int?,
@@ -57,6 +60,7 @@ class ProductQuestion implements ToJson, Id {
 
   ProductQuestion copyWith({
     int? id,
+    String? subject,
     String? text,
     int? productId,
     int? clientId,
@@ -69,6 +73,7 @@ class ProductQuestion implements ToJson, Id {
   }) {
     return ProductQuestion(
         id: id ?? this.id,
+        subject: subject ?? this.subject,
         text: text ?? this.text,
         productId: productId ?? this.productId,
         clientId: clientId ?? this.clientId,
@@ -84,6 +89,7 @@ class ProductQuestion implements ToJson, Id {
   ProductQuestion copyWithInstance(ProductQuestion productQuestion) {
     return ProductQuestion(
         id: productQuestion.id ?? id,
+        subject: productQuestion.subject ?? subject,
         text: productQuestion.text ?? text,
         productId: productQuestion.productId ?? productId,
         clientId: productQuestion.clientId ?? clientId,
@@ -99,6 +105,7 @@ class ProductQuestion implements ToJson, Id {
   @override
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
+        if (subject != null) 'subject': subject,
         if (text != null) 'text': text,
         if (productId != null) 'productId': productId,
         if (clientId != null) 'clientId': clientId,
@@ -122,6 +129,7 @@ class ProductQuestion implements ToJson, Id {
       other is ProductQuestion &&
           runtimeType == other.runtimeType &&
           id == other.id &&
+          subject == other.subject &&
           text == other.text &&
           productId == other.productId &&
           clientId == other.clientId &&
@@ -135,6 +143,7 @@ class ProductQuestion implements ToJson, Id {
   @override
   int get hashCode =>
       id.hashCode ^
+      subject.hashCode ^
       text.hashCode ^
       productId.hashCode ^
       clientId.hashCode ^
