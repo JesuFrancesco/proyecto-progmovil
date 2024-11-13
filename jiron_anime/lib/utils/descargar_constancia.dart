@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_file_saver/flutter_file_saver.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:jiron_anime/main.dart';
 import 'package:jiron_anime/models/order.dart';
-import 'package:jiron_anime/notification/download_notifications.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -81,14 +82,26 @@ Future<void> descargarConstancia(Order order) async {
 
   try {
     final output = await getTemporaryDirectory();
-    final filePath = "${output.path}/recibo_${order.id}.pdf";
-    final file = File(filePath);
+    final fileName = "recibo_${order.id}.pdf";
+    final fullFilePath = "${output.path}/$fileName}";
+    final file = File(fullFilePath);
     await file.writeAsBytes(await pdf.save());
 
-    await FlutterFileSaver().writeFileAsBytes(
-        fileName: "recibo_${order.id}.pdf", bytes: await file.readAsBytes());
+    await FlutterFileSaver()
+        .writeFileAsBytes(fileName: fileName, bytes: await file.readAsBytes());
 
-    await showDownloadNotification(filePath, order.id.toString());
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails("downloads", "Downloads",
+            channelDescription: "Canal de descargas",
+            importance: Importance.defaultImportance,
+            priority: Priority.min);
+
+    await flutterLocalNotificationsPlugin.show(
+        12345,
+        "Constancia almacenada en $fileName",
+        "Toca aquí para ver la constancia en .pdf",
+        const NotificationDetails(android: androidPlatformChannelSpecifics),
+        payload: fullFilePath);
 
     Get.snackbar('Descarga', 'Recibo guardado exitosamente');
   } catch (e) {

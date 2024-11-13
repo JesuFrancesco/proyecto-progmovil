@@ -20,8 +20,10 @@ class OrderService {
       "include[client]": true
     };
 
-    final res = await http.get(Uri.parse(
-        "${Config.serverURL}/order?${parseToQueryParams(queryParams)}"));
+    final res = await http.get(
+      Uri.parse("${Config.serverURL}/order?${parseToQueryParams(queryParams)}"),
+      // headers: getSupabaseAuthHeaders()
+    );
 
     if (!res.statusCode.isSuccessfulHttpStatusCode) {
       Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));
@@ -35,31 +37,20 @@ class OrderService {
   }
 
   Future<Order> processPurchaseOrder(List<OrderItem> items) async {
-    final response = await http.post(Uri.parse("${Config.serverURL}/order"),
-        body: json.encode({
-          "data": {
-            "clientId": getClientId(),
-            "orderItems": {
-              "create": items
+    final response =
+        await http.post(Uri.parse("${Config.serverURL}/order/procesar-pago"),
+            body: json.encode({
+              "data": items
                   .map(
-                    (e) => ({"productId": e.productId, "amount": e.amount}),
+                    (e) => ({
+                      "productId": e.productId,
+                      "amount": e.amount,
+                      "price": e.product!.price
+                    }),
                   )
                   .toList()
-            },
-            "totalPrice": items.fold(
-                0.0,
-                (value, element) =>
-                    value + element.amount! * element.product!.price!),
-            "status": "Recepcionando compra...",
-          },
-          "include": {
-            "orderItems": {
-              "include": {"product": true}
-            },
-            "client": true
-          }
-        }),
-        headers: {
+            }),
+            headers: {
           "Content-Type": "application/json",
           ...getSupabaseAuthHeaders(),
         });

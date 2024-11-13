@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:get/get.dart';
 import 'package:jiron_anime/models/notification.dart';
+import 'package:jiron_anime/utils/extensions.dart';
 
 class NotificacionRemovableWidget extends StatelessWidget {
   final Notification item;
@@ -25,7 +26,7 @@ class NotificacionRemovableWidget extends StatelessWidget {
         child: const Icon(Icons.delete, color: Colors.white),
       ),
       child: GestureDetector(
-        onTap: () => _showFullScreenImage(context),
+        onTap: () => _handlerMostrarImagenCompleta(context),
         child: Card(
           margin: const EdgeInsets.all(8.0),
           child: Column(
@@ -36,6 +37,19 @@ class NotificacionRemovableWidget extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: 100,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.white
+                        .withOpacity(0.3), // Semi-transparent white background
+                    child: const Center(
+                      child: Icon(
+                        Icons.help_outline,
+                        color: Colors.grey,
+                        size: 40,
+                      ),
+                    ),
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -47,7 +61,7 @@ class NotificacionRemovableWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineSmall,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 8),
+                    8.pv,
                     Text(
                       item.description!,
                       textAlign: TextAlign.center,
@@ -62,7 +76,7 @@ class NotificacionRemovableWidget extends StatelessWidget {
     );
   }
 
-  void _showFullScreenImage(BuildContext context) {
+  void _handlerMostrarImagenCompleta(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -76,6 +90,19 @@ class NotificacionRemovableWidget extends StatelessWidget {
                   fit: BoxFit.contain,
                   width: double.infinity,
                   height: double.infinity,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.white.withOpacity(
+                          0.3), // Semi-transparent white background
+                      child: const Center(
+                        child: Icon(
+                          Icons.help_outline,
+                          color: Colors.grey,
+                          size: 40,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               Positioned(

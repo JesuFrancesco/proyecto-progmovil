@@ -16,8 +16,10 @@ class WishlistService {
           true,
     };
 
-    final res = await http.get(Uri.parse(
-        "${Config.serverURL}/wishlist/unique?${parseToQueryParams(queryParams)}"));
+    final res = await http.get(
+        Uri.parse(
+            "${Config.serverURL}/wishlist/unique?${parseToQueryParams(queryParams)}"),
+        headers: getSupabaseAuthHeaders());
 
     if (!res.statusCode.isSuccessfulHttpStatusCode) {
       Get.dialog(ErrorDialog(message: "Algo salio mal.\n${res.body}"));

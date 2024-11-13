@@ -26,7 +26,7 @@ class OrderController extends GetxController {
     //   return;
     // }
     final orden = await service.processPurchaseOrder(items);
-    await cartService.emptyShoppingCart();
+    // await cartService.emptyShoppingCart();
 
     return orden;
   }

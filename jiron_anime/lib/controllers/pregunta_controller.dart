@@ -10,4 +10,8 @@ class PreguntaController extends GetxController {
   Future<void> obtenerPreguntasDeProducto(int productId) async {
     preguntas.value = await service.fetchProductQuestions(productId);
   }
+
+  Future<void> crearPreguntaDeProducto(ProductQuestion productoPregunta) async {
+    await service.submitProductQuestion(productoPregunta);
+  }
 }

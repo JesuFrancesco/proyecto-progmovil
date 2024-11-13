@@ -5,7 +5,7 @@ import 'package:jiron_anime/controllers/wishlist_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/producto_descripcion.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/producto_comentarios.dart';
-import 'package:jiron_anime/pages/home/store/product/widget/stock.dart';
+import 'package:jiron_anime/pages/home/store/product/widget/product_stock.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
