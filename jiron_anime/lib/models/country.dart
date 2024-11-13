@@ -10,18 +10,18 @@ class Country implements ToJson, Id {
   String? name;
   String? code;
   List<BrandSeller>? brandSellers;
-  List<Client>? Client;
+  List<Client>? clients;
   int? $brandSellersCount;
-  int? $ClientCount;
+  int? $clientsCount;
 
   Country({
     this.id,
     this.name,
     this.code,
     this.brandSellers,
-    this.Client,
+    this.clients,
     this.$brandSellersCount,
-    this.$ClientCount,
+    this.$clientsCount,
   });
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
@@ -32,29 +32,29 @@ class Country implements ToJson, Id {
           ? createModels<BrandSeller>(
               json['brandSellers'], BrandSeller.fromJson)
           : null,
-      Client: json['Client'] != null
-          ? createModels<Client>(json['Client'], Client.fromJson)
+      clients: json['clients'] != null
+          ? createModels<Client>(json['clients'], Client.fromJson)
           : null,
       $brandSellersCount: json['_count']?['brandSellers'] as int?,
-      $ClientCount: json['_count']?['Client'] as int?);
+      $clientsCount: json['_count']?['clients'] as int?);
 
   Country copyWith({
     int? id,
     String? name,
     String? code,
     List<BrandSeller>? brandSellers,
-    List<Client>? Client,
+    List<Client>? clients,
     int? $brandSellersCount,
-    int? $ClientCount,
+    int? $clientsCount,
   }) {
     return Country(
         id: id ?? this.id,
         name: name ?? this.name,
         code: code ?? this.code,
         brandSellers: brandSellers ?? this.brandSellers,
-        Client: Client ?? this.Client,
+        clients: clients ?? this.clients,
         $brandSellersCount: $brandSellersCount ?? this.$brandSellersCount,
-        $ClientCount: $ClientCount ?? this.$ClientCount);
+        $clientsCount: $clientsCount ?? this.$clientsCount);
   }
 
   Country copyWithInstance(Country country) {
@@ -63,9 +63,9 @@ class Country implements ToJson, Id {
         name: country.name ?? name,
         code: country.code ?? code,
         brandSellers: country.brandSellers ?? brandSellers,
-        Client: country.Client ?? Client,
+        clients: country.clients ?? clients,
         $brandSellersCount: country.$brandSellersCount ?? $brandSellersCount,
-        $ClientCount: country.$ClientCount ?? $ClientCount);
+        $clientsCount: country.$clientsCount ?? $clientsCount);
   }
 
   @override
@@ -75,12 +75,12 @@ class Country implements ToJson, Id {
         if (code != null) 'code': code,
         if (brandSellers != null)
           'brandSellers': brandSellers?.map((item) => item.toJson()).toList(),
-        if (Client != null)
-          'Client': Client?.map((item) => item.toJson()).toList(),
-        if ($brandSellersCount != null || $ClientCount != null)
+        if (clients != null)
+          'clients': clients?.map((item) => item.toJson()).toList(),
+        if ($brandSellersCount != null || $clientsCount != null)
           '_count': {
             if ($brandSellersCount != null) 'brandSellers': $brandSellersCount,
-            if ($ClientCount != null) 'Client': $ClientCount,
+            if ($clientsCount != null) 'clients': $clientsCount,
           },
       });
 
@@ -93,9 +93,9 @@ class Country implements ToJson, Id {
           name == other.name &&
           code == other.code &&
           areListsEqual(brandSellers, other.brandSellers) &&
-          areListsEqual(Client, other.Client) &&
+          areListsEqual(clients, other.clients) &&
           $brandSellersCount == other.$brandSellersCount &&
-          $ClientCount == other.$ClientCount;
+          $clientsCount == other.$clientsCount;
 
   @override
   int get hashCode =>
@@ -103,7 +103,7 @@ class Country implements ToJson, Id {
       name.hashCode ^
       code.hashCode ^
       brandSellers.hashCode ^
-      Client.hashCode ^
+      clients.hashCode ^
       $brandSellersCount.hashCode ^
-      $ClientCount.hashCode;
+      $clientsCount.hashCode;
 }

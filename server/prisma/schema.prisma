@@ -153,7 +153,8 @@ model Country {
   name         String
   code         String
   brandSellers BrandSeller[]
-  Client       Client[]
+
+  clients Client[]
 
   @@map("countries")
 }
