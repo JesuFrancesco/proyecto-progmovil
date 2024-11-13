@@ -35,9 +35,12 @@ class HistoryOrdersPage extends StatelessWidget {
                               Center(child: Text('Error: ${snapshot.error}')),
                         );
                       } else if (_orderController.ordenes.isEmpty) {
-                        return const Expanded(
+                        return Expanded(
                           child: Center(
-                              child: Text("No tienes ordenes realizadas")),
+                              child: Text(
+                            "No tienes ordenes realizadas",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          )),
                         );
                       }
 

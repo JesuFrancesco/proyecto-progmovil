@@ -21,9 +21,9 @@ class OrderService {
     };
 
     final res = await http.get(
-      Uri.parse("${Config.serverURL}/order?${parseToQueryParams(queryParams)}"),
-      // headers: getSupabaseAuthHeaders()
-    );
+        Uri.parse(
+            "${Config.serverURL}/order?${parseToQueryParams(queryParams)}"),
+        headers: getSupabaseAuthHeaders());
 
     if (!res.statusCode.isSuccessfulHttpStatusCode) {
       Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));

@@ -17,12 +17,14 @@ class AuthService {
         OAuthProvider.google,
         redirectTo: "jironanime://com.example.jiron_anime",
       );
+      await CurrentUser.reloadData();
+      Get.offAll(() => const HomePage(), predicate: (r) => false);
     } catch (e) {
-      Get.dialog(ErrorDialog(message: "Error with browser Google sign-in: $e"));
+      Get.dialog(ErrorDialog(message: "Error al iniciar sesión: $e"));
     }
   }
 
-  static Future<AuthResponse> nativeGoogleSignIn() async {
+  static Future nativeGoogleSignIn() async {
     try {
       final GoogleSignIn googleSignIn =
           GoogleSignIn(serverClientId: Config.googleServerClientID);
@@ -33,13 +35,15 @@ class AuthService {
         throw Exception('Google sign-in failed: Missing access or ID token');
       }
 
-      return await supabase.auth.signInWithIdToken(
+      await supabase.auth.signInWithIdToken(
         provider: OAuthProvider.google,
         idToken: googleAuth!.idToken!,
         accessToken: googleAuth.accessToken!,
       );
+
+      Get.offAll(() => const HomePage(), predicate: (r) => false);
     } catch (e) {
-      Get.dialog(ErrorDialog(message: "Error with native Google sign-in: $e"));
+      Get.dialog(ErrorDialog(message: "Error al iniciar sesión: $e"));
       rethrow;
     }
   }
@@ -50,8 +54,9 @@ class AuthService {
         OAuthProvider.discord,
         redirectTo: "jironanime://com.example.jiron_anime",
       );
+      Get.offAll(() => const HomePage(), predicate: (r) => false);
     } catch (e) {
-      Get.dialog(ErrorDialog(message: "Error with Discord sign-in: $e"));
+      Get.dialog(ErrorDialog(message: "Error al iniciar sesión: $e"));
     }
   }
 

@@ -33,8 +33,13 @@ class OrdersPage extends StatelessWidget {
                       }
 
                       if (_orderController.ordenes.isEmpty) {
-                        return const Center(
-                            child: Text("No se encontraron pedidos en curso"));
+                        return Expanded(
+                          child: Center(
+                              child: Text(
+                            "No se encontraron pedidos en curso",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          )),
+                        );
                       }
 
                       return Column(
