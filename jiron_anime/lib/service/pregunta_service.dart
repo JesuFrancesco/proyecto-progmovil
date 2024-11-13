@@ -3,6 +3,7 @@ import 'package:jiron_anime/config/config.dart';
 import 'package:jiron_anime/models/product_question.dart';
 import 'package:http/http.dart' as http;
 import 'package:jiron_anime/utils/query_string.dart';
+import 'package:jiron_anime/utils/supabase_utils.dart';
 
 class PreguntaService {
   Future<List<ProductQuestion>> fetchProductQuestions(int productId) async {
@@ -20,6 +21,27 @@ class PreguntaService {
         .toList();
 
     return preguntas;
+  }
+
+  Future submitProductQuestion(ProductQuestion productQuestion) async {
+    final response = await http.post(
+        Uri.parse("${Config.serverURL}/productquestion"),
+        body: json.encode({
+          "data": {
+            "clientId": getClientId(),
+            "productId": productQuestion.productId!,
+            "subject": productQuestion.subject!,
+            "text": productQuestion.text!
+          }
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          ...getSupabaseAuthHeaders()
+        });
+
+    final data = jsonDecode(response.body);
+
+    return ProductQuestion.fromJson(data);
   }
 }
 

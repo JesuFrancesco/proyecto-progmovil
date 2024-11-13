@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/middleware/auth/middleware.dart';
-import 'package:jiron_anime/notification/index.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders_page.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
 import 'package:jiron_anime/pages/settings/settings_page.dart';
@@ -10,6 +9,7 @@ import 'package:jiron_anime/pages/orders/orders_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 import 'package:jiron_anime/pages/wishlist/wishlist_page.dart';
 import 'package:jiron_anime/service/auth_service.dart';
+import 'package:jiron_anime/service/locale_notification_service.dart';
 import 'package:jiron_anime/theme/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -29,7 +29,11 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  initializeLocaleNotifications();
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestNotificationsPermission();
+  await LocaleNotificationService().init();
 
   initializeSupabase();
 

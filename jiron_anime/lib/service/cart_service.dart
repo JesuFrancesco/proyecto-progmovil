@@ -19,7 +19,7 @@ class CartService {
     final response = await http.get(
         Uri.parse(
             "${Config.serverURL}/shoppingcart/unique?${parseToQueryParams(queryParams)}"),
-        headers: getSupabaseAuthHeaders());
+        headers: {...getSupabaseAuthHeaders()});
 
     final dynamic data = jsonDecode(response.body);
 

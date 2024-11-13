@@ -6,6 +6,7 @@ import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_item.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
+import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 import 'package:jiron_anime/utils/show_dialog.dart';
@@ -47,14 +48,14 @@ class _BusquedaPageState extends State<BusquedaPage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: CustomLayout(
-        child: Column(
-          children: [
-            const CustomAppbar(title: "Búsqueda"),
-            30.pv,
-            _buildSearchBar(),
-            20.pv,
-            Obx(
-              () => Expanded(
+        child: Obx(
+          () => Column(
+            children: [
+              const CustomAppbar(title: "Búsqueda"),
+              25.pv,
+              _buildSearchBar(),
+              20.pv,
+              Expanded(
                 child: isLoading.value
                     ? const Center(child: CircularProgressIndicator())
                     : SingleChildScrollView(
@@ -83,11 +84,11 @@ class _BusquedaPageState extends State<BusquedaPage> {
                                 ),
                                 itemCount: filteredProductos.length,
                                 itemBuilder: (context, index) {
-                                  final manga = filteredProductos[index];
+                                  final producto = filteredProductos[index];
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10),
-                                    child: ProductItem(producto: manga),
+                                    child: ProductItem(producto: producto),
                                   );
                                 },
                               ),
@@ -98,8 +99,8 @@ class _BusquedaPageState extends State<BusquedaPage> {
                         ),
                       ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -168,14 +169,16 @@ class _BusquedaPageState extends State<BusquedaPage> {
             ),
           ),
           10.ph,
-          ElevatedButton(
-            onPressed: _onSearchPressed,
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: AppColors.primaryColor,
-            ),
-            child: const Text("Buscar"),
-          ),
+          isLoading.value
+              ? const SmallCircularIndicator()
+              : ElevatedButton(
+                  onPressed: _onSearchPressed,
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: AppColors.primaryColor,
+                  ),
+                  child: const Text("Buscar"),
+                ),
         ],
       ),
     );
