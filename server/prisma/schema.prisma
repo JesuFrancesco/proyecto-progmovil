@@ -359,7 +359,7 @@ model WishlistItem {
 
   addedAt DateTime @default(now()) @map("added_at")
 
-  wishlist Wishlist @relation(fields: [wishlistId], references: [id])
+  wishlist Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
   product  Product  @relation(fields: [productId], references: [id])
 
   @@id([wishlistId, productId])
@@ -370,6 +370,7 @@ model OrderItem {
   amount    Int
   orderId   Int     @map("order_id")
   productId Int     @map("product_id")
+  
   order     Order   @relation(fields: [orderId], references: [id])
   product   Product @relation(fields: [productId], references: [id])
 
