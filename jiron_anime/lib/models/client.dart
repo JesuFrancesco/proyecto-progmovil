@@ -1,11 +1,11 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
+import 'profile.dart';
 import 'country.dart';
 import 'distrito.dart';
 import 'provincia.dart';
 import 'departamento.dart';
-import 'profile.dart';
 import 'shopping_cart.dart';
 import 'wishlist.dart';
 import 'order.dart';
@@ -24,11 +24,11 @@ class Client implements ToJson, Id {
   int? distritoId;
   int? provinciaId;
   int? departamentoId;
+  Profile? profile;
   Country? country;
   Distrito? distrito;
   Provincia? provincia;
   Departamento? departmento;
-  Profile? profile;
   List<ShoppingCart>? shoppingCarts;
   List<Wishlist>? wishlists;
   List<Order>? orders;
@@ -56,11 +56,11 @@ class Client implements ToJson, Id {
     this.distritoId,
     this.provinciaId,
     this.departamentoId,
+    this.profile,
     this.country,
     this.distrito,
     this.provincia,
     this.departmento,
-    this.profile,
     this.shoppingCarts,
     this.wishlists,
     this.orders,
@@ -89,6 +89,9 @@ class Client implements ToJson, Id {
       distritoId: json['distritoId'] as int?,
       provinciaId: json['provinciaId'] as int?,
       departamentoId: json['departamentoId'] as int?,
+      profile: json['profile'] != null
+          ? Profile.fromJson(json['profile'] as Map<String, dynamic>)
+          : null,
       country: json['country'] != null
           ? Country.fromJson(json['country'] as Map<String, dynamic>)
           : null,
@@ -100,9 +103,6 @@ class Client implements ToJson, Id {
           : null,
       departmento: json['departmento'] != null
           ? Departamento.fromJson(json['departmento'] as Map<String, dynamic>)
-          : null,
-      profile: json['profile'] != null
-          ? Profile.fromJson(json['profile'] as Map<String, dynamic>)
           : null,
       shoppingCarts: json['shoppingCarts'] != null
           ? createModels<ShoppingCart>(
@@ -152,11 +152,11 @@ class Client implements ToJson, Id {
     int? distritoId,
     int? provinciaId,
     int? departamentoId,
+    Profile? profile,
     Country? country,
     Distrito? distrito,
     Provincia? provincia,
     Departamento? departmento,
-    Profile? profile,
     List<ShoppingCart>? shoppingCarts,
     List<Wishlist>? wishlists,
     List<Order>? orders,
@@ -184,11 +184,11 @@ class Client implements ToJson, Id {
         distritoId: distritoId ?? this.distritoId,
         provinciaId: provinciaId ?? this.provinciaId,
         departamentoId: departamentoId ?? this.departamentoId,
+        profile: profile ?? this.profile,
         country: country ?? this.country,
         distrito: distrito ?? this.distrito,
         provincia: provincia ?? this.provincia,
         departmento: departmento ?? this.departmento,
-        profile: profile ?? this.profile,
         shoppingCarts: shoppingCarts ?? this.shoppingCarts,
         wishlists: wishlists ?? this.wishlists,
         orders: orders ?? this.orders,
@@ -221,11 +221,11 @@ class Client implements ToJson, Id {
         distritoId: client.distritoId ?? distritoId,
         provinciaId: client.provinciaId ?? provinciaId,
         departamentoId: client.departamentoId ?? departamentoId,
+        profile: client.profile ?? profile,
         country: client.country ?? country,
         distrito: client.distrito ?? distrito,
         provincia: client.provincia ?? provincia,
         departmento: client.departmento ?? departmento,
-        profile: client.profile ?? profile,
         shoppingCarts: client.shoppingCarts ?? shoppingCarts,
         wishlists: client.wishlists ?? wishlists,
         orders: client.orders ?? orders,
@@ -259,11 +259,11 @@ class Client implements ToJson, Id {
         if (distritoId != null) 'distritoId': distritoId,
         if (provinciaId != null) 'provinciaId': provinciaId,
         if (departamentoId != null) 'departamentoId': departamentoId,
+        if (profile != null) 'profile': profile,
         if (country != null) 'country': country,
         if (distrito != null) 'distrito': distrito,
         if (provincia != null) 'provincia': provincia,
         if (departmento != null) 'departmento': departmento,
-        if (profile != null) 'profile': profile,
         if (shoppingCarts != null)
           'shoppingCarts': shoppingCarts?.map((item) => item.toJson()).toList(),
         if (wishlists != null)
@@ -321,11 +321,11 @@ class Client implements ToJson, Id {
           distritoId == other.distritoId &&
           provinciaId == other.provinciaId &&
           departamentoId == other.departamentoId &&
+          profile == other.profile &&
           country == other.country &&
           distrito == other.distrito &&
           provincia == other.provincia &&
           departmento == other.departmento &&
-          profile == other.profile &&
           areListsEqual(shoppingCarts, other.shoppingCarts) &&
           areListsEqual(wishlists, other.wishlists) &&
           areListsEqual(orders, other.orders) &&
@@ -354,11 +354,11 @@ class Client implements ToJson, Id {
       distritoId.hashCode ^
       provinciaId.hashCode ^
       departamentoId.hashCode ^
+      profile.hashCode ^
       country.hashCode ^
       distrito.hashCode ^
       provincia.hashCode ^
       departmento.hashCode ^
-      profile.hashCode ^
       shoppingCarts.hashCode ^
       wishlists.hashCode ^
       orders.hashCode ^

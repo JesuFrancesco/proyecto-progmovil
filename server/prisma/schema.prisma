@@ -48,12 +48,12 @@ model Client {
   provinciaId    Int? @map("provincia_id")
   departamentoId Int? @map("departamento_id")
 
-  country Country? @relation(fields: [countryId], references: [id])
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
+  country     Country?      @relation(fields: [countryId], references: [id])
   distrito    Distrito?     @relation(fields: [distritoId], references: [id])
   provincia   Provincia?    @relation(fields: [provinciaId], references: [id])
   departmento Departamento? @relation(fields: [departamentoId], references: [id])
-  profile     Profile       @relation(fields: [profileId], references: [id])
 
   shoppingCarts       ShoppingCart[]
   wishlists           Wishlist[]

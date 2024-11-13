@@ -27,65 +27,69 @@ async function main() {
 
   // supabase auth setup
   await sql.query(`
-     DECLARE
-    clientId INT;
-    cartId INT;
-    wishlistId INT;
+    CREATE OR REPLACE FUNCTION public.handle_new_user()
+    returns trigger as $$
+    DECLARE
+        clientId INT;
+        cartId INT;
+        wishlistId INT;
 
-BEGIN
-    INSERT INTO public.profiles (id, email)
-    VALUES (new.id, new.email);
+    BEGIN
+        INSERT INTO public.profiles (id, email)
+        VALUES (new.id, new.email);
 
-    INSERT INTO public.clients (profile_id)
-    VALUES (new.id)
-    RETURNING id INTO clientId;
+        INSERT INTO public.clients (username, pfp_image_url, profile_id)
+        VALUES 
+          (new.raw_user_meta_data->>'full_name',  new.raw_user_meta_data->>'avatar_url', new.id)
+        RETURNING id INTO clientId;
 
-    INSERT INTO public.shopping_carts (client_id)
-    VALUES (clientId)
-    RETURNING id INTO cartId;
+        INSERT INTO public.shopping_carts (client_id)
+        VALUES (clientId)
+        RETURNING id INTO cartId;
 
-    INSERT INTO public.wishlists (client_id)
-    VALUES (clientId)
-    RETURNING id INTO wishlistId;
+        INSERT INTO public.wishlists (client_id)
+        VALUES (clientId)
+        RETURNING id INTO wishlistId;
 
-    UPDATE auth.users
-    SET
-        raw_user_meta_data = jsonb_set(
-            jsonb_set(
+        UPDATE auth.users
+        SET
+            raw_user_meta_data = jsonb_set(
                 jsonb_set(
-                    raw_user_meta_data,
-                    '{client_id}', to_jsonb(clientId::integer)
+                    jsonb_set(
+                        raw_user_meta_data,
+                        '{client_id}', to_jsonb(clientId::integer)
+                    ),
+                    '{cart_id}', to_jsonb(cartId::integer)
                 ),
-                '{cart_id}', to_jsonb(cartId::integer)
-            ),
-            '{wishlist_id}', to_jsonb(wishlistId::integer)
-        )
-    WHERE id = new.id;
+                '{wishlist_id}', to_jsonb(wishlistId::integer)
+            )
+        WHERE id = new.id;
 
-    RETURN new;
-  END;
+        RETURN new;
+    END; 
+    $$ LANGUAGE PLPGSQL SECURITY DEFINER;
   `);
 
   await sql.query(`
-     create or replace trigger on_auth_user_created
-         after insert on auth.users
-         for each row execute procedure public.handle_new_user();
+     CREATE OR REPLACE TRIGGER on_auth_user_created
+         AFTER INSERT ON auth.users
+         FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
    `);
 
   await sql.query(`
-     create or replace function public.handle_user_delete()
-     returns trigger as $$
-     begin
-       delete from auth.users where id = old.id;
+     CREATE OR REPLACE FUNCTION public.handle_user_delete()
+     RETURNS TRIGGER AS $$
+     BEGIN
+       DELETE FROM auth.users WHERE id = old.id;
        return old;
-     end;
-     $$ language plpgsql security definer;
+     END;
+     $$ LANGUAGE PLPGSQL SECURITY DEFINER;
    `);
 
   await sql.query(`
-    create or replace trigger on_profile_user_deleted
-    after delete on public.profiles
-    for each row execute procedure public.handle_user_delete()
+    CREATE OR REPLACE TRIGGER on_profile_user_deleted
+    AFTER DELETE ON public.profiles
+    FOR EACH ROW EXECUTE PROCEDURE public.handle_user_delete()
     `);
 
   log.info(
