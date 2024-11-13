@@ -62,6 +62,8 @@ GET {{BASE_URL}}/order?where[clientId]=1&include[orderItems]
 
 ### Obtener ordenes de compra por usuario
 GET {{BASE_URL}}/shoppingcart/unique?where[clientId]=50001&include[cartItems][product]
+###
+GET {{BASE_URL}}/productquestion?where[productId]=1&include[client][include][profile]
 
 # #===============#
 # | POST REQUESTS |

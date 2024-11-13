@@ -6,6 +6,7 @@ import 'package:jiron_anime/pages/payment/widget/product_resume.dart';
 import 'package:jiron_anime/pages/payment_success/payment_success_page.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
+import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/utils/extensions.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   final orderController = OrderController();
+  final paymentLoading = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -89,19 +91,23 @@ class _PaymentPageState extends State<PaymentPage> {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: handleRealizarPedidoOnClick,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                ),
-                child: const Text(
-                  'REALIZAR PEDIDO',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+            Obx(
+              () => paymentLoading.value
+                  ? const SmallCircularIndicator()
+                  : SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: handleRealizarPedidoOnClick,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                        ),
+                        child: const Text(
+                          'REALIZAR PEDIDO',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
             ),
             const SizedBox(height: 20),
             const Center(
@@ -118,6 +124,7 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   Future<void> handleRealizarPedidoOnClick() async {
+    paymentLoading.value = true;
     final itemsCarrito = widget.carrito.cartItems!;
 
     final itemsOrden = itemsCarrito.map((e) {
@@ -133,5 +140,6 @@ class _PaymentPageState extends State<PaymentPage> {
     Get.offAll(() => PaymentSuccessPage(
           order: order,
         ));
+    paymentLoading.value = false;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/tags_controller.dart';
@@ -18,10 +19,13 @@ class TagsBarButton extends StatefulWidget {
 }
 
 class _TagsBarButtonState extends State<TagsBarButton> {
-  TagController controller = TagController();
+  final memoizer = AsyncMemoizer();
+  TagController controller = Get.put(TagController());
 
   Future<void> cargarTags() async {
-    await controller.obtenerTags();
+    await memoizer.runOnce(() async {
+      await controller.obtenerTags();
+    });
   }
 
   @override

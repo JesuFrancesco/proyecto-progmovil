@@ -14,124 +14,173 @@ class PaymentSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomLayout(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                20.pv,
-                const Icon(
-                  Icons.check_circle_outline,
-                  size: 100,
-                  color: Colors.orange,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              20.pv,
+              const Icon(
+                Icons.check_circle_outline,
+                size: 100,
+                color: Colors.orange,
+              ),
+              20.pv,
+              const Text(
+                'Pago realizado!',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                20.pv,
-                const Text(
-                  'Pago realizado!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+              ),
+              const Text(
+                'Hemos recibido tu pago.',
+              ),
+              30.pv,
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Estado',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ),
-                const Text(
-                  'Hemos recibido tu pago.',
-                ),
-                30.pv,
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Estado',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                10.pv,
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.check_circle,
-                      color: Colors.orange,
-                    ),
-                    SizedBox(width: 10),
-                    Text('Realizado'),
-                  ],
-                ),
-                20.pv,
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Fecha',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                10.pv,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(DateFormat("dd/MM/yyyy HH:mm:ss")
-                        .format(DateTime.now())),
-                  ],
-                ),
-                20.pv,
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Método de pago',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                10.pv,
-                Row(
-                  children: [
-                    Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/480px-Mastercard-logo.png',
-                      width: 50,
-                    ),
-                    10.ph,
-                    const Text('Mastercard\nTermina en 4521'),
-                  ],
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () => descargarConstancia(order),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                    ),
-                    icon: const Icon(Icons.download, color: Colors.white),
-                    label: const Text(
-                      'DESCARGAR CONSTANCIA',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                ],
+              ),
+              10.pv,
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.check_circle,
+                    color: Colors.orange,
                   ),
-                ),
-                15.pv,
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () => Get.toNamed("/home"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                    ),
-                    label: const Text(
-                      'VOLVER A TIENDA',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  SizedBox(width: 10),
+                  Text('Realizado'),
+                ],
+              ),
+              20.pv,
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Fecha',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+              10.pv,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                      DateFormat("dd/MM/yyyy HH:mm:ss").format(DateTime.now())),
+                ],
+              ),
+              20.pv,
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Método de pago',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              10.pv,
+              Row(
+                children: [
+                  Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/480px-Mastercard-logo.png',
+                    width: 50,
+                  ),
+                  10.ph,
+                  const Text('Mastercard\nTermina en 4521'),
+                ],
+              ),
+              const Spacer(),
+              DescargarConstanciaButton(order: order),
+              15.pv,
+              const IrAOrdenesButton(),
+              15.pv,
+              const VolverATiendaButton(),
+            ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class DescargarConstanciaButton extends StatelessWidget {
+  const DescargarConstanciaButton({
+    super.key,
+    required this.order,
+  });
+
+  final Order order;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () => descargarConstancia(order),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+        ),
+        icon: const Icon(Icons.download, color: Colors.white),
+        label: const Text(
+          'DESCARGAR CONSTANCIA',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
+class VolverATiendaButton extends StatelessWidget {
+  const VolverATiendaButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () => Get.toNamed("/home"),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+        ),
+        label: const Text(
+          'VOLVER A TIENDA',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
+class IrAOrdenesButton extends StatelessWidget {
+  const IrAOrdenesButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () => Get.toNamed("/orders"),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+        ),
+        label: const Text(
+          'VER ORDENES EN CURSO',
+          style: TextStyle(color: Colors.white),
         ),
       ),
     );

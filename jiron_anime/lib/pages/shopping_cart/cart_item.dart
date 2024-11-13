@@ -18,7 +18,7 @@ class CartItemWidget extends StatelessWidget {
     required this.onRemove,
   });
 
-  bool get estaEnElCarrito => _wishlistController.wishlist.value.wishlistItems!
+  bool get estaEnLaWishlist => _wishlistController.wishlist.value.wishlistItems!
       .map((e) => e.productId)
       .contains(item.productId);
 
@@ -124,18 +124,18 @@ class CartItemWidget extends StatelessWidget {
                                   width: 90,
                                   height: 30,
                                   child: TextButton.icon(
-                                    onPressed: estaEnElCarrito
+                                    onPressed: estaEnLaWishlist
                                         ? quitarItemDeWishlist
                                         : guardarItemEnWishlist,
                                     icon: Icon(
-                                      estaEnElCarrito
+                                      estaEnLaWishlist
                                           ? Icons.favorite
                                           : Icons.favorite_border_outlined,
                                       color: Colors.white,
                                       size: 16.0,
                                     ),
                                     label: Text(
-                                      estaEnElCarrito ? 'Quitar' : 'Guardar',
+                                      estaEnLaWishlist ? 'Quitar' : 'Guardar',
                                       style: const TextStyle(
                                         fontSize: 14.0,
                                         color: Colors.white,

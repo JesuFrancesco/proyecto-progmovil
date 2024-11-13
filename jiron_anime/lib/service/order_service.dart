@@ -16,7 +16,8 @@ class OrderService {
       "where[clientId]": getClientId(),
       "include[orderItems][include][product][include][productAttachments]":
           true,
-      "include[orderItems][include][product][include][market]": true
+      "include[orderItems][include][product][include][market]": true,
+      "include[client]": true
     };
 
     final res = await http.get(Uri.parse(
@@ -51,7 +52,12 @@ class OrderService {
                     value + element.amount! * element.product!.price!),
             "status": "Recepcionando compra...",
           },
-          "include": {"orderItems": true}
+          "include": {
+            "orderItems": {
+              "include": {"product": true}
+            },
+            "client": true
+          }
         }),
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/middleware/auth/middleware.dart';
+import 'package:jiron_anime/notification/index.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders_page.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
 import 'package:jiron_anime/pages/settings/settings_page.dart';
@@ -17,10 +19,17 @@ import 'utils/supabase_utils.dart';
 // anonymous supabase client
 final supabase = Supabase.instance.client;
 
+// local notifications
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+// Entrypoint
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  initializeLocaleNotifications();
 
   initializeSupabase();
 

@@ -21,8 +21,9 @@ class TiendaPage extends StatefulWidget {
 }
 
 class _TiendaPageState extends State<TiendaPage> {
+  final _currentTags = <Tag>[].obs;
+
   int page = 1;
-  List<Tag> _currentTags = [];
 
   Future<void> _loadData() async {
     if (_currentTags.isEmpty) {
@@ -41,7 +42,7 @@ class _TiendaPageState extends State<TiendaPage> {
   }
 
   Future<void> _changeTagsCallback(List<Tag> tags) async {
-    setState(() => _currentTags = tags);
+    _currentTags.value = tags;
 
     await _loadData();
   }
@@ -50,121 +51,123 @@ class _TiendaPageState extends State<TiendaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomLayout(
-        child: FutureBuilder(
-          future: _loadData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              return SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Jiron Anime",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        CurrentUser.getAvatarIcon(),
-                      ],
-                    ),
-                    15.pv,
-                    TagsBarButton(
-                      onTagPressed: _changeTagsCallback,
-                    ),
-                    15.pv,
-                    const ProductCarousel(),
-                    10.pv,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Novedades de la semana",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ],
-                    ),
-                    5.pv,
-                    _buildProductoList(_currentTags),
-                    5.pv,
-                    if (productoController.productos.isNotEmpty)
+        child: Obx(
+          () => FutureBuilder(
+            future: _loadData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Column(
+                    children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ElevatedButton(
-                            onPressed: page > 1 ? _handlePageBackward : null,
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: page > 1
-                                  ? AppColors.primaryColor
-                                  : Colors.grey.shade400,
-                            ),
-                            child: const Text("<"),
+                          Text(
+                            "Jiron Anime",
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          10.ph,
-                          Text("Página $page"),
-                          10.ph,
-                          ElevatedButton(
-                            onPressed: productoController.productos.length >
-                                    ConstValues.RESULTS_PER_PAGE
-                                ? _handlePageForward
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor:
-                                  productoController.productos.length >
-                                          ConstValues.RESULTS_PER_PAGE
-                                      ? AppColors.primaryColor
-                                      : Colors.grey.shade400,
-                            ),
-                            child: const Text(">"),
+                          CurrentUser.getAvatarIcon(),
+                        ],
+                      ),
+                      15.pv,
+                      TagsBarButton(
+                        onTagPressed: _changeTagsCallback,
+                      ),
+                      15.pv,
+                      const ProductCarousel(),
+                      10.pv,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Novedades de la semana",
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ],
                       ),
-                    30.pv,
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Contáctanos por ...",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
-                          textAlign: TextAlign.center,
+                      5.pv,
+                      _buildProductoList(_currentTags),
+                      5.pv,
+                      if (productoController.productos.isNotEmpty)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: page > 1 ? _handlePageBackward : null,
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: page > 1
+                                    ? AppColors.primaryColor
+                                    : Colors.grey.shade400,
+                              ),
+                              child: const Text("<"),
+                            ),
+                            10.ph,
+                            Text("Página $page"),
+                            10.ph,
+                            ElevatedButton(
+                              onPressed: productoController.productos.length >
+                                      ConstValues.RESULTS_PER_PAGE
+                                  ? _handlePageForward
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor:
+                                    productoController.productos.length >
+                                            ConstValues.RESULTS_PER_PAGE
+                                        ? AppColors.primaryColor
+                                        : Colors.grey.shade400,
+                              ),
+                              child: const Text(">"),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    15.pv,
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.facebook),
-                        SizedBox(width: 20),
-                        Icon(Icons.phone),
-                        SizedBox(width: 20),
-                        Icon(Icons.sms),
-                      ],
-                    ),
-                    15.pv,
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Jiron anime - Todos los derechos reservados",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            }
-          },
+                      30.pv,
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Contáctanos por ...",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      15.pv,
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.facebook),
+                          SizedBox(width: 20),
+                          Icon(Icons.phone),
+                          SizedBox(width: 20),
+                          Icon(Icons.sms),
+                        ],
+                      ),
+                      15.pv,
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Jiron anime - Todos los derechos reservados",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
     );

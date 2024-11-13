@@ -83,8 +83,8 @@ class ChatPage extends StatelessWidget {
                         Expanded(
                           child: TextFormField(
                             controller: messageControllerInput,
-                            minLines: 1, // Start with a single line
-                            maxLines: null, // Expands to fit content
+                            minLines: 1,
+                            maxLines: null,
                             decoration: const InputDecoration(
                               labelText: 'Envía tu mensaje',
                               border: OutlineInputBorder(),

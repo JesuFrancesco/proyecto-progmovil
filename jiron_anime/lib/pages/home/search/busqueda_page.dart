@@ -50,7 +50,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
         child: Column(
           children: [
             const CustomAppbar(title: "Búsqueda"),
-            10.pv,
+            30.pv,
             _buildSearchBar(),
             20.pv,
             Obx(
