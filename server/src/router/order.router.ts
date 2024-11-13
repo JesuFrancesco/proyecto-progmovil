@@ -6,7 +6,7 @@ import { commonRouterConfig } from "./const";
 
 const orderRouter = OrderRouter(commonRouterConfig);
 
-orderRouter.post("/procesar-pago", authHandler, async (req, res) => {
+orderRouter.post("/order/procesar-pago", authHandler, async (req, res) => {
   const service = new OrderService();
 
   const { data } = req.body;
@@ -26,7 +26,7 @@ orderRouter.post("/procesar-pago", authHandler, async (req, res) => {
     data
   );
 
-  return createdOrder;
+  return res.status(201).json(createdOrder);
 });
 
 export default orderRouter;

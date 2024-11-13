@@ -28,7 +28,7 @@ export const logOutputHandler = (
 
 export const notFoundLogHandler: RequestHandler = (req, res, next) => {
   if (!req.route) {
-    logger.error("LA RUTA NO EXISTE | STATUS CODE 404");
+    logger.error(`LA RUTA ${req.path} NO EXISTE | STATUS CODE 404`);
     throw boom.notFound();
   }
   next();

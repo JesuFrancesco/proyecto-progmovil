@@ -32,6 +32,7 @@ import { TagRouter } from "../generated/express/Tag";
 import { authHandler } from "../middleware/authorization.handler";
 import orderRouter from "./order.router";
 import { commonRouterConfig } from "./const";
+import { cp } from "fs";
 
 const API_ROUTER = Router();
 
@@ -53,40 +54,40 @@ API_ROUTER.use(addPrisma);
 // == routers habilitados
 // protected routes
 const profileRouter = ProfileRouter({
-  enableAll: true,
+  ...commonRouterConfig,
 });
-profileRouter.use(authHandler);
-API_ROUTER.use("/profile", profileRouter);
+// profileRouter.use(authHandler);
+API_ROUTER.use(profileRouter);
 
 const clientRouter = ClientRouter({
-  enableAll: true,
+  ...commonRouterConfig,
 });
-clientRouter.use(authHandler);
-API_ROUTER.use("/client", clientRouter);
+// clientRouter.use(authHandler);
+API_ROUTER.use(clientRouter);
 
 const wishlistRouter = WishlistRouter({
-  enableAll: true,
+  ...commonRouterConfig,
 });
-wishlistRouter.use(authHandler);
-API_ROUTER.use("/wishlist", wishlistRouter);
+// wishlistRouter.use(authHandler);
+API_ROUTER.use(wishlistRouter);
 
 const wishlistItemRouter = WishlistItemRouter({
-  enableAll: true,
+  ...commonRouterConfig,
 });
-wishlistItemRouter.use(authHandler);
-API_ROUTER.use("/wishlist-item", wishlistItemRouter);
+// wishlistItemRouter.use(authHandler);
+API_ROUTER.use(wishlistItemRouter);
 
 const shoppingCartRouter = ShoppingCartRouter({
-  enableAll: true,
+  ...commonRouterConfig,
 });
-shoppingCartRouter.use(authHandler);
-API_ROUTER.use("/shopping-cart", shoppingCartRouter);
+// shoppingCartRouter.use(authHandler);
+API_ROUTER.use(shoppingCartRouter);
 
 const cartItemRouter = CartItemRouter({
-  enableAll: true,
+  ...commonRouterConfig,
 });
-cartItemRouter.use(authHandler);
-API_ROUTER.use("/cart-item", cartItemRouter);
+// cartItemRouter.use(authHandler);
+API_ROUTER.use(cartItemRouter);
 
 API_ROUTER.use(orderRouter);
 

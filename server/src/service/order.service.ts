@@ -5,7 +5,7 @@ export class OrderService {
   async procesarPago(
     clientId: number,
     cartId: number,
-    items: (OrderItem & { product: Product })[]
+    items: { productId: number; amount: number; price: number }[]
   ) {
     const createdOrder = await this.prisma.order.create({
       data: {
@@ -18,8 +18,7 @@ export class OrderService {
         },
         status: "Recepcionando compra...",
         totalPrice: items.reduce(
-          (prev, current) =>
-            prev + current.amount * current.product.price.toNumber(),
+          (prev, current) => prev + current.amount * current.price,
           0
         ),
       },
