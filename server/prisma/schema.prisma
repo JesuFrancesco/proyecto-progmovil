@@ -37,12 +37,19 @@ model Profile {
 }
 
 model Client {
-  id               Int     @id @default(autoincrement())
-  referenceAddress String? @map("reference_address")
+  id Int @id @default(autoincrement())
 
+  name             String? @map("name")
+  lastName         String? @map("last_name")
+  referenceAddress String? @map("reference_address")
+  profileImageUrl  String? @map("pfp_image_url")
+
+  countryId      Int? @map("country_id")
   distritoId     Int? @map("distrito_id")
   provinciaId    Int? @map("provincia_id")
   departamentoId Int? @map("departamento_id")
+
+  country Country? @relation(fields: [countryId], references: [id])
 
   distrito    Distrito?     @relation(fields: [distritoId], references: [id])
   provincia   Provincia?    @relation(fields: [provinciaId], references: [id])
@@ -80,13 +87,16 @@ model Notification {
 }
 
 model Market {
-  id           Int       @id @default(autoincrement())
-  name         String
-  contactEmail String    @map("contact_email")
-  contactPhone String    @map("contact_phone")
-  profileId    String    @map("profile_id") @db.Uuid
-  profile      Profile   @relation(fields: [profileId], references: [id])
-  products     Product[]
+  id      Int     @id @default(autoincrement())
+  name    String
+  logoUrl String? @map("logo_url")
+
+  contactEmail String @map("contact_email")
+  contactPhone String @map("contact_phone")
+
+  profileId String    @map("profile_id") @db.Uuid
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  products  Product[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
@@ -113,7 +123,7 @@ model Product {
   marketId Int    @map("market_id")
   market   Market @relation(fields: [marketId], references: [id])
 
-  brandSellerId Int?         @map("brand_seller")
+  brandSellerId Int?         @map("brandseller_id")
   brandSeller   BrandSeller? @relation(fields: [brandSellerId], references: [id])
 
   productAttachments ProductAttachment[]
@@ -143,6 +153,7 @@ model Country {
   name         String
   code         String
   brandSellers BrandSeller[]
+  Client       Client[]
 
   @@map("countries")
 }
@@ -166,11 +177,11 @@ model Wishlist {
 }
 
 model Order {
-  id         Int         @id @default(autoincrement())
-  totalPrice Decimal     @map("total_price")
+  id         Int     @id @default(autoincrement())
+  totalPrice Decimal @map("total_price")
   status     String
-  clientId   Int         @map("client_id")
-  client     Client      @relation(fields: [clientId], references: [id])
+  clientId   Int     @map("client_id")
+  client     Client  @relation(fields: [clientId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
@@ -278,6 +289,7 @@ model MessageAttachment {
 model ClientNotification {
   clientId       Int          @map("client_id")
   notificationId Int          @map("notification_id")
+  hasSeen        Boolean      @map("has_seen")
   client         Client       @relation(fields: [clientId], references: [id])
   notification   Notification @relation(fields: [notificationId], references: [id])
 
@@ -360,13 +372,14 @@ model ProductAttachment {
   productId Int     @map("product_id")
   product   Product @relation(fields: [productId], references: [id])
 
-  @@id([productId])
+  @@id([productId, imageUrl])
   @@map("product_attachments")
 }
 
 model QuestionReply {
   id              Int             @id @default(autoincrement())
   text            String
+  asunto          String?
   createdAt       DateTime        @default(now()) @map("created_at")
   questionId      Int             @map("question_id")
   productQuestion ProductQuestion @relation(fields: [questionId], references: [id])
@@ -389,12 +402,12 @@ model ProductRating {
 }
 
 model RatingAttachment {
-  blobUrl       String
+  ratingId      Int           @map("rating_id")
+  imageUrl      String        @map("blob_url")
   filename      String
   type          String
-  ratingId      Int           @map("rating_id")
   productRating ProductRating @relation(fields: [ratingId], references: [id])
 
-  @@id([ratingId])
+  @@id([ratingId, imageUrl])
   @@map("rating_attachments")
 }

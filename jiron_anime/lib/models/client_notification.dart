@@ -7,12 +7,14 @@ import 'notification.dart';
 class ClientNotification implements ToJson {
   int? clientId;
   int? notificationId;
+  bool? hasSeen;
   Client? client;
   Notification? notification;
 
   ClientNotification({
     this.clientId,
     this.notificationId,
+    this.hasSeen,
     this.client,
     this.notification,
   });
@@ -21,6 +23,7 @@ class ClientNotification implements ToJson {
       ClientNotification(
           clientId: json['clientId'] as int?,
           notificationId: json['notificationId'] as int?,
+          hasSeen: json['hasSeen'] as bool?,
           client: json['client'] != null
               ? Client.fromJson(json['client'] as Map<String, dynamic>)
               : null,
@@ -32,12 +35,14 @@ class ClientNotification implements ToJson {
   ClientNotification copyWith({
     int? clientId,
     int? notificationId,
+    bool? hasSeen,
     Client? client,
     Notification? notification,
   }) {
     return ClientNotification(
         clientId: clientId ?? this.clientId,
         notificationId: notificationId ?? this.notificationId,
+        hasSeen: hasSeen ?? this.hasSeen,
         client: client ?? this.client,
         notification: notification ?? this.notification);
   }
@@ -46,6 +51,7 @@ class ClientNotification implements ToJson {
     return ClientNotification(
         clientId: clientNotification.clientId ?? clientId,
         notificationId: clientNotification.notificationId ?? notificationId,
+        hasSeen: clientNotification.hasSeen ?? hasSeen,
         client: clientNotification.client ?? client,
         notification: clientNotification.notification ?? notification);
   }
@@ -54,6 +60,7 @@ class ClientNotification implements ToJson {
   Map<String, dynamic> toJson() => ({
         if (clientId != null) 'clientId': clientId,
         if (notificationId != null) 'notificationId': notificationId,
+        if (hasSeen != null) 'hasSeen': hasSeen,
         if (client != null) 'client': client,
         if (notification != null) 'notification': notification
       });
@@ -65,6 +72,7 @@ class ClientNotification implements ToJson {
           runtimeType == other.runtimeType &&
           clientId == other.clientId &&
           notificationId == other.notificationId &&
+          hasSeen == other.hasSeen &&
           client == other.client &&
           notification == other.notification;
 
@@ -72,6 +80,7 @@ class ClientNotification implements ToJson {
   int get hashCode =>
       clientId.hashCode ^
       notificationId.hashCode ^
+      hasSeen.hashCode ^
       client.hashCode ^
       notification.hashCode;
 }

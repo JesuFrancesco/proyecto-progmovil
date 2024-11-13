@@ -1,6 +1,7 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
 import 'model_base.dart';
+import 'country.dart';
 import 'distrito.dart';
 import 'provincia.dart';
 import 'departamento.dart';
@@ -16,10 +17,15 @@ import 'chat_participant.dart';
 class Client implements ToJson, Id {
   @override
   int? id;
+  String? name;
+  String? lastName;
   String? referenceAddress;
+  String? profileImageUrl;
+  int? countryId;
   int? distritoId;
   int? provinciaId;
   int? departamentoId;
+  Country? country;
   Distrito? distrito;
   Provincia? provincia;
   Departamento? departmento;
@@ -44,10 +50,15 @@ class Client implements ToJson, Id {
 
   Client({
     this.id,
+    this.name,
+    this.lastName,
     this.referenceAddress,
+    this.profileImageUrl,
+    this.countryId,
     this.distritoId,
     this.provinciaId,
     this.departamentoId,
+    this.country,
     this.distrito,
     this.provincia,
     this.departmento,
@@ -73,10 +84,17 @@ class Client implements ToJson, Id {
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
       id: json['id'] as int?,
+      name: json['name'] as String?,
+      lastName: json['lastName'] as String?,
       referenceAddress: json['referenceAddress'] as String?,
+      profileImageUrl: json['profileImageUrl'] as String?,
+      countryId: json['countryId'] as int?,
       distritoId: json['distritoId'] as int?,
       provinciaId: json['provinciaId'] as int?,
       departamentoId: json['departamentoId'] as int?,
+      country: json['country'] != null
+          ? Country.fromJson(json['country'] as Map<String, dynamic>)
+          : null,
       distrito: json['distrito'] != null
           ? Distrito.fromJson(json['distrito'] as Map<String, dynamic>)
           : null,
@@ -130,10 +148,15 @@ class Client implements ToJson, Id {
 
   Client copyWith({
     int? id,
+    String? name,
+    String? lastName,
     String? referenceAddress,
+    String? profileImageUrl,
+    int? countryId,
     int? distritoId,
     int? provinciaId,
     int? departamentoId,
+    Country? country,
     Distrito? distrito,
     Provincia? provincia,
     Departamento? departmento,
@@ -158,10 +181,15 @@ class Client implements ToJson, Id {
   }) {
     return Client(
         id: id ?? this.id,
+        name: name ?? this.name,
+        lastName: lastName ?? this.lastName,
         referenceAddress: referenceAddress ?? this.referenceAddress,
+        profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+        countryId: countryId ?? this.countryId,
         distritoId: distritoId ?? this.distritoId,
         provinciaId: provinciaId ?? this.provinciaId,
         departamentoId: departamentoId ?? this.departamentoId,
+        country: country ?? this.country,
         distrito: distrito ?? this.distrito,
         provincia: provincia ?? this.provincia,
         departmento: departmento ?? this.departmento,
@@ -191,10 +219,15 @@ class Client implements ToJson, Id {
   Client copyWithInstance(Client client) {
     return Client(
         id: client.id ?? id,
+        name: client.name ?? name,
+        lastName: client.lastName ?? lastName,
         referenceAddress: client.referenceAddress ?? referenceAddress,
+        profileImageUrl: client.profileImageUrl ?? profileImageUrl,
+        countryId: client.countryId ?? countryId,
         distritoId: client.distritoId ?? distritoId,
         provinciaId: client.provinciaId ?? provinciaId,
         departamentoId: client.departamentoId ?? departamentoId,
+        country: client.country ?? country,
         distrito: client.distrito ?? distrito,
         provincia: client.provincia ?? provincia,
         departmento: client.departmento ?? departmento,
@@ -225,10 +258,15 @@ class Client implements ToJson, Id {
   @override
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
+        if (name != null) 'name': name,
+        if (lastName != null) 'lastName': lastName,
         if (referenceAddress != null) 'referenceAddress': referenceAddress,
+        if (profileImageUrl != null) 'profileImageUrl': profileImageUrl,
+        if (countryId != null) 'countryId': countryId,
         if (distritoId != null) 'distritoId': distritoId,
         if (provinciaId != null) 'provinciaId': provinciaId,
         if (departamentoId != null) 'departamentoId': departamentoId,
+        if (country != null) 'country': country,
         if (distrito != null) 'distrito': distrito,
         if (provincia != null) 'provincia': provincia,
         if (departmento != null) 'departmento': departmento,
@@ -283,10 +321,15 @@ class Client implements ToJson, Id {
       other is Client &&
           runtimeType == other.runtimeType &&
           id == other.id &&
+          name == other.name &&
+          lastName == other.lastName &&
           referenceAddress == other.referenceAddress &&
+          profileImageUrl == other.profileImageUrl &&
+          countryId == other.countryId &&
           distritoId == other.distritoId &&
           provinciaId == other.provinciaId &&
           departamentoId == other.departamentoId &&
+          country == other.country &&
           distrito == other.distrito &&
           provincia == other.provincia &&
           departmento == other.departmento &&
@@ -312,10 +355,15 @@ class Client implements ToJson, Id {
   @override
   int get hashCode =>
       id.hashCode ^
+      name.hashCode ^
+      lastName.hashCode ^
       referenceAddress.hashCode ^
+      profileImageUrl.hashCode ^
+      countryId.hashCode ^
       distritoId.hashCode ^
       provinciaId.hashCode ^
       departamentoId.hashCode ^
+      country.hashCode ^
       distrito.hashCode ^
       provincia.hashCode ^
       departmento.hashCode ^
