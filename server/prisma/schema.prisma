@@ -161,16 +161,18 @@ model Country {
 model ShoppingCart {
   id        Int        @id @default(autoincrement())
   clientId  Int        @unique @map("client_id")
-  client    Client     @relation(fields: [clientId], references: [id])
+  client    Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
   cartItems CartItem[]
 
   @@map("shopping_carts")
 }
 
 model Wishlist {
-  id            Int            @id @default(autoincrement())
-  clientId      Int            @unique @map("client_id")
-  client        Client         @relation(fields: [clientId], references: [id])
+  id Int @id @default(autoincrement())
+
+  clientId Int    @unique @map("client_id")
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
   wishlistItems WishlistItem[]
 
   @@map("wishlists")
@@ -180,8 +182,8 @@ model Order {
   id         Int     @id @default(autoincrement())
   totalPrice Decimal @map("total_price")
   status     String
-  clientId   Int     @map("client_id")
-  client     Client  @relation(fields: [clientId], references: [id])
+  clientId   Int?    @map("client_id")
+  client     Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
@@ -206,8 +208,8 @@ model Message {
   createdAt          DateTime            @default(now()) @map("created_at")
   updatedAt          DateTime            @default(now()) @map("updated_at")
   status             Int
-  profileId          String              @map("profile_id") @db.Uuid
-  profile            Profile             @relation(fields: [profileId], references: [id])
+  profileId          String?             @map("profile_id") @db.Uuid
+  profile            Profile?            @relation(fields: [profileId], references: [id], onDelete: SetNull)
   messageAttachments MessageAttachment[]
   chatMessages       ChatMessage[]
 
@@ -290,7 +292,7 @@ model ClientNotification {
   clientId       Int          @map("client_id")
   notificationId Int          @map("notification_id")
   hasSeen        Boolean      @map("has_seen")
-  client         Client       @relation(fields: [clientId], references: [id])
+  client         Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
   notification   Notification @relation(fields: [notificationId], references: [id])
 
   @@id([clientId, notificationId])
@@ -298,23 +300,27 @@ model ClientNotification {
 }
 
 model ChatParticipant {
-  chatId   Int    @map("chat_id")
-  clientId Int    @map("client_id")
-  chat     Chat   @relation(fields: [chatId], references: [id])
-  client   Client @relation(fields: [clientId], references: [id])
+  chatId   Int @map("chat_id")
+  clientId Int @map("client_id")
+
+  chat   Chat   @relation(fields: [chatId], references: [id])
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
   @@id([chatId, clientId])
   @@map("chat_participants")
 }
 
 model ProductQuestion {
-  id              Int             @id @default(autoincrement())
-  subject         String          @default("Consulta")
-  text            String
-  productId       Int             @map("product_id")
-  clientId        Int             @map("client_id")
+  id Int @id @default(autoincrement())
+
+  subject String @default("Consulta")
+  text    String
+
+  productId Int  @map("product_id")
+  clientId  Int? @map("client_id")
+
   product         Product         @relation(fields: [productId], references: [id])
-  client          Client          @relation(fields: [clientId], references: [id])
+  client          Client?         @relation(fields: [clientId], references: [id], onDelete: SetNull)
   questionReplies QuestionReply[]
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -324,10 +330,11 @@ model ProductQuestion {
 }
 
 model CartItem {
+  cartId    Int @map("cart_id")
+  productId Int @map("product_id")
+
   amount       Int
   addedAt      DateTime     @default(now()) @map("added_at")
-  cartId       Int          @map("cart_id")
-  productId    Int          @map("product_id")
   shoppingCart ShoppingCart @relation(fields: [cartId], references: [id])
   product      Product      @relation(fields: [productId], references: [id])
 
@@ -336,19 +343,21 @@ model CartItem {
 }
 
 model ProductTag {
-  categoryId Int     @map("category_id")
-  productId  Int     @map("product_id")
-  tag        Tag     @relation(fields: [categoryId], references: [id])
-  product    Product @relation(fields: [productId], references: [id])
+  categoryId Int @map("category_id")
+  productId  Int @map("product_id")
+
+  tag     Tag     @relation(fields: [categoryId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@id([categoryId, productId])
   @@map("product_tags")
 }
 
 model WishlistItem {
-  addedAt    DateTime @default(now())
-  wishlistId Int      @map("wishlist_id")
-  productId  Int      @map("product_id")
+  wishlistId Int @map("wishlist_id")
+  productId  Int @map("product_id")
+
+  addedAt DateTime @default(now()) @map("added_at")
 
   wishlist Wishlist @relation(fields: [wishlistId], references: [id])
   product  Product  @relation(fields: [productId], references: [id])
@@ -388,15 +397,18 @@ model QuestionReply {
 }
 
 model ProductRating {
-  id                Int                @id @default(autoincrement())
-  score             Int
-  text              String
-  createdAt         DateTime           @default(now()) @map("created_at")
-  clientId          Int                @map("client_id")
-  productId         Int                @map("product_id")
-  client            Client             @relation(fields: [clientId], references: [id])
+  id Int @id @default(autoincrement())
+
+  score     Int
+  text      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  client            Client?            @relation(fields: [clientId], references: [id], onDelete: SetNull)
   product           Product            @relation(fields: [productId], references: [id])
   ratingAttachments RatingAttachment[]
+
+  clientId  Int? @map("client_id")
+  productId Int  @map("product_id")
 
   @@map("product_ratings")
 }

@@ -11,11 +11,11 @@ class ProductRating implements ToJson, Id {
   int? score;
   String? text;
   DateTime? createdAt;
-  int? clientId;
-  int? productId;
   Client? client;
   Product? product;
   List<RatingAttachment>? ratingAttachments;
+  int? clientId;
+  int? productId;
   int? $ratingAttachmentsCount;
 
   ProductRating({
@@ -23,11 +23,11 @@ class ProductRating implements ToJson, Id {
     this.score,
     this.text,
     this.createdAt,
-    this.clientId,
-    this.productId,
     this.client,
     this.product,
     this.ratingAttachments,
+    this.clientId,
+    this.productId,
     this.$ratingAttachmentsCount,
   });
 
@@ -37,8 +37,6 @@ class ProductRating implements ToJson, Id {
       text: json['text'] as String?,
       createdAt:
           json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      clientId: json['clientId'] as int?,
-      productId: json['productId'] as int?,
       client: json['client'] != null
           ? Client.fromJson(json['client'] as Map<String, dynamic>)
           : null,
@@ -49,6 +47,8 @@ class ProductRating implements ToJson, Id {
           ? createModels<RatingAttachment>(
               json['ratingAttachments'], RatingAttachment.fromJson)
           : null,
+      clientId: json['clientId'] as int?,
+      productId: json['productId'] as int?,
       $ratingAttachmentsCount: json['_count']?['ratingAttachments'] as int?);
 
   ProductRating copyWith({
@@ -56,11 +56,11 @@ class ProductRating implements ToJson, Id {
     int? score,
     String? text,
     DateTime? createdAt,
-    int? clientId,
-    int? productId,
     Client? client,
     Product? product,
     List<RatingAttachment>? ratingAttachments,
+    int? clientId,
+    int? productId,
     int? $ratingAttachmentsCount,
   }) {
     return ProductRating(
@@ -68,11 +68,11 @@ class ProductRating implements ToJson, Id {
         score: score ?? this.score,
         text: text ?? this.text,
         createdAt: createdAt ?? this.createdAt,
-        clientId: clientId ?? this.clientId,
-        productId: productId ?? this.productId,
         client: client ?? this.client,
         product: product ?? this.product,
         ratingAttachments: ratingAttachments ?? this.ratingAttachments,
+        clientId: clientId ?? this.clientId,
+        productId: productId ?? this.productId,
         $ratingAttachmentsCount:
             $ratingAttachmentsCount ?? this.$ratingAttachmentsCount);
   }
@@ -83,11 +83,11 @@ class ProductRating implements ToJson, Id {
         score: productRating.score ?? score,
         text: productRating.text ?? text,
         createdAt: productRating.createdAt ?? createdAt,
-        clientId: productRating.clientId ?? clientId,
-        productId: productRating.productId ?? productId,
         client: productRating.client ?? client,
         product: productRating.product ?? product,
         ratingAttachments: productRating.ratingAttachments ?? ratingAttachments,
+        clientId: productRating.clientId ?? clientId,
+        productId: productRating.productId ?? productId,
         $ratingAttachmentsCount:
             productRating.$ratingAttachmentsCount ?? $ratingAttachmentsCount);
   }
@@ -98,13 +98,13 @@ class ProductRating implements ToJson, Id {
         if (score != null) 'score': score,
         if (text != null) 'text': text,
         if (createdAt != null) 'createdAt': createdAt,
-        if (clientId != null) 'clientId': clientId,
-        if (productId != null) 'productId': productId,
         if (client != null) 'client': client,
         if (product != null) 'product': product,
         if (ratingAttachments != null)
           'ratingAttachments':
               ratingAttachments?.map((item) => item.toJson()).toList(),
+        if (clientId != null) 'clientId': clientId,
+        if (productId != null) 'productId': productId,
         if ($ratingAttachmentsCount != null)
           '_count': {
             if ($ratingAttachmentsCount != null)
@@ -121,11 +121,11 @@ class ProductRating implements ToJson, Id {
           score == other.score &&
           text == other.text &&
           createdAt == other.createdAt &&
-          clientId == other.clientId &&
-          productId == other.productId &&
           client == other.client &&
           product == other.product &&
           areListsEqual(ratingAttachments, other.ratingAttachments) &&
+          clientId == other.clientId &&
+          productId == other.productId &&
           $ratingAttachmentsCount == other.$ratingAttachmentsCount;
 
   @override
@@ -134,10 +134,10 @@ class ProductRating implements ToJson, Id {
       score.hashCode ^
       text.hashCode ^
       createdAt.hashCode ^
-      clientId.hashCode ^
-      productId.hashCode ^
       client.hashCode ^
       product.hashCode ^
       ratingAttachments.hashCode ^
+      clientId.hashCode ^
+      productId.hashCode ^
       $ratingAttachmentsCount.hashCode;
 }

@@ -25,7 +25,8 @@ async function main() {
   await sql.connect();
   log.info("Proceso iniciado");
 
-  // supabase auth setup
+  // == supabase auth setup
+  // ON AUTH.USERS USER CREATED
   await sql.query(`
     CREATE OR REPLACE FUNCTION public.handle_new_user()
     returns trigger as $$
@@ -76,6 +77,7 @@ async function main() {
          FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
    `);
 
+  // ON PUBLIC.PROILE USER DELETED
   await sql.query(`
      CREATE OR REPLACE FUNCTION public.handle_user_delete()
      RETURNS TRIGGER AS $$
@@ -90,6 +92,23 @@ async function main() {
     CREATE OR REPLACE TRIGGER on_profile_user_deleted
     AFTER DELETE ON public.profiles
     FOR EACH ROW EXECUTE PROCEDURE public.handle_user_delete()
+    `);
+
+  // ON AUTH.USERS USER DELETED
+  await sql.query(`
+     CREATE OR REPLACE FUNCTION public.handle_sb_user_delete()
+     RETURNS TRIGGER AS $$
+     BEGIN
+       DELETE FROM public.profiles WHERE id = old.id;
+       return old;
+     END;
+     $$ LANGUAGE PLPGSQL SECURITY DEFINER;
+   `);
+
+  await sql.query(`
+    CREATE OR REPLACE TRIGGER on_profile_user_deleted
+    AFTER DELETE ON auth.users
+    FOR EACH ROW EXECUTE PROCEDURE public.handle_sb_user_delete()
     `);
 
   log.info(
