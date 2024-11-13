@@ -27,15 +27,44 @@ async function main() {
 
   // supabase auth setup
   await sql.query(`
-     create or replace function public.handle_new_user()
-     returns trigger as $$
-     begin
-     insert into public.profiles (id, email)
-         values (new.id, new.email);
-         return new;
-         end;
-         $$ language plpgsql security definer;
-         `);
+     DECLARE
+    clientId INT;
+    cartId INT;
+    wishlistId INT;
+
+BEGIN
+    INSERT INTO public.profiles (id, email)
+    VALUES (new.id, new.email);
+
+    INSERT INTO public.clients (profile_id)
+    VALUES (new.id)
+    RETURNING id INTO clientId;
+
+    INSERT INTO public.shopping_carts (client_id)
+    VALUES (clientId)
+    RETURNING id INTO cartId;
+
+    INSERT INTO public.wishlists (client_id)
+    VALUES (clientId)
+    RETURNING id INTO wishlistId;
+
+    UPDATE auth.users
+    SET
+        raw_user_meta_data = jsonb_set(
+            jsonb_set(
+                jsonb_set(
+                    raw_user_meta_data,
+                    '{client_id}', to_jsonb(clientId::integer)
+                ),
+                '{cart_id}', to_jsonb(cartId::integer)
+            ),
+            '{wishlist_id}', to_jsonb(wishlistId::integer)
+        )
+    WHERE id = new.id;
+
+    RETURN new;
+  END;
+  `);
 
   await sql.query(`
      create or replace trigger on_auth_user_created

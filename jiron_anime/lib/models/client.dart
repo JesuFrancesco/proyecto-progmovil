@@ -17,8 +17,7 @@ import 'chat_participant.dart';
 class Client implements ToJson, Id {
   @override
   int? id;
-  String? name;
-  String? lastName;
+  String? username;
   String? referenceAddress;
   String? profileImageUrl;
   int? countryId;
@@ -50,8 +49,7 @@ class Client implements ToJson, Id {
 
   Client({
     this.id,
-    this.name,
-    this.lastName,
+    this.username,
     this.referenceAddress,
     this.profileImageUrl,
     this.countryId,
@@ -84,8 +82,7 @@ class Client implements ToJson, Id {
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
       id: json['id'] as int?,
-      name: json['name'] as String?,
-      lastName: json['lastName'] as String?,
+      username: json['username'] as String?,
       referenceAddress: json['referenceAddress'] as String?,
       profileImageUrl: json['profileImageUrl'] as String?,
       countryId: json['countryId'] as int?,
@@ -148,8 +145,7 @@ class Client implements ToJson, Id {
 
   Client copyWith({
     int? id,
-    String? name,
-    String? lastName,
+    String? username,
     String? referenceAddress,
     String? profileImageUrl,
     int? countryId,
@@ -181,8 +177,7 @@ class Client implements ToJson, Id {
   }) {
     return Client(
         id: id ?? this.id,
-        name: name ?? this.name,
-        lastName: lastName ?? this.lastName,
+        username: username ?? this.username,
         referenceAddress: referenceAddress ?? this.referenceAddress,
         profileImageUrl: profileImageUrl ?? this.profileImageUrl,
         countryId: countryId ?? this.countryId,
@@ -219,8 +214,7 @@ class Client implements ToJson, Id {
   Client copyWithInstance(Client client) {
     return Client(
         id: client.id ?? id,
-        name: client.name ?? name,
-        lastName: client.lastName ?? lastName,
+        username: client.username ?? username,
         referenceAddress: client.referenceAddress ?? referenceAddress,
         profileImageUrl: client.profileImageUrl ?? profileImageUrl,
         countryId: client.countryId ?? countryId,
@@ -258,8 +252,7 @@ class Client implements ToJson, Id {
   @override
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
-        if (name != null) 'name': name,
-        if (lastName != null) 'lastName': lastName,
+        if (username != null) 'username': username,
         if (referenceAddress != null) 'referenceAddress': referenceAddress,
         if (profileImageUrl != null) 'profileImageUrl': profileImageUrl,
         if (countryId != null) 'countryId': countryId,
@@ -321,8 +314,7 @@ class Client implements ToJson, Id {
       other is Client &&
           runtimeType == other.runtimeType &&
           id == other.id &&
-          name == other.name &&
-          lastName == other.lastName &&
+          username == other.username &&
           referenceAddress == other.referenceAddress &&
           profileImageUrl == other.profileImageUrl &&
           countryId == other.countryId &&
@@ -355,8 +347,7 @@ class Client implements ToJson, Id {
   @override
   int get hashCode =>
       id.hashCode ^
-      name.hashCode ^
-      lastName.hashCode ^
+      username.hashCode ^
       referenceAddress.hashCode ^
       profileImageUrl.hashCode ^
       countryId.hashCode ^
