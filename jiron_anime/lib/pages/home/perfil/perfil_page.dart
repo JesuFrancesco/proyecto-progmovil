@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/pages/agregarProducto/AgregarProducto.dart';
+import 'package:jiron_anime/pages/crearMercado/CrearMercado.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/user_widgets.dart';
@@ -67,6 +69,23 @@ class PerfilPage extends StatelessWidget {
                         fnOnTap: () {
                           Get.toNamed("/settings");
                         }),
+
+                    IconMenuItem(
+  icon: Icons.add_box_outlined, // Ícono para agregar un producto
+  text: 'Agregar producto',
+  fnOnTap: () {
+    Get.to(() => AgregarProductoScreen());
+  },
+),
+IconMenuItem(
+  icon: Icons.storefront_outlined, // Ícono para crear una tienda
+  text: 'Crear tienda',
+  fnOnTap: () {
+    Get.to(() => CreateMarketWidget()); // Navegar a la pantalla de Crear tienda
+  },
+),
+
+
                     if (AuthService.isLoggedIn)
                       IconMenuItem(
                           icon: Icons.logout,
