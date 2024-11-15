@@ -7,6 +7,7 @@ import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/user_widgets.dart';
 import 'package:jiron_anime/pages/home/perfil/widgets/menu_item.dart';
 import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/pages/miTienda/mi_tienda_page.dart';
 
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});
@@ -71,20 +72,27 @@ class PerfilPage extends StatelessWidget {
                         }),
 
                     IconMenuItem(
-  icon: Icons.add_box_outlined, // Ícono para agregar un producto
-  text: 'Agregar producto',
-  fnOnTap: () {
-    Get.to(() => AgregarProductoScreen());
-  },
-),
-IconMenuItem(
-  icon: Icons.storefront_outlined, // Ícono para crear una tienda
-  text: 'Crear tienda',
-  fnOnTap: () {
-    Get.to(() => CreateMarketWidget()); // Navegar a la pantalla de Crear tienda
-  },
-),
+                        icon: Icons.add_box_outlined, // Ícono para agregar un producto
+                        text: 'Agregar producto',
+                        fnOnTap: () {
+                          Get.to(() => AgregarProductoScreen());
+                        },
+                      ),
+                      IconMenuItem(
+                        icon: Icons.storefront_outlined, // Ícono para crear una tienda
+                        text: 'Crear tienda',
+                        fnOnTap: () {
+                          Get.to(() => CreateMarketWidget()); // Navegar a la pantalla de Crear tienda
+                        },
+                      ),
 
+                    IconMenuItem(
+                      icon: Icons.storefront_outlined, // Ícono para "Mi tienda"
+                      text: 'Mi tienda',
+                      fnOnTap: () {
+                        Get.to(() => MisMercadosPage()); // Navegar a la pantalla de "Mi tienda"
+                      },
+                    ),
 
                     if (AuthService.isLoggedIn)
                       IconMenuItem(
