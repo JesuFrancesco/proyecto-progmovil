@@ -12,7 +12,14 @@ import {
   Router,
 } from "express";
 import { PrismaClient } from "@prisma/client";
+import { authHandler } from "../middleware/authorization.handler";
+import { commonRouterConfig } from "./const";
 
+// manualmente
+import storageRouter from "./storage.router";
+import orderRouter from "./order.router";
+
+// prisma generated
 import { ProfileRouter } from "../generated/express/Profile";
 import { ClientRouter } from "../generated/express/Client";
 import { MarketRouter } from "../generated/express/Market";
@@ -20,19 +27,12 @@ import { ProductRouter } from "../generated/express/Product";
 import { NotificationRouter } from "../generated/express/Notification";
 import { ProductRatingRouter } from "../generated/express/ProductRating";
 import { ProductQuestionRouter } from "../generated/express/ProductQuestion";
-
 import { ShoppingCartRouter } from "../generated/express/ShoppingCart";
 import { CartItemRouter } from "../generated/express/CartItem";
-
 import { WishlistRouter } from "../generated/express/Wishlist";
 import { WishlistItemRouter } from "../generated/express/WishlistItem";
-
-import { RouteConfig } from "../generated/express/routeConfig";
 import { TagRouter } from "../generated/express/Tag";
-import { authHandler } from "../middleware/authorization.handler";
-import orderRouter from "./order.router";
-import { commonRouterConfig } from "./const";
-import { cp } from "fs";
+import { ProductTagRouter } from "../generated/express/ProductTag";
 
 const API_ROUTER = Router();
 
@@ -96,12 +96,39 @@ API_ROUTER.use(ProductRouter(commonRouterConfig));
 
 API_ROUTER.use(MarketRouter(commonRouterConfig));
 
+// prisma.market.update({
+//   where: {
+//     id: 1,
+//   },
+//   data: {
+//     products: {
+//       create: [
+//         {
+//           name: "",
+//           price: 2,
+//           stock: 1,
+//           dimensions: "",
+//           brandSeller: {
+//             create: {
+//               name: "sdf",
+//             },
+//           },
+//         },
+//       ],
+//     },
+//   },
+// });
+
 API_ROUTER.use(ProductRatingRouter(commonRouterConfig));
 
 API_ROUTER.use(ProductQuestionRouter(commonRouterConfig));
 
 API_ROUTER.use(TagRouter(commonRouterConfig));
 
+API_ROUTER.use(ProductTagRouter(commonRouterConfig));
+
 API_ROUTER.use(NotificationRouter(commonRouterConfig));
+
+API_ROUTER.use("/storage", storageRouter);
 
 export { API_ROUTER };

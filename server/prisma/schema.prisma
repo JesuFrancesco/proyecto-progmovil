@@ -25,6 +25,9 @@ model Profile {
   email String  @unique
   phone String?
 
+  provider String? @default("google")
+  imageUrl String? @map("image_url") @default("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
 
@@ -41,7 +44,6 @@ model Client {
 
   username         String? @map("username")
   referenceAddress String? @map("reference_address")
-  profileImageUrl  String? @map("pfp_image_url")
 
   countryId      Int? @map("country_id")
   distritoId     Int? @map("distrito_id")

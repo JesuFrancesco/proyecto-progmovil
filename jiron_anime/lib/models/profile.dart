@@ -10,6 +10,8 @@ class Profile implements ToJson, IdString {
   String? id;
   String? email;
   String? phone;
+  String? provider;
+  String? imageUrl;
   DateTime? createdAt;
   DateTime? updatedAt;
   Client? client;
@@ -22,6 +24,9 @@ class Profile implements ToJson, IdString {
     this.id,
     this.email,
     this.phone,
+    this.provider = "google",
+    this.imageUrl =
+        "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
     this.createdAt,
     this.updatedAt,
     this.client,
@@ -35,6 +40,8 @@ class Profile implements ToJson, IdString {
       id: json['id'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
+      provider: json['provider'] as String?,
+      imageUrl: json['imageUrl'] as String?,
       createdAt:
           json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
       updatedAt:
@@ -55,6 +62,8 @@ class Profile implements ToJson, IdString {
     String? id,
     String? email,
     String? phone,
+    String? provider,
+    String? imageUrl,
     DateTime? createdAt,
     DateTime? updatedAt,
     Client? client,
@@ -67,6 +76,8 @@ class Profile implements ToJson, IdString {
         id: id ?? this.id,
         email: email ?? this.email,
         phone: phone ?? this.phone,
+        provider: provider ?? this.provider,
+        imageUrl: imageUrl ?? this.imageUrl,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         client: client ?? this.client,
@@ -81,6 +92,8 @@ class Profile implements ToJson, IdString {
         id: profile.id ?? id,
         email: profile.email ?? email,
         phone: profile.phone ?? phone,
+        provider: profile.provider ?? provider,
+        imageUrl: profile.imageUrl ?? imageUrl,
         createdAt: profile.createdAt ?? createdAt,
         updatedAt: profile.updatedAt ?? updatedAt,
         client: profile.client ?? client,
@@ -95,6 +108,8 @@ class Profile implements ToJson, IdString {
         if (id != null) 'id': id,
         if (email != null) 'email': email,
         if (phone != null) 'phone': phone,
+        if (provider != null) 'provider': provider,
+        if (imageUrl != null) 'imageUrl': imageUrl,
         if (createdAt != null) 'createdAt': createdAt,
         if (updatedAt != null) 'updatedAt': updatedAt,
         if (client != null) 'client': client,
@@ -117,6 +132,8 @@ class Profile implements ToJson, IdString {
           id == other.id &&
           email == other.email &&
           phone == other.phone &&
+          provider == other.provider &&
+          imageUrl == other.imageUrl &&
           createdAt == other.createdAt &&
           updatedAt == other.updatedAt &&
           client == other.client &&
@@ -130,6 +147,8 @@ class Profile implements ToJson, IdString {
       id.hashCode ^
       email.hashCode ^
       phone.hashCode ^
+      provider.hashCode ^
+      imageUrl.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
       client.hashCode ^

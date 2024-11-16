@@ -36,12 +36,19 @@ async function main() {
         wishlistId INT;
 
     BEGIN
-        INSERT INTO public.profiles (id, email)
-        VALUES (new.id, new.email);
+        INSERT INTO public.profiles (id, image_url, provider, email)
+        VALUES (
+          new.id, 
+          new.raw_app_meta_data->>'avatar_url',
+          new.raw_app_meta_data->>'provider',
+          new.email
+        );
 
-        INSERT INTO public.clients (username, pfp_image_url, profile_id)
-        VALUES 
-          (new.raw_user_meta_data->>'full_name',  new.raw_user_meta_data->>'avatar_url', new.id)
+        INSERT INTO public.clients (username, profile_id)
+        VALUES (
+          new.raw_user_meta_data->>'full_name',  
+          new.id
+        )
         RETURNING id INTO clientId;
 
         INSERT INTO public.shopping_carts (client_id)

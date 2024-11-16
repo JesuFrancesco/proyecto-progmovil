@@ -19,7 +19,6 @@ class Client implements ToJson, Id {
   int? id;
   String? username;
   String? referenceAddress;
-  String? profileImageUrl;
   int? countryId;
   int? distritoId;
   int? provinciaId;
@@ -51,7 +50,6 @@ class Client implements ToJson, Id {
     this.id,
     this.username,
     this.referenceAddress,
-    this.profileImageUrl,
     this.countryId,
     this.distritoId,
     this.provinciaId,
@@ -84,7 +82,6 @@ class Client implements ToJson, Id {
       id: json['id'] as int?,
       username: json['username'] as String?,
       referenceAddress: json['referenceAddress'] as String?,
-      profileImageUrl: json['profileImageUrl'] as String?,
       countryId: json['countryId'] as int?,
       distritoId: json['distritoId'] as int?,
       provinciaId: json['provinciaId'] as int?,
@@ -147,7 +144,6 @@ class Client implements ToJson, Id {
     int? id,
     String? username,
     String? referenceAddress,
-    String? profileImageUrl,
     int? countryId,
     int? distritoId,
     int? provinciaId,
@@ -179,7 +175,6 @@ class Client implements ToJson, Id {
         id: id ?? this.id,
         username: username ?? this.username,
         referenceAddress: referenceAddress ?? this.referenceAddress,
-        profileImageUrl: profileImageUrl ?? this.profileImageUrl,
         countryId: countryId ?? this.countryId,
         distritoId: distritoId ?? this.distritoId,
         provinciaId: provinciaId ?? this.provinciaId,
@@ -216,7 +211,6 @@ class Client implements ToJson, Id {
         id: client.id ?? id,
         username: client.username ?? username,
         referenceAddress: client.referenceAddress ?? referenceAddress,
-        profileImageUrl: client.profileImageUrl ?? profileImageUrl,
         countryId: client.countryId ?? countryId,
         distritoId: client.distritoId ?? distritoId,
         provinciaId: client.provinciaId ?? provinciaId,
@@ -254,7 +248,6 @@ class Client implements ToJson, Id {
         if (id != null) 'id': id,
         if (username != null) 'username': username,
         if (referenceAddress != null) 'referenceAddress': referenceAddress,
-        if (profileImageUrl != null) 'profileImageUrl': profileImageUrl,
         if (countryId != null) 'countryId': countryId,
         if (distritoId != null) 'distritoId': distritoId,
         if (provinciaId != null) 'provinciaId': provinciaId,
@@ -316,7 +309,6 @@ class Client implements ToJson, Id {
           id == other.id &&
           username == other.username &&
           referenceAddress == other.referenceAddress &&
-          profileImageUrl == other.profileImageUrl &&
           countryId == other.countryId &&
           distritoId == other.distritoId &&
           provinciaId == other.provinciaId &&
@@ -349,7 +341,6 @@ class Client implements ToJson, Id {
       id.hashCode ^
       username.hashCode ^
       referenceAddress.hashCode ^
-      profileImageUrl.hashCode ^
       countryId.hashCode ^
       distritoId.hashCode ^
       provinciaId.hashCode ^
