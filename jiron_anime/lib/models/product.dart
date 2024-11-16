@@ -16,6 +16,7 @@ import 'product_rating.dart';
 class Product implements ToJson, Id {
   @override
   int? id;
+  int? status;
   String? name;
   String? descripcion;
   int? stock;
@@ -52,6 +53,7 @@ class Product implements ToJson, Id {
 
   Product({
     this.id,
+    this.status = 1,
     this.name,
     this.descripcion,
     this.stock,
@@ -89,6 +91,7 @@ class Product implements ToJson, Id {
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
       id: json['id'] as int?,
+      status: json['status'] as int?,
       name: json['name'] as String?,
       descripcion: json['descripcion'] as String?,
       stock: json['stock'] as int?,
@@ -96,7 +99,7 @@ class Product implements ToJson, Id {
       dimensions: json['dimensions'] as String?,
       warranty: json['warranty'] as bool?,
       discount: json['discount'] as int?,
-      peso: parseToDouble(json['peso']),
+      peso: json['peso'] as double?,
       formato: json['formato'] as String?,
       cubierta: json['cubierta'] as String?,
       anhoEdicion: json['anhoEdicion'] as int?,
@@ -149,6 +152,7 @@ class Product implements ToJson, Id {
 
   Product copyWith({
     int? id,
+    int? status,
     String? name,
     String? descripcion,
     int? stock,
@@ -185,6 +189,7 @@ class Product implements ToJson, Id {
   }) {
     return Product(
         id: id ?? this.id,
+        status: status ?? this.status,
         name: name ?? this.name,
         descripcion: descripcion ?? this.descripcion,
         stock: stock ?? this.stock,
@@ -226,6 +231,7 @@ class Product implements ToJson, Id {
   Product copyWithInstance(Product product) {
     return Product(
         id: product.id ?? id,
+        status: product.status ?? status,
         name: product.name ?? name,
         descripcion: product.descripcion ?? descripcion,
         stock: product.stock ?? stock,
@@ -267,6 +273,7 @@ class Product implements ToJson, Id {
   @override
   Map<String, dynamic> toJson() => ({
         if (id != null) 'id': id,
+        if (status != null) 'status': status,
         if (name != null) 'name': name,
         if (descripcion != null) 'descripcion': descripcion,
         if (stock != null) 'stock': stock,
@@ -331,6 +338,7 @@ class Product implements ToJson, Id {
       other is Product &&
           runtimeType == other.runtimeType &&
           id == other.id &&
+          status == other.status &&
           name == other.name &&
           descripcion == other.descripcion &&
           stock == other.stock &&
@@ -368,6 +376,7 @@ class Product implements ToJson, Id {
   @override
   int get hashCode =>
       id.hashCode ^
+      status.hashCode ^
       name.hashCode ^
       descripcion.hashCode ^
       stock.hashCode ^
