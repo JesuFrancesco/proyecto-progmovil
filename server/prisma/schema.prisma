@@ -26,7 +26,7 @@ model Profile {
   phone String?
 
   provider String? @default("google")
-  imageUrl String? @map("image_url") @default("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")
+  imageUrl String? @default("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg") @map("image_url")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
@@ -106,7 +106,9 @@ model Market {
 }
 
 model Product {
-  id              Int      @id @default(autoincrement())
+  id     Int @id @default(autoincrement())
+  status Int @default(1)
+
   name            String
   descripcion     String?
   stock           Int
@@ -370,11 +372,11 @@ model WishlistItem {
 
 model OrderItem {
   amount    Int
-  orderId   Int     @map("order_id")
-  productId Int     @map("product_id")
-  
-  order     Order   @relation(fields: [orderId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
+  orderId   Int @map("order_id")
+  productId Int @map("product_id")
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@id([orderId, productId])
   @@map("order_items")
