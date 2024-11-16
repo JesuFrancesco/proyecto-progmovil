@@ -4,7 +4,7 @@ import 'package:jiron_anime/controllers/order_controller.dart';
 import 'package:jiron_anime/pages/orders/widget/order_item.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 
 final _orderController = OrderController();

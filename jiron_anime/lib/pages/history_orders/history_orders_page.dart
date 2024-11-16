@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/controllers/order_controller.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
-import 'package:jiron_anime/utils/hash_simulator.dart';
 
 final _orderController = OrderController();
 
@@ -58,7 +57,7 @@ class HistoryOrdersPage extends StatelessWidget {
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 8.pv,
-                                Text("Pedido: ${getRandomString(15)}",
+                                Text("Pedido: ${order.id}",
                                     style:
                                         Theme.of(context).textTheme.bodySmall),
                                 8.pv,

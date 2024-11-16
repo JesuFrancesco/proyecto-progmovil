@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiron_anime/pages/agregarProducto/AgregarProducto.dart';
-import 'package:jiron_anime/pages/crearMercado/CrearMercado.dart';
+import 'package:jiron_anime/pages/create_market/create_market_page.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
-import 'package:jiron_anime/shared/user_widgets.dart';
+import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/pages/home/perfil/widgets/menu_item.dart';
-import 'package:jiron_anime/utils/extensions.dart';
-import 'package:jiron_anime/pages/miTienda/mi_tienda_page.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
+import 'package:jiron_anime/pages/mis_tiendas/mi_tienda_page.dart';
 
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});
@@ -24,18 +23,36 @@ class PerfilPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CurrentUser.getClipOvalAvatar(),
+                    AuthController.getClipOvalAvatar(),
                     Text(
-                      CurrentUser.fullName ?? 'No hay sesión',
+                      AuthController.fullName ?? 'No hay sesión',
                       style: Theme.of(context).textTheme.titleMedium,
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      CurrentUser.provider ?? '',
+                      AuthController.provider ?? '',
                       style: Theme.of(context).textTheme.titleSmall,
                       textAlign: TextAlign.center,
                     ),
+
                     32.pv,
+
+                    IconMenuItem(
+                      icon: Icons.storefront_outlined,
+                      text: 'Mis tiendas',
+                      fnOnTap: () {
+                        Get.to(() => const MisTiendasPage());
+                      },
+                    ),
+
+                    IconMenuItem(
+                      icon: Icons.storefront_outlined,
+                      text: 'Crear tienda',
+                      fnOnTap: () {
+                        Get.to(() => const CreateMarketPage());
+                      },
+                    ),
+
                     IconMenuItem(
                         icon: Icons.shopping_cart_outlined,
                         text: 'Carrito de compras',
@@ -70,29 +87,6 @@ class PerfilPage extends StatelessWidget {
                         fnOnTap: () {
                           Get.toNamed("/settings");
                         }),
-
-                    IconMenuItem(
-                        icon: Icons.add_box_outlined, // Ícono para agregar un producto
-                        text: 'Agregar producto',
-                        fnOnTap: () {
-                          Get.to(() => AgregarProductoScreen());
-                        },
-                      ),
-                      IconMenuItem(
-                        icon: Icons.storefront_outlined, // Ícono para crear una tienda
-                        text: 'Crear tienda',
-                        fnOnTap: () {
-                          Get.to(() => CreateMarketWidget()); // Navegar a la pantalla de Crear tienda
-                        },
-                      ),
-
-                    IconMenuItem(
-                      icon: Icons.storefront_outlined, // Ícono para "Mi tienda"
-                      text: 'Mi tienda',
-                      fnOnTap: () {
-                        Get.to(() => MisMercadosPage()); // Navegar a la pantalla de "Mi tienda"
-                      },
-                    ),
 
                     if (AuthService.isLoggedIn)
                       IconMenuItem(

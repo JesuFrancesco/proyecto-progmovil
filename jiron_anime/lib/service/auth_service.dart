@@ -1,15 +1,33 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:jiron_anime/config/config.dart';
 import 'package:jiron_anime/main.dart';
+import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
-import 'package:jiron_anime/shared/user_widgets.dart';
+import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
+  final currentProfile = Profile().obs;
+
   static bool get isLoggedIn => getSupabaseClient().auth.currentSession != null;
+
+  Future fetchCurrentProfile() async {
+    final profileId = getUser!.id;
+
+    final response = await http.get(
+        Uri.parse("${Config.supabaseURL}/profile/unique?where[id]=$profileId"),
+        headers: {...getSupabaseAuthHeaders()});
+
+    final dynamic data = jsonDecode(response.body);
+
+    currentProfile.value = Profile.fromJson(data);
+  }
 
   static Future<void> browserGoogleSignIn() async {
     try {
@@ -17,7 +35,7 @@ class AuthService {
         OAuthProvider.google,
         redirectTo: "jironanime://com.example.jiron_anime",
       );
-      await CurrentUser.reloadData();
+      await AuthController.reloadData();
       Get.offAll(() => const HomePage(), predicate: (r) => false);
     } catch (e) {
       Get.dialog(ErrorDialog(message: "Error al iniciar sesión: $e"));
@@ -62,13 +80,28 @@ class AuthService {
 
   static Future<void> logout() async {
     await supabase.auth.signOut();
-    await CurrentUser.reloadData();
+    await AuthController.reloadData();
     Get.offAll(() => const HomePage(), predicate: (r) => false);
   }
 
   static void setupAuthListener() {
     final _ = supabase.auth.onAuthStateChange.listen((data) async {
-      await CurrentUser.reloadData();
+      await AuthController.reloadData();
     });
   }
+
+  // Profile
+  static User? get getUser => supabase.auth.currentUser;
+
+  // Client id's
+  static String getProfileId() => getSupabaseClient().auth.currentUser!.id;
+
+  static int getClientId() =>
+      getSupabaseClient().auth.currentUser!.userMetadata!["client_id"];
+
+  static int getShoppingCartId() =>
+      getSupabaseClient().auth.currentUser!.userMetadata!["cart_id"];
+
+  static int getWishlistId() =>
+      getSupabaseClient().auth.currentUser!.userMetadata!["wishlist_id"];
 }

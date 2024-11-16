@@ -4,9 +4,9 @@ import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
-import 'package:jiron_anime/shared/user_widgets.dart';
+import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -66,12 +66,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: Row(
                   children: [
-                    CurrentUser.getClipOvalAvatar(),
+                    AuthController.getClipOvalAvatar(),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        CurrentUser.fullName != null
-                            ? CurrentUser.fullName!
+                        AuthController.fullName != null
+                            ? AuthController.fullName!
                             : 'Anónimo',
                         style: Theme.of(context).textTheme.titleLarge,
                         overflow: TextOverflow.ellipsis,

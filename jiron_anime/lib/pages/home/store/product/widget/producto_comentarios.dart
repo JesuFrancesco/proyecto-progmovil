@@ -1,11 +1,12 @@
 // ignore_for_file: unnecessary_const
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/pregunta_controller.dart';
 import 'package:jiron_anime/controllers/rating_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class PreguntasProducto extends StatelessWidget {
   final Product producto;
@@ -13,8 +14,8 @@ class PreguntasProducto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final preguntasController = PreguntaController();
-    final ratingsController = RatingController();
+    final preguntasController = Get.put(PreguntaController(), permanent: true);
+    final ratingsController = Get.put(RatingController(), permanent: true);
 
     return Row(
       children: [
@@ -124,7 +125,9 @@ class PreguntaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final username = pregunta.client!.profile!.email!;
+    final username = pregunta.client != null
+        ? pregunta.client!.profile!.email!
+        : "Cuenta eliminada";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -160,7 +163,7 @@ class ReseniaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final username = resenia.client!.profile!.email!;
+    final username = resenia.client!.profile!.email ?? "Anónimo";
     return Column(
       children: [
         Row(

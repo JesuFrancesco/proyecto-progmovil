@@ -8,7 +8,7 @@ import 'package:jiron_anime/pages/home/store/widgets/product_item.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:jiron_anime/utils/show_dialog.dart';
 
 class BusquedaPage extends StatefulWidget {

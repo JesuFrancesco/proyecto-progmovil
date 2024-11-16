@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:jiron_anime/config/config.dart';
 import 'package:jiron_anime/models/product_question.dart';
 import 'package:http/http.dart' as http;
+import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
 
@@ -28,7 +29,7 @@ class PreguntaService {
         Uri.parse("${Config.serverURL}/productquestion"),
         body: json.encode({
           "data": {
-            "clientId": getClientId(),
+            "clientId": AuthService.getClientId(),
             "productId": productQuestion.productId!,
             "subject": productQuestion.subject!,
             "text": productQuestion.text!

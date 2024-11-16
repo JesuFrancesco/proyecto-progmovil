@@ -4,6 +4,7 @@ import 'package:jiron_anime/config/config.dart';
 import 'package:jiron_anime/models/wishlist.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status/http_status.dart';
+import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
@@ -11,7 +12,7 @@ import 'package:jiron_anime/utils/supabase_utils.dart';
 class WishlistService {
   Future<Wishlist> fetchMyWishlist() async {
     final queryParams = {
-      "where[id]": getWishlistId(),
+      "where[id]": AuthService.getWishlistId(),
       "include[wishlistItems][include][product][include][productAttachments]":
           true,
     };
@@ -34,7 +35,7 @@ class WishlistService {
     final res = await http.post(Uri.parse("${Config.serverURL}/wishlistitem"),
         body: json.encode({
           "data": {
-            "wishlistId": getWishlistId(),
+            "wishlistId": AuthService.getWishlistId(),
             "productId": productId,
           }
         }),
@@ -58,8 +59,8 @@ class WishlistService {
         body: json.encode({
           "where": {
             "wishlistId_productId": {
+              "wishlistId": AuthService.getWishlistId(),
               "productId": productId,
-              "wishlistId": getWishlistId()
             }
           }
         }),

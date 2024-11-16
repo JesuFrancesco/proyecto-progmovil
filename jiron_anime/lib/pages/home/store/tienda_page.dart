@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/config/const.dart';
 import 'package:jiron_anime/models/tag.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
-import 'package:jiron_anime/shared/user_widgets.dart';
+import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_buttonbar.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_item.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_carousel.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 final ProductoController productoController = Get.put(ProductoController());
 
@@ -71,7 +71,7 @@ class _TiendaPageState extends State<TiendaPage> {
                             "Jiron Anime",
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          CurrentUser.getAvatarIcon(),
+                          AuthController.getAvatarIcon(),
                         ],
                       ),
                       15.pv,

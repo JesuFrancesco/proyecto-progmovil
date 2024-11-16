@@ -4,7 +4,7 @@ import 'package:jiron_anime/controllers/wishlist_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 final _wishlistController = Get.put(WishlistController());
 

@@ -5,7 +5,7 @@ import 'package:jiron_anime/models/product.dart';
 import 'package:jiron_anime/models/product_question.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 final _preguntaController = PreguntaController();
 

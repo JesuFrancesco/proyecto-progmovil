@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class IconMenuItem extends StatelessWidget {
   final VoidCallback? fnOnTap;

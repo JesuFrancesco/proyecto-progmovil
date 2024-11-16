@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http_status/http_status.dart';
 import 'package:jiron_anime/config/config.dart';
+import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
@@ -12,7 +13,7 @@ import 'package:http/http.dart' as http;
 class CartService {
   Future<ShoppingCart> fetchCartWithProducts() async {
     final queryParams = {
-      "where[clientId]": getClientId(),
+      "where[clientId]": AuthService.getClientId(),
       "include[cartItems][include][product][include][productAttachments]": true
     };
 
@@ -26,11 +27,31 @@ class CartService {
     return ShoppingCart.fromJson(data);
   }
 
+  Future<List<Market>> fetchMyMarkets() async {
+    final currentUser = await getSupabaseClient().auth.getUser();
+
+    final queryParams = {
+      "where[profileId]": currentUser.user!.id,
+      // ponle los joins
+    };
+
+    final response = await http.get(
+        Uri.parse(
+            "${Config.serverURL}/market/unique?${parseToQueryParams(queryParams)}"),
+        headers: {...getSupabaseAuthHeaders()});
+
+    final List<dynamic> data = jsonDecode(response.body);
+
+    return data
+        .map((map) => Market.fromJson(map as Map<String, dynamic>))
+        .toList();
+  }
+
   Future<void> addProductToCart(int amount, int productId) async {
     final res = await http.post(Uri.parse("${Config.serverURL}/cartitem"),
         body: json.encode({
           "data": {
-            "cartId": getShoppingCartId(),
+            "cartId": AuthService.getShoppingCartId(),
             "amount": amount,
             "productId": productId
           }
@@ -50,7 +71,7 @@ class CartService {
         body: json.encode({
           "where": {
             "cartId_productId": {
-              "cartId": getShoppingCartId(),
+              "cartId": AuthService.getShoppingCartId(),
               "productId": productId
             }
           }
@@ -71,7 +92,7 @@ class CartService {
         Uri.parse("${Config.serverURL}/cartitem/many"),
         body: json.encode({
           "where": {
-            "cartId": getShoppingCartId(),
+            "cartId": AuthService.getShoppingCartId(),
           }
         }),
         headers: {

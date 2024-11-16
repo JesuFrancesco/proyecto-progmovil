@@ -22,12 +22,3 @@ Map<String, String> getSupabaseAuthHeaders() {
     'RefreshToken': '$refreshToken',
   };
 }
-
-int getClientId() =>
-    getSupabaseClient().auth.currentUser!.userMetadata!["client_id"];
-
-int getShoppingCartId() =>
-    getSupabaseClient().auth.currentUser!.userMetadata!["cart_id"];
-
-int getWishlistId() =>
-    getSupabaseClient().auth.currentUser!.userMetadata!["wishlist_id"];

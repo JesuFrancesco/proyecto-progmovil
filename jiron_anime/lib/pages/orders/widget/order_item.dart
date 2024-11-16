@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jiron_anime/models/order.dart';
 import 'package:jiron_anime/pages/chat/chat_page.dart';
+import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
 import 'package:jiron_anime/pages/payment_success/payment_success_page.dart';
-import 'package:jiron_anime/shared/user_widgets.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class OrderItemWidget extends StatelessWidget {
   final Order orden;
@@ -53,18 +53,22 @@ class OrderItemWidget extends StatelessWidget {
                         ],
                       ),
                       Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            SizedBox(
-                              height: 150,
-                              child:
-                                  orderItem.product!.productAttachments != null
-                                      ? Image.network(orderItem.product!
-                                          .productAttachments![0].imageUrl!)
-                                      : const SizedBox(),
-                            ),
-                          ],
+                        child: GestureDetector(
+                          onTap: () => Get.to(
+                              () => ProductoPage(producto: orderItem.product!)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 150,
+                                child: orderItem.product!.productAttachments !=
+                                        null
+                                    ? Image.network(orderItem.product!
+                                        .productAttachments![0].imageUrl!)
+                                    : const SizedBox(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -87,7 +91,13 @@ class OrderItemWidget extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          CurrentUser.getAvatarIcon(),
+                          CircleAvatar(
+                              child:
+                                  (orderItem.product!.market!.logoUrl != null)
+                                      ? Image.network(
+                                          orderItem.product!.market!.logoUrl!,
+                                        )
+                                      : const Text("?")),
                           8.ph,
                           Text(
                             orderItem.product!.market!.name!.trim(),
