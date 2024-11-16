@@ -6,8 +6,13 @@ class TagController extends GetxController {
   TagService service = TagService();
 
   final tags = <Tag>[].obs;
+  final currentProductTags = <ProductTag>[].obs;
 
   Future<void> obtenerTags() async {
     tags.value = await service.fetchAll();
+  }
+
+  Future<void> obtenerTagsDeProducto(int productId) async {
+    currentProductTags.value = await service.fetchFromProduct(productId);
   }
 }

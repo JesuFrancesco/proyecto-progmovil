@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/middleware/auth/middleware.dart';
+import 'package:jiron_anime/pages/create_market/create_market_page.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders_page.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
+import 'package:jiron_anime/pages/mis_tiendas/mi_tienda_page.dart';
 import 'package:jiron_anime/pages/settings/settings_page.dart';
 import 'package:jiron_anime/pages/orders/orders_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
@@ -51,6 +53,11 @@ class MainApp extends StatelessWidget {
         GetPage(name: "/home", page: () => const HomePage()),
         GetPage(name: "/settings", page: () => const SettingsPage()),
         GetPage(name: "/sign-in", page: () => const SignInPage()),
+        // Rutas protegidas
+        GetPage(
+            name: "/wishlist",
+            page: () => const WishlistPage(),
+            middlewares: [AuthMiddleware()]),
         GetPage(
             name: "/cart",
             page: () => const ShoppingCartPage(),
@@ -60,12 +67,16 @@ class MainApp extends StatelessWidget {
             page: () => const OrdersPage(),
             middlewares: [AuthMiddleware()]),
         GetPage(
-            name: "/wishlist",
-            page: () => const WishlistPage(),
-            middlewares: [AuthMiddleware()]),
-        GetPage(
             name: "/orders-history",
             page: () => const HistoryOrdersPage(),
+            middlewares: [AuthMiddleware()]),
+        GetPage(
+            name: "/my-markets",
+            page: () => const MisTiendasPage(),
+            middlewares: [AuthMiddleware()]),
+        GetPage(
+            name: "/create-market",
+            page: () => const CreateMarketPage(),
             middlewares: [AuthMiddleware()]),
       ],
       theme: appTheme,

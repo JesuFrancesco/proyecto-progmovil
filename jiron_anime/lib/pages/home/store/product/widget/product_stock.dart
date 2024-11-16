@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 //import 'package:jiron_anime/utils/extensions.dart';
 
 class StockProducto extends StatelessWidget {

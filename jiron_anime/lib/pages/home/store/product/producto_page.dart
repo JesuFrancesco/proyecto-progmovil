@@ -1,6 +1,8 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
+import 'package:jiron_anime/controllers/tags_controller.dart';
 import 'package:jiron_anime/controllers/wishlist_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/producto_descripcion.dart';
@@ -10,8 +12,8 @@ import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/product_info.dart';
-import 'package:jiron_anime/utils/extensions.dart';
-import 'package:jiron_anime/utils/fetch_and_render.dart';
+import 'package:jiron_anime/shared/small_circular_indicator.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class ProductoPage extends StatefulWidget {
   final Product producto;
@@ -34,8 +36,9 @@ enum BotonesProducto {
 class _ProductoPageState extends State<ProductoPage> {
   final _memoizer = AsyncMemoizer();
 
-  final wishlistController = WishlistController();
-  final productoController = ProductoController();
+  final productoController = Get.put(ProductoController(), permanent: true);
+  final wishlistController = Get.put(WishlistController(), permanent: true);
+  final tagController = Get.put(TagController(), permanent: true);
 
   late Widget _body;
   late final Map<BotonesProducto, Widget Function()> _bodyWidgets;
@@ -63,8 +66,9 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Future<void> _obtenerProductosPorGenero() async {
     return _memoizer.runOnce(() async {
+      await tagController.obtenerTagsDeProducto(widget.producto.id!);
       await productoController.obtenerProductosPorGenero(
-          widget.producto.productTags!.map((e) => e.tag!).toList(), 1);
+          tagController.currentProductTags.map((e) => e.tag!).toList(), 1);
     });
   }
 
@@ -105,28 +109,31 @@ class _ProductoPageState extends State<ProductoPage> {
                 ],
               ),
               15.pv,
-              fetchAndRender(
-                _obtenerProductosPorGenero,
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: productoController.productos
-                          .toList()
-                          .expand(
-                            (manga) => [
-                              SizedBox(
-                                height: 150,
-                                child: Image.network(
-                                    manga.productAttachments![0].imageUrl!),
-                              ),
-                              10.ph,
-                            ],
-                          )
-                          .take(15)
-                          .toList()),
-                ),
-              )
+              FutureBuilder(
+                future: _obtenerProductosPorGenero(),
+                builder: (ctx, snapshot) => snapshot.connectionState ==
+                        ConnectionState.waiting
+                    ? const SmallCircularIndicator()
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: productoController.productos
+                                .toList()
+                                .expand(
+                                  (manga) => [
+                                    SizedBox(
+                                      height: 150,
+                                      child: Image.network(manga
+                                          .productAttachments![0].imageUrl!),
+                                    ),
+                                    10.ph,
+                                  ],
+                                )
+                                .take(15)
+                                .toList()),
+                      ),
+              ),
             ],
           ),
         ),

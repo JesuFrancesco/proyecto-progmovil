@@ -6,7 +6,7 @@ import 'package:jiron_anime/models/product.dart';
 import 'package:jiron_anime/models/wishlist_item.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 final _wishlistController = Get.put(WishlistController());
 

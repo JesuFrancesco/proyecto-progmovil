@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/utils/descargar_constancia.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
   final Order order;

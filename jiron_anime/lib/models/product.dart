@@ -1,6 +1,6 @@
 //***  AUTO-GENERATED FILE - DO NOT MODIFY ***//
 
-import 'package:jiron_anime/utils/parseo.dart';
+import 'package:jiron_anime/utils/double_parse.dart';
 
 import 'model_base.dart';
 import 'market.dart';

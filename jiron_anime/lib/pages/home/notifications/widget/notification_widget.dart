@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:get/get.dart';
 import 'package:jiron_anime/models/notification.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class NotificacionRemovableWidget extends StatelessWidget {
   final Notification item;

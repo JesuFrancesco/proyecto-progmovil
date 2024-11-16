@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class ProductItem extends StatelessWidget {
   final Product producto;
@@ -54,7 +54,7 @@ class ProductItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         Text(
-          producto.formato!,
+          producto.formato ?? "NA",
           style: const TextStyle(fontWeight: FontWeight.w300),
           textAlign: TextAlign.center,
           maxLines: 1,

@@ -6,7 +6,7 @@ import 'package:jiron_anime/pages/home/store/product/widget/ui/product_slider.da
 import 'package:jiron_anime/pages/home/store/product/widget/ui/question_button.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/ui/resenia_button.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/ui/wishlist_button.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class ProductoInfo extends StatefulWidget {
   final Product producto;

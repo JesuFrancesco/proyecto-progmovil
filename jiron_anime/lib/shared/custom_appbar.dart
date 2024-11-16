@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/shared/boton_retroceso.dart';
-import 'package:jiron_anime/shared/user_widgets.dart';
+import 'package:jiron_anime/shared/auth_controller.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String title;
@@ -28,7 +28,7 @@ class CustomAppbar extends StatelessWidget {
             ],
           ),
         ),
-        if (showAvatar) CurrentUser.getAvatarIcon(),
+        if (showAvatar) AuthController.getAvatarIcon(),
       ],
     );
   }

@@ -15,7 +15,7 @@ class NotificationsPage extends StatefulWidget {
 
 class _NotificationsPageState extends State<NotificationsPage> {
   final NotificationsController notificationController =
-      Get.put(NotificationsController());
+      Get.put(NotificationsController(), permanent: true);
   final _items = <Notification>[].obs;
 
   @override

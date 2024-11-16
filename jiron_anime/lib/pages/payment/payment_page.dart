@@ -7,7 +7,7 @@ import 'package:jiron_anime/pages/payment_success/payment_success_page.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
-import 'package:jiron_anime/utils/extensions.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class PaymentPage extends StatefulWidget {
   final ShoppingCart carrito;

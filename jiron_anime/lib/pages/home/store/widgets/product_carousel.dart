@@ -86,7 +86,7 @@ class _ProductCarouselState extends State<ProductCarousel> {
                             ),
                             const SizedBox(height: 0),
                             Text(
-                              currentComic.descripcion!,
+                              currentComic.descripcion ?? "No hay descripción",
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 14.5,

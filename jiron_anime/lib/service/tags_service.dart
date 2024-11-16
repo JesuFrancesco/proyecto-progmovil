@@ -27,4 +27,25 @@ class TagService {
 
     return tags;
   }
+
+  Future<List<ProductTag>> fetchFromProduct(int productId) async {
+    final queryParams = {"where[productId]": productId, "include[tag]": true};
+
+    List<ProductTag> tags = [];
+
+    final res = await http.get(Uri.parse(
+        "${Config.serverURL}/producttag?${parseToQueryParams(queryParams)}"));
+
+    if (res.statusCode != 200) {
+      Get.dialog(ErrorDialog(message: "Algo salio mal\n ${res.body}"));
+    }
+
+    final List<dynamic> data = jsonDecode(res.body);
+
+    tags = data
+        .map((map) => ProductTag.fromJson(map as Map<String, dynamic>))
+        .toList();
+
+    return tags;
+  }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status/http_status.dart';
 import 'package:jiron_anime/config/config.dart';
+import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
@@ -13,7 +14,7 @@ class OrderService {
   Future<List<Order>> fetchMyOrderHistory() async {
     List<Order> ordenes = [];
     final queryParams = {
-      "where[clientId]": getClientId(),
+      "where[clientId]": AuthService.getClientId(),
       "include[orderItems][include][product][include][productAttachments]":
           true,
       "include[orderItems][include][product][include][market]": true,
@@ -21,9 +22,9 @@ class OrderService {
     };
 
     final res = await http.get(
-      Uri.parse("${Config.serverURL}/order?${parseToQueryParams(queryParams)}"),
-      // headers: getSupabaseAuthHeaders()
-    );
+        Uri.parse(
+            "${Config.serverURL}/order?${parseToQueryParams(queryParams)}"),
+        headers: getSupabaseAuthHeaders());
 
     if (!res.statusCode.isSuccessfulHttpStatusCode) {
       Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));
