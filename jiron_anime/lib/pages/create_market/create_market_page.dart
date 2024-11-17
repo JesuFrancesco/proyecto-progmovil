@@ -9,6 +9,8 @@ import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/service/file_upload_service.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
+import 'package:jiron_anime/shared/dialogs.dart';
+import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class CreateMarketPage extends StatefulWidget {
@@ -19,47 +21,61 @@ class CreateMarketPage extends StatefulWidget {
 }
 
 class _CreateMarketPageState extends State<CreateMarketPage> {
-  final _llaveFormulario = GlobalKey<FormState>();
+  final isLoading = false.obs;
+  final formKey = GlobalKey<FormState>();
 
   final marketController = Get.put(MarketController());
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _contactEmailController = TextEditingController();
-  final TextEditingController _contactPhoneController = TextEditingController();
+  final nameController = TextEditingController();
+  final contactEmailController = TextEditingController();
+  final contactPhoneController = TextEditingController();
+  final imagePicker = ImagePicker();
+
   File? _selectedLogo;
 
-  final _picker = ImagePicker();
-
   void _submitForm() async {
-    if (_llaveFormulario.currentState!.validate()) {
-      final service = FileUploadService(context);
+    if (formKey.currentState!.validate()) {
+      if (_selectedLogo == null) {
+        Get.dialog(const InfoDialog(
+            title: "¡¡Hey!!", message: "Selecciona un logo para tu tienda."));
+        return;
+      }
 
-      final uploadedFile = await service.uploadSingleFile(
-        _selectedLogo!,
-      );
+      try {
+        isLoading.value = true;
+        final service = FileUploadService(context);
 
-      final logoUrl = uploadedFile!.publicUrl;
-      final name = _nameController.text;
-      final contactEmail = _contactEmailController.text;
-      final contactPhone = _contactPhoneController.text;
+        final uploadedFile = await service.uploadSingleFile(
+          _selectedLogo!,
+        );
 
-      await marketController.crearNuevoMercado(Market(
-          name: name,
-          contactEmail: contactEmail,
-          contactPhone: contactPhone,
-          logoUrl: logoUrl,
-          profileId: AuthService.getProfileId()));
+        final logoUrl = uploadedFile!.publicUrl;
+        final name = nameController.text;
+        final contactEmail = contactEmailController.text;
+        final contactPhone = contactPhoneController.text;
 
-      ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
-        const SnackBar(content: Text("¡Tu mercado fue creado exitosamente!")),
-      );
+        await marketController.crearNuevoMercado(Market(
+            name: name,
+            contactEmail: contactEmail,
+            contactPhone: contactPhone,
+            logoUrl: logoUrl,
+            profileId: AuthService.getProfileId()));
 
-      Get.offAllNamed("/my-markets");
+        ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
+          const SnackBar(content: Text("¡Tu mercado fue creado exitosamente!")),
+        );
+
+        Get.until((route) => Get.currentRoute == '/home');
+      } catch (e) {
+        // DO SOMETHING
+      } finally {
+        isLoading.value = false;
+      }
     }
   }
 
   Future<void> _pickLogo() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -77,7 +93,7 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
           slivers: [
             SliverFillRemaining(
               child: Form(
-                key: _llaveFormulario,
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -89,15 +105,7 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
                     30.pv,
                     getImageSelectorWidget(context),
                     30.pv,
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: _submitForm,
-                          child: const Text('Crear'),
-                        ),
-                      ),
-                    ),
+                    getCrearTiendaButton(),
                   ],
                 ),
               ),
@@ -108,6 +116,22 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
     );
   }
 
+  Widget getCrearTiendaButton() {
+    return Obx(
+      () => isLoading.value
+          ? const SmallCircularIndicator()
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: _submitForm,
+                  child: const Text('Crear'),
+                ),
+              ),
+            ),
+    );
+  }
+
   Column getDetailsFormWidget(BuildContext context) {
     return Column(
       children: [
@@ -115,8 +139,9 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
           "Completa tu información",
           style: Theme.of(context).textTheme.titleMedium,
         ),
+        15.pv,
         TextFormField(
-          controller: _nameController,
+          controller: nameController,
           decoration: const InputDecoration(labelText: 'Nombre del mercado'),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -127,7 +152,7 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
         ),
         20.pv,
         TextFormField(
-          controller: _contactEmailController,
+          controller: contactEmailController,
           decoration: const InputDecoration(labelText: 'Correo electronico'),
           keyboardType: TextInputType.emailAddress,
           validator: (value) {
@@ -139,7 +164,7 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
         ),
         16.pv,
         TextFormField(
-          controller: _contactPhoneController,
+          controller: contactPhoneController,
           decoration: const InputDecoration(labelText: 'Telefono'),
           keyboardType: TextInputType.phone,
           validator: (value) {
@@ -160,6 +185,7 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
           "Selecciona tu logo",
           style: Theme.of(context).textTheme.titleMedium,
         ),
+        15.pv,
         GestureDetector(
           onTap: _pickLogo,
           child: Container(

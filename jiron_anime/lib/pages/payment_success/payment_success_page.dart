@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/utils/descargar_constancia.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
@@ -14,97 +15,104 @@ class PaymentSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomLayout(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              20.pv,
-              const Icon(
-                Icons.check_circle_outline,
-                size: 100,
-                color: Colors.orange,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomAppbar(
+              title: "Orden ${order.id}",
+              showAvatar: true,
+            ),
+            20.pv,
+            const Icon(
+              Icons.check_circle_outline,
+              size: 100,
+              color: Colors.orange,
+            ),
+            20.pv,
+            const Text(
+              'Pago realizado!',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              20.pv,
-              const Text(
-                'Pago realizado!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+            ),
+            const Text(
+              'Hemos recibido tu pago.',
+            ),
+            30.pv,
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Estado',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ),
-              const Text(
-                'Hemos recibido tu pago.',
-              ),
-              30.pv,
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              ],
+            ),
+            10.pv,
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.orange,
+                ),
+                SizedBox(width: 10),
+                Text('Realizado'),
+              ],
+            ),
+            20.pv,
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Fecha',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            10.pv,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(DateFormat("dd/MM/yyyy HH:mm:ss").format(DateTime.now())),
+              ],
+            ),
+            20.pv,
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Método de pago',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            10.pv,
+            Row(
+              children: [
+                Image.network(
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/480px-Mastercard-logo.png',
+                  width: 50,
+                ),
+                10.ph,
+                const Text('Mastercard\nTermina en 4521'),
+              ],
+            ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
                 children: [
-                  Text(
-                    'Estado',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  DescargarConstanciaButton(order: order),
+                  15.pv,
+                  const IrAOrdenesButton(),
+                  15.pv,
+                  const VolverATiendaButton(),
                 ],
               ),
-              10.pv,
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.check_circle,
-                    color: Colors.orange,
-                  ),
-                  SizedBox(width: 10),
-                  Text('Realizado'),
-                ],
-              ),
-              20.pv,
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'Fecha',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              10.pv,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                      DateFormat("dd/MM/yyyy HH:mm:ss").format(DateTime.now())),
-                ],
-              ),
-              20.pv,
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'Método de pago',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              10.pv,
-              Row(
-                children: [
-                  Image.network(
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/480px-Mastercard-logo.png',
-                    width: 50,
-                  ),
-                  10.ph,
-                  const Text('Mastercard\nTermina en 4521'),
-                ],
-              ),
-              const Spacer(),
-              DescargarConstanciaButton(order: order),
-              15.pv,
-              const IrAOrdenesButton(),
-              15.pv,
-              const VolverATiendaButton(),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

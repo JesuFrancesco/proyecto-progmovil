@@ -11,29 +11,6 @@ import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 
 class ProductoService {
-  Future<List<Product>> fetchAll() async {
-    List<Product> mangas = [];
-
-    final queryParams = {
-      "include[productAttachments]": true,
-      "take": ConstValues.RESULTS_PER_PAGE
-    };
-
-    final res = await http.get(Uri.parse(
-        "${Config.serverURL}/product?${parseToQueryParams(queryParams)}"));
-
-    if (!res.statusCode.isSuccessfulHttpStatusCode) {
-      Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));
-    }
-
-    final List<dynamic> data = jsonDecode(res.body);
-    mangas = data
-        .map((map) => Product.fromJson(map as Map<String, dynamic>))
-        .toList();
-
-    return mangas;
-  }
-
   Future<List<Product>> fetchRecent(int page) async {
     List<Product> mangas = [];
 
@@ -122,6 +99,7 @@ Map<String, Object> _pagination(int page) {
 }
 
 Map<String, Object> _commonJoins = {
+  "where[status]": 1,
   "include[productAttachments]": true,
   "include[productTags][include][tag]": true,
 };

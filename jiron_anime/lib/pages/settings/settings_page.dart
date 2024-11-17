@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
-import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -50,82 +49,136 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
+  Future<void> launchBrowserPage(String url) async {
+    final uri = Uri.parse(url);
+    await launchUrl(uri);
+  }
+
+  void showBottomSheet(String title, String message) {
+    Get.bottomSheet(
+      Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomLayout(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CustomAppbar(
-                showAvatar: false,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: Row(
-                  children: [
-                    AuthController.getClipOvalAvatar(),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        AuthController.fullName != null
-                            ? AuthController.fullName!
-                            : 'Anónimo',
-                        style: Theme.of(context).textTheme.titleLarge,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        maxLines: 2,
-                      ),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CustomAppbar(
+                    showAvatar: false,
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: Row(
+                      children: [
+                        AuthController.getClipOvalAvatar(),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            AuthController.fullName != null
+                                ? AuthController.fullName!
+                                : 'Anónimo',
+                            style: Theme.of(context).textTheme.titleLarge,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            maxLines: 2,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      'Ajustes',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: AppColors.primaryColor,
+                          ),
+                    ),
+                  ),
+                  _buildSectionTitle('Cuenta', Icons.person),
+                  _buildListTile(
+                      'Edita tu perfil',
+                      Icons.edit,
+                      () => Get.snackbar(
+                            "WIP",
+                            "Nada que hacerle",
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: const Duration(seconds: 10),
+                          )),
+                  _buildListTile(
+                      'Cambiar contraseña',
+                      Icons.lock,
+                      () => Get.snackbar(
+                            "WIP",
+                            "Nada que hacerle",
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: const Duration(seconds: 10),
+                          )),
+                  16.pv,
+                  _buildSectionTitle('Notificación', Icons.notifications),
+                  _buildSwitchTile('Activar notificaciones',
+                      _notificationsEnabled, _updateNotifications),
+                  16.pv,
+                  _buildSectionTitle('Otros', Icons.settings),
+                  _buildSwitchTile(
+                      'Modo oscuro', _darkModeEnabled, _updateDarkMode),
+                  16.pv,
+                  _buildSectionTitle('Más', Icons.more_horiz),
+                  _buildListTile(
+                    'Sobre nosotros',
+                    Icons.info,
+                    () => showBottomSheet(
+                        "Sobre nosotros", "Lorem ipsum dolor sit amet."),
+                  ),
+                  _buildListTile(
+                    'Política de privacidad',
+                    Icons.privacy_tip,
+                    () => showBottomSheet(
+                        "Privacidad", "Lorem ipsum dolor sit amet."),
+                  ),
+                  _buildListTile(
+                    'Preguntas',
+                    Icons.question_mark,
+                    () => launchBrowserPage("https://www.google.com"),
+                  ),
+                ],
               ),
-              // Sección de Ajustes
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'Ajustes',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: AppColors.primaryColor,
-                      ),
-                ),
-              ),
-              _buildSectionTitle('Cuenta', Icons.person),
-              _buildListTile('Edita tu perfil', Icons.edit,
-                  () => Get.to(() => const TiendaPage())),
-              _buildListTile('Cambiar contraseña', Icons.lock, () {}),
-              _buildListTile(
-                  'Privacidad',
-                  Icons.privacy_tip,
-                  () => Get.dialog(
-                      const InfoDialog(title: "Privacidad", message: "no se"))),
-              16.pv,
-              // Sección de Notificación
-              _buildSectionTitle('Notificación', Icons.notifications),
-              _buildSwitchTile('Activar notificaciones', _notificationsEnabled,
-                  _updateNotifications),
-              16.pv,
-              // Sección de Otros
-              _buildSectionTitle('Otros', Icons.settings),
-              _buildSwitchTile(
-                  'Modo oscuro', _darkModeEnabled, _updateDarkMode),
-              16.pv,
-              // Sección de Más
-              _buildSectionTitle('Más', Icons.more_horiz),
-              _buildListTile(
-                  'Sobre nosotros',
-                  Icons.info,
-                  () => Get.dialog(const InfoDialog(
-                      title: "Sobre nosotros", message: "😭😭😭😭"))),
-              _buildListTile(
-                  'Política de privacidad',
-                  Icons.privacy_tip,
-                  () => Get.dialog(const InfoDialog(
-                      title: "Política de privacidad", message: "🥶🥶🥶🥶"))),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
