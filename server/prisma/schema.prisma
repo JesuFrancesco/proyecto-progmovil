@@ -422,7 +422,7 @@ model RatingAttachment {
   ratingId Int    @map("rating_id")
   imageUrl String @map("blob_url")
 
-  productRating ProductRating @relation(fields: [ratingId], references: [id])
+  productRating ProductRating @relation(fields: [ratingId], references: [id], onDelete: Cascade)
 
   @@id([ratingId, imageUrl])
   @@map("rating_attachments")
