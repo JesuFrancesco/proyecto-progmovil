@@ -123,8 +123,8 @@ model Product {
   numeroEpisodios Int?     @map("numero_episodios")
   numeroPaginas   Int?     @map("numero_paginas")
 
-  marketId Int    @map("market_id")
-  market   Market @relation(fields: [marketId], references: [id])
+  marketId Int?    @map("market_id")
+  market   Market? @relation(fields: [marketId], references: [id], onDelete: SetNull)
 
   brandSellerId Int?         @map("brandseller_id")
   brandSeller   BrandSeller? @relation(fields: [brandSellerId], references: [id])
