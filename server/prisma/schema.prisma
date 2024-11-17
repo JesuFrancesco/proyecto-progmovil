@@ -421,8 +421,7 @@ model ProductRating {
 model RatingAttachment {
   ratingId      Int           @map("rating_id")
   imageUrl      String        @map("blob_url")
-  filename      String
-  type          String
+  
   productRating ProductRating @relation(fields: [ratingId], references: [id])
 
   @@id([ratingId, imageUrl])
