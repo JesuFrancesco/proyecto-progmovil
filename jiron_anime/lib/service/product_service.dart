@@ -102,4 +102,5 @@ Map<String, Object> _commonJoins = {
   "where[status]": 1,
   "include[productAttachments]": true,
   "include[productTags][include][tag]": true,
+  "include[market][include][profile][include][client]": true,
 };

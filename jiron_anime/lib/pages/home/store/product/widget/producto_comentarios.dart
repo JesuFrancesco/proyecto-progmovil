@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/pregunta_controller.dart';
@@ -10,13 +8,17 @@ import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class PreguntasProducto extends StatelessWidget {
   final Product producto;
-  const PreguntasProducto({super.key, required this.producto});
+  final PreguntaController preguntasController;
+  final RatingController ratingsController;
+
+  const PreguntasProducto(
+      {super.key,
+      required this.producto,
+      required this.preguntasController,
+      required this.ratingsController});
 
   @override
   Widget build(BuildContext context) {
-    final preguntasController = Get.put(PreguntaController(), permanent: true);
-    final ratingsController = Get.put(RatingController(), permanent: true);
-
     return Row(
       children: [
         Expanded(
@@ -25,8 +27,7 @@ class PreguntasProducto extends StatelessWidget {
             children: [
               const Text(
                 "Preguntas",
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               10.pv,
               FutureBuilder<void>(
@@ -58,12 +59,14 @@ class PreguntasProducto extends StatelessWidget {
                     );
                   }
 
-                  return Column(
-                    children: preguntasController.preguntas
-                        .map((pregunta) => PreguntaWidget(
-                              pregunta: pregunta,
-                            ))
-                        .toList(),
+                  return Obx(
+                    () => Column(
+                      children: preguntasController.preguntas
+                          .map((pregunta) => PreguntaWidget(
+                                pregunta: pregunta,
+                              ))
+                          .toList(),
+                    ),
                   );
                 },
               ),
@@ -72,7 +75,6 @@ class PreguntasProducto extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               10.pv,
-              // ReseniaWidget(resenia: ,),
               FutureBuilder<void>(
                 future:
                     ratingsController.obtenerRatingsDeProducto(producto.id!),
@@ -102,12 +104,14 @@ class PreguntasProducto extends StatelessWidget {
                     );
                   }
 
-                  return Column(
-                    children: ratingsController.ratings
-                        .map((rating) => ReseniaWidget(
-                              resenia: rating,
-                            ))
-                        .toList(),
+                  return Obx(
+                    () => Column(
+                      children: ratingsController.ratings
+                          .map((rating) => ReseniaWidget(
+                                resenia: rating,
+                              ))
+                          .toList(),
+                    ),
                   );
                 },
               ),
@@ -147,9 +151,17 @@ class PreguntaWidget extends StatelessWidget {
           ],
         ),
         10.pv,
-        Text(
-          pregunta.text!,
-          style: const TextStyle(fontSize: 14),
+        Column(
+          children: [
+            Text(
+              pregunta.subject!,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              pregunta.text!,
+              style: const TextStyle(fontSize: 14),
+            ),
+          ],
         ),
         20.pv,
       ],
@@ -164,7 +176,9 @@ class ReseniaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final username = resenia.client!.profile!.email ?? "Anónimo";
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -184,6 +198,49 @@ class ReseniaWidget extends StatelessWidget {
           resenia.text!,
           style: const TextStyle(fontSize: 14),
         ),
+        if (resenia.ratingAttachments != null &&
+            resenia.ratingAttachments!.isNotEmpty)
+          GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 1,
+            ),
+            itemCount: resenia.ratingAttachments!.length,
+            itemBuilder: (context, index) {
+              final attachment = resenia.ratingAttachments![index];
+              return GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Dialog(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: InteractiveViewer(
+                          maxScale: 4.0,
+                          child: Image.network(
+                            attachment.imageUrl!,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.network(
+                    attachment.imageUrl!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
+          ),
+        10.pv
       ],
     );
   }

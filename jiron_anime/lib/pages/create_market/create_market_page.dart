@@ -54,18 +54,22 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
         final contactEmail = contactEmailController.text;
         final contactPhone = contactPhoneController.text;
 
-        await marketController.crearNuevoMercado(Market(
+        final mercado = Market(
             name: name,
             contactEmail: contactEmail,
             contactPhone: contactPhone,
             logoUrl: logoUrl,
-            profileId: AuthService.getProfileId()));
+            profileId: AuthService.getProfileId());
+
+        await marketController.crearNuevoMercado(mercado);
 
         ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
           const SnackBar(content: Text("¡Tu mercado fue creado exitosamente!")),
         );
 
-        Get.until((route) => Get.currentRoute == '/home');
+        marketController.markets.add(mercado);
+
+        Get.back();
       } catch (e) {
         // DO SOMETHING
       } finally {

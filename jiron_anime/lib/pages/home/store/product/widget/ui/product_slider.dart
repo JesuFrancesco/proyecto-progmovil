@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/models/product.dart';
+import 'package:jiron_anime/shared/error_placeholder.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -34,16 +35,7 @@ class _ImageSliderState extends State<ImageSlider> {
                   imageUrl!,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.white.withOpacity(0.3),
-                      child: const Center(
-                        child: Icon(
-                          Icons.help_outline,
-                          color: Colors.grey,
-                          size: 40,
-                        ),
-                      ),
-                    );
+                    return const ImageErrorPlaceholder();
                   },
                 );
               },

@@ -101,7 +101,11 @@ class MercadoCardWidget extends StatelessWidget {
                   itemBuilder: (context, productIndex) {
                     final product = market.products?[productIndex];
 
-                    return MercadoProductWidget(product: product);
+                    return MercadoProductWidget(
+                      market: market,
+                      product: product!,
+                      marketController: marketController,
+                    );
                   },
                 ),
               ],
@@ -141,9 +145,13 @@ class MercadoCardWidget extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () async {
                             isDeleting.value = true;
+
                             await marketController.deleteMercado(market.id!);
+                            marketController.markets.removeWhere(
+                                (element) => element.id! == market.id!);
+
                             isDeleting.value = false;
-                            Get.until((route) => Get.currentRoute == '/home');
+                            // Get.until((route) => Get.currentRoute == '/home');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,

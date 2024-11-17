@@ -15,7 +15,7 @@ class MarketService {
 
     final queryParams = {
       "where[profileId]": AuthService.getProfileId(),
-      "include[products]": true,
+      "include[products][where][status]": 1,
     };
 
     final res = await http.get(
@@ -85,6 +85,63 @@ class MarketService {
     }
   }
 
+  Future<void> updateExistingProduct(Product producto, int marketId) async {
+    final res = await http.put(
+      Uri.parse(
+        "${Config.serverURL}/market",
+      ),
+      body: json.encode({
+        "where": {"id": marketId},
+        "data": {
+          "products": {
+            "update": {
+              "where": {"id": producto.id!},
+              "data": {
+                "price": producto.price,
+                "stock": producto.stock,
+              }
+            }
+          }
+        }
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        ...getSupabaseAuthHeaders()
+      },
+    );
+
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
+      Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));
+    }
+  }
+
+  Future<void> deleteProductFromMarket(int productId, int marketId) async {
+    final res = await http.put(
+      Uri.parse(
+        "${Config.serverURL}/market",
+      ),
+      body: json.encode({
+        "where": {"id": marketId},
+        "data": {
+          "products": {
+            "update": {
+              "where": {"id": productId},
+              "data": {"status": 0}
+            }
+          }
+        }
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        ...getSupabaseAuthHeaders()
+      },
+    );
+
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
+      Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));
+    }
+  }
+
   Future<Market> createNewProduct(Product producto, int marketId) async {
     final res = await http.put(
       Uri.parse(
@@ -95,12 +152,9 @@ class MarketService {
         "data": {
           "products": {
             "create": {
-              "name": producto.name,
-              "price": producto.price,
-              "stock": producto.stock,
-              if (producto.dimensions != null)
-                "dimensions": producto.dimensions!,
-              if (producto.warranty != null) "warranty": producto.warranty!,
+              ...producto.toJson(),
+              if (producto.brandSeller != null)
+                "brandSeller": {"create": producto.brandSeller},
               if (producto.productTags != null)
                 "productTags": {
                   "create": producto.productTags!
@@ -123,9 +177,7 @@ class MarketService {
                 },
               if (producto.productAttachments != null)
                 "productAttachments": {
-                  "create": producto.productAttachments!
-                      .map((e) => ({"imageUrl": e.imageUrl}))
-                      .toList()
+                  "create": List.from(producto.productAttachments!)
                 }
             }
           }

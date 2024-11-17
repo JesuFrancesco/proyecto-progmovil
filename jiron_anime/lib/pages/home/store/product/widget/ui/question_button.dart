@@ -3,15 +3,16 @@ import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/pregunta_controller.dart';
 import 'package:jiron_anime/models/product.dart';
 import 'package:jiron_anime/models/product_question.dart';
+import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
-final _preguntaController = PreguntaController();
-
 class PreguntaButton extends StatelessWidget {
   final Product producto;
-  const PreguntaButton({super.key, required this.producto});
+  final PreguntaController preguntaController;
+  const PreguntaButton(
+      {super.key, required this.producto, required this.preguntaController});
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +91,14 @@ class PreguntaButton extends StatelessWidget {
                                         .text.isNotEmpty) {
                                   submitLoading.value = true;
 
-                                  await _preguntaController
+                                  await preguntaController
                                       .crearPreguntaDeProducto(ProductQuestion(
+                                          clientId: AuthService.getClientId(),
                                           productId: producto.id,
-                                          product: producto,
                                           subject: asuntoControllerInput.text,
                                           text: justificacionControllerInput
                                               .text));
+
                                   asuntoControllerInput.clear();
                                   justificacionControllerInput.clear();
 

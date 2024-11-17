@@ -56,7 +56,7 @@ class AddToCartWidget extends StatelessWidget {
       addCartLoading.value = false;
     }
 
-    ElevatedButton getAddToCartButton() {
+    Widget getAddToCartButton() {
       if (!AuthService.isLoggedIn) {
         return ElevatedButton(
           onPressed: () => handleAgregarAlCarrito(),
@@ -66,6 +66,21 @@ class AddToCartWidget extends StatelessWidget {
           ),
           child: const Text(
             "Agregar\nal carrito",
+            style: TextStyle(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+        );
+      }
+
+      if (producto.market!.profile!.client!.id == AuthService.getClientId()) {
+        return ElevatedButton(
+          onPressed: () => Get.toNamed("/my-markets"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primaryColor,
+            foregroundColor: Colors.white,
+          ),
+          child: const Text(
+            "Ver en mi tienda",
             style: TextStyle(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),

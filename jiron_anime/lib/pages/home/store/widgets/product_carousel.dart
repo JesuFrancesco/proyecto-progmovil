@@ -40,10 +40,23 @@ class _ProductCarouselState extends State<ProductCarousel> {
                   Colors.white.withOpacity(0.3),
                   BlendMode.lighten,
                 ),
-                child: Image.network(
-                  currentComic.productAttachments![0].imageUrl!,
-                  fit: BoxFit.cover,
-                ),
+                child: currentComic.productAttachments != null &&
+                        currentComic.productAttachments!.isNotEmpty
+                    ? Image.network(
+                        currentComic.productAttachments![0].imageUrl!,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        color: Colors.white.withOpacity(
+                            0.3), // Semi-transparent white background
+                        child: const Center(
+                          child: Icon(
+                            Icons.help_outline,
+                            color: Colors.grey,
+                            size: 40,
+                          ),
+                        ),
+                      ),
               ),
             ),
           ),

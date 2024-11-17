@@ -21,22 +21,34 @@ class ProductItem extends StatelessWidget {
           height: 250,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              producto.productAttachments![0].imageUrl!,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.white
-                      .withOpacity(0.3), // Semi-transparent white background
-                  child: const Center(
-                    child: Icon(
-                      Icons.help_outline,
-                      color: Colors.grey,
-                      size: 40,
+            child: (producto.productAttachments != null &&
+                    producto.productAttachments!.isNotEmpty)
+                ? Image.network(
+                    producto.productAttachments![0].imageUrl!,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.white.withOpacity(0.3),
+                        child: const Center(
+                          child: Icon(
+                            Icons.help_outline,
+                            color: Colors.grey,
+                            size: 40,
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Container(
+                    color: Colors.white
+                        .withOpacity(0.3), // Semi-transparent white background
+                    child: const Center(
+                      child: Icon(
+                        Icons.help_outline,
+                        color: Colors.grey,
+                        size: 40,
+                      ),
                     ),
                   ),
-                );
-              },
-            ),
           ),
         ),
         5.pv,
@@ -47,7 +59,7 @@ class ProductItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         Text(
-          producto.name!,
+          producto.market!.name!,
           style: const TextStyle(fontWeight: FontWeight.w400),
           textAlign: TextAlign.center,
           maxLines: 1,

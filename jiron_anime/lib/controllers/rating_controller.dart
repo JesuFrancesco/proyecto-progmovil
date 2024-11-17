@@ -10,4 +10,10 @@ class RatingController extends GetxController {
   Future<void> obtenerRatingsDeProducto(int productId) async {
     ratings.value = await service.fetchProductRatings(productId);
   }
+
+  Future<void> crearRatingDeProducto(ProductRating resenia) async {
+    await service.postProductReview(resenia);
+
+    ratings.add(resenia);
+  }
 }

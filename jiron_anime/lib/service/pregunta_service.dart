@@ -29,10 +29,8 @@ class PreguntaService {
         Uri.parse("${Config.serverURL}/productquestion"),
         body: json.encode({
           "data": {
+            ...productQuestion.toJson(),
             "clientId": AuthService.getClientId(),
-            "productId": productQuestion.productId!,
-            "subject": productQuestion.subject!,
-            "text": productQuestion.text!
           }
         }),
         headers: {

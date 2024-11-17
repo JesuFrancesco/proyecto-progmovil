@@ -1,13 +1,16 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/pregunta_controller.dart';
 import 'package:jiron_anime/controllers/productos_controller.dart';
+import 'package:jiron_anime/controllers/rating_controller.dart';
 import 'package:jiron_anime/controllers/tags_controller.dart';
 import 'package:jiron_anime/controllers/wishlist_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/producto_descripcion.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/producto_comentarios.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/product_stock.dart';
+import 'package:jiron_anime/pages/home/store/product/widget/ui/similar_product.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/pages/home/search/widget/botones.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
@@ -40,6 +43,9 @@ class _ProductoPageState extends State<ProductoPage> {
   final wishlistController = Get.put(WishlistController(), permanent: true);
   final tagController = Get.put(TagController(), permanent: true);
 
+  final preguntasController = Get.put(PreguntaController());
+  final ratingsController = Get.put(RatingController());
+
   late Widget _body;
   late final Map<BotonesProducto, Widget Function()> _bodyWidgets;
 
@@ -52,11 +58,13 @@ class _ProductoPageState extends State<ProductoPage> {
           DescripcionProducto(producto: widget.producto),
       BotonesProducto.stockOption: () =>
           StockProducto(producto: widget.producto),
-      BotonesProducto.comentariosOption: () =>
-          PreguntasProducto(producto: widget.producto),
+      BotonesProducto.comentariosOption: () => PreguntasProducto(
+            producto: widget.producto,
+            preguntasController: preguntasController,
+            ratingsController: ratingsController,
+          ),
     };
 
-    // initial body
     _body = _bodyWidgets[BotonesProducto.descripcionOption]!();
   }
 
@@ -82,6 +90,8 @@ class _ProductoPageState extends State<ProductoPage> {
               const CustomAppbar(),
               ProductoInfo(
                 producto: widget.producto,
+                preguntasController: preguntasController,
+                ratingsController: ratingsController,
               ),
               30.pv,
               Botones(
@@ -113,66 +123,13 @@ class _ProductoPageState extends State<ProductoPage> {
                 future: _obtenerProductosPorGenero(),
                 builder: (ctx, snapshot) =>
                     snapshot.connectionState == ConnectionState.waiting
-                        ? const SmallCircularIndicator()
+                        ? const Center(child: SmallCircularIndicator())
                         : ProductosSimilaresWidget(
                             productoController: productoController),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ProductosSimilaresWidget extends StatelessWidget {
-  const ProductosSimilaresWidget({
-    super.key,
-    required this.productoController,
-  });
-
-  final ProductoController productoController;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: productoController.productos
-                .toList()
-                .expand(
-                  (producto) => [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) =>
-                                ProductoPage(producto: producto)));
-                      },
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 200,
-                            child: Image.network(
-                                producto.productAttachments![0].imageUrl!),
-                          ),
-                          Text(
-                            producto.name!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(fontSize: 10),
-                          )
-                        ],
-                      ),
-                    ),
-                    10.ph,
-                  ],
-                )
-                .take(15)
-                .toList()),
       ),
     );
   }

@@ -56,19 +56,37 @@ class MarketController extends GetxController {
     }
   }
 
+  Future<void> eliminarProducto(int productId, int marketId) async {
+    try {
+      await marketService.deleteProductFromMarket(productId, marketId);
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Algo salio mal al eliminar el producto: $e",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 10),
+      );
+      throw Error();
+    }
+  }
+
+  Future<void> actualizarProducto(Product data, int marketId) async {
+    await marketService.updateExistingProduct(data, marketId);
+  }
+
   Future<void> obtenerMisMercados() async {
     try {
       final List<Market> fetchedMarkets = await marketService.fetchMyMarkets();
 
-      if (fetchedMarkets.isEmpty) {
+      if (fetchedMarkets.isNotEmpty) {
+        markets.assignAll(fetchedMarkets);
+      } else {
         // Get.snackbar(
         //   "Sin mercados",
         //   "No se encontraron mercados asociados al usuario.",
         //   snackPosition: SnackPosition.TOP,
         //   duration: const Duration(seconds: 3),
         // );
-      } else {
-        markets.assignAll(fetchedMarkets);
       }
     } catch (e) {
       Get.snackbar(

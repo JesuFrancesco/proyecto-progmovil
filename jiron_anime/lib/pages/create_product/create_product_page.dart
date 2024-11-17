@@ -13,8 +13,6 @@ import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/utils/double_parse.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
-// TODO: AGREGAR DESCRIPCION Y FORMATO
-
 class AgregarProductoScreen extends StatefulWidget {
   final Market market;
   const AgregarProductoScreen({super.key, required this.market});
@@ -39,6 +37,9 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
   final nombreController = TextEditingController();
   final precioController = TextEditingController();
   final stockController = TextEditingController();
+
+  final descripcionController = TextEditingController();
+  final formatoController = TextEditingController();
   final dimensionesController = TextEditingController();
   final marcaController = TextEditingController();
 
@@ -73,6 +74,11 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
                       child: Column(
                         children: [
                           getAgregarInfoWidget(),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Divider(),
+                          ),
+                          getAgregarDescripcionFormatoWidget(),
                           const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Divider(),
@@ -178,6 +184,35 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
             }
             return null;
           },
+        ),
+      ],
+    );
+  }
+
+  Widget getAgregarDescripcionFormatoWidget() {
+    return Column(
+      children: [
+        const Text(
+          'Descripción y Formato',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        10.pv,
+        TextField(
+          controller: descripcionController,
+          maxLines: 5,
+          decoration: const InputDecoration(
+            labelText: 'Descripción',
+            alignLabelWithHint: true,
+            border: OutlineInputBorder(),
+          ),
+        ),
+        10.pv,
+        TextField(
+          controller: formatoController,
+          decoration: const InputDecoration(
+            labelText: 'Formato',
+            border: OutlineInputBorder(),
+          ),
         ),
       ],
     );
@@ -339,15 +374,12 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
         final uploadedFiles =
             await service.uploadMultipleFiles(_selectedImages);
 
-        final nombre = nombreController.text;
-        final precio = parseToDouble(precioController.text);
-        final stock = int.parse(stockController.text);
+        // Crear algunas instancias de modelos para subida de producto final
         final tags = categoryControllers
             .map(
               (e) => ProductTag(tag: Tag(name: e.text)),
             )
             .toList();
-        final dimensiones = dimensionesController.text;
 
         final marca = BrandSeller(name: marcaController.text);
 
@@ -356,11 +388,13 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
             .toList();
 
         final producto = Product(
-            name: nombre,
-            price: precio,
-            stock: stock,
+            name: nombreController.text,
+            price: parseToDouble(precioController.text),
+            stock: int.parse(stockController.text),
+            descripcion: descripcionController.text,
+            formato: formatoController.text,
             productTags: tags,
-            dimensions: dimensiones,
+            dimensions: dimensionesController.text,
             brandSeller: marca,
             productAttachments: productAttachments);
 

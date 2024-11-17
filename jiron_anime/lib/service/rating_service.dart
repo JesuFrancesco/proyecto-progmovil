@@ -3,12 +3,18 @@ import 'package:jiron_anime/config/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:jiron_anime/models/product_rating.dart';
 import 'package:jiron_anime/utils/query_string.dart';
+import 'package:jiron_anime/utils/supabase_utils.dart';
 
 class RatingService {
-  Future<List<ProductRating>> fetchProductRatings(int productId) async {
-    final queryParams = {"where[productId]": productId, ...commonJoins};
+  final Map<String, Object> commonJoins = {
+    "include[ratingAttachments]": true,
+    "include[client][include][profile]": true
+  };
 
+  Future<List<ProductRating>> fetchProductRatings(int productId) async {
     List<ProductRating> preguntas = [];
+
+    final queryParams = {"where[productId]": productId, ...commonJoins};
 
     final response = await http.get(Uri.parse(
         "${Config.serverURL}/productrating?${parseToQueryParams(queryParams)}"));
@@ -21,8 +27,21 @@ class RatingService {
 
     return preguntas;
   }
-}
 
-final Map<String, Object> commonJoins = {
-  "include[client][include][profile]": true
-};
+  Future<void> postProductReview(ProductRating rating) async {
+    await http.post(Uri.parse("${Config.serverURL}/productrating"),
+        body: json.encode({
+          "data": {
+            ...rating.toJson(),
+            if (rating.ratingAttachments != null)
+              "ratingAttachments": {
+                "create": rating.ratingAttachments!.toList()
+              }
+          }
+        }),
+        headers: {
+          "Content-type": "application/json",
+          ...getSupabaseAuthHeaders()
+        });
+  }
+}
