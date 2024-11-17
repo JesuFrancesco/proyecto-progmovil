@@ -274,8 +274,8 @@ model BrandSeller {
   name              String
   description       String?
   referenceLocation String?   @map("reference_location")
-  countryId         Int       @map("country_id")
-  country           Country   @relation(fields: [countryId], references: [id])
+  countryId         Int?      @map("country_id")
+  country           Country?  @relation(fields: [countryId], references: [id])
   products          Product[]
 
   @@map("brand_sellers")
@@ -419,9 +419,9 @@ model ProductRating {
 }
 
 model RatingAttachment {
-  ratingId      Int           @map("rating_id")
-  imageUrl      String        @map("blob_url")
-  
+  ratingId Int    @map("rating_id")
+  imageUrl String @map("blob_url")
+
   productRating ProductRating @relation(fields: [ratingId], references: [id])
 
   @@id([ratingId, imageUrl])

@@ -96,29 +96,6 @@ API_ROUTER.use(ProductRouter(commonRouterConfig));
 
 API_ROUTER.use(MarketRouter(commonRouterConfig));
 
-// prisma.market.update({
-//   where: {
-//     id: 1,
-//   },
-//   data: {
-//     products: {
-//       create: [
-//         {
-//           name: "",
-//           price: 2,
-//           stock: 1,
-//           dimensions: "",
-//           brandSeller: {
-//             create: {
-//               name: "sdf",
-//             },
-//           },
-//         },
-//       ],
-//     },
-//   },
-// });
-
 API_ROUTER.use(ProductRatingRouter(commonRouterConfig));
 
 API_ROUTER.use(ProductQuestionRouter(commonRouterConfig));
