@@ -118,6 +118,23 @@ async function main() {
     FOR EACH ROW EXECUTE PROCEDURE public.handle_sb_user_delete()
     `);
 
+  await sql.query(`
+    CREATE OR REPLACE FUNCTION update_products_on_market_delete()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        UPDATE products
+        SET status = 0
+        WHERE market_id = OLD.id;
+        RETURN OLD;
+    END;
+    $$ LANGUAGE plpgsql;
+
+    CREATE TRIGGER after_market_delete
+    AFTER DELETE ON markets
+    FOR EACH ROW
+    EXECUTE FUNCTION update_products_on_market_delete();
+    `);
+
   log.info(
     "Se han agregado los triggers y funciones que se vinculan con supabase."
   );
