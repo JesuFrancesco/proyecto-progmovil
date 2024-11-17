@@ -323,7 +323,7 @@ model ProductQuestion {
   productId Int  @map("product_id")
   clientId  Int? @map("client_id")
 
-  product         Product         @relation(fields: [productId], references: [id])
+  product         Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
   client          Client?         @relation(fields: [clientId], references: [id], onDelete: SetNull)
   questionReplies QuestionReply[]
 
@@ -351,7 +351,7 @@ model ProductTag {
   productId  Int @map("product_id")
 
   tag     Tag     @relation(fields: [categoryId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@id([categoryId, productId])
   @@map("product_tags")
@@ -385,7 +385,7 @@ model OrderItem {
 model ProductAttachment {
   imageUrl  String  @map("image_url")
   productId Int     @map("product_id")
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@id([productId, imageUrl])
   @@map("product_attachments")
