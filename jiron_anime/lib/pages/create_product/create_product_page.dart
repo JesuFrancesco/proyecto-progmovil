@@ -9,6 +9,7 @@ import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/service/file_upload_service.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
+import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/utils/double_parse.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
@@ -23,6 +24,8 @@ class AgregarProductoScreen extends StatefulWidget {
 }
 
 class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
+  final isLoading = false.obs;
+
   List<File> _selectedImages = [];
   bool garantia = false;
 
@@ -54,61 +57,66 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
     return Scaffold(
       body: CustomLayout(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CustomAppbar(
-                    title: "Agregar producto",
-                  ),
-                  20.pv,
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        getAgregarInfoWidget(),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Divider(),
-                        ),
-                        getAgregarImagenesWidget(context),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Divider(),
-                        ),
-                        getAgregarDetallesWidget(),
-                      ],
+          child: Obx(
+            () => Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CustomAppbar(
+                      title: "Agregar producto",
                     ),
-                  ),
-                ],
-              ),
-              20.pv,
-              getCreateProductButton(),
-            ],
+                    20.pv,
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          getAgregarInfoWidget(),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Divider(),
+                          ),
+                          getAgregarImagenesWidget(context),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Divider(),
+                          ),
+                          getAgregarDetallesWidget(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                20.pv,
+                getCreateProductButton(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Padding getCreateProductButton() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Center(
-        child: ElevatedButton(
-          onPressed: handleEnviar,
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-          ),
-          child: const Text(
-            'Agregar',
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
-      ),
-    );
+  Widget getCreateProductButton() {
+    return isLoading.value
+        ? const SmallCircularIndicator()
+        : Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Center(
+              child: ElevatedButton(
+                onPressed: handleEnviar,
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                ),
+                child: const Text(
+                  'Agregar',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+          );
   }
 
   Column getAgregarInfoWidget() {
@@ -269,7 +277,7 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
     );
   }
 
-  Column getAgregarImagenesWidget(BuildContext context) {
+  Widget getAgregarImagenesWidget(BuildContext context) {
     return Column(
       children: [
         Text("Agrega imágenes", style: Theme.of(context).textTheme.titleMedium),
@@ -323,42 +331,53 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
 
   void handleEnviar() async {
     if (_formKey.currentState?.validate() ?? false) {
-      final service = FileUploadService(context);
+      try {
+        isLoading.value = true;
 
-      final uploadedFiles = await service.uploadMultipleFiles(_selectedImages);
+        final service = FileUploadService(context);
 
-      final nombre = nombreController.text;
-      final precio = parseToDouble(precioController.text);
-      final stock = int.parse(stockController.text);
-      final tags = categoryControllers
-          .map(
-            (e) => ProductTag(tag: Tag(name: e.text)),
-          )
-          .toList();
-      final dimensiones = dimensionesController.text;
+        final uploadedFiles =
+            await service.uploadMultipleFiles(_selectedImages);
 
-      final marca = BrandSeller(name: marcaController.text);
+        final nombre = nombreController.text;
+        final precio = parseToDouble(precioController.text);
+        final stock = int.parse(stockController.text);
+        final tags = categoryControllers
+            .map(
+              (e) => ProductTag(tag: Tag(name: e.text)),
+            )
+            .toList();
+        final dimensiones = dimensionesController.text;
 
-      final productAttachments = uploadedFiles
-          .map((e) => ProductAttachment(imageUrl: e.publicUrl))
-          .toList();
+        final marca = BrandSeller(name: marcaController.text);
 
-      final producto = Product(
-          name: nombre,
-          price: precio,
-          stock: stock,
-          productTags: tags,
-          dimensions: dimensiones,
-          brandSeller: marca,
-          productAttachments: productAttachments);
+        final productAttachments = uploadedFiles
+            .map((e) => ProductAttachment(imageUrl: e.publicUrl))
+            .toList();
 
-      await marketController.agregarNuevoProducto(producto, widget.market.id!);
+        final producto = Product(
+            name: nombre,
+            price: precio,
+            stock: stock,
+            productTags: tags,
+            dimensions: dimensiones,
+            brandSeller: marca,
+            productAttachments: productAttachments);
 
-      ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
-        const SnackBar(content: Text("¡Tu producto fue creado exitosamente!")),
-      );
+        await marketController.agregarNuevoProducto(
+            producto, widget.market.id!);
 
-      Get.offAndToNamed("/my-markets");
+        ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
+          const SnackBar(
+              content: Text("¡Tu producto fue creado exitosamente!")),
+        );
+
+        Get.until((route) => Get.currentRoute == '/home');
+      } catch (e) {
+        // DO SOMETHING
+      } finally {
+        isLoading.value = false;
+      }
     }
   }
 }

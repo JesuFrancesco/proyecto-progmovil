@@ -5,7 +5,7 @@ import 'package:jiron_anime/middleware/auth/middleware.dart';
 import 'package:jiron_anime/pages/create_market/create_market_page.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders_page.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
-import 'package:jiron_anime/pages/mis_tiendas/mi_tienda_page.dart';
+import 'package:jiron_anime/pages/mis_tiendas/mis_tiendas_page.dart';
 import 'package:jiron_anime/pages/settings/settings_page.dart';
 import 'package:jiron_anime/pages/orders/orders_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';

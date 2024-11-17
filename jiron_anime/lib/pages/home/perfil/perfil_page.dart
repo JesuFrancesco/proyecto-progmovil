@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiron_anime/pages/create_market/create_market_page.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/pages/home/perfil/widgets/menu_item.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
-import 'package:jiron_anime/pages/mis_tiendas/mi_tienda_page.dart';
 
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});
@@ -41,17 +39,17 @@ class PerfilPage extends StatelessWidget {
                       icon: Icons.storefront_outlined,
                       text: 'Mis tiendas',
                       fnOnTap: () {
-                        Get.to(() => const MisTiendasPage());
+                        Get.toNamed("/my-markets");
                       },
                     ),
 
-                    IconMenuItem(
-                      icon: Icons.storefront_outlined,
-                      text: 'Crear tienda',
-                      fnOnTap: () {
-                        Get.to(() => const CreateMarketPage());
-                      },
-                    ),
+                    // IconMenuItem(
+                    //   icon: Icons.storefront_outlined,
+                    //   text: 'Crear tienda',
+                    //   fnOnTap: () {
+                    //     Get.toNamed("/create-market");
+                    //   },
+                    // ),
 
                     IconMenuItem(
                         icon: Icons.shopping_cart_outlined,

@@ -8,7 +8,6 @@ import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/dialogs.dart';
 import 'package:jiron_anime/utils/query_string.dart';
 import 'package:jiron_anime/utils/supabase_utils.dart';
-import 'package:jiron_anime/models/market.dart';
 
 class MarketService {
   Future<List<Market>> fetchMyMarkets() async {
@@ -65,6 +64,25 @@ class MarketService {
     final dynamic data = jsonDecode(res.body);
 
     return Market.fromJson(data);
+  }
+
+  Future<void> deleteMarket(int mercadoId) async {
+    final res = await http.delete(
+      Uri.parse(
+        "${Config.serverURL}/market",
+      ),
+      body: json.encode({
+        "where": {"id": mercadoId}
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        ...getSupabaseAuthHeaders()
+      },
+    );
+
+    if (!res.statusCode.isSuccessfulHttpStatusCode) {
+      Get.dialog(ErrorDialog(message: "Algo salió mal.\n${res.body}"));
+    }
   }
 
   Future<Market> createNewProduct(Product producto, int marketId) async {

@@ -7,10 +7,6 @@ class ProductoController extends GetxController {
   final productos = <Product>[].obs;
   final queryProductos = <Product>[].obs;
 
-  Future<void> obtenerProductos() async {
-    productos.value = await service.fetchAll();
-  }
-
   Future<void> obtenerProductosRecientes(int page) async {
     productos.value = await service.fetchRecent(page);
   }

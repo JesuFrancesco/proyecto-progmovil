@@ -111,32 +111,68 @@ class _ProductoPageState extends State<ProductoPage> {
               15.pv,
               FutureBuilder(
                 future: _obtenerProductosPorGenero(),
-                builder: (ctx, snapshot) => snapshot.connectionState ==
-                        ConnectionState.waiting
-                    ? const SmallCircularIndicator()
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: productoController.productos
-                                .toList()
-                                .expand(
-                                  (manga) => [
-                                    SizedBox(
-                                      height: 150,
-                                      child: Image.network(manga
-                                          .productAttachments![0].imageUrl!),
-                                    ),
-                                    10.ph,
-                                  ],
-                                )
-                                .take(15)
-                                .toList()),
-                      ),
+                builder: (ctx, snapshot) =>
+                    snapshot.connectionState == ConnectionState.waiting
+                        ? const SmallCircularIndicator()
+                        : ProductosSimilaresWidget(
+                            productoController: productoController),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ProductosSimilaresWidget extends StatelessWidget {
+  const ProductosSimilaresWidget({
+    super.key,
+    required this.productoController,
+  });
+
+  final ProductoController productoController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: productoController.productos
+                .toList()
+                .expand(
+                  (producto) => [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) =>
+                                ProductoPage(producto: producto)));
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 200,
+                            child: Image.network(
+                                producto.productAttachments![0].imageUrl!),
+                          ),
+                          Text(
+                            producto.name!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontSize: 10),
+                          )
+                        ],
+                      ),
+                    ),
+                    10.ph,
+                  ],
+                )
+                .take(15)
+                .toList()),
       ),
     );
   }
