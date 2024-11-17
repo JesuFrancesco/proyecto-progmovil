@@ -340,7 +340,7 @@ model CartItem {
   amount       Int
   addedAt      DateTime     @default(now()) @map("added_at")
   shoppingCart ShoppingCart @relation(fields: [cartId], references: [id])
-  product      Product      @relation(fields: [productId], references: [id])
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@id([cartId, productId])
   @@map("cart_items")
@@ -364,7 +364,7 @@ model WishlistItem {
   addedAt DateTime @default(now()) @map("added_at")
 
   wishlist Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
-  product  Product  @relation(fields: [productId], references: [id])
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@id([wishlistId, productId])
   @@map("wishlist_items")
@@ -422,7 +422,7 @@ model RatingAttachment {
   ratingId Int    @map("rating_id")
   imageUrl String @map("blob_url")
 
-  productRating ProductRating @relation(fields: [ratingId], references: [id])
+  productRating ProductRating @relation(fields: [ratingId], references: [id], onDelete: Cascade)
 
   @@id([ratingId, imageUrl])
   @@map("rating_attachments")
