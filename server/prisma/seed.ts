@@ -127,12 +127,13 @@ async function main() {
         WHERE market_id = OLD.id;
         RETURN OLD;
     END;
-    $$ LANGUAGE plpgsql;
+    $$ LANGUAGE PLPGSQL SECURITY DEFINER;
+    `);
 
-    CREATE TRIGGER after_market_delete
+  await sql.query(`
+    CREATE OR REPLACE TRIGGER after_market_delete
     AFTER DELETE ON markets
-    FOR EACH ROW
-    EXECUTE FUNCTION update_products_on_market_delete();
+    FOR EACH ROW EXECUTE PROCEDURE public.update_products_on_market_delete();
     `);
 
   log.info(
