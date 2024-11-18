@@ -61,13 +61,13 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
             logoUrl: logoUrl,
             profileId: AuthService.getProfileId());
 
-        await marketController.crearNuevoMercado(mercado);
+        final createdMarket = await marketController.crearNuevoMercado(mercado);
 
         ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
           const SnackBar(content: Text("¡Tu mercado fue creado exitosamente!")),
         );
 
-        marketController.markets.add(mercado);
+        marketController.markets.add(createdMarket);
 
         Get.back();
       } catch (e) {

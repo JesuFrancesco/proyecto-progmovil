@@ -8,9 +8,10 @@ class MarketController extends GetxController {
   final markets = <Market>[].obs;
   final isLoading = false.obs;
 
-  Future<void> crearNuevoMercado(Market mercado) async {
+  Future<Market> crearNuevoMercado(Market mercado) async {
     try {
-      await marketService.createNewMarket(mercado);
+      final newMarket = await marketService.createNewMarket(mercado);
+      return newMarket;
     } catch (e) {
       Get.snackbar(
         "Error",

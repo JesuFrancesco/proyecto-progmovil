@@ -91,13 +91,14 @@ class PreguntaButton extends StatelessWidget {
                                         .text.isNotEmpty) {
                                   submitLoading.value = true;
 
+                                  final pregunta = ProductQuestion(
+                                      clientId: AuthService.getClientId(),
+                                      productId: producto.id,
+                                      subject: asuntoControllerInput.text,
+                                      text: justificacionControllerInput.text);
+
                                   await preguntaController
-                                      .crearPreguntaDeProducto(ProductQuestion(
-                                          clientId: AuthService.getClientId(),
-                                          productId: producto.id,
-                                          subject: asuntoControllerInput.text,
-                                          text: justificacionControllerInput
-                                              .text));
+                                      .crearPreguntaDeProducto(pregunta);
 
                                   asuntoControllerInput.clear();
                                   justificacionControllerInput.clear();

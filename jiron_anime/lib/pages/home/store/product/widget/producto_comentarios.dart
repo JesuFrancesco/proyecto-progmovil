@@ -130,7 +130,7 @@ class PreguntaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final username = pregunta.client != null
-        ? pregunta.client!.profile!.email!
+        ? pregunta.client!.username ?? pregunta.client!.profile!.email!
         : "Cuenta eliminada";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,14 +152,22 @@ class PreguntaWidget extends StatelessWidget {
         ),
         10.pv,
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              pregunta.subject!,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                Text(
+                  pregunta.subject!,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
+            10.pv,
             Text(
               pregunta.text!,
               style: const TextStyle(fontSize: 14),
+              textAlign: TextAlign.start,
             ),
           ],
         ),
@@ -175,73 +183,85 @@ class ReseniaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final username = resenia.client!.profile!.email ?? "Anónimo";
+    final username = resenia.client != null
+        ? resenia.client!.username ?? resenia.client!.profile!.email!
+        : "Cuenta eliminada";
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            CircleAvatar(
-              child: Text(username.substring(0, 1).toUpperCase()),
-            ),
-            10.ph,
-            Text(
-              username,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-          ],
-        ),
-        Row(children: List.filled(resenia.score!, const EstrellaWidget())),
-        10.pv,
-        Text(
-          resenia.text!,
-          style: const TextStyle(fontSize: 14),
-        ),
-        if (resenia.ratingAttachments != null &&
-            resenia.ratingAttachments!.isNotEmpty)
-          GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-              childAspectRatio: 1,
-            ),
-            itemCount: resenia.ratingAttachments!.length,
-            itemBuilder: (context, index) {
-              final attachment = resenia.ratingAttachments![index];
-              return GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => Dialog(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: InteractiveViewer(
-                          maxScale: 4.0,
-                          child: Image.network(
-                            attachment.imageUrl!,
-                            fit: BoxFit.contain,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                child: Text(username.substring(0, 1).toUpperCase()),
+              ),
+              10.ph,
+              Expanded(
+                child: Text(
+                  username,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: List.filled(resenia.score ?? 0, const EstrellaWidget()),
+          ),
+          10.pv,
+          Text(
+            resenia.text ?? "",
+            style: const TextStyle(fontSize: 14),
+          ),
+          if (resenia.ratingAttachments != null &&
+              resenia.ratingAttachments!.isNotEmpty)
+            GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                childAspectRatio: 1,
+              ),
+              itemCount: resenia.ratingAttachments!.length,
+              itemBuilder: (context, index) {
+                final attachment = resenia.ratingAttachments![index];
+                return GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => Dialog(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: InteractiveViewer(
+                            maxScale: 4.0,
+                            child: Image.network(
+                              attachment.imageUrl ?? "",
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.network(
+                      attachment.imageUrl ?? "",
+                      fit: BoxFit.cover,
                     ),
-                  );
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.network(
-                    attachment.imageUrl!,
-                    fit: BoxFit.cover,
                   ),
-                ),
-              );
-            },
-          ),
-        10.pv
-      ],
+                );
+              },
+            ),
+          10.pv
+        ],
+      ),
     );
   }
 }

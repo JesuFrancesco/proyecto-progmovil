@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiron_anime/controllers/rating_controller.dart';
+import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/models/product.dart';
 import 'package:jiron_anime/models/product_rating.dart';
 import 'package:jiron_anime/service/auth_service.dart';
@@ -74,20 +75,7 @@ class ReseniaButton extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             10.pv,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(5, (index) {
-                                return IconButton(
-                                  onPressed: () => rating.value = index + 1,
-                                  icon: Icon(
-                                    Icons.star,
-                                    color: rating.value > index
-                                        ? Colors.yellow
-                                        : Colors.grey,
-                                  ),
-                                );
-                              }),
-                            ),
+                            getStarRatingRowWidget(rating),
                             20.pv,
                             TextField(
                               controller: comentarioController,
@@ -166,8 +154,9 @@ class ReseniaButton extends StatelessWidget {
                                       score: rating.value,
                                       text: comentarioController.text,
                                       ratingAttachments: List.from(
-                                          imagesUploaded
-                                              .map((e) => e.publicUrl)));
+                                          imagesUploaded.map((e) =>
+                                              RatingAttachment(
+                                                  imageUrl: e.publicUrl))));
                                 } else {
                                   resenia = ProductRating(
                                     clientId: AuthService.getClientId(),
@@ -176,6 +165,7 @@ class ReseniaButton extends StatelessWidget {
                                     text: comentarioController.text,
                                   );
                                 }
+
                                 await ratingsController
                                     .crearRatingDeProducto(resenia);
 
@@ -194,6 +184,21 @@ class ReseniaButton extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Row getStarRatingRowWidget(RxInt rating) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(5, (index) {
+        return IconButton(
+          onPressed: () => rating.value = index + 1,
+          icon: Icon(
+            Icons.star,
+            color: rating.value > index ? Colors.yellow : Colors.grey,
+          ),
+        );
+      }),
     );
   }
 }

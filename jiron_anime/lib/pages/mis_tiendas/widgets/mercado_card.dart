@@ -144,13 +144,20 @@ class MercadoCardWidget extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            isDeleting.value = true;
+                            try {
+                              isDeleting.value = true;
 
-                            await marketController.deleteMercado(market.id!);
-                            marketController.markets.removeWhere(
-                                (element) => element.id! == market.id!);
+                              await marketController.deleteMercado(market.id!);
+                              marketController.markets.removeWhere(
+                                  (element) => element.id! == market.id!);
 
-                            isDeleting.value = false;
+                              Get.back();
+                            } catch (e) {
+                              // handle
+                            } finally {
+                              isDeleting.value = false;
+                            }
+
                             // Get.until((route) => Get.currentRoute == '/home');
                           },
                           style: ElevatedButton.styleFrom(

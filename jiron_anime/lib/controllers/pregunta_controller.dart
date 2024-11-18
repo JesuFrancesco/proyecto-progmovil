@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/service/pregunta_service.dart';
+import 'package:jiron_anime/shared/auth_controller.dart';
 
 class PreguntaController extends GetxController {
   final service = PreguntaService();
@@ -13,6 +14,8 @@ class PreguntaController extends GetxController {
 
   Future<void> crearPreguntaDeProducto(ProductQuestion productoPregunta) async {
     await service.submitProductQuestion(productoPregunta);
-    preguntas.add(productoPregunta);
+    final successfulQuestion = productoPregunta.copyWith(
+        client: Client(username: AuthController.fullName));
+    preguntas.add(successfulQuestion);
   }
 }
