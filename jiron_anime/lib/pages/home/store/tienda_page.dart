@@ -175,7 +175,10 @@ class _TiendaPageState extends State<TiendaPage> {
 
   Widget _buildProductoList(List<Tag> tags) {
     if (productoController.productos.isEmpty) {
-      return const Center(child: Text("No hay mangas disponibles"));
+      return Text(
+        "No hay mangas disponibles",
+        style: Theme.of(context).textTheme.titleMedium,
+      );
     }
 
     return GridView.builder(
