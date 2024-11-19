@@ -191,10 +191,10 @@ class _TiendaPageState extends State<TiendaPage> {
       ),
       itemCount: productoController.productos.length - 2,
       itemBuilder: (context, index) {
-        final manga = productoController.productos[index];
+        final producto = productoController.productos[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: ProductItem(producto: manga),
+          child: ProductItem(producto: producto),
         );
       },
     );

@@ -12,7 +12,7 @@ import 'package:jiron_anime/utils/query_string.dart';
 
 class ProductoService {
   Future<List<Product>> fetchRecent(int page) async {
-    List<Product> mangas = [];
+    List<Product> productos = [];
 
     final queryParams = {
       ..._pagination(page),
@@ -30,15 +30,15 @@ class ProductoService {
     }
 
     final List<dynamic> data = jsonDecode(res.body);
-    mangas = data
+    productos = data
         .map((map) => Product.fromJson(map as Map<String, dynamic>))
         .toList();
 
-    return mangas;
+    return productos;
   }
 
   Future<List<Product>> searchProducts(String productName, int page) async {
-    List<Product> mangas = [];
+    List<Product> productos = [];
     final queryParams = {
       ..._pagination(page),
       ..._commonJoins,
@@ -57,15 +57,15 @@ class ProductoService {
     }
 
     final List<dynamic> data = jsonDecode(res.body);
-    mangas = data
+    productos = data
         .map((map) => Product.fromJson(map as Map<String, dynamic>))
         .toList();
 
-    return mangas;
+    return productos;
   }
 
   Future<List<Product>> fetchProductsByGenre(List<Tag> tags, int page) async {
-    List<Product> mangas = [];
+    List<Product> productos = [];
     final queryParams = {
       ..._pagination(page),
       ..._commonJoins,
@@ -83,11 +83,11 @@ class ProductoService {
     }
 
     final List<dynamic> data = jsonDecode(res.body);
-    mangas = data
-        .map((map) => Product.fromJson(map as Map<String, dynamic>))
-        .toList();
 
-    return mangas;
+    productos = List.from(
+        data.map((map) => Product.fromJson(map as Map<String, dynamic>)));
+
+    return productos;
   }
 }
 
