@@ -30,7 +30,7 @@ class OrderItemWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               )
-            ]),
+            ]), 
             ...orden.orderItems!.map((orderItem) {
               return Column(
                 children: [
@@ -82,8 +82,7 @@ class OrderItemWidget extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () => Get.to(ChatPage(
-                          mercado: orderItem.product!.market!,
-                        )),
+                          mercado: orderItem.product!.market!)),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: AppColors.primaryColor,
@@ -137,24 +136,30 @@ class OrderItemWidget extends StatelessWidget {
   void _showConfirmBottomSheet(BuildContext context) {
     Get.bottomSheet(
       Obx(() {
-        return Container(
-          padding: const EdgeInsets.all(16.0),
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 "¿Confirmar que esta orden está completa?",
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
               16.pv,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
                     onPressed: () => Get.back(),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.grey.shade300,
+                      foregroundColor: Colors.black,
                     ),
                     child: const Text("Cancelar"),
                   ),
@@ -175,7 +180,7 @@ class OrderItemWidget extends StatelessWidget {
                                 orderController.ordenes[index] = updatedOrder;
                               }
                             } catch (e) {
-                              //
+                              // Manejo de errores (si es necesario)
                             } finally {
                               orderController.isLoading.value = false;
                               Get.back();
@@ -183,6 +188,7 @@ class OrderItemWidget extends StatelessWidget {
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
                     ),
                     child: orderController.isLoading.value
                         ? const CircularProgressIndicator(
@@ -197,6 +203,7 @@ class OrderItemWidget extends StatelessWidget {
         );
       }),
       isDismissible: true,
+      isScrollControlled: true, // Esto asegura que el modal se ajuste al contenido
     );
   }
 }
