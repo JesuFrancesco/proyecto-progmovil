@@ -175,7 +175,10 @@ class _TiendaPageState extends State<TiendaPage> {
 
   Widget _buildProductoList(List<Tag> tags) {
     if (productoController.productos.isEmpty) {
-      return const Center(child: Text("No hay mangas disponibles"));
+      return Text(
+        "No hay mangas disponibles",
+        style: Theme.of(context).textTheme.titleMedium,
+      );
     }
 
     return GridView.builder(
@@ -188,10 +191,10 @@ class _TiendaPageState extends State<TiendaPage> {
       ),
       itemCount: productoController.productos.length - 2,
       itemBuilder: (context, index) {
-        final manga = productoController.productos[index];
+        final producto = productoController.productos[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: ProductItem(producto: manga),
+          child: ProductItem(producto: producto),
         );
       },
     );

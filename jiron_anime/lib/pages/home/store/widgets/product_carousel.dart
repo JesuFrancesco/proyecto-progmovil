@@ -12,17 +12,20 @@ class ProductCarousel extends StatefulWidget {
 class _ProductCarouselState extends State<ProductCarousel> {
   int currentImageIndex = 0;
 
-  final List<Product> comics = productoController.productos.toList();
+  final List<Product> productos = productoController.productos.toList();
 
   void toggleImage() {
     setState(() {
-      currentImageIndex = (currentImageIndex + 1) % comics.length;
+      currentImageIndex = (currentImageIndex + 1) % productos.length;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentComic = comics[currentImageIndex];
+    if (productos.isEmpty) {
+      return const Text("");
+    }
+    final currentComic = productos[currentImageIndex];
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
