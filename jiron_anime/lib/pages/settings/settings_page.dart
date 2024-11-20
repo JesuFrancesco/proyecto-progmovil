@@ -54,32 +54,6 @@ class _SettingsPageState extends State<SettingsPage> {
     await launchUrl(uri);
   }
 
-  void showBottomSheet(String title, String message) {
-    Get.bottomSheet(
-      Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,8 +97,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                     ),
                   ),
-                  _buildSectionTitle('Cuenta', Icons.person),
-                  _buildListTile(
+                  buildSectionTitle('Cuenta', Icons.person),
+                  buildListTile(
                       'Edita tu perfil',
                       Icons.edit,
                       () => Get.snackbar(
@@ -133,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             snackPosition: SnackPosition.BOTTOM,
                             duration: const Duration(seconds: 10),
                           )),
-                  _buildListTile(
+                  buildListTile(
                       'Cambiar contraseña',
                       Icons.lock,
                       () => Get.snackbar(
@@ -143,28 +117,28 @@ class _SettingsPageState extends State<SettingsPage> {
                             duration: const Duration(seconds: 10),
                           )),
                   16.pv,
-                  _buildSectionTitle('Notificación', Icons.notifications),
-                  _buildSwitchTile('Activar notificaciones',
+                  buildSectionTitle('Notificación', Icons.notifications),
+                  buildSwitchTile('Activar notificaciones',
                       _notificationsEnabled, _updateNotifications),
                   16.pv,
-                  _buildSectionTitle('Otros', Icons.settings),
-                  _buildSwitchTile(
+                  buildSectionTitle('Otros', Icons.settings),
+                  buildSwitchTile(
                       'Modo oscuro', _darkModeEnabled, _updateDarkMode),
                   16.pv,
-                  _buildSectionTitle('Más', Icons.more_horiz),
-                  _buildListTile(
+                  buildSectionTitle('Más', Icons.more_horiz),
+                  buildListTile(
                     'Sobre nosotros',
                     Icons.info,
-                    () => showBottomSheet(
-                        "Sobre nosotros", "Lorem ipsum dolor sit amet."),
+                    () => showBottomSheet(context, "Sobre nosotros",
+                        "Lorem ipsum dolor sit amet."),
                   ),
-                  _buildListTile(
+                  buildListTile(
                     'Política de privacidad',
                     Icons.privacy_tip,
                     () => showBottomSheet(
-                        "Privacidad", "Lorem ipsum dolor sit amet."),
+                        context, "Privacidad", "Lorem ipsum dolor sit amet."),
                   ),
-                  _buildListTile(
+                  buildListTile(
                     'Preguntas',
                     Icons.question_mark,
                     () => launchBrowserPage("https://www.google.com"),
@@ -178,7 +152,42 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildSectionTitle(String title, IconData icon) {
+  void showBottomSheet(BuildContext context, String title, String message) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+            10.pv,
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildSectionTitle(String title, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Row(
@@ -197,7 +206,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildListTile(String title, IconData icon, GestureTapCallback onTap) {
+  Widget buildListTile(String title, IconData icon, GestureTapCallback onTap) {
     return ListTile(
       leading: Icon(icon, color: AppColors.primaryColor),
       title: Text(title, style: Theme.of(context).textTheme.titleSmall),
@@ -206,7 +215,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildSwitchTile(
+  Widget buildSwitchTile(
       String title, bool value, ValueChanged<bool> onChanged) {
     return SwitchListTile(
       title: Text(title, style: Theme.of(context).textTheme.titleSmall),

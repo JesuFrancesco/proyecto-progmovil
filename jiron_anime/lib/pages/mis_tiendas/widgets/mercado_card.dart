@@ -37,7 +37,7 @@ class MercadoCardWidget extends StatelessWidget {
               PopupMenuButton<String>(
                 onSelected: (value) {
                   if (value == 'eliminar') {
-                    _showDeleteConfirmation(context);
+                    showDeleteConfirmation(context);
                   }
                 },
                 itemBuilder: (context) => [
@@ -117,7 +117,7 @@ class MercadoCardWidget extends StatelessWidget {
     );
   }
 
-  void _showDeleteConfirmation(BuildContext context) {
+  void showDeleteConfirmation(BuildContext context) {
     final isDeleting = false.obs;
 
     showModalBottomSheet(
@@ -156,8 +156,6 @@ class MercadoCardWidget extends StatelessWidget {
                               isDeleting.value = false;
                               Get.back();
                             }
-
-                            // Get.until((route) => Get.currentRoute == '/home');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,

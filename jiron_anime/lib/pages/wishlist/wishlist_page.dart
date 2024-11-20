@@ -30,10 +30,23 @@ class WishlistPage extends StatelessWidget {
                           );
                         } else if (snapshot.hasError) {
                           return Center(
-                              child: Text('Error: ${snapshot.error}'));
+                              child: Text(
+                            'Algo salió mal: ${snapshot.error}',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ));
                         } else {
                           final wishlistItems =
                               controller.wishlist.value.wishlistItems!;
+
+                          if (wishlistItems.isEmpty) {
+                            return Expanded(
+                                child: Center(
+                                    child: Text(
+                              "No tienes items en tu lista de deseados",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            )));
+                          }
+
                           return Column(
                             children: [
                               ...wishlistItems.map((wshItem) =>

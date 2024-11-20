@@ -33,10 +33,8 @@ class _ProductCarouselState extends State<ProductCarousel> {
       height: 120,
       child: Stack(
         children: [
-          // BACKGROUND IMAGE CONTAINER WITH CLIPPING
           ClipRRect(
-            borderRadius:
-                BorderRadius.circular(0), // Optional: for rectangle shape
+            borderRadius: BorderRadius.circular(0),
             child: SizedBox.expand(
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
@@ -50,8 +48,7 @@ class _ProductCarouselState extends State<ProductCarousel> {
                         fit: BoxFit.cover,
                       )
                     : Container(
-                        color: Colors.white.withOpacity(
-                            0.3), // Semi-transparent white background
+                        color: Colors.white.withOpacity(0.3),
                         child: const Center(
                           child: Icon(
                             Icons.help_outline,
@@ -63,19 +60,16 @@ class _ProductCarouselState extends State<ProductCarousel> {
               ),
             ),
           ),
-          // MAIN FLEX LAYOUT
           Column(
             children: [
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // LEFT ARROW
                     IconButton(
                       icon: const Icon(Icons.arrow_left, color: Colors.black),
                       onPressed: toggleImage,
                     ),
-                    // FLEXIBLE TEXT CONTENT WITH ELLIPSIS
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -96,9 +90,8 @@ class _ProductCarouselState extends State<ProductCarousel> {
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
-                              overflow:
-                                  TextOverflow.fade, // Ellipsis for long title
-                              maxLines: 1, // Truncate to 1 line
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
                             ),
                             const SizedBox(height: 0),
                             Text(
@@ -108,15 +101,13 @@ class _ProductCarouselState extends State<ProductCarousel> {
                                 fontSize: 14.5,
                               ),
                               textAlign: TextAlign.center,
-                              overflow: TextOverflow
-                                  .ellipsis, // Ellipsis for long description
-                              maxLines: 2, // Limit to 2 lines
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    // RIGHT ARROW
                     IconButton(
                       icon: const Icon(Icons.arrow_right, color: Colors.black),
                       onPressed: toggleImage,

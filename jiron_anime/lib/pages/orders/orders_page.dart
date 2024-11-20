@@ -56,32 +56,44 @@ class OrdersPage extends StatelessWidget {
                           15.pv,
                           Obx(
                             () => Column(
-                                children: List.from(orderController.ordenes
-                                    .where((orden) =>
-                                        orden.status!.toLowerCase() !=
-                                        "completado")
-                                    .map((orden) => OrderItemWidget(
-                                          orden: orden,
-                                          orderController: orderController,
-                                        )))),
+                              children: List.from(orderController.ordenes
+                                  .where((orden) =>
+                                      orden.status!.toLowerCase() !=
+                                      "completado")
+                                  .map((orden) => OrderItemWidget(
+                                        orden: orden,
+                                        orderController: orderController,
+                                      ))
+                                  .expand((widget) => [
+                                        widget,
+                                        const Padding(
+                                          padding: EdgeInsets.all(15),
+                                          child: Divider(),
+                                        ),
+                                      ]))
+                                ..removeLast(),
+                            ),
                           ),
                           15.pv,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Get.toNamed("/orders-history");
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: AppColors.primaryColor,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Get.toNamed("/orders-history");
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: AppColors.primaryColor,
+                                  ),
+                                  child: const Text("IR AL HISTORIAL",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
                                 ),
-                                child: const Text("IR AL HISTORIAL",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       );

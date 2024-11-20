@@ -14,11 +14,12 @@ class HistoryOrderItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Pedido realizado el: ${order.createdAt != null ? DateFormat("dd/MM/yyyy").format(order.createdAt!) : "Desconocido"}",
-          style: Theme.of(context).textTheme.bodyMedium,
+          "Pedido: ${order.id}",
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         8.pv,
-        Text("Pedido: ${order.id}",
+        Text(
+            "Realizado el: ${order.createdAt != null ? DateFormat("dd/MM/yyyy").format(order.createdAt!) : "Desconocido"}",
             style: Theme.of(context).textTheme.bodySmall),
         8.pv,
         ...order.orderItems!.map((orderItem) {
@@ -40,6 +41,7 @@ class HistoryOrderItem extends StatelessWidget {
                       Text("Cantidad: ${orderItem.amount}"),
                       Text(
                           "Precio: S. ${orderItem.product!.price?.toStringAsFixed(2)}"),
+                      Text("Mercado: ${orderItem.product!.market!.name}"),
                     ],
                   ),
                 ),

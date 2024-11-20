@@ -6,9 +6,9 @@ import 'package:jiron_anime/controllers/message_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/chat/model/local_message.dart';
 import 'package:jiron_anime/pages/chat/widget/message_widget.dart';
+import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
-import 'package:jiron_anime/utils/supabase_utils.dart';
 
 class ChatPage extends StatelessWidget {
   final Market mercado;
@@ -105,14 +105,12 @@ class ChatPage extends StatelessWidget {
                             if (messageControllerInput.text.isNotEmpty ||
                                 messageController.selectedImages.isNotEmpty) {
                               messageController.sendMessage(LocalMessage(
-                                  sender: getSupabaseClient()
-                                      .auth
-                                      .currentUser!
-                                      .email,
+                                  sender: AuthController.fullName,
                                   text: messageControllerInput.text,
                                   createdAt: DateTime.now(),
                                   images: messageController.selectedImages
                                       .toList()));
+
                               messageControllerInput.clear();
                             }
                           },
