@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiron_anime/controllers/rating_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/models/product.dart';
-import 'package:jiron_anime/models/product_rating.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/service/file_upload_service.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
@@ -22,7 +20,9 @@ class ReseniaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showReseniaBottomSheet(context),
+      onTap: () => (AuthService.isLoggedIn)
+          ? showReseniaBottomSheet(context)
+          : Get.toNamed("/sign-in"),
       child: Row(children: [
         const Icon(Icons.chat),
         15.ph,
@@ -39,9 +39,81 @@ class ReseniaButton extends StatelessWidget {
     final TextEditingController comentarioController = TextEditingController();
     final ImagePicker imagePicker = ImagePicker();
 
-    Future<void> pickImages() async {
-      final pickedFiles = await imagePicker.pickMultiImage();
-      selectedImages.addAll(pickedFiles.map((file) => File(file.path)));
+    Future<void> pickImages(BuildContext context) async {
+      final ImageSource? source = await Get.dialog<ImageSource>(
+        AlertDialog(
+          title: const Text("Fotos de reseña"),
+          content: const Text(
+              "¿Deseas seleccionar imágenes de la galería o usar la cámara?"),
+          actions: [
+            TextButton(
+              onPressed: () => Get.back(result: ImageSource.gallery),
+              child: const Text("Galería"),
+            ),
+            TextButton(
+              onPressed: () => Get.back(result: ImageSource.camera),
+              child: const Text("Cámara"),
+            ),
+          ],
+        ),
+      );
+
+      if (source != null) {
+        if (source == ImageSource.camera) {
+          final pickedFile =
+              await imagePicker.pickImage(source: ImageSource.camera);
+          if (pickedFile != null) {
+            selectedImages.add(File(pickedFile.path));
+          }
+        } else {
+          final pickedFiles = await imagePicker.pickMultiImage();
+          selectedImages.addAll(pickedFiles.map((file) => File(file.path)));
+        }
+      }
+    }
+
+    Future handleEnviarRating() async {
+      if (rating.value == 0 || comentarioController.text.isEmpty) {
+        Get.dialog(const AlertDialog(
+          title: Text("Alerta"),
+          content: Text(
+              "Debes agregar una calificación y un comentario para enviar tu reseña."),
+        ));
+        return;
+      }
+      submitLoading.value = true;
+
+      ProductRating resenia;
+
+      if (selectedImages.isNotEmpty) {
+        final storageService = FileUploadService(context);
+
+        final imagesUploaded =
+            await storageService.uploadMultipleFiles(selectedImages);
+
+        resenia = ProductRating(
+            clientId: AuthService.getClientId(),
+            productId: producto.id!,
+            score: rating.value,
+            text: comentarioController.text,
+            ratingAttachments: List.from(imagesUploaded
+                .map((e) => RatingAttachment(imageUrl: e.publicUrl))));
+      } else {
+        resenia = ProductRating(
+          clientId: AuthService.getClientId(),
+          productId: producto.id!,
+          score: rating.value,
+          text: comentarioController.text,
+        );
+      }
+
+      await ratingsController.crearRatingDeProducto(resenia);
+
+      comentarioController.clear();
+      selectedImages.clear();
+
+      submitLoading.value = false;
+      Get.back();
     }
 
     return showModalBottomSheet<void>(
@@ -92,7 +164,7 @@ class ReseniaButton extends StatelessWidget {
                             ),
                             20.pv,
                             ElevatedButton.icon(
-                              onPressed: pickImages,
+                              onPressed: () => pickImages(context),
                               icon: const Icon(Icons.image),
                               label: const Text("Seleccionar imágenes"),
                             ),
@@ -126,55 +198,8 @@ class ReseniaButton extends StatelessWidget {
                             ),
                             20.pv,
                             ElevatedButton(
+                              onPressed: handleEnviarRating,
                               child: const Text('Enviar'),
-                              onPressed: () async {
-                                if (rating.value == 0 ||
-                                    comentarioController.text.isEmpty) {
-                                  Get.dialog(const AlertDialog(
-                                    title: Text("Alerta"),
-                                    content: Text(
-                                        "Debes agregar una calificación y un comentario para enviar tu reseña."),
-                                  ));
-                                  return;
-                                }
-                                submitLoading.value = true;
-
-                                ProductRating resenia;
-
-                                if (selectedImages.isNotEmpty) {
-                                  final storageService =
-                                      FileUploadService(context);
-
-                                  final imagesUploaded = await storageService
-                                      .uploadMultipleFiles(selectedImages);
-
-                                  resenia = ProductRating(
-                                      clientId: AuthService.getClientId(),
-                                      productId: producto.id!,
-                                      score: rating.value,
-                                      text: comentarioController.text,
-                                      ratingAttachments: List.from(
-                                          imagesUploaded.map((e) =>
-                                              RatingAttachment(
-                                                  imageUrl: e.publicUrl))));
-                                } else {
-                                  resenia = ProductRating(
-                                    clientId: AuthService.getClientId(),
-                                    productId: producto.id!,
-                                    score: rating.value,
-                                    text: comentarioController.text,
-                                  );
-                                }
-
-                                await ratingsController
-                                    .crearRatingDeProducto(resenia);
-
-                                comentarioController.clear();
-                                selectedImages.clear();
-
-                                submitLoading.value = false;
-                                Get.back();
-                              },
                             ),
                           ],
                         ),

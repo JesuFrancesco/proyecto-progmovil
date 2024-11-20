@@ -60,4 +60,18 @@ class OrderService {
 
     return Order.fromJson(data);
   }
+
+  Future<Order> completeOrder(int orderId) async {
+    final response = await http.post(
+        Uri.parse("${Config.serverURL}/order/confirmar-orden"),
+        body: json.encode({"id": orderId}),
+        headers: {
+          "Content-Type": "application/json",
+          ...getSupabaseAuthHeaders(),
+        });
+
+    final dynamic data = jsonDecode(response.body);
+
+    return Order.fromJson(data);
+  }
 }

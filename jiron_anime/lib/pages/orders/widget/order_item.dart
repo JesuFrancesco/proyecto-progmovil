@@ -7,11 +7,14 @@ import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
 import 'package:jiron_anime/pages/payment_success/payment_success_page.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
+import 'package:jiron_anime/controllers/order_controller.dart';
 
 class OrderItemWidget extends StatelessWidget {
+  final OrderController orderController;
   final Order orden;
 
-  const OrderItemWidget({super.key, required this.orden});
+  const OrderItemWidget(
+      {super.key, required this.orden, required this.orderController});
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +92,19 @@ class OrderItemWidget extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                       ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          _showConfirmBottomSheet(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.green,
+                        ),
+                        icon: const Icon(Icons.check),
+                        label: const Text("CONFIRMAR",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                      ),
                       Row(
                         children: [
                           CircleAvatar(
@@ -115,6 +131,76 @@ class OrderItemWidget extends StatelessWidget {
         ),
         15.pv,
       ],
+    );
+  }
+
+  void _showConfirmBottomSheet(BuildContext context) {
+    Get.bottomSheet(
+      Obx(() {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "¿Confirmar que esta orden está completa?",
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center,
+              ),
+              16.pv,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => Get.back(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                    ),
+                    child: const Text("Cancelar"),
+                  ),
+                  ElevatedButton(
+                    onPressed: orderController.isLoading.value
+                        ? null
+                        : () async {
+                            try {
+                              orderController.isLoading.value = true;
+                              await orderController.completarOrden(orden.id!);
+
+                              final index = orderController.ordenes
+                                  .indexWhere((e) => e.id == orden.id);
+                              if (index != -1) {
+                                final updatedOrder = orderController
+                                    .ordenes[index]
+                                    .copyWith(status: "Completado");
+                                orderController.ordenes[index] = updatedOrder;
+                              }
+                            } catch (e) {
+                              //
+                            } finally {
+                              orderController.isLoading.value = false;
+                              Get.back();
+                            }
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    child: orderController.isLoading.value
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text("Confirmar"),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      }),
+      isDismissible: true,
     );
   }
 }

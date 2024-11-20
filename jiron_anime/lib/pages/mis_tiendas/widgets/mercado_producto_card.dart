@@ -179,22 +179,25 @@ class MercadoProductWidget extends StatelessWidget {
                         foregroundColor: Colors.white,
                       ),
                       onPressed: () async {
-                        isLoading.value = true;
+                        try {
+                          isLoading.value = true;
 
-                        await marketController.eliminarProducto(
-                            product!.id!, market.id!);
+                          await marketController.eliminarProducto(
+                              product!.id!, market.id!);
+                          ScaffoldMessenger.of(
+                                  context.mounted ? context : context)
+                              .showSnackBar(
+                            const SnackBar(
+                              content: Text('El producto ha sido eliminado.'),
+                            ),
+                          );
+                        } catch (e) {
+                          // HANDLE ERROR
+                        } finally {
+                          isLoading.value = false;
 
-                        isLoading.value = false;
-
-                        ScaffoldMessenger.of(
-                                context.mounted ? context : context)
-                            .showSnackBar(
-                          const SnackBar(
-                            content: Text('El producto ha sido eliminado.'),
-                          ),
-                        );
-
-                        Get.back();
+                          Get.back();
+                        }
                       },
                       child: isLoading.value
                           ? const SmallCircularIndicator()

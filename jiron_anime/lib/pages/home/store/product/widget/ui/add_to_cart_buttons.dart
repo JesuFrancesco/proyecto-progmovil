@@ -35,25 +35,32 @@ class AddToCartWidget extends StatelessWidget {
         });
 
     Future<void> handleAgregarAlCarrito() async {
-      addCartLoading.value = true;
+      try {
+        addCartLoading.value = true;
 
-      if (producto.id != null) {
-        await _shoppingCartController.agregarProductoAlCarrito(
-            producto.id!, numeroItems.value);
+        if (producto.id != null) {
+          await _shoppingCartController.agregarProductoAlCarrito(
+              producto.id!, numeroItems.value);
 
-        _shoppingCartController.carrito.value.cartItems!.add(CartItem(
-            product: producto,
-            productId: producto.id,
-            amount: numeroItems.value,
-            addedAt: DateTime.now()));
+          _shoppingCartController.carrito.value.cartItems!.add(CartItem(
+              product: producto,
+              productId: producto.id,
+              amount: numeroItems.value,
+              addedAt: DateTime.now()));
 
-        Get.toNamed("/cart");
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Error: El producto no tiene ID")),
+          Get.toNamed("/cart");
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Error: El producto no tiene ID")),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
+          SnackBar(content: Text("Algo salió mal. $e")),
         );
+      } finally {
+        addCartLoading.value = false;
       }
-      addCartLoading.value = false;
     }
 
     Widget getAddToCartButton() {

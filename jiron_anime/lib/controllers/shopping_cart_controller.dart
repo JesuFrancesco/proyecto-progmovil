@@ -14,7 +14,7 @@ class ShoppingCartController extends GetxController {
 
   Future<void> agregarProductoAlCarrito(int productId, int amount) async {
     if (!AuthService.isLoggedIn) {
-      // Get.toNamed("/sign-in");
+      Get.toNamed("/sign-in");
       return;
     }
     await service.addProductToCart(amount, productId);

@@ -7,13 +7,12 @@ import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 
-final _orderController = OrderController();
-
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final orderController = OrderController();
     return Scaffold(
       body: CustomLayout(
         child: CustomScrollView(
@@ -25,14 +24,14 @@ class OrdersPage extends StatelessWidget {
                   const CustomAppbar(title: "Pedidos"),
                   30.pv,
                   FutureBuilder(
-                    future: _orderController.obtenerOrdenesDeCompra(),
+                    future: orderController.obtenerOrdenesDeCompra(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Expanded(
                             child: Center(child: CircularProgressIndicator()));
                       }
 
-                      if (_orderController.ordenes.isEmpty) {
+                      if (orderController.ordenes.isEmpty) {
                         return Expanded(
                           child: Center(
                               child: Text(
@@ -54,25 +53,17 @@ class OrdersPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "JULIO 2024",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
                           15.pv,
                           Obx(
                             () => Column(
-                              children: _orderController.ordenes
-                                  .where((orden) => orden.status != "Entregado")
-                                  .map((orden) => OrderItemWidget(orden: orden))
-                                  .toList(),
-                            ),
+                                children: List.from(orderController.ordenes
+                                    .where((orden) =>
+                                        orden.status!.toLowerCase() !=
+                                        "completado")
+                                    .map((orden) => OrderItemWidget(
+                                          orden: orden,
+                                          orderController: orderController,
+                                        )))),
                           ),
                           15.pv,
                           Row(

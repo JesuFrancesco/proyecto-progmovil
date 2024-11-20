@@ -31,38 +31,35 @@ class WishlistButton extends StatelessWidget {
         });
 
     Future<void> handleAgregarAWishlist(Product producto) async {
-      wishlistLoading.value = true;
-
-      await _wishlistController.agregarItemAWishlist(producto.id!);
-
       try {
+        wishlistLoading.value = true;
+        await _wishlistController.agregarItemAWishlist(producto.id!);
         _wishlistController.wishlist.value.wishlistItems!
             .add(WishlistItem(productId: producto.id!));
       } catch (e) {
-        //
+        // HANDLE ERROR
+      } finally {
+        wishlistLoading.value = false;
       }
-
-      wishlistLoading.value = false;
     }
 
     Future<void> handleQuitarDeWishlist(Product producto) async {
-      wishlistLoading.value = true;
-      await _wishlistController.removerItemDeWishlist(producto.id!);
-
       try {
+        wishlistLoading.value = true;
+        await _wishlistController.removerItemDeWishlist(producto.id!);
         _wishlistController.wishlist.value.wishlistItems!
             .removeWhere((element) => element.productId == producto.id);
       } catch (e) {
-        //
+        // HANDLE ERROR
+      } finally {
+        wishlistLoading.value = false;
       }
-
-      wishlistLoading.value = false;
     }
 
     GestureDetector getAddToWishlistButton() {
       if (!AuthService.isLoggedIn) {
         return GestureDetector(
-          onTap: () => handleAgregarAWishlist(producto),
+          onTap: () => Get.toNamed("/sign-in"),
           child: Row(children: [
             const Icon(Icons.favorite_border_outlined),
             15.ph,

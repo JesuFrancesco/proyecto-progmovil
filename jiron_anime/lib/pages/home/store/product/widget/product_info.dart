@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jiron_anime/controllers/pregunta_controller.dart';
 import 'package:jiron_anime/controllers/rating_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/home/store/product/widget/ui/add_to_cart_row.dart';
+import 'package:jiron_anime/pages/home/store/product/widget/ui/add_to_cart_buttons.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/ui/product_slider.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/ui/question_button.dart';
 import 'package:jiron_anime/pages/home/store/product/widget/ui/resenia_button.dart';

@@ -150,12 +150,11 @@ class MercadoCardWidget extends StatelessWidget {
                               await marketController.deleteMercado(market.id!);
                               marketController.markets.removeWhere(
                                   (element) => element.id! == market.id!);
-
-                              Get.back();
                             } catch (e) {
                               // handle
                             } finally {
                               isDeleting.value = false;
+                              Get.back();
                             }
 
                             // Get.until((route) => Get.currentRoute == '/home');

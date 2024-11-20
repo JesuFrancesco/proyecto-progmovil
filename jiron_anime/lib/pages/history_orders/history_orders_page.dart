@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/controllers/order_controller.dart';
+import 'package:jiron_anime/pages/history_orders/widgets/history_order_item.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
@@ -20,7 +21,7 @@ class HistoryOrdersPage extends StatelessWidget {
               child: Column(
                 children: [
                   const CustomAppbar(title: "Historial de pedidos"),
-                  // 15.pv,
+                  15.pv,
                   FutureBuilder(
                     future: _orderController.obtenerOrdenesDeCompra(),
                     builder: (context, snapshot) {
@@ -37,86 +38,39 @@ class HistoryOrdersPage extends StatelessWidget {
                         return Expanded(
                           child: Center(
                               child: Text(
-                            "No tienes ordenes realizadas",
+                            "No tienes órdenes realizadas",
                             style: Theme.of(context).textTheme.titleMedium,
                           )),
                         );
                       }
 
-                      return Column(
-                        children: _orderController.ordenes
-                            .where((order) => order.status == "Entregado")
-                            .map((order) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Pedido realizado el: 23/7/2024",
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: _orderController.ordenes
+                              .where((order) =>
+                                  order.status!.toLowerCase() == "completado")
+                              .length,
+                          itemBuilder: (context, index) {
+                            final order = _orderController.ordenes
+                                .where((order) =>
+                                    order.status!.toLowerCase() == "completado")
+                                .toList()[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 8.0),
+                              child: Card(
+                                elevation: 4,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                8.pv,
-                                Text("Pedido: ${order.id}",
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall),
-                                8.pv,
-                                ...order.orderItems!.map((orderItem) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Artículo: ${orderItem.product!.name}",
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              Text(
-                                                  "Cantidad: ${orderItem.amount}"),
-                                              Text(
-                                                  "Precio: S. ${orderItem.product!.price?.toStringAsFixed(2)}"),
-                                            ],
-                                          ),
-                                        ),
-                                        if (orderItem
-                                                .product!
-                                                .productAttachments
-                                                ?.isNotEmpty ??
-                                            false)
-                                          Expanded(
-                                            flex: 2,
-                                            child: Image.network(
-                                              orderItem
-                                                  .product!
-                                                  .productAttachments![0]
-                                                  .imageUrl!,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                                8.pv,
-                                Text(
-                                  "Total: S. ${order.totalPrice!.toStringAsFixed(2)}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: HistoryOrderItem(order: order),
                                 ),
-                                const Divider(thickness: 1),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

@@ -387,8 +387,6 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
             .map((e) => ProductAttachment(imageUrl: e.publicUrl))
             .toList();
 
-        print("p qqqqqqq");
-
         final producto = Product(
             name: nombreController.text,
             price: parseToDouble(precioController.text),
@@ -400,10 +398,8 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
             brandSeller: marca,
             productAttachments: productAttachments);
 
-        print("mercado controller");
         await marketController.agregarNuevoProducto(
             producto, widget.market.id!);
-        print("mercado controller end");
 
         ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
           const SnackBar(
@@ -412,7 +408,6 @@ class _AgregarProductoScreenState extends State<AgregarProductoScreen> {
 
         Get.until((route) => Get.currentRoute == '/home');
       } catch (e) {
-        print(e);
         // DO SOMETHING
       } finally {
         isLoading.value = false;
