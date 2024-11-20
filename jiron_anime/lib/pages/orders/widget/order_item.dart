@@ -139,10 +139,6 @@ class OrderItemWidget extends StatelessWidget {
       Obx(() {
         return Container(
           padding: const EdgeInsets.all(16.0),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
-          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
