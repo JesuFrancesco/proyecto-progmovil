@@ -29,4 +29,23 @@ orderRouter.post("/order/procesar-pago", authHandler, async (req, res) => {
   return res.status(201).json(createdOrder);
 });
 
+orderRouter.post("/order/confirmar-orden", authHandler, async (req, res, next) => {
+  try {
+    const service = new OrderService();
+
+    const { id: orderId } = req.body;
+
+    if (!orderId) {
+      return res.status(400).json({ message: "Order ID no enviado" });
+    }
+
+    const completedOrder = await service.completarOrden(orderId);
+
+    return res.status(200).json(completedOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 export default orderRouter;

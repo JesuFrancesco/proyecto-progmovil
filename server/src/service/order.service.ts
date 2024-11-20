@@ -68,4 +68,33 @@ export class OrderService {
 
     return createdOrder;
   }
+
+  async completarOrden(orderId: number) {
+    // Retrieve the order
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id: orderId,
+      },
+    });
+
+    if (!order) {
+      throw boom.notFound("Order not found");
+    }
+
+    if (order.status !== "Recepcionando compra...") {
+      throw boom.conflict("Order cannot be completed");
+    }
+
+    // Update order status to completed
+    const updatedOrder = await this.prisma.order.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        status: "Completado",
+      },
+    });
+
+    return updatedOrder;
+  }
 }
