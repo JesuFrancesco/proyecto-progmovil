@@ -13,22 +13,20 @@ import 'package:jiron_anime/shared/small_circular_indicator.dart';
 
 class ChatPage extends StatelessWidget {
   final Market mercado;
-  final MessageController messageController = MessageController();
-  final TextEditingController messageControllerInput = TextEditingController();
-
-  ChatPage({super.key, required this.mercado});
-
-  Future<void> aniadirImagenes() async {
-    final picker = ImagePicker();
-    final pickedFiles = await picker.pickMultiImage();
-    for (final pickedFile in pickedFiles) {
-      messageController.agregarImagen(File(pickedFile.path));
-    }
-  }
+  const ChatPage({super.key, required this.mercado});
 
   @override
   Widget build(BuildContext context) {
-    messageController.cargarHistorial();
+    final messageController = Get.put(MessageController());
+    final messageControllerInput = TextEditingController();
+
+    Future<void> aniadirImagenes() async {
+      final picker = ImagePicker();
+      final pickedFiles = await picker.pickMultiImage();
+      for (final pickedFile in pickedFiles) {
+        messageController.agregarImagen(File(pickedFile.path));
+      }
+    }
 
     return Scaffold(
       body: CustomLayout(
@@ -39,24 +37,29 @@ class ChatPage extends StatelessWidget {
               mercado.name!,
               style: Theme.of(context).textTheme.titleSmall,
             ),
-            Expanded(
-              child: Obx(() => messageController.isLoading.value
-                  ? const Center(child: SmallCircularIndicator())
-                  : Builder(builder: (context) {
-                      if (messageController.messages.isEmpty) {
-                        return Center(
-                            child:
-                                Text("Empieza tu chat con ${mercado.name!}"));
-                      }
-                      return ListView.builder(
-                        itemCount: messageController.messages.length,
-                        itemBuilder: (context, index) {
-                          final message = messageController.messages[index];
-                          return MessageWidget(message: message);
-                        },
-                      );
-                    })),
+            // CHAT MESSAGES
+            FutureBuilder<void>(
+              future: messageController.cargarHistorial(),
+              builder: (context, snapshot) => Obx(
+                () => Expanded(
+                  child: messageController.isLoading.value
+                      ? const Center(child: SmallCircularIndicator())
+                      : messageController.messages.isEmpty
+                          ? Center(
+                              child:
+                                  Text("Empieza tu chat con ${mercado.name!}"))
+                          : ListView.builder(
+                              itemCount: messageController.messages.length,
+                              itemBuilder: (context, index) {
+                                final message =
+                                    messageController.messages[index];
+                                return MessageWidget(message: message);
+                              },
+                            ),
+                ),
+              ),
             ),
+            // CHAT INPUT
             Obx(() => Column(
                   children: [
                     if (messageController.selectedImages.isNotEmpty)

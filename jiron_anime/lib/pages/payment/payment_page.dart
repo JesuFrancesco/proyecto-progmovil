@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/location_controller.dart';
 import 'package:jiron_anime/controllers/order_controller.dart';
 import 'package:jiron_anime/controllers/shopping_cart_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
+import 'package:jiron_anime/pages/payment/widget/pasarela_pago.dart';
 import 'package:jiron_anime/pages/payment/widget/product_resume.dart';
+import 'package:jiron_anime/pages/payment/widget/separador.dart';
 import 'package:jiron_anime/pages/payment_success/payment_success_page.dart';
+import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
@@ -22,153 +26,93 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   final shoppingCartController = Get.put(ShoppingCartController());
   final orderController = Get.put(OrderController());
+  final locationController = Get.put(LocationController());
+  final mapController = MapController();
+
   final paymentLoading = false.obs;
+  final fechaEntrega = DateTime.now().add(const Duration(days: 7)).obs;
+  final ubicacionEntrega = const LatLng(0, 0).obs;
 
   get cartItems => shoppingCartController.cartItems;
+
+  @override
+  void initState() {
+    super.initState();
+    locationController.checkLocationPermission();
+  }
+
+  Future<void> handleRealizarPedidoOnClick() async {
+    try {
+      final itemsOrden = List<OrderItem>.from(cartItems.map((e) => OrderItem(
+            amount: e.amount,
+            product: e.product,
+            productId: e.productId,
+          )));
+
+      final order = await orderController.procesarOrdenDeCompra(itemsOrden);
+
+      Get.offAll(() => PaymentSuccessPage(
+            order: order,
+          ));
+    } catch (e) {
+      // HANDLE ERRORS
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomLayout(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CustomAppbar(title: "Pago"),
-            Expanded(
-              child: ListView.builder(
-                itemCount: cartItems!.length,
-                itemBuilder: (context, index) {
-                  final item = cartItems![index];
-                  return ProductResumeWidget(
-                    item: item,
-                    onRemove: () {},
-                  );
-                },
-              ),
-            ),
-            const Divider(),
-            const Text(
-              'ENVÍO',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            8.pv,
-            GestureDetector(
-              onTap: () async {
-                final date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now().add(const Duration(days: 3)),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(const Duration(days: 30)),
-                );
-                if (date != null) {
-                  Get.snackbar(
-                    "Fecha seleccionada",
-                    "Tu pedido llegará el ${date.day}/${date.month}/${date.year}",
-                  );
-                }
-              },
-              child: const Text(
-                'Seleccionar fecha de entrega',
-                style: TextStyle(color: Colors.blue),
-              ),
-            ),
-            const Text('ENTREGA - GRATIS'),
-            const Text('Ubicación:'),
-            Container(
-              height: 200,
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              child: FlutterMap(
-                options: const MapOptions(
-                  initialCenter: LatLng(-12.094056, -76.964426),
-                  initialZoom: 15.0,
-                ),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.example.jiron_anime',
+                  const CustomAppbar(title: "Pago"),
+                  SizedBox(
+                    height: 144,
+                    child: ListView.builder(
+                      itemCount: cartItems!.length,
+                      itemBuilder: (context, index) {
+                        final item = cartItems![index];
+                        return ProductResumeWidget(
+                          item: item,
+                          onRemove: () {},
+                        );
+                      },
+                    ),
                   ),
-                  const MarkerLayer(
-                    markers: [
-                      Marker(
-                        width: 50.0,
-                        height: 50.0,
-                        point: LatLng(-12.094056, -76.964426),
-                        child: Icon(
-                          Icons.location_pin,
-                          color: Colors.red,
-                          size: 30,
-                        ),
-                      ),
-                    ],
+                  const Separador(),
+                  ...getUbicacionPicker,
+                  const Separador(),
+                  ...getFechaDeEnvioPicker(context),
+                  const Separador(),
+                  ...getPasarelaDePagoPicker,
+                  const Separador(),
+                  ...getDatosAdicionalesPicker,
+                  const Separador(),
+                  ...getDiscountCodePicker,
+                  const Separador(),
+                  Text(
+                    'Total: S/. ${cartItems!.fold(0, (sum, cartItem) => sum + (cartItem.product!.price! * cartItem.amount!).toInt())}',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
-            ),
-            const Divider(),
-            GestureDetector(
-              onTap: () {
-                Get.to(() => const MockPasarelaDePago());
-              },
-              child: const ListTile(
-                title: Text('Pago'),
-                subtitle: Text('Seleccionar un método de pago',
-                    style: TextStyle(color: Colors.blue)),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.snackbar(
-                    "WIP", "Esta funcionalidad aún está en desarrollo.");
-              },
-              child: const ListTile(
-                title: Text('Tus datos'),
-                subtitle: Text('Ingresa tus datos',
-                    style: TextStyle(color: Colors.blue)),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.snackbar(
-                    "WIP", "Esta funcionalidad aún está en desarrollo.");
-              },
-              child: const ListTile(
-                title: Text('Código de descuento'),
-                subtitle: Text('Elegir un descuento',
-                    style: TextStyle(color: Colors.blue)),
-              ),
-            ),
-            const Spacer(),
-            const Divider(),
-            Text(
-              'Total: S/. ${cartItems!.fold(0, (sum, cartItem) => sum + (cartItem.product!.price! * cartItem.amount!).toInt())}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Obx(
-              () => paymentLoading.value
-                  ? const SmallCircularIndicator()
-                  : SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: handleRealizarPedidoOnClick,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                        ),
-                        child: const Text(
-                          'REALIZAR PEDIDO',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                  20.pv,
+                  getRealizarPedidoButton(),
+                  const Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Center(
+                      child: Text(
+                        'Al realizar un pedido, aceptas nuestros términos y condiciones.',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-            ),
-            const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                'Al realizar un pedido, aceptas nuestros términos y condiciones.',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
-                textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
           ],
@@ -177,54 +121,144 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Future<void> handleRealizarPedidoOnClick() async {
-    try {
-      paymentLoading.value = true;
-      final itemsCarrito = cartItems!;
+  List<Widget> getFechaDeEnvioPicker(BuildContext context) {
+    return [
+      GestureDetector(
+        onTap: () async {
+          final date = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now().add(const Duration(days: 3)),
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 30)),
+          );
 
-      final itemsOrden = itemsCarrito.map((e) {
-        return OrderItem(
-          amount: e.amount,
-          product: e.product,
-          productId: e.productId,
-        );
-      }).toList();
+          if (date == null) return;
 
-      final order = await orderController.procesarOrdenDeCompra(itemsOrden);
-      Get.offAll(() => PaymentSuccessPage(
-            order: order,
-          ));
-    } catch (e) {
-      // HANDLE ERRORS
-    } finally {
-      paymentLoading.value = false;
-    }
-  }
-}
-
-class MockPasarelaDePago extends StatelessWidget {
-  const MockPasarelaDePago({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: CustomLayout(
-        child: Column(
-          children: [
-            CustomAppbar(
-              title: "Pasarela de pago",
-              showAvatar: false,
-            ),
-            Center(
-              child: Text(
-                'Aquí iría la integración con una pasarela de pagos.',
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
+          fechaEntrega.value = date;
+        },
+        child: ListTile(
+          title: const Text('Fecha de envío'),
+          subtitle: Text(
+            "Tu pedido llegará el ${fechaEntrega.value.day}/${fechaEntrega.value.month}/${fechaEntrega.value.year}",
+            style: const TextStyle(color: Colors.blue),
+          ),
         ),
       ),
+    ];
+  }
+
+  List<Widget> get getDiscountCodePicker {
+    return [
+      GestureDetector(
+        onTap: () {
+          Get.snackbar("WIP", "Esta funcionalidad aún está en desarrollo.");
+        },
+        child: const ListTile(
+          title: Text('Código de descuento'),
+          subtitle: Text('ULIMA2024', style: TextStyle(color: Colors.blue)),
+        ),
+      )
+    ];
+  }
+
+  List<Widget> get getDatosAdicionalesPicker {
+    return [
+      GestureDetector(
+        onTap: () {
+          Get.snackbar("WIP", "Esta funcionalidad aún está en desarrollo.");
+        },
+        child: ListTile(
+          title: const Text('Tus datos'),
+          subtitle: Text("Usuario: ${AuthController.fullName!}",
+              style: const TextStyle(color: Colors.blue)),
+        ),
+      )
+    ];
+  }
+
+  List<Widget> get getPasarelaDePagoPicker {
+    return [
+      GestureDetector(
+        onTap: () {
+          Get.to(() => const MockPasarelaDePago());
+        },
+        child: const ListTile(
+          title: Text('Pago'),
+          subtitle: Text('Tu MasterCard que termina en 7777',
+              style: TextStyle(color: Colors.blue)),
+        ),
+      )
+    ];
+  }
+
+  List<Widget> get getUbicacionPicker {
+    return [
+      const Text(
+        'ENTREGA - GRATIS',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Obx(
+        () => Text(
+          'Ubicación: ${locationController.latitud.toStringAsFixed(5)} ${locationController.longitud.toStringAsFixed(5)}',
+          style:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+        ),
+      ),
+      Container(
+          height: 256,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: Obx(
+            () => FlutterMap(
+              key: locationController.mapKey,
+              // MODO GPS
+              // mapController: mapController,
+              options: MapOptions(
+                initialZoom: 15,
+                minZoom: 15,
+                // maxZoom: 25,
+                initialCenter: LatLng(locationController.latitud.value,
+                    locationController.longitud.value),
+                onTap: (tapPosition, point) {
+                  locationController.latitud.value = point.latitude;
+                  locationController.longitud.value = point.longitude;
+                },
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.jiron_anime',
+                ),
+                MarkerLayer(markers: [
+                  Marker(
+                      point: LatLng(locationController.latitud.value,
+                          locationController.longitud.value),
+                      child: const Icon(Icons.location_on,
+                          size: 40.0, color: Colors.red))
+                ]),
+              ],
+            ),
+          ))
+    ];
+  }
+
+  Widget getRealizarPedidoButton() {
+    return Obx(
+      () => orderController.isLoading.value
+          ? const SmallCircularIndicator()
+          : SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: handleRealizarPedidoOnClick,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                ),
+                child: const Text(
+                  'REALIZAR PEDIDO',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
     );
   }
 }

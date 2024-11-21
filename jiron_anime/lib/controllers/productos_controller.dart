@@ -5,7 +5,9 @@ import 'package:jiron_anime/service/product_service.dart';
 class ProductoController extends GetxController {
   ProductoService service = ProductoService();
   final isLoading = false.obs;
+
   final productos = <Product>[].obs;
+  final similarProductos = <Product>[].obs;
   final queryProductos = <Product>[].obs;
 
   Future<void> obtenerProductosRecientes(int page) async {
@@ -22,7 +24,7 @@ class ProductoController extends GetxController {
   Future<void> obtenerProductosPorGenero(List<Tag> tags, int page) async {
     try {
       isLoading.value = true;
-      productos.value = await service.fetchProductsByGenre(tags, page);
+      similarProductos.value = await service.fetchProductsByGenre(tags, page);
     } catch (e) {
       // HANDLE ERRORS
     } finally {

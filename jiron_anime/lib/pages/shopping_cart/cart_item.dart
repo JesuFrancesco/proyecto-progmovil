@@ -20,22 +20,28 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wishlistLoading = false.obs;
+    final wishlistItemIsLoading = false.obs;
 
     Future<void> guardarItemEnWishlist() async {
-      wishlistLoading.value = true;
-
-      await _wishlistController.agregarProductoAWishlist(item.product!);
-
-      wishlistLoading.value = false;
+      try {
+        wishlistItemIsLoading.value = true;
+        await _wishlistController.agregarProductoAWishlist(item.product!);
+      } catch (e) {
+        // HANDLE ERRORS
+      } finally {
+        wishlistItemIsLoading.value = false;
+      }
     }
 
     Future<void> quitarItemDeWishlist() async {
-      wishlistLoading.value = true;
-
-      await _wishlistController.removerItemDeWishlist(item.productId!);
-
-      wishlistLoading.value = false;
+      try {
+        wishlistItemIsLoading.value = true;
+        await _wishlistController.removerItemDeWishlist(item.productId!);
+      } catch (e) {
+        // HANDLE ERRORS
+      } finally {
+        wishlistItemIsLoading.value = false;
+      }
     }
 
     bool estaEnLaWishlist() => _wishlistController.wishlistItems
@@ -62,7 +68,7 @@ class CartItemWidget extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(width: 16.0),
+            16.ph,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +112,7 @@ class CartItemWidget extends StatelessWidget {
                       ),
                       8.ph,
                       Obx(() {
-                        if (wishlistLoading.value) {
+                        if (wishlistItemIsLoading.value) {
                           return const SmallCircularIndicator();
                         } else {
                           return FutureBuilder(

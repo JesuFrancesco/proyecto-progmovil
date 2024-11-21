@@ -9,10 +9,11 @@ class MessageController extends GetxController {
   final messages = <LocalMessage>[].obs;
   final selectedImages = <File>[].obs;
 
-  void cargarHistorial() async {
+  Future<void> cargarHistorial() async {
     try {
       isLoading.value = true;
-      await Future.delayed(const Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 3));
+      messages.value = [];
     } catch (e) {
       // handle errors
     } finally {
@@ -20,20 +21,20 @@ class MessageController extends GetxController {
     }
   }
 
-  void enviarMensaje(LocalMessage message) async {
+  Future<void> enviarMensaje(LocalMessage message) async {
     messages.add(message);
     limpiarImagenes();
   }
 
-  void agregarImagen(File image) async {
+  Future<void> agregarImagen(File image) async {
     selectedImages.add(image);
   }
 
-  void quitarImagen(int index) async {
+  Future<void> quitarImagen(int index) async {
     selectedImages.removeAt(index);
   }
 
-  void limpiarImagenes() async {
+  Future<void> limpiarImagenes() async {
     selectedImages.clear();
   }
 }

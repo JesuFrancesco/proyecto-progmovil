@@ -19,8 +19,7 @@ class HistoryOrdersPage extends StatelessWidget {
             const SliverToBoxAdapter(
               child: CustomAppbar(title: "Historial de pedidos"),
             ),
-            const SliverToBoxAdapter(
-                child: SizedBox(height: 15)), // equivalent to 15.pv
+            const SliverToBoxAdapter(child: SizedBox(height: 15)),
             SliverFillRemaining(
               child: FutureBuilder(
                 future: orderController.obtenerOrdenesDeCompra(),

@@ -19,10 +19,8 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   final shoppingCartController = Get.put(ShoppingCartController());
 
-  get carrito => shoppingCartController.carrito;
-
-  get cartItems => shoppingCartController.cartItems;
-  final isLoading = false.obs;
+  Rx<ShoppingCart> get carrito => shoppingCartController.carrito;
+  RxList<CartItem> get cartItems => shoppingCartController.cartItems;
 
   @override
   void initState() {
@@ -31,23 +29,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future<void> cargarCarrito() async {
-    try {
-      isLoading.value = true;
-      await shoppingCartController.obtenerMiCarrito();
-    } catch (e) {
-      // handler
-    } finally {
-      isLoading.value = false;
-    }
+    await shoppingCartController.obtenerMiCarrito();
   }
 
   Future<void> productoOnDelete(CartItem item) async {
-    isLoading.value = true;
-
     await shoppingCartController.eliminarProductoDelCarrito(item.productId!);
-
-    isLoading.value = false;
-
     await cargarCarrito();
   }
 
@@ -63,10 +49,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 children: [
                   const CustomAppbar(title: "Carrito de compras"),
                   Obx(
-                    () => isLoading.value
+                    () => shoppingCartController.isLoading.value
                         ? const Expanded(
                             child: Center(child: CircularProgressIndicator()))
-                        : cartItems!.isEmpty
+                        : cartItems.isEmpty
                             ? Expanded(
                                 child: Center(
                                     child: Text("No tienes items en el carrito",
@@ -76,7 +62,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                             .titleMedium)))
                             : Column(
                                 children: [
-                                  ...cartItems!.map((e) => CartItemWidget(
+                                  ...cartItems.map((e) => CartItemWidget(
                                       item: e,
                                       onRemove: () => productoOnDelete(e))),
                                   Padding(
@@ -87,7 +73,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                           CrossAxisAlignment.stretch,
                                       children: [
                                         Text(
-                                          'Artículos: ${cartItems!.length}',
+                                          'Artículos: ${cartItems.length}',
                                           style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
@@ -106,7 +92,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                               ),
                                             ),
                                             Text(
-                                              'S/. ${cartItems!.fold(0, (sum, cartItem) => sum + (cartItem.product!.price! * cartItem.amount!).toInt())}',
+                                              'S/. ${cartItems.fold(0, (sum, cartItem) => sum + (cartItem.product!.price! * cartItem.amount!).toInt())}',
                                               style: const TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
@@ -121,7 +107,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     padding: const EdgeInsets.all(16.0),
                                     child: ElevatedButton(
                                       onPressed: () =>
-                                          procesarPago(context, carrito!),
+                                          procesarPago(context, carrito.value),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColors.primaryColor,
                                         minimumSize:

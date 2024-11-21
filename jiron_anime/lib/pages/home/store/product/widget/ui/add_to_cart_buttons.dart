@@ -76,6 +76,20 @@ class AddToCartWidget extends StatelessWidget {
         );
       }
 
+      if (producto.stock! <= 0) {
+        return ElevatedButton(
+          onPressed: null,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+          ),
+          child: const Text(
+            "Fuera de stock",
+            style: TextStyle(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+        );
+      }
+
       return Obx(
         () => estaEnElCarrito
             ? ElevatedButton(

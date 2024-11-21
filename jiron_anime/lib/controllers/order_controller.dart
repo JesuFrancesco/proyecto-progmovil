@@ -13,18 +13,40 @@ class OrderController extends GetxController {
   final ordenes = <Order>[].obs;
 
   Future<void> obtenerOrdenesDeCompra() async {
-    ordenes.value = await service.fetchMyOrderHistory();
+    try {
+      isLoading.value = true;
+      ordenes.value = await service.fetchMyOrderHistory();
+    } catch (e) {
+      // handle errors
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<Order> procesarOrdenDeCompra(List<OrderItem> items) async {
-    final orden = await service.processPurchaseOrder(items);
-
-    return orden;
+    try {
+      isLoading.value = true;
+      final orden = await service.processPurchaseOrder(items);
+      return orden;
+    } catch (e) {
+      // handle errors
+      throw Error();
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<Order> completarOrden(int ordenId) async {
-    final orden = await service.completeOrder(ordenId);
+    try {
+      isLoading.value = true;
+      final orden = await service.completeOrder(ordenId);
 
-    return orden;
+      return orden;
+    } catch (e) {
+      // handle errors
+      throw Error();
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

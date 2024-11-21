@@ -13,22 +13,27 @@ class HistoryOrderItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Pedido: ${order.id}",
-          style: Theme.of(context).textTheme.titleMedium,
+        Center(
+          child: Text(
+            "Pedido: ${order.id}",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
-        8.pv,
-        Text(
-            "Realizado el: ${order.createdAt != null ? DateFormat("dd/MM/yyyy").format(order.createdAt!) : "Desconocido"}",
-            style: Theme.of(context).textTheme.bodySmall),
-        8.pv,
+        4.pv,
+        Center(
+          child: Text(
+              "Realizado el: ${order.createdAt != null ? DateFormat("dd/MM/yyyy").format(order.createdAt!) : "Desconocido"}",
+              style: Theme.of(context).textTheme.bodySmall),
+        ),
+        16.pv,
         ...order.orderItems!.map((orderItem) {
           return Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.only(bottom: 16.0),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
+                Flexible(
                   flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,10 +53,15 @@ class HistoryOrderItem extends StatelessWidget {
                 if (orderItem.product!.productAttachments?.isNotEmpty ?? false)
                   Expanded(
                     flex: 2,
-                    child: Image.network(
-                      orderItem.product!.productAttachments![0].imageUrl!,
-                      height: 100,
-                      fit: BoxFit.cover,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Image.network(
+                          orderItem.product!.productAttachments![0].imageUrl!,
+                          height: 150,
+                          fit: BoxFit.contain,
+                        ),
+                      ],
                     ),
                   ),
               ],

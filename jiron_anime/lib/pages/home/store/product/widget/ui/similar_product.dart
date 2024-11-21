@@ -21,7 +21,7 @@ class ProductosSimilaresWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.from(productoController.productos
+              children: List.from(productoController.similarProductos
                   .expand(
                     (producto) => [
                       ProductoSimilarItem(
@@ -47,29 +47,37 @@ class ProductoSimilarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ProductoPage(producto: producto)));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            width: 150,
-            height: 150,
+            height: 200,
+            width: 120,
             child: (producto.productAttachments != null &&
                     producto.productAttachments!.isNotEmpty)
-                ? Image.network(
-                    producto.productAttachments![0].imageUrl!,
-                    fit: BoxFit.contain,
+                ? Column(
+                    children: [
+                      Image.network(
+                        producto.productAttachments![0].imageUrl!,
+                        fit: BoxFit.contain,
+                        height: 160,
+                        width: 90,
+                      ),
+                      2.pv,
+                      Text(
+                        producto.name!,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontSize: 10),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   )
                 : const ImageErrorPlaceholder(),
-          ),
-          8.pv,
-          Text(
-            producto.name!,
-            style:
-                Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 10),
-            textAlign: TextAlign.center,
           ),
         ],
       ),
