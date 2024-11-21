@@ -38,7 +38,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
-    locationController.checkLocationPermission();
+    locationController.checkPermisoDeUbicacion();
   }
 
   Future<void> handleRealizarPedidoOnClick() async {
@@ -121,6 +121,62 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
+  List<Widget> get getUbicacionPicker {
+    return [
+      const Text(
+        'ENTREGA - GRATIS',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Obx(
+        () => Text(
+          'Ubicación: ${locationController.latitud.toStringAsFixed(5)} ${locationController.longitud.toStringAsFixed(5)}',
+          style:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+        ),
+      ),
+      FutureBuilder<void>(
+        future: locationController.actualizarMapController(mapController),
+        builder: (ctx, snapshot) => (locationController.isLoading.value)
+            ? const Center(child: SmallCircularIndicator())
+            : Container(
+                height: 256,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: Obx(
+                  () => FlutterMap(
+                    key: locationController.mapKey,
+                    // MODO GPS
+                    mapController: mapController,
+                    options: MapOptions(
+                      initialZoom: 15,
+                      minZoom: 15,
+                      // maxZoom: 25,
+                      initialCenter: LatLng(locationController.latitud.value,
+                          locationController.longitud.value),
+                      onTap: (tapPosition, point) {
+                        locationController.latitud.value = point.latitude;
+                        locationController.longitud.value = point.longitude;
+                      },
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName: 'com.example.jiron_anime',
+                      ),
+                      MarkerLayer(markers: [
+                        Marker(
+                            point: LatLng(locationController.latitud.value,
+                                locationController.longitud.value),
+                            child: const Icon(Icons.location_on,
+                                size: 40.0, color: Colors.red))
+                      ]),
+                    ],
+                  ),
+                )),
+      )
+    ];
+  }
+
   List<Widget> getFechaDeEnvioPicker(BuildContext context) {
     return [
       GestureDetector(
@@ -136,11 +192,13 @@ class _PaymentPageState extends State<PaymentPage> {
 
           fechaEntrega.value = date;
         },
-        child: ListTile(
-          title: const Text('Fecha de envío'),
-          subtitle: Text(
-            "Tu pedido llegará el ${fechaEntrega.value.day}/${fechaEntrega.value.month}/${fechaEntrega.value.year}",
-            style: const TextStyle(color: Colors.blue),
+        child: Obx(
+          () => ListTile(
+            title: const Text('Fecha de envío'),
+            subtitle: Text(
+              "Tu pedido llegará el ${fechaEntrega.value.day}/${fechaEntrega.value.month}/${fechaEntrega.value.year}",
+              style: const TextStyle(color: Colors.blue),
+            ),
           ),
         ),
       ),
@@ -188,56 +246,6 @@ class _PaymentPageState extends State<PaymentPage> {
               style: TextStyle(color: Colors.blue)),
         ),
       )
-    ];
-  }
-
-  List<Widget> get getUbicacionPicker {
-    return [
-      const Text(
-        'ENTREGA - GRATIS',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      Obx(
-        () => Text(
-          'Ubicación: ${locationController.latitud.toStringAsFixed(5)} ${locationController.longitud.toStringAsFixed(5)}',
-          style:
-              const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-        ),
-      ),
-      Container(
-          height: 256,
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          child: Obx(
-            () => FlutterMap(
-              key: locationController.mapKey,
-              // MODO GPS
-              // mapController: mapController,
-              options: MapOptions(
-                initialZoom: 15,
-                minZoom: 15,
-                // maxZoom: 25,
-                initialCenter: LatLng(locationController.latitud.value,
-                    locationController.longitud.value),
-                onTap: (tapPosition, point) {
-                  locationController.latitud.value = point.latitude;
-                  locationController.longitud.value = point.longitude;
-                },
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.jiron_anime',
-                ),
-                MarkerLayer(markers: [
-                  Marker(
-                      point: LatLng(locationController.latitud.value,
-                          locationController.longitud.value),
-                      child: const Icon(Icons.location_on,
-                          size: 40.0, color: Colors.red))
-                ]),
-              ],
-            ),
-          ))
     ];
   }
 

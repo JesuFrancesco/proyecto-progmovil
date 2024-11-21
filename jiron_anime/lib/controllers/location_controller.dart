@@ -14,22 +14,10 @@ class LocationController extends GetxController {
 
   final Key mapKey = UniqueKey();
 
-  Future<void> checkLocationPermission() async {
+  Future<void> checkPermisoDeUbicacion() async {
     try {
       isLoading.value = true;
-      final hasPermission = await locacionGPS.hasPermission();
-      bool tienePermisoGPS;
-
-      if (hasPermission == PermissionStatus.denied) {
-        final resultado = await locacionGPS.requestPermission();
-        tienePermisoGPS = resultado == PermissionStatus.granted;
-      } else {
-        tienePermisoGPS = hasPermission == PermissionStatus.granted;
-      }
-
-      if (tienePermisoGPS) {
-        await obtenerUbicacion();
-      }
+      await locacionGPS.hasPermission();
     } catch (e) {
       // handle errors
     } finally {
@@ -43,25 +31,27 @@ class LocationController extends GetxController {
 
       latitud.value = currentLocationData.latitude!;
       longitud.value = currentLocationData.longitude!;
-      // print('++++++++++++++++++++++++++++');
-      // print(latitud.value);
-      // print(longitud.value);
     } catch (e) {
       // print("error al obtener la ubiación $e");
     }
   }
 
-  Future<void> moverMapController(MapController mapController) async {
+  Future<void> actualizarMapController(MapController mapController) async {
     try {
-      mapController.move(LatLng(latitud.value, longitud.value), 5.0);
+      isLoading.value = true;
+
+      await obtenerUbicacion();
+      mapController.move(LatLng(latitud.value, longitud.value), 15.0);
     } catch (e) {
-      // print("error al mover el mapController $e");
+      // handle errors
+    } finally {
+      isLoading.value = false;
     }
   }
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    await checkLocationPermission();
+    await checkPermisoDeUbicacion();
   }
 }
