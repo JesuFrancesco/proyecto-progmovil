@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 
 class ProductCarousel extends StatefulWidget {
   const ProductCarousel({super.key});
@@ -10,21 +11,22 @@ class ProductCarousel extends StatefulWidget {
 }
 
 class _ProductCarouselState extends State<ProductCarousel> {
+  final productoController = Get.put(ProductoController());
+
   int currentImageIndex = 0;
-
-  final List<Product> productos = productoController.productos.toList();
-
-  void toggleImage() {
-    setState(() {
-      currentImageIndex = (currentImageIndex + 1) % productos.length;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    if (productos.isEmpty) {
-      return const Text("");
+    final List<Product> productos = productoController.productos.toList();
+
+    void toggleImage() {
+      setState(() {
+        currentImageIndex = (currentImageIndex + 1) % productos.length;
+      });
     }
+
+    if (productos.isEmpty) return Container();
+
     final currentComic = productos[currentImageIndex];
 
     return Container(

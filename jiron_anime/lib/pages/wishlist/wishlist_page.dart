@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/wishlist_controller.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
@@ -9,7 +10,7 @@ class WishlistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = WishlistController();
+    final controller = Get.put(WishlistController());
 
     return Scaffold(
       body: CustomLayout(
@@ -35,10 +36,7 @@ class WishlistPage extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleMedium,
                           ));
                         } else {
-                          final wishlistItems =
-                              controller.wishlist.value.wishlistItems!;
-
-                          if (wishlistItems.isEmpty) {
+                          if (controller.wishlistItems.isEmpty) {
                             return Expanded(
                                 child: Center(
                                     child: Text(
@@ -47,25 +45,24 @@ class WishlistPage extends StatelessWidget {
                             )));
                           }
 
-                          return Column(
-                            children: [
-                              ...wishlistItems.map((wshItem) =>
-                                  WishlistItemWidget(
-                                      product: wshItem.product!,
-                                      onRemove: () =>
-                                          controller.removerItemDeWishlist(
-                                              wshItem.productId!))),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  'Articulos en lista: ${controller.wishlist.value.wishlistItems!.length}',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                          return Obx(
+                            () => Column(
+                              children: [
+                                ...controller.wishlistItems.map((item) =>
+                                    WishlistItemWidget(
+                                        item: item, controller: controller)),
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                    'Articulos en lista: ${controller.wishlistItems.length}',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           );
                         }
                       }),

@@ -72,7 +72,7 @@ class _ProductoPageState extends State<ProductoPage> {
     setState(() => _body = _bodyWidgets[opcion]!());
   }
 
-  Future<void> _obtenerProductosPorGenero() async {
+  Future<void> obtenerProductosPorGenero() async {
     return _memoizer.runOnce(() async {
       await tagController.obtenerTagsDeProducto(widget.producto.id!);
       await productoController.obtenerProductosPorGenero(
@@ -120,7 +120,7 @@ class _ProductoPageState extends State<ProductoPage> {
               ),
               15.pv,
               FutureBuilder(
-                future: _obtenerProductosPorGenero(),
+                future: obtenerProductosPorGenero(),
                 builder: (ctx, snapshot) =>
                     snapshot.connectionState == ConnectionState.waiting
                         ? const Center(child: SmallCircularIndicator())

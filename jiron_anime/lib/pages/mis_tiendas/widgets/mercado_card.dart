@@ -146,10 +146,7 @@ class MercadoCardWidget extends StatelessWidget {
                           onPressed: () async {
                             try {
                               isDeleting.value = true;
-
                               await marketController.deleteMercado(market.id!);
-                              marketController.markets.removeWhere(
-                                  (element) => element.id! == market.id!);
                             } catch (e) {
                               // handle
                             } finally {

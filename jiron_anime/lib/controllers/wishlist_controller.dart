@@ -5,26 +5,56 @@ import 'package:jiron_anime/service/wishlist_service.dart';
 
 class WishlistController extends GetxController {
   WishlistService service = WishlistService();
-
+  final isLoading = false.obs;
   final wishlist = Wishlist().obs;
+  final wishlistItems = <WishlistItem>[].obs;
 
   Future<void> obtenerMiWishlist() async {
-    wishlist.value = await service.fetchMyWishlist();
+    try {
+      isLoading.value = true;
+      wishlist.value = await service.fetchMyWishlist();
+      wishlistItems.value = wishlist.value.wishlistItems!;
+    } catch (e) {
+      // HANDLE ERRORS
+    } finally {
+      isLoading.value = false;
+    }
   }
 
-  Future<void> agregarItemAWishlist(int productId) async {
-    if (!AuthService.isLoggedIn) {
-      Get.toNamed("/sign-in");
-      return;
+  Future<void> agregarProductoAWishlist(Product product) async {
+    try {
+      isLoading.value = true;
+      if (!AuthService.isLoggedIn) {
+        Get.toNamed("/sign-in");
+        return;
+      }
+
+      await service.addItemToMyWishlist(product.id!);
+      wishlistItems.add(WishlistItem(product: product, productId: product.id!));
+    } catch (e) {
+      // HANDLE ERRORS
+    } finally {
+      isLoading.value = false;
     }
-    await service.agregarItemAWishlist(productId);
   }
 
   Future<void> removerItemDeWishlist(int productId) async {
-    if (!AuthService.isLoggedIn) {
-      Get.toNamed("/sign-in");
-      return;
+    try {
+      isLoading.value = true;
+
+      if (!AuthService.isLoggedIn) {
+        Get.toNamed("/sign-in");
+        return;
+      }
+
+      await service.removeItemFromWishlist(productId);
+      wishlistItems.removeWhere(
+        (element) => element.productId! == productId,
+      );
+    } catch (e) {
+      // HANDLE ERRORS
+    } finally {
+      isLoading.value = false;
     }
-    await service.removeItemFromWishlist(productId);
   }
 }

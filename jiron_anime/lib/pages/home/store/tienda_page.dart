@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/config/const.dart';
 import 'package:jiron_anime/models/tag.dart';
-import 'package:jiron_anime/pages/home/store/widgets/tienda_error_screen.dart';
 import 'package:jiron_anime/pages/home/store/widgets/tienda_footer.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/auth_controller.dart';
@@ -13,8 +12,6 @@ import 'package:jiron_anime/pages/home/store/widgets/product_carousel.dart';
 import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
-final ProductoController productoController = Get.put(ProductoController());
-
 class TiendaPage extends StatefulWidget {
   const TiendaPage({super.key});
 
@@ -23,46 +20,44 @@ class TiendaPage extends StatefulWidget {
 }
 
 class _TiendaPageState extends State<TiendaPage> {
+  final productoController = Get.put(ProductoController());
   final currentTags = <Tag>[].obs;
+  final page = 1.obs;
 
-  int page = 1;
-
-  Future<void> _loadData() async {
+  Future<void> fetchData() async {
     if (currentTags.isEmpty) {
-      await productoController.obtenerProductosRecientes(page);
+      await productoController.obtenerProductosRecientes(page.value);
     } else {
-      await productoController.obtenerProductosPorGenero(currentTags, page);
+      await productoController.obtenerProductosPorGenero(
+          currentTags, page.value);
     }
   }
 
-  void _handlePageForward() {
-    setState(() => page++);
+  void cambiarPaginaAdelante() {
+    page.value = page.value + 1;
+    fetchData();
   }
 
-  void _handlePageBackward() {
-    setState(() => page--);
+  void cambiarPaginaAtras() {
+    page.value = page.value - 1;
+    fetchData();
   }
 
   Future<void> _changeTagsCallback(List<Tag> tags) async {
     currentTags.value = tags;
 
-    await _loadData();
+    await fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomLayout(
-        child: Obx(
-          () => FutureBuilder(
-            future: _loadData(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return const TiendaErrorWidget();
-              } else {
-                return CustomScrollView(
+        child: Obx(() => productoController.isLoading.value
+            ? const Center(child: CircularProgressIndicator())
+            : RefreshIndicator(
+                onRefresh: fetchData,
+                child: CustomScrollView(
                   slivers: [
                     SliverToBoxAdapter(
                       child: Column(
@@ -84,11 +79,6 @@ class _TiendaPageState extends State<TiendaPage> {
                           15.pv,
                           const ProductCarousel(),
                           10.pv,
-                          Text(
-                            "Novedades de la semana",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          5.pv,
                           buildProductoGrid(currentTags),
                           5.pv,
                           getPaginationRow(),
@@ -98,11 +88,8 @@ class _TiendaPageState extends State<TiendaPage> {
                       ),
                     ),
                   ],
-                );
-              }
-            },
-          ),
-        ),
+                ),
+              )),
       ),
     );
   }
@@ -110,34 +97,44 @@ class _TiendaPageState extends State<TiendaPage> {
   Widget getPaginationRow() {
     return productoController.productos.isEmpty
         ? 0.pv
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        : Column(
             children: [
-              ElevatedButton(
-                onPressed: page > 1 ? _handlePageBackward : null,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor:
-                      page > 1 ? AppColors.primaryColor : Colors.grey.shade400,
-                ),
-                child: const Text("<"),
+              Text(
+                "Novedades de la semana",
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-              10.ph,
-              Text("Página $page"),
-              10.ph,
-              ElevatedButton(
-                onPressed: productoController.productos.length >
-                        ConstValues.RESULTS_PER_PAGE
-                    ? _handlePageForward
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: productoController.productos.length >
-                          ConstValues.RESULTS_PER_PAGE
-                      ? AppColors.primaryColor
-                      : Colors.grey.shade400,
-                ),
-                child: const Text(">"),
+              5.pv,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: page.value > 1 ? cambiarPaginaAtras : null,
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: page.value > 1
+                          ? AppColors.primaryColor
+                          : Colors.grey.shade400,
+                    ),
+                    child: const Text("<"),
+                  ),
+                  10.ph,
+                  Text("Página ${page.value}"),
+                  10.ph,
+                  ElevatedButton(
+                    onPressed: productoController.productos.length >
+                            ConstValues.RESULTS_PER_PAGE
+                        ? cambiarPaginaAdelante
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: productoController.productos.length >
+                              ConstValues.RESULTS_PER_PAGE
+                          ? AppColors.primaryColor
+                          : Colors.grey.shade400,
+                    ),
+                    child: const Text(">"),
+                  ),
+                ],
               ),
             ],
           );

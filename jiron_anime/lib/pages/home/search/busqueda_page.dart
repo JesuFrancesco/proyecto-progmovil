@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/config/const.dart';
+import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';
-import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/home/store/tienda_page.dart';
 import 'package:jiron_anime/pages/home/store/widgets/product_item.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
@@ -19,28 +18,27 @@ class BusquedaPage extends StatefulWidget {
 }
 
 class _BusquedaPageState extends State<BusquedaPage> {
-  late List<Product> filteredProductos = [];
-  String searchQuery = '';
-  int page = 1;
+  final productoController = Get.put(ProductoController());
+
+  get filteredProductos => productoController.queryProductos.toList();
+
   final isLoading = false.obs;
   final hizoQuery = false.obs;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  String searchQuery = '';
+  int page = 1;
 
   Future<void> _searchProductos(String productName) async {
-    hizoQuery.value = true;
-    isLoading.value = true;
+    try {
+      hizoQuery.value = true;
+      isLoading.value = true;
 
-    await productoController.obtenerProductosPorQuery(productName, page);
-
-    setState(() {
-      filteredProductos = productoController.queryProductos.toList();
-    });
-
-    isLoading.value = false;
+      await productoController.obtenerProductosPorQuery(productName, page);
+    } catch (e) {
+      // HANDLE ERRORS
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override

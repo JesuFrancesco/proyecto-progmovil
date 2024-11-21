@@ -1,21 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiron_anime/models/product.dart';
+import 'package:jiron_anime/controllers/wishlist_controller.dart';
+import 'package:jiron_anime/models/wishlist_item.dart';
 import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
+import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/theme/colors.dart';
+import 'package:jiron_anime/utils/sizedbox_entension.dart';
 
 class WishlistItemWidget extends StatelessWidget {
-  final Product product;
-  final VoidCallback onRemove;
+  final WishlistItem item;
+  final WishlistController controller;
 
   const WishlistItemWidget({
     super.key,
-    required this.product,
-    required this.onRemove,
+    required this.item,
+    required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = false.obs;
+
+    Future handleDeleteItem() async {
+      try {
+        isLoading.value = true;
+        await controller.removerItemDeWishlist(item.productId!);
+
+        controller.wishlist.value.wishlistItems!.removeWhere(
+          (element) => element.productId == item.productId!,
+        );
+      } catch (e) {
+        // handle errors
+      } finally {
+        isLoading.value = false;
+      }
+    }
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -29,48 +49,46 @@ class WishlistItemWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.network(
-              product.productAttachments!.first.imageUrl!,
+              item.product!.productAttachments!.first.imageUrl!,
               fit: BoxFit.cover,
               width: 70,
               height: 120,
             ),
           ),
-          const SizedBox(width: 16),
+          16.ph,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.name!,
+                  item.product!.name!,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 4),
+                4.pv,
                 Text(
-                  'S/. ${product.price?.toStringAsFixed(2)}',
+                  'S/. ${item.product!.price?.toStringAsFixed(2)}',
                   style: const TextStyle(
                     fontSize: 14,
                   ),
                 ),
-                const SizedBox(height: 4),
+                4.pv,
                 Text(
-                  product.formato!,
+                  item.product!.formato!,
                   style: const TextStyle(
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 8),
+                8.pv,
                 ElevatedButton(
-                  onPressed: () {
-                    Get.to(
-                      () => ProductoPage(
-                        producto: product,
-                      ),
-                    );
-                  },
+                  onPressed: () => Get.to(
+                    () => ProductoPage(
+                      producto: item.product!,
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
                     shape: RoundedRectangleBorder(
@@ -85,9 +103,13 @@ class WishlistItemWidget extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: onRemove,
+          Obx(
+            () => isLoading.value
+                ? const SmallCircularIndicator()
+                : IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: handleDeleteItem,
+                  ),
           ),
         ],
       ),

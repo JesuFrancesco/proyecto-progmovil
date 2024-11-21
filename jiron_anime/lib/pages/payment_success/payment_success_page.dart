@@ -106,8 +106,10 @@ class PaymentSuccessPage extends StatelessWidget {
                 children: [
                   DescargarConstanciaButton(order: order),
                   15.pv,
-                  const IrAOrdenesButton(),
-                  15.pv,
+                  if (order.status!.toLowerCase() != "completado") ...[
+                    const IrAOrdenesButton(),
+                    15.pv,
+                  ],
                   const VolverATiendaButton(),
                 ],
               ),

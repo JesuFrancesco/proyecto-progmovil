@@ -61,13 +61,11 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
             logoUrl: logoUrl,
             profileId: AuthService.getProfileId());
 
-        final createdMarket = await marketController.crearNuevoMercado(mercado);
+        await marketController.crearNuevoMercado(mercado);
 
         ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
           const SnackBar(content: Text("¡Tu mercado fue creado exitosamente!")),
         );
-
-        marketController.markets.add(createdMarket);
 
         Get.back();
       } catch (e) {
@@ -78,7 +76,7 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
     }
   }
 
-  Future<void> _pickLogo() async {
+  Future<void> aniadirLogo() async {
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
@@ -191,7 +189,7 @@ class _CreateMarketPageState extends State<CreateMarketPage> {
         ),
         15.pv,
         GestureDetector(
-          onTap: _pickLogo,
+          onTap: aniadirLogo,
           child: Container(
             height: 150,
             width: double.infinity,

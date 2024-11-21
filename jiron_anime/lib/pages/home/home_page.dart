@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jiron_anime/controllers/notifications_controller.dart';
+import 'package:jiron_anime/controllers/productos_controller.dart';
 import 'package:jiron_anime/pages/home/notifications/notifications_page.dart';
 import 'package:jiron_anime/pages/home/search/busqueda_page.dart';
 import 'package:jiron_anime/pages/home/perfil/perfil_page.dart';
@@ -20,13 +23,17 @@ enum StoreWidgetType {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Widget _body;
+  final productoController = Get.put(ProductoController());
+  final notificationController = Get.put(NotificationsController());
   StoreWidgetType _selectedWidget = StoreWidgetType.tienda;
+  late Widget _body;
 
   @override
   void initState() {
     super.initState();
     _body = _getBody(_selectedWidget);
+    productoController.obtenerProductosRecientes(1);
+    notificationController.obtenerNotificaciones();
   }
 
   Widget _getBody(StoreWidgetType index) {
@@ -51,13 +58,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget _buildBody() => _body;
+  Widget construirPantalla() => _body;
 
   @override
   Widget build(BuildContext context) {
     // widget
     return Scaffold(
-      body: _buildBody(),
+      body: construirPantalla(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         fixedColor: AppColors.primaryColor,

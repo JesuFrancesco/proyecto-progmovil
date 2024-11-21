@@ -18,22 +18,22 @@ class MisTiendasPage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: const CrearTiendaButton(),
       body: CustomLayout(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CustomAppbar(title: "Mis tiendas"),
-            15.pv,
-            FutureBuilder(
-              future: marketController.obtenerMisMercados(),
-              builder: (ctx, snapshot) =>
-                  (snapshot.connectionState == ConnectionState.waiting)
+        child: Obx(
+          () => RefreshIndicator(
+            onRefresh: marketController.obtenerMisMercados,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CustomAppbar(title: "Mis tiendas"),
+                15.pv,
+                Expanded(
+                  child: marketController.isLoading.value
                       ? getLoadingMercadosIndicator(context)
-                      : Expanded(
-                          child: ListaMercadosWidget(
-                              marketController: marketController),
-                        ),
+                      : ListaMercadosWidget(marketController: marketController),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

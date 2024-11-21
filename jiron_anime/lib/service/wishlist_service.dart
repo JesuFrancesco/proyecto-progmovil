@@ -31,7 +31,7 @@ class WishlistService {
     return Wishlist.fromJson(data);
   }
 
-  Future<Wishlist?> agregarItemAWishlist(int productId) async {
+  Future<Wishlist?> addItemToMyWishlist(int productId) async {
     final res = await http.post(Uri.parse("${Config.serverURL}/wishlistitem"),
         body: json.encode({
           "data": {

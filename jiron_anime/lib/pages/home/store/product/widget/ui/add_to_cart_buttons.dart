@@ -2,7 +2,6 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/shopping_cart_controller.dart';
-import 'package:jiron_anime/models/cart_item.dart';
 import 'package:jiron_anime/models/product.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
@@ -16,13 +15,12 @@ class AddToCartWidget extends StatelessWidget {
   const AddToCartWidget(
       {super.key, required this.producto, required this.cartMemoizer});
 
-  bool get estaEnElCarrito => _shoppingCartController.carrito.value.cartItems!
+  bool get estaEnElCarrito => _shoppingCartController.cartItems
       .map((e) => e.productId)
       .contains(producto.id);
 
   @override
   Widget build(BuildContext context) {
-    final addCartLoading = false.obs;
     final numeroItems = 1.obs;
 
     void increaseCount() =>
@@ -35,31 +33,15 @@ class AddToCartWidget extends StatelessWidget {
         });
 
     Future<void> handleAgregarAlCarrito() async {
-      try {
-        addCartLoading.value = true;
+      if (producto.id != null) {
+        await _shoppingCartController.agregarProductoAlCarrito(
+            producto, numeroItems.value);
 
-        if (producto.id != null) {
-          await _shoppingCartController.agregarProductoAlCarrito(
-              producto.id!, numeroItems.value);
-
-          _shoppingCartController.carrito.value.cartItems!.add(CartItem(
-              product: producto,
-              productId: producto.id,
-              amount: numeroItems.value,
-              addedAt: DateTime.now()));
-
-          Get.toNamed("/cart");
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Error: El producto no tiene ID")),
-          );
-        }
-      } catch (e) {
-        ScaffoldMessenger.of(context.mounted ? context : context).showSnackBar(
-          SnackBar(content: Text("Algo salió mal. $e")),
+        Get.toNamed("/cart");
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Error: El producto no tiene ID")),
         );
-      } finally {
-        addCartLoading.value = false;
       }
     }
 
@@ -94,44 +76,42 @@ class AddToCartWidget extends StatelessWidget {
         );
       }
 
-      return estaEnElCarrito
-          ? ElevatedButton(
-              onPressed: () => Get.toNamed("/cart"),
-              child: const Text("Ver en el carrito"))
-          : ElevatedButton(
-              onPressed: () => handleAgregarAlCarrito(),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-                foregroundColor: Colors.white,
+      return Obx(
+        () => estaEnElCarrito
+            ? ElevatedButton(
+                onPressed: () => Get.toNamed("/cart"),
+                child: const Text("Ver en el carrito"))
+            : ElevatedButton(
+                onPressed: () => handleAgregarAlCarrito(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text(
+                  "Agregar\nal carrito",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              child: const Text(
-                "Agregar\nal carrito",
-                style: TextStyle(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            );
+      );
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Obx(() {
-          if (addCartLoading.value) {
-            return const SmallCircularIndicator();
-          } else {
-            return FutureBuilder(
-              future: AuthService.isLoggedIn ? obtenerCarrito() : null,
-              builder: (ctx, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SmallCircularIndicator();
-                } else {
-                  return getAddToCartButton();
-                }
-              },
-            );
-          }
-        }),
+        Obx(() => (_shoppingCartController.isLoading.value)
+            ? const SmallCircularIndicator()
+            : FutureBuilder(
+                future: AuthService.isLoggedIn ? obtenerCarrito() : null,
+                builder: (ctx, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SmallCircularIndicator();
+                  } else {
+                    return getAddToCartButton();
+                  }
+                },
+              )),
         IconButton(
           icon: const Icon(Icons.remove),
           onPressed: decreaseCount,

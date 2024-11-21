@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/order_controller.dart';
+import 'package:jiron_anime/controllers/shopping_cart_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
 import 'package:jiron_anime/pages/payment/widget/product_resume.dart';
 import 'package:jiron_anime/pages/payment_success/payment_success_page.dart';
@@ -12,16 +13,18 @@ import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:latlong2/latlong.dart';
 
 class PaymentPage extends StatefulWidget {
-  final ShoppingCart carrito;
-  const PaymentPage({super.key, required this.carrito});
+  const PaymentPage({super.key});
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  final orderController = OrderController();
+  final shoppingCartController = Get.put(ShoppingCartController());
+  final orderController = Get.put(OrderController());
   final paymentLoading = false.obs;
+
+  get cartItems => shoppingCartController.cartItems;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +36,9 @@ class _PaymentPageState extends State<PaymentPage> {
             const CustomAppbar(title: "Pago"),
             Expanded(
               child: ListView.builder(
-                itemCount: widget.carrito.cartItems!.length,
+                itemCount: cartItems!.length,
                 itemBuilder: (context, index) {
-                  final item = widget.carrito.cartItems![index];
+                  final item = cartItems![index];
                   return ProductResumeWidget(
                     item: item,
                     onRemove: () {},
@@ -138,7 +141,7 @@ class _PaymentPageState extends State<PaymentPage> {
             const Spacer(),
             const Divider(),
             Text(
-              'Total: S/. ${widget.carrito.cartItems!.fold(0, (sum, cartItem) => sum + (cartItem.product!.price! * cartItem.amount!).toInt())}',
+              'Total: S/. ${cartItems!.fold(0, (sum, cartItem) => sum + (cartItem.product!.price! * cartItem.amount!).toInt())}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
@@ -177,7 +180,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Future<void> handleRealizarPedidoOnClick() async {
     try {
       paymentLoading.value = true;
-      final itemsCarrito = widget.carrito.cartItems!;
+      final itemsCarrito = cartItems!;
 
       final itemsOrden = itemsCarrito.map((e) {
         return OrderItem(

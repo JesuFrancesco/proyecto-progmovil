@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/controllers/wishlist_controller.dart';
 import 'package:jiron_anime/models/product.dart';
-import 'package:jiron_anime/models/wishlist_item.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/small_circular_indicator.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
@@ -14,49 +13,29 @@ class WishlistButton extends StatelessWidget {
   final AsyncMemoizer wishlistMemoizer;
   final Product producto;
 
-  const WishlistButton(
-      {super.key, required this.producto, required this.wishlistMemoizer});
-
-  bool get estaEnLaWishlist => _wishlistController.wishlist.value.wishlistItems!
+  bool get estaEnLaWishlist => _wishlistController.wishlistItems
       .map((e) => e.productId)
       .contains(producto.id);
 
+  const WishlistButton(
+      {super.key, required this.producto, required this.wishlistMemoizer});
+
   @override
   Widget build(BuildContext context) {
-    final wishlistLoading = false.obs;
-
     Future<void> obtenerWishlist() async =>
         await wishlistMemoizer.runOnce(() async {
           await _wishlistController.obtenerMiWishlist();
         });
 
     Future<void> handleAgregarAWishlist(Product producto) async {
-      try {
-        wishlistLoading.value = true;
-        await _wishlistController.agregarItemAWishlist(producto.id!);
-        _wishlistController.wishlist.value.wishlistItems!
-            .add(WishlistItem(productId: producto.id!));
-      } catch (e) {
-        // HANDLE ERROR
-      } finally {
-        wishlistLoading.value = false;
-      }
+      await _wishlistController.agregarProductoAWishlist(producto);
     }
 
     Future<void> handleQuitarDeWishlist(Product producto) async {
-      try {
-        wishlistLoading.value = true;
-        await _wishlistController.removerItemDeWishlist(producto.id!);
-        _wishlistController.wishlist.value.wishlistItems!
-            .removeWhere((element) => element.productId == producto.id);
-      } catch (e) {
-        // HANDLE ERROR
-      } finally {
-        wishlistLoading.value = false;
-      }
+      await _wishlistController.removerItemDeWishlist(producto.id!);
     }
 
-    GestureDetector getAddToWishlistButton() {
+    Widget getAddToWishlistButton() {
       if (!AuthService.isLoggedIn) {
         return GestureDetector(
           onTap: () => Get.toNamed("/sign-in"),
@@ -68,24 +47,26 @@ class WishlistButton extends StatelessWidget {
         );
       }
 
-      return GestureDetector(
-        onTap: estaEnLaWishlist
-            ? () => handleQuitarDeWishlist(producto)
-            : () => handleAgregarAWishlist(producto),
-        child: Row(children: [
-          estaEnLaWishlist
-              ? const Icon(Icons.favorite)
-              : const Icon(Icons.favorite_border_outlined),
-          15.ph,
-          estaEnLaWishlist
-              ? const Text("Quitar de lista de deseados")
-              : const Text("Añadir a lista de deseados")
-        ]),
+      return Obx(
+        () => GestureDetector(
+          onTap: estaEnLaWishlist
+              ? () => handleQuitarDeWishlist(producto)
+              : () => handleAgregarAWishlist(producto),
+          child: Row(children: [
+            estaEnLaWishlist
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_border_outlined),
+            15.ph,
+            estaEnLaWishlist
+                ? const Text("Quitar de lista de deseados")
+                : const Text("Añadir a lista de deseados")
+          ]),
+        ),
       );
     }
 
     return Obx(() {
-      if (wishlistLoading.value) {
+      if (_wishlistController.isLoading.value) {
         return const SmallCircularIndicator();
       } else {
         return FutureBuilder(

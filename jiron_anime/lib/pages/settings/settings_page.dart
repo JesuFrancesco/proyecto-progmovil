@@ -7,6 +7,7 @@ import 'package:jiron_anime/theme/colors.dart';
 import 'package:jiron_anime/utils/sizedbox_entension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+// import 'package:jiron_anime/theme/theme.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -22,10 +23,10 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    _loadPreferences();
+    cargarPreferencias();
   }
 
-  void _updateNotifications(bool value) async {
+  void actualizarNotif(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('notificationsEnabled', value);
     setState(() {
@@ -33,15 +34,19 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
-  void _updateDarkMode(bool value) async {
+  void actualizarDark(bool value) async {
     final prefs = await SharedPreferences.getInstance();
+
     prefs.setBool('darkModeEnabled', value);
+
     setState(() {
       _darkModeEnabled = value;
     });
+
+    // Get.changeTheme(value ? darkAppTheme : appTheme);
   }
 
-  void _loadPreferences() async {
+  void cargarPreferencias() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _notificationsEnabled = prefs.getBool('notificationsEnabled') ?? false;
@@ -119,11 +124,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   16.pv,
                   buildSectionTitle('Notificación', Icons.notifications),
                   buildSwitchTile('Activar notificaciones',
-                      _notificationsEnabled, _updateNotifications),
+                      _notificationsEnabled, actualizarNotif),
                   16.pv,
                   buildSectionTitle('Otros', Icons.settings),
                   buildSwitchTile(
-                      'Modo oscuro', _darkModeEnabled, _updateDarkMode),
+                      'Modo oscuro', _darkModeEnabled, actualizarDark),
                   16.pv,
                   buildSectionTitle('Más', Icons.more_horiz),
                   buildListTile(

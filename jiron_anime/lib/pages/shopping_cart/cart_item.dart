@@ -18,33 +18,29 @@ class CartItemWidget extends StatelessWidget {
     required this.onRemove,
   });
 
-  bool get estaEnLaWishlist => _wishlistController.wishlist.value.wishlistItems!
-      .map((e) => e.productId)
-      .contains(item.productId);
-
   @override
   Widget build(BuildContext context) {
     final wishlistLoading = false.obs;
 
     Future<void> guardarItemEnWishlist() async {
       wishlistLoading.value = true;
-      await _wishlistController.agregarItemAWishlist(item.productId!);
 
-      _wishlistController.wishlist.value.wishlistItems!
-          .add(WishlistItem(productId: item.productId!));
+      await _wishlistController.agregarProductoAWishlist(item.product!);
 
       wishlistLoading.value = false;
     }
 
     Future<void> quitarItemDeWishlist() async {
       wishlistLoading.value = true;
-      await _wishlistController.removerItemDeWishlist(item.productId!);
 
-      _wishlistController.wishlist.value.wishlistItems!
-          .removeWhere((element) => element.productId == item.productId);
+      await _wishlistController.removerItemDeWishlist(item.productId!);
 
       wishlistLoading.value = false;
     }
+
+    bool estaEnLaWishlist() => _wishlistController.wishlistItems
+        .map((e) => e.productId)
+        .contains(item.productId);
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -123,30 +119,34 @@ class CartItemWidget extends StatelessWidget {
                                 return SizedBox(
                                   width: 90,
                                   height: 30,
-                                  child: TextButton.icon(
-                                    onPressed: estaEnLaWishlist
-                                        ? quitarItemDeWishlist
-                                        : guardarItemEnWishlist,
-                                    icon: Icon(
-                                      estaEnLaWishlist
-                                          ? Icons.favorite
-                                          : Icons.favorite_border_outlined,
-                                      color: Colors.white,
-                                      size: 16.0,
-                                    ),
-                                    label: Text(
-                                      estaEnLaWishlist ? 'Quitar' : 'Guardar',
-                                      style: const TextStyle(
-                                        fontSize: 14.0,
+                                  child: Obx(
+                                    () => TextButton.icon(
+                                      onPressed: estaEnLaWishlist()
+                                          ? quitarItemDeWishlist
+                                          : guardarItemEnWishlist,
+                                      icon: Icon(
+                                        estaEnLaWishlist()
+                                            ? Icons.favorite
+                                            : Icons.favorite_border_outlined,
                                         color: Colors.white,
+                                        size: 16.0,
                                       ),
-                                    ),
-                                    style: TextButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      backgroundColor: AppColors.primaryColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
+                                      label: Text(
+                                        estaEnLaWishlist()
+                                            ? 'Quitar'
+                                            : 'Guardar',
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        backgroundColor: AppColors.primaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
                                       ),
                                     ),
                                   ),

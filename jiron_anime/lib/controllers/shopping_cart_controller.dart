@@ -6,33 +6,59 @@ import 'package:jiron_anime/service/cart_service.dart';
 class ShoppingCartController extends GetxController {
   final service = CartService();
 
+  final isLoading = false.obs;
   final carrito = ShoppingCart().obs;
+  final cartItems = <CartItem>[].obs;
 
   Future<void> obtenerMiCarrito() async {
-    carrito.value = await service.fetchCartWithProducts();
+    try {
+      isLoading.value = true;
+      carrito.value = await service.fetchCartWithProducts();
+      cartItems.value = carrito.value.cartItems!;
+    } catch (e) {
+      // handle errors
+    } finally {
+      isLoading.value = false;
+    }
   }
 
-  Future<void> agregarProductoAlCarrito(int productId, int amount) async {
-    if (!AuthService.isLoggedIn) {
-      Get.toNamed("/sign-in");
-      return;
+  Future<void> agregarProductoAlCarrito(Product producto, int amount) async {
+    try {
+      if (!AuthService.isLoggedIn) {
+        Get.toNamed("/sign-in");
+        return;
+      }
+
+      isLoading.value = true;
+      await service.addProductToCart(amount, producto.id!);
+      cartItems.add(CartItem(
+          product: producto,
+          productId: producto.id,
+          amount: amount,
+          addedAt: DateTime.now()));
+    } catch (e) {
+      // handle errors
+    } finally {
+      isLoading.value = false;
     }
-    await service.addProductToCart(amount, productId);
   }
 
   Future<void> eliminarProductoDelCarrito(int productId) async {
-    if (!AuthService.isLoggedIn) {
-      Get.toNamed("/sign-in");
-      return;
-    }
-    await service.deleteProductFromCart(productId);
-  }
+    try {
+      if (!AuthService.isLoggedIn) {
+        Get.toNamed("/sign-in");
+        return;
+      }
+      isLoading.value = true;
+      await service.deleteProductFromCart(productId);
 
-  Future<void> vaciarCarritoDeCompras() async {
-    if (!AuthService.isLoggedIn) {
-      Get.toNamed("/sign-in");
-      return;
+      cartItems.removeWhere(
+        (element) => element.productId! == productId,
+      );
+    } catch (e) {
+      // handle errors
+    } finally {
+      isLoading.value = false;
     }
-    await service.emptyShoppingCart();
   }
 }
