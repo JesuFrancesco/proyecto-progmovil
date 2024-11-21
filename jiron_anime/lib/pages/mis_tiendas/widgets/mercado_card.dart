@@ -147,11 +147,11 @@ class MercadoCardWidget extends StatelessWidget {
                             try {
                               isDeleting.value = true;
                               await marketController.deleteMercado(market.id!);
+                              Get.back();
                             } catch (e) {
                               // handle
                             } finally {
                               isDeleting.value = false;
-                              Get.back();
                             }
                           },
                           style: ElevatedButton.styleFrom(

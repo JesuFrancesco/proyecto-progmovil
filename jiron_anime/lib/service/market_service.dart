@@ -42,15 +42,7 @@ class MarketService {
       Uri.parse(
         "${Config.serverURL}/market",
       ),
-      body: json.encode({
-        "data": {
-          "name": mercado.name!,
-          "contactEmail": mercado.contactEmail,
-          "contactPhone": mercado.contactPhone,
-          "logoUrl": mercado.logoUrl,
-          "profileId": mercado.profileId
-        }
-      }),
+      body: json.encode({"data": mercado.toJson()}),
       headers: {
         "Content-Type": "application/json",
         ...getSupabaseAuthHeaders()
