@@ -17,7 +17,9 @@ class PreguntaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showPreguntaBottomSheet(context),
+      onTap: () => (AuthService.isLoggedIn)
+          ? showPreguntaBottomSheet(context)
+          : Get.toNamed("/sign-in"),
       child: Row(children: [
         const Icon(Icons.question_mark),
         15.ph,

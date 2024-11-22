@@ -22,7 +22,6 @@ class AddToCartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final numeroItems = 1.obs;
-
     void increaseCount() =>
         numeroItems.value += numeroItems.value < producto.stock! ? 1 : 0;
 
