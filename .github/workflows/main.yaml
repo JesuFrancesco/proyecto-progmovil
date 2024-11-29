@@ -1,0 +1,106 @@
+name: "janime ci/cd"
+run-name: Despliegue de @${{ github.actor }}
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build-client:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: "jiron_anime"
+
+    name: buildear apk
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          envkey_GOOGLE_SERVER_CLIENT_ID: ${{ secrets.GOOGLE_SERVER_CLIENT_ID }}
+          envkey_SERVER_URL: ${{ secrets.SERVER_URL }}
+          envkey_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          envkey_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          directory: "jiron_anime"
+          file_name: .env
+          fail_on_empty: false
+          sort_keys: false
+
+      - name: Set Up Java
+        uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "3.24.1"
+
+      - run: flutter pub get
+      
+      - run: flutter build apk --debug --split-per-abi
+      
+      - run: flutter build apk --release
+
+      - name: Set Tag Name
+        id: set_tag
+        run: echo "tag=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+
+      - name: Push APK to Releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "jiron_anime/build/app/outputs/apk/debug/*.apk,jiron_anime/build/app/outputs/apk/release/*.apk"
+          tag: ${{ env.tag }}-${{ github.run_number }}
+
+  azure-deploy:
+    defaults:
+      run:
+        working-directory: server
+    runs-on: ubuntu-latest
+    name: "despliegue a azure"
+    steps:
+      - name: Obtener codigo de /server
+        uses: actions/checkout@master
+        with:
+          sparse-checkout: |
+            server
+
+      - name: Crear ambiente con Node 20.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "20.x"
+
+      - name: Listar archivos (1)
+        run: ls -la
+
+      - name: Compilar proyecto y módulos
+        run: |
+          npm install
+          npm run build --if-present
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Listar archivos (2)
+        run: ls -la
+
+      - name: Juntar todo en el paquete para la salida
+        run: |
+          mkdir -p temp_dist/prisma
+          cp package.json temp_dist/
+          cp -r dist node_modules temp_dist
+          cp -r prisma/schema.prisma prisma/migrations temp_dist/prisma
+
+      - name: Listar paquete de subida (3)
+        run: ls -la temp_dist
+
+      - name: Despliegue a Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: jiron-anime
+          publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
+          package: ./server/temp_dist
