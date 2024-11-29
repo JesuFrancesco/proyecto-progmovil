@@ -19,8 +19,14 @@ Grupo 2 - Integrantes:
 
 Aplicación de e-commerce orientada a productos de cultura anime / pop
 
-![]()
+### Home (tienda)
+<img src="images/Screenshot_1732884307.png" width="50%">
 
-![]()
+### Home (notificaciones)
+<img src="images/Screenshot_1732884374.png" width="50%">
 
-![]()
+### Home (búsqueda)
+<img src="images/Screenshot_1732886466.png" width="50%">
+
+### Home (perfil)
+<img src="images/Screenshot_1732886551.png" width="50%">
