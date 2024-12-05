@@ -26,6 +26,7 @@ jobs:
           envkey_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           envkey_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           envkey_WEBSOCKETS_SERVER_URL: ${{ secrets.WEBSOCKETS_SERVER_URL }}
+          envkey_HUGGINGFACE_CREDENTIAL_KEY: ${{ secrets.HUGGINGFACE_CREDENTIAL_KEY }}
           directory: "jiron_anime"
           file_name: .env
           fail_on_empty: false
