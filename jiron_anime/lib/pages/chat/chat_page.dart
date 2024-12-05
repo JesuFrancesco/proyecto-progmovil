@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiron_anime/controllers/message_controller.dart';
 import 'package:jiron_anime/models/models_library.dart';
-import 'package:jiron_anime/pages/chat/model/local_message.dart';
+import 'package:jiron_anime/models/local_message.dart';
 import 'package:jiron_anime/pages/chat/widget/message_widget.dart';
 import 'package:jiron_anime/shared/auth_controller.dart';
 import 'package:jiron_anime/shared/custom_appbar.dart';

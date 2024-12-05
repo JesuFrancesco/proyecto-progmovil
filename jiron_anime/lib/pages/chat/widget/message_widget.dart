@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiron_anime/pages/chat/model/local_message.dart';
+import 'package:jiron_anime/models/local_message.dart';
 import 'package:jiron_anime/shared/auth_controller.dart';
 
 class MessageWidget extends StatelessWidget {
@@ -28,7 +28,7 @@ class MessageWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      message.sender!,
+                      message.sender ?? "Yo",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,

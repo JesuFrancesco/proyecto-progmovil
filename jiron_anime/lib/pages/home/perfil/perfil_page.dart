@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 import 'package:jiron_anime/models/market.dart';
 import 'package:jiron_anime/pages/chat/chat_page.dart';
 import 'package:jiron_anime/service/auth_service.dart';
@@ -97,6 +96,12 @@ class PerfilPage extends StatelessWidget {
                         text: 'Ajustes',
                         fnOnTap: () {
                           Get.toNamed("/settings");
+                        }),
+                    IconMenuItem(
+                        icon: Icons.lightbulb_sharp,
+                        text: 'WebSockets module',
+                        fnOnTap: () {
+                          Get.toNamed("/forum");
                         }),
 
                     if (AuthService.isLoggedIn)

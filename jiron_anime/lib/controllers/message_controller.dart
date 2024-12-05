@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:get/get.dart';
-import 'package:jiron_anime/pages/chat/model/local_message.dart';
+import 'package:jiron_anime/models/local_message.dart';
 
 class MessageController extends GetxController {
   // final service = MessageService();
