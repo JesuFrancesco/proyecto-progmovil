@@ -12,7 +12,7 @@ class MessageController extends GetxController {
   Future<void> cargarHistorial() async {
     try {
       isLoading.value = true;
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 1));
       messages.value = [];
     } catch (e) {
       // handle errors

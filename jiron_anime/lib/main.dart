@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:jiron_anime/middleware/auth/middleware.dart';
+import 'package:jiron_anime/pages/assistant/assistant_page.dart';
 import 'package:jiron_anime/pages/create_market/create_market_page.dart';
 import 'package:jiron_anime/pages/history_orders/history_orders_page.dart';
 import 'package:jiron_anime/pages/home/home_page.dart';
@@ -55,6 +56,7 @@ class MainApp extends StatelessWidget {
         GetPage(name: "/settings", page: () => const SettingsPage()),
         GetPage(name: "/sign-in", page: () => const SignInPage()),
         GetPage(name: "/forum", page: () => const ForumPage()),
+        GetPage(name: "/assistant", page: () => const AssistantPage()),
         // Rutas protegidas
         GetPage(
             name: "/wishlist",

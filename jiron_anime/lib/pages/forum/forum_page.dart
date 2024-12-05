@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/config/config.dart';
 import 'package:jiron_anime/models/local_message.dart';
@@ -21,7 +23,10 @@ class _ForumPageState extends State<ForumPage> {
   final _channel = WebSocketChannel.connect(
     Uri.parse(Config.webSocketURL),
   );
+
   final List<LocalMessage> _messages = [];
+
+  bool conectado = false;
 
   @override
   void initState() {
@@ -29,10 +34,12 @@ class _ForumPageState extends State<ForumPage> {
 
     _channel.stream.listen((message) {
       setState(() {
-        _messages.add(LocalMessage(
-            sender: "Anónimo", text: message, createdAt: DateTime.now()));
+        conectado = true;
+        final jsonMessage = jsonDecode(message);
+        final newMessage = LocalMessage.fromJson(jsonMessage);
+        _messages.add(newMessage);
       });
-    });
+    }, onError: (payload) => setState(() => conectado = false));
   }
 
   @override
@@ -44,7 +51,8 @@ class _ForumPageState extends State<ForumPage> {
           children: [
             const CustomAppbar(title: "Foro"),
             32.pv,
-            Text('Estado del servidor: ${_channel.protocol ?? "Conectado"}',
+            Text(
+                'Estado del servidor: ${conectado ? "Conectado" : "Desconectado"}',
                 style: Theme.of(context).textTheme.titleMedium!),
             Expanded(
               child: ListView.builder(
@@ -52,7 +60,7 @@ class _ForumPageState extends State<ForumPage> {
                 itemBuilder: (context, index) {
                   final message = _messages[index];
                   return ListTile(
-                    title: Text(message.text),
+                    title: Text(message.message),
                     subtitle: Text(
                         '${message.sender} - ${DateFormat('dd/MM/yyyy HH:mm').format(message.createdAt)}'),
                   );
@@ -88,7 +96,9 @@ class _ForumPageState extends State<ForumPage> {
       _channel.sink.add(_controller.text);
       setState(() {
         _messages.add(LocalMessage(
-            sender: "Yo", text: _controller.text, createdAt: DateTime.now()));
+            sender: "Yo",
+            message: _controller.text,
+            createdAt: DateTime.now()));
       });
       _controller.clear();
     }

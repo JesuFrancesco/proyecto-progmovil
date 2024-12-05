@@ -120,7 +120,7 @@ class ChatPage extends StatelessWidget {
                                   messageController.selectedImages.isNotEmpty) {
                                 messageController.enviarMensaje(LocalMessage(
                                     sender: AuthController.fullName,
-                                    text: messageControllerInput.text,
+                                    message: messageControllerInput.text,
                                     createdAt: DateTime.now(),
                                     images: messageController.selectedImages
                                         .toList()));

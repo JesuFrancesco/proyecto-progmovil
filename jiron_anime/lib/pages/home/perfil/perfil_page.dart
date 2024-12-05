@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiron_anime/models/market.dart';
-import 'package:jiron_anime/pages/chat/chat_page.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/auth_controller.dart';
@@ -15,12 +13,8 @@ class PerfilPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.message),
-        onPressed: () => Get.to(() => ChatPage(
-                mercado: Market(
-              name: "Soporte",
-              contactEmail: "jironanime@example.com",
-            ))),
+        child: const Icon(Icons.assistant),
+        onPressed: () => Get.toNamed("assistant"),
       ),
       body: CustomLayout(
         child: CustomScrollView(
@@ -32,7 +26,6 @@ class PerfilPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     16.pv,
-
                     AuthController.getClipOvalAvatar(),
                     Text(
                       AuthController.fullName ?? 'No hay sesión',
@@ -44,9 +37,7 @@ class PerfilPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleSmall,
                       textAlign: TextAlign.center,
                     ),
-
                     16.pv,
-
                     IconMenuItem(
                       icon: Icons.storefront_outlined,
                       text: 'Mis tiendas',
@@ -54,15 +45,6 @@ class PerfilPage extends StatelessWidget {
                         Get.toNamed("/my-markets");
                       },
                     ),
-
-                    // IconMenuItem(
-                    //   icon: Icons.storefront_outlined,
-                    //   text: 'Crear tienda',
-                    //   fnOnTap: () {
-                    //     Get.toNamed("/create-market");
-                    //   },
-                    // ),
-
                     IconMenuItem(
                         icon: Icons.shopping_cart_outlined,
                         text: 'Carrito de compras',
@@ -87,23 +69,18 @@ class PerfilPage extends StatelessWidget {
                         fnOnTap: () {
                           Get.toNamed("/orders-history");
                         }),
-                    // NotificationItem(
-                    //     icon: Icons.payment,
-                    //     text: 'Métodos de pago',
-                    //     fnOnTap: () {}),
+                    IconMenuItem(
+                        icon: Icons.chat_outlined,
+                        text: 'Foro',
+                        fnOnTap: () {
+                          Get.toNamed("/forum");
+                        }),
                     IconMenuItem(
                         icon: Icons.settings_outlined,
                         text: 'Ajustes',
                         fnOnTap: () {
                           Get.toNamed("/settings");
                         }),
-                    IconMenuItem(
-                        icon: Icons.lightbulb_sharp,
-                        text: 'WebSockets module',
-                        fnOnTap: () {
-                          Get.toNamed("/forum");
-                        }),
-
                     if (AuthService.isLoggedIn)
                       IconMenuItem(
                           icon: Icons.logout,
