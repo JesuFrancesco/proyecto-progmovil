@@ -1,6 +1,8 @@
+import 'package:animated_background/animated_background.dart';
 import 'package:flutter/material.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
+import 'package:jiron_anime/theme/colors.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -9,39 +11,55 @@ class SignInPage extends StatefulWidget {
   State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return CustomLayout(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Jiron Anime",
-              style: Theme.of(context).textTheme.titleLarge,
+    return Scaffold(
+      body: CustomLayout(
+        child: AnimatedBackground(
+          behaviour: RandomParticleBehaviour(
+              options:
+                  const ParticleOptions(baseColor: AppColors.primaryColor)),
+          vsync: this,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Jiron Anime",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 48),
+                ),
+                const Image(image: AssetImage("assets/image/logo.png")),
+                TextButton.icon(
+                  onPressed: AuthService.browserGoogleSignIn,
+                  icon: const ImageIcon(
+                    AssetImage("assets/image/google_icon.png"),
+                    color: Colors.black,
+                  ),
+                  style: const ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.white)),
+                  label: const Text("Iniciar sesión con Google",
+                      style: TextStyle(color: Colors.black)),
+                ),
+                TextButton.icon(
+                  onPressed: AuthService.discordSignIn,
+                  icon: const ImageIcon(
+                    AssetImage("assets/image/discord_icon.png"),
+                    color: Colors.white,
+                  ),
+                  style: const ButtonStyle(
+                      backgroundColor:
+                          WidgetStatePropertyAll(Color(0xFF5865F2))),
+                  label: const Text("Iniciar sesión con Discord",
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ],
             ),
-            const Image(image: AssetImage("assets/image/logo.png")),
-            const ElevatedButton(
-              onPressed: AuthService.browserGoogleSignIn,
-              style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll<Color>(Colors.white)),
-              child: Text(
-                "Iniciar sesión con Google",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            const ElevatedButton(
-                onPressed: AuthService.discordSignIn,
-                style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStatePropertyAll<Color>(Color(0xFF5865F2))),
-                child: Text(
-                  "Iniciar sesión con Discord",
-                  style: TextStyle(color: Colors.white),
-                )),
-          ],
+          ),
         ),
       ),
     );

@@ -10,6 +10,7 @@ import 'package:jiron_anime/pages/settings/settings_page.dart';
 import 'package:jiron_anime/pages/orders/orders_page.dart';
 import 'package:jiron_anime/pages/signin/signin_page.dart';
 import 'package:jiron_anime/pages/wishlist/wishlist_page.dart';
+import 'package:jiron_anime/pages/forum/forum_page.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/service/locale_notification_service.dart';
 import 'package:jiron_anime/theme/theme.dart';
@@ -53,6 +54,7 @@ class MainApp extends StatelessWidget {
         GetPage(name: "/home", page: () => const HomePage()),
         GetPage(name: "/settings", page: () => const SettingsPage()),
         GetPage(name: "/sign-in", page: () => const SignInPage()),
+        GetPage(name: "/forum", page: () => const ForumPage()),
         // Rutas protegidas
         GetPage(
             name: "/wishlist",

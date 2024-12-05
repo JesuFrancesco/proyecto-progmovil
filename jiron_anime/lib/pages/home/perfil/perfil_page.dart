@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiron_anime/models/market.dart';
+import 'package:jiron_anime/pages/chat/chat_page.dart';
 import 'package:jiron_anime/service/auth_service.dart';
 import 'package:jiron_anime/shared/custom_layout.dart';
 import 'package:jiron_anime/shared/auth_controller.dart';
@@ -12,6 +14,14 @@ class PerfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.message),
+        onPressed: () => Get.to(() => ChatPage(
+                mercado: Market(
+              name: "Soporte",
+              contactEmail: "jironanime@example.com",
+            ))),
+      ),
       body: CustomLayout(
         child: CustomScrollView(
           slivers: [
@@ -21,6 +31,8 @@ class PerfilPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    16.pv,
+
                     AuthController.getClipOvalAvatar(),
                     Text(
                       AuthController.fullName ?? 'No hay sesión',
@@ -33,7 +45,7 @@ class PerfilPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
 
-                    32.pv,
+                    16.pv,
 
                     IconMenuItem(
                       icon: Icons.storefront_outlined,
@@ -84,6 +96,12 @@ class PerfilPage extends StatelessWidget {
                         text: 'Ajustes',
                         fnOnTap: () {
                           Get.toNamed("/settings");
+                        }),
+                    IconMenuItem(
+                        icon: Icons.lightbulb_sharp,
+                        text: 'WebSockets module',
+                        fnOnTap: () {
+                          Get.toNamed("/forum");
                         }),
 
                     if (AuthService.isLoggedIn)
