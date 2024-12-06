@@ -9,9 +9,10 @@ log4js.configure({
   appenders: {
     consola: { type: "console" },
     detailed: { type: "file", filename: "errors.log", level: "error" },
+    file: { type: "file", filename: "logs.txt" },
   },
   categories: {
-    default: { appenders: ["consola"], level: "info" },
+    default: { appenders: ["consola", "file"], level: "info" },
     errors: { appenders: ["detailed"], level: "error" },
   },
 });
