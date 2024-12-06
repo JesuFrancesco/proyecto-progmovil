@@ -68,15 +68,9 @@ class _TagsBarButtonState extends State<TagsBarButton> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            // setState(() {
-                            //   selectedIndex = 0;
-                            // });
                             widget.onTagPressed(<Tag>[]);
                           },
                           style: TextButton.styleFrom(
-                            // backgroundColor: selectedIndex == 0
-                            //     ? AppColors.primaryColor
-                            //     : Colors.transparent,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             shape: RoundedRectangleBorder(
@@ -90,15 +84,9 @@ class _TagsBarButtonState extends State<TagsBarButton> {
                             .map((tag) => {
                                   TextButton(
                                     onPressed: () {
-                                      // setState(() {
-                                      //   selectedIndex = 0;
-                                      // });
                                       widget.onTagPressed([tag]);
                                     },
                                     style: TextButton.styleFrom(
-                                      // backgroundColor: selectedIndex == 0
-                                      //     ? AppColors.primaryColor
-                                      //     : Colors.transparent,
                                       foregroundColor: Colors.white,
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20),

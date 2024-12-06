@@ -21,7 +21,18 @@ class ProductoController extends GetxController {
     }
   }
 
-  Future<void> obtenerProductosPorGenero(List<Tag> tags, int page) async {
+  Future<void> filtrarProductosPorGenero(List<Tag> tags, int page) async {
+    try {
+      isLoading.value = true;
+      productos.value = await service.fetchProductsByGenre(tags, page);
+    } catch (e) {
+      // HANDLE ERRORS
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> obtenerProductosSimilares(List<Tag> tags, int page) async {
     try {
       isLoading.value = true;
       similarProductos.value = await service.fetchProductsByGenre(tags, page);

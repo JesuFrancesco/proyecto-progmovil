@@ -75,7 +75,7 @@ class _ProductoPageState extends State<ProductoPage> {
   Future<void> obtenerProductosPorGenero() async {
     return _memoizer.runOnce(() async {
       await tagController.obtenerTagsDeProducto(widget.producto.id!);
-      await productoController.obtenerProductosPorGenero(
+      await productoController.obtenerProductosSimilares(
           tagController.currentProductTags.map((e) => e.tag!).toList(), 1);
     });
   }

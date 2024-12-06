@@ -28,7 +28,7 @@ class _TiendaPageState extends State<TiendaPage> {
     if (currentTags.isEmpty) {
       await productoController.obtenerProductosRecientes(page.value);
     } else {
-      await productoController.obtenerProductosPorGenero(
+      await productoController.filtrarProductosPorGenero(
           currentTags, page.value);
     }
   }

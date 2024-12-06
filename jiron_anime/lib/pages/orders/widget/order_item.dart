@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jiron_anime/models/order.dart';
+import 'package:jiron_anime/models/order_item.dart';
 import 'package:jiron_anime/pages/chat/chat_page.dart';
 import 'package:jiron_anime/pages/home/store/product/producto_page.dart';
 import 'package:jiron_anime/pages/orders/widget/confirm_order_button.dart';
@@ -110,29 +111,37 @@ class OrderItemWidget extends StatelessWidget {
                           ),
                         ),
                         Flexible(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CircleAvatar(
-                                child:
-                                    (orderItem.product!.market!.logoUrl != null)
-                                        ? Image.network(
-                                            orderItem.product!.market!.logoUrl!,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : const Text("?"),
-                              ),
-                              8.ph,
-                              Flexible(
-                                child: Text(
-                                  maxLines: 1,
-                                  orderItem.product!.market!.name!.trim(),
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.right,
+                          child: GestureDetector(
+                            onTap: () =>
+                                showMarketBottomSheet(context, orderItem),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: (orderItem
+                                              .product!.market!.logoUrl !=
+                                          null)
+                                      ? NetworkImage(
+                                          orderItem.product!.market!.logoUrl!)
+                                      : null,
+                                  child: (orderItem.product!.market!.logoUrl ==
+                                          null)
+                                      ? const Text("?")
+                                      : null,
                                 ),
-                              ),
-                            ],
+                                8.ph,
+                                Flexible(
+                                  child: Text(
+                                    maxLines: 1,
+                                    orderItem.product!.market!.name!.trim(),
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -155,6 +164,58 @@ class OrderItemWidget extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+
+  PersistentBottomSheetController showMarketBottomSheet(
+      BuildContext context, OrderItem orderItem) {
+    return showBottomSheet(
+      context: context,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: (orderItem.product!.market!.logoUrl !=
+                                null)
+                            ? NetworkImage(orderItem.product!.market!.logoUrl!)
+                            : null,
+                        child: (orderItem.product!.market!.logoUrl == null)
+                            ? const Text("?")
+                            : null,
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          orderItem.product!.market!.name!,
+                          style: Theme.of(context).textTheme.titleMedium,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 

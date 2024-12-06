@@ -38,12 +38,31 @@ class _ProductoInfoState extends State<ProductoInfo> {
       children: [
         Text(widget.producto.name!,
             style: Theme.of(context).textTheme.headlineLarge),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                widget.producto.market != null
+                    ? widget.producto.market!.name!
+                    : "NA",
+                style: Theme.of(context).textTheme.headlineMedium,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage(
+                widget.producto.market != null
+                    ? widget.producto.market!.logoUrl!
+                    : "https://via.placeholder.com/150",
+              ),
+            ),
+          ],
+        ),
         Text(
-            widget.producto.market != null
-                ? widget.producto.market!.name!
-                : "NA",
-            style: Theme.of(context).textTheme.headlineMedium),
-        Text("S/. ${widget.producto.price.toString()}"),
+          "S/. ${widget.producto.price.toString()}",
+        ),
         15.pv,
         getImagePreview(),
         15.pv,
